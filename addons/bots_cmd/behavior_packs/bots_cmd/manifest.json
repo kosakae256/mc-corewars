@@ -1,0 +1,42 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "bots_cmd BP",
+    "description": "ボット操作のスラッシュコマンド",
+    "uuid": "a886e360-af2c-4f08-99cf-84a03fedd06c",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "45128f61-d6fa-4228-9836-0581ee621118",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.9.0"
+    },
+    {
+      "module_name": "@minecraft/server-net",
+      "version": "1.0.0-beta"
+    }
+  ]
+}

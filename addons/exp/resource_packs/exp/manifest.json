@@ -1,0 +1,21 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "exp RP",
+    "description": "実験用。ヨルのクローン相当の分身など、試作を置く",
+    "uuid": "de3a52f0-3816-4cc1-964a-6da8ec7715fd",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "778a5fd5-6045-434a-8cee-5a36d76c8c2f",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "43a84f52-ee20-4e58-a950-82f3eb357fff", "version": [1, 0, 0] }
+  ]
+}

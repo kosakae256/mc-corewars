@@ -1,0 +1,5 @@
+# ワールドの export とストラクチャーは binary。差分を取ろうとしない
+*.mcworld  binary
+*.mcstructure binary
+*.mcaddon  binary
+*.png      binary

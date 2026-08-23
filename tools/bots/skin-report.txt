@@ -1,0 +1,31 @@
+[raw] player_list キー: records
+[raw] records の型: object キー: 0
+--- inspector2 ---
+  skin_data のキー: skin_id, play_fab_id, skin_resource_pack, skin_data, animations, cape_data, geometry_data, geometry_data_version, animation_data, cape_id, full_skin_id, arm_size, skin_color, personal_pieces, piece_ti
+  skin_data : w=256 h=256 data=262144
+  cape_data : w=0 h=0 data=0
+  persona: true arm: wide
+[raw] player_list キー: records
+[raw] records の型: object キー: 0,1,2,3,4
+--- zerda256py ---
+  skin_data のキー: skin_id, play_fab_id, skin_resource_pack, skin_data, animations, cape_data, geometry_data, geometry_data_version, animation_data, cape_id, full_skin_id, arm_size, skin_color, personal_pieces, piece_ti
+  skin_data : w=128 h=128 data=65536
+  cape_data : w=64 h=32 data=8192
+  persona: false arm: wide
+--- giyokundaK ---
+  skin_data のキー: skin_id, play_fab_id, skin_resource_pack, skin_data, animations, cape_data, geometry_data, geometry_data_version, animation_data, cape_id, full_skin_id, arm_size, skin_color, personal_pieces, piece_ti
+  skin_data : w=64 h=64 data=16384
+  cape_data : w=0 h=0 data=0
+  persona: false arm: wide
+--- みつお ---
+  skin_data のキー: skin_id, play_fab_id, skin_resource_pack, skin_data, animations, cape_data, geometry_data, geometry_data_version, animation_data, cape_id, full_skin_id, arm_size, skin_color, personal_pieces, piece_ti
+  skin_data : w=256 h=256 data=262144
+  cape_data : w=0 h=0 data=0
+  persona: true arm: wide
+--- cat ---
+  skin_data のキー: skin_id, play_fab_id, skin_resource_pack, skin_data, animations, cape_data, geometry_data, geometry_data_version, animation_data, cape_id, full_skin_id, arm_size, skin_color, personal_pieces, piece_ti
+  skin_data : w=256 h=256 data=262144
+  cape_data : w=0 h=0 data=0
+  persona: true arm: wide
+spawn しました
+観察終了。5 人ぶん記録

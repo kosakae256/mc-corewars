@@ -1,0 +1,24 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "hello BP",
+    "description": "Script API 実験用ビヘイビアーパック",
+    "uuid": "a3ae68fa-faae-4299-8b31-0e7b94c04ff6",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "cccd1f2a-c2c4-43f1-9845-55aaee544b3b",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    { "module_name": "@minecraft/server", "version": "2.9.0" },
+    { "module_name": "@minecraft/server-ui", "version": "2.1.0" }
+  ]
+}

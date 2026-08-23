@@ -1,0 +1,19 @@
+{
+  "name": "wsbridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "/wsserver 経由で通常ワールドと LLM をつなぐ中継サーバー",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.13",
+    "typescript": "^5.7.0"
+  }
+}

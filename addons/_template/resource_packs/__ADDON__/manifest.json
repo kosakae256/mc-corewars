@@ -1,0 +1,21 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "__ADDON__ RP",
+    "description": "__DESCRIPTION__",
+    "uuid": "__UUID_RP_HEADER__",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "__UUID_RP_MODULE__",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "__UUID_BP_HEADER__", "version": [1, 0, 0] }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "bots",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bedrock サーバーに参加する偽プレイヤーの管理と、LLM との会話",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "bedrock-protocol": "^3.58.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

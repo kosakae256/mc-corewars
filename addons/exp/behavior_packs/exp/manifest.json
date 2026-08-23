@@ -1,0 +1,46 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "exp BP",
+    "description": "実験用。ヨルのクローン相当の分身など、試作を置く",
+    "uuid": "43a84f52-ee20-4e58-a950-82f3eb357fff",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "d5cae2ba-1814-4847-a418-98964e519b9b",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.9.0"
+    },
+    {
+      "module_name": "@minecraft/server-gametest",
+      "version": "1.0.0-beta"
+    },
+    {
+      "module_name": "@minecraft/server-net",
+      "version": "1.0.0-beta"
+    }
+  ]
+}

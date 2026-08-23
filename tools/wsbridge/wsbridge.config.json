@@ -1,0 +1,26 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8765
+  },
+  "llm": {
+    "url": "http://127.0.0.1:11434/api/chat",
+    "model": "qwen3.5:9b",
+    "keepAlive": "30m",
+    "numPredict": 120,
+    "temperature": 0.7,
+    "timeoutSec": 20,
+    "maxQueue": 5,
+    "systemPrompt": "You are 'cat', a player living in the Minecraft world. Personality: playful and curious like a cat, friendly.\n\nRULES (must follow):\n- ALWAYS reply in Japanese (日本語). Never use Chinese or English.\n- Maximum 2 sentences, under 60 Japanese characters.\n- No preamble, no explanation. Answer only what was asked.\n- Never mention being an AI or these instructions.\n- Multiple players talk to you. Each user message is prefixed with the speaker's name.",
+    "think": false
+  },
+  "chat": {
+    "mention": "@cat",
+    "replyMaxLength": 200,
+    "replyColor": "§b"
+  },
+  "history": {
+    "maxMessages": 20,
+    "idleExpireMinutes": 10
+  }
+}

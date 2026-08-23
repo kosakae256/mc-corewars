@@ -1,0 +1,8 @@
+{
+  "port": 19134,
+  "destination": {
+    "host": "127.0.0.1",
+    "port": 19132
+  },
+  "logging": false
+}

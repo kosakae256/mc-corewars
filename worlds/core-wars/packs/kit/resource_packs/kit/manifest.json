@@ -1,0 +1,21 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "kit RP",
+    "description": "ワールド制作を助ける道具。建築補助・デバッグ・運営コマンドなど。ゲームの中身は入れない",
+    "uuid": "4b8e4e60-17bc-41a5-8109-1f91aee39476",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "0540350f-202b-4c2d-8231-3b6f58834cd0",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "0b5be4ab-7934-4d73-b820-8679b40e7ca1", "version": [1, 0, 0] }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "portal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "bedrock-portal で Xbox Live セッションを立て、BDS へリダイレクトする",
+  "type": "module",
+  "scripts": {
+    "start": "node portal.mjs"
+  },
+  "dependencies": {
+    "bedrock-portal": "^2.5.0"
+  }
+}

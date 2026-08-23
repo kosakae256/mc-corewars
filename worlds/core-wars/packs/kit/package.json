@@ -1,0 +1,31 @@
+{
+  "name": "kit",
+  "version": "0.1.0",
+  "productName": "kit",
+  "description": "ワールド制作を助ける道具。建築補助・デバッグ・運営コマンドなど。ゲームの中身は入れない",
+  "private": true,
+  "devDependencies": {
+    "@minecraft/core-build-tasks": "^5.7.0",
+    "eslint-plugin-minecraft-linting": "^2.0.12",
+    "source-map": "^0.7.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@minecraft/math": "^2.4.0",
+    "@minecraft/server": "^2.9.0",
+    "@minecraft/server-ui": "^2.1.0",
+    "@minecraft/vanilla-data": "^1.26.44"
+  },
+  "scripts": {
+    "lint": "just-scripts lint",
+    "build": "just-scripts build",
+    "build:production": "just-scripts build --production",
+    "clean": "just-scripts clean",
+    "local-deploy": "just-scripts local-deploy",
+    "mcaddon": "just-scripts mcaddon",
+    "mcaddon:production": "just-scripts mcaddon --production",
+    "enablemcloopback": "CheckNetIsolation.exe LoopbackExempt -a -p=S-1-15-2-1958404141-86561845-1752920682-3514627264-368642714-62675701-733520436",
+    "enablemcpreviewloopback": "CheckNetIsolation.exe LoopbackExempt -a -p=S-1-15-2-424268864-5579737-879501358-346833251-474568803-887069379-4040235476"
+  }
+}

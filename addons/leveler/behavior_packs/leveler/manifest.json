@@ -1,0 +1,42 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "leveler BP",
+    "description": "SimulatedPlayer による整地ボット",
+    "uuid": "3caa5d2c-ebe3-45fc-9475-02241fa4b835",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "c50b6fb9-6dc3-4e75-9dfe-b4812f80bf38",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.9.0"
+    },
+    {
+      "module_name": "@minecraft/server-gametest",
+      "version": "1.0.0-beta"
+    }
+  ]
+}

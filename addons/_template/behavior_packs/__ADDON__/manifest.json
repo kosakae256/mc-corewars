@@ -1,0 +1,24 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "__ADDON__ BP",
+    "description": "__DESCRIPTION__",
+    "uuid": "__UUID_BP_HEADER__",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "__UUID_BP_SCRIPT__",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    { "module_name": "@minecraft/server", "version": "2.9.0" },
+    { "module_name": "@minecraft/server-ui", "version": "2.1.0" }
+  ]
+}

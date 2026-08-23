@@ -1,0 +1,21 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "game RP",
+    "description": "ゲーム本体。ルール・進行・勝敗など、遊びそのものを実装する",
+    "uuid": "a0e8fba6-0665-47ef-96c4-fc45e9d55326",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "70501b3b-4fe7-4d56-967c-5010fde3f2d4",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "322dab6e-1ae0-4497-a6dd-a39b83597226", "version": [1, 0, 0] }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "bots_cmd RP",
+    "description": "ボット操作のスラッシュコマンド",
+    "uuid": "d7618f5f-0d6f-4dfd-88c9-cb7b2bcc5378",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "d1728bad-4f26-45cb-b87c-c42c3764c8ce",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "a886e360-af2c-4f08-99cf-84a03fedd06c", "version": [1, 0, 0] }
+  ]
+}

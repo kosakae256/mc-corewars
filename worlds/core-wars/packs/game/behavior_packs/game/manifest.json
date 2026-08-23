@@ -1,0 +1,24 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "game BP",
+    "description": "ゲーム本体。ルール・進行・勝敗など、遊びそのものを実装する",
+    "uuid": "322dab6e-1ae0-4497-a6dd-a39b83597226",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "4f47959a-ba42-4de9-82cf-56ad8a27ecf7",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    { "module_name": "@minecraft/server", "version": "2.9.0" },
+    { "module_name": "@minecraft/server-ui", "version": "2.1.0" }
+  ]
+}

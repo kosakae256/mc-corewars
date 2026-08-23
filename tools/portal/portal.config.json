@@ -1,0 +1,23 @@
+{
+  "ip": "194.193.106.203",
+  "port": 19132,
+  "joinability": "FriendsOnly",
+  "account": {
+    "username": "portal",
+    "cacheDir": ".auth"
+  },
+  "world": {
+    "hostName": "k256.dev",
+    "name": "デコイだ！！",
+    "version": "1.26.44",
+    "memberCount": 1,
+    "maxMemberCount": 10
+  },
+  "autoFriendAccept": {
+    "enabled": true,
+    "allow": [
+      "zerda256py"
+    ],
+    "inviteOnAdd": true
+  }
+}

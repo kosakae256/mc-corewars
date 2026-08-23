@@ -1,0 +1,8 @@
+{
+  "name": "mapview",
+  "version": "0.1.0",
+  "private": true,
+  "description": "マップの設計データを画像に描き出す。ゲームに入れる前に見るためのもの",
+  "type": "module",
+  "scripts": { "start": "node main.mjs" }
+}

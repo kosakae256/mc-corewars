@@ -1,0 +1,24 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "kit BP",
+    "description": "ワールド制作を助ける道具。建築補助・デバッグ・運営コマンドなど。ゲームの中身は入れない",
+    "uuid": "0b5be4ab-7934-4d73-b820-8679b40e7ca1",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "4bf60313-ca42-44ab-a274-9224b96e6d0e",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    { "module_name": "@minecraft/server", "version": "2.9.0" },
+    { "module_name": "@minecraft/server-ui", "version": "2.1.0" }
+  ]
+}

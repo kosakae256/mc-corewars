@@ -1,0 +1,21 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "leveler RP",
+    "description": "SimulatedPlayer による整地ボット",
+    "uuid": "6cefd01c-c603-4f5d-ac9c-3055098a8ed3",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "7d8f4f5c-135e-432d-83df-6c6c90e364ba",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "3caa5d2c-ebe3-45fc-9475-02241fa4b835", "version": [1, 0, 0] }
+  ]
+}

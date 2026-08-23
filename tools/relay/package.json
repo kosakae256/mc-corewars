@@ -1,0 +1,13 @@
+{
+  "name": "relay",
+  "version": "0.1.0",
+  "private": true,
+  "description": "クライアントと BDS の間に入るプロキシ。分身の見た目を差し替えるための土台",
+  "type": "module",
+  "scripts": {
+    "start": "node relay.mjs"
+  },
+  "dependencies": {
+    "bedrock-protocol": "^3.44.0"
+  }
+}

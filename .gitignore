@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------- 依存関係
+# 1.8GB ある。npm install で戻せるので入れない
+node_modules/
+
+# ---------------------------------------------------------------- ビルド生成物
+# ソースから作れるものは入れない
+dist/
+lib/
+*.mcaddon
+*.mcpack
+
+# ---------------------------------------------------------------- 環境固有
+# PROJECT_NAME とデプロイ先。機械ごとに違う
+.env
+*.local
+
+# ---------------------------------------------------------------- 外部資料
+# 162MB。すべて公開リポジトリの clone なので入れない。
+# 取得元と版は reference/README.md に記録してある
+reference/bedrock-samples/
+reference/bedrock-wiki/
+reference/bedrock-json-schemas/
+reference/minecraft-creator-docs/
+
+# ---------------------------------------------------------------- 一時物
+tools/mapview/out/
+tools/mapview/diag*.mjs
+world/backups/
+*.log
+.DS_Store
+Thumbs.db
