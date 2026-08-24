@@ -1,0 +1,27 @@
+{
+  "resource_pack_name": "game",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "game_starter_sword": {
+      "textures": "textures/items/wood_sword"
+    },
+    "game_sword_stone": {
+      "textures": "textures/items/stone_sword"
+    },
+    "game_sword_copper": {
+      "textures": "textures/items/copper_sword"
+    },
+    "game_sword_iron": {
+      "textures": "textures/items/iron_sword"
+    },
+    "game_sword_diamond": {
+      "textures": "textures/items/diamond_sword"
+    },
+    "game_sword_netherite": {
+      "textures": "textures/items/netherite_sword"
+    },
+    "game_grapple": {
+      "textures": "textures/items/fishing_rod_uncast"
+    }
+  }
+}

@@ -48,39 +48,49 @@ class NbtWriter {
  * **色用のパレット名と、ゲーム内の識別子は別物。**
  * 見た目の確認用に付けた名前を、そのままゲームへ渡さない。
  */
+/**
+ * 設計で使う名前 → 実際のブロック識別子。
+ *
+ * **`game:map_parts_*` は独自ブロック**（`tools/gen-map-blocks.mjs` が生成）。
+ * マップの一部であることを**ブロックの種類そのもので示す**ため。
+ * これにより「プレイヤーが置いた石」と「マップの石」が確実に区別できる。
+ *
+ * **コア（白コンクリート）とジェネレータの目印は置き換えない。**
+ * コアは壊すことが目的で、目印は置いて設定する運用を変えたくないため。
+ */
 const BLOCK_ID = {
-  oak_planks: "minecraft:oak_planks",
-  spruce_planks: "minecraft:spruce_planks",
-  dark_oak_planks: "minecraft:dark_oak_planks",
-  oak_log: "minecraft:oak_log",
-  spruce_log: "minecraft:spruce_log",
+  oak_planks: "game:map_parts_oak_planks",
+  spruce_planks: "game:map_parts_spruce_planks",
+  dark_oak_planks: "game:map_parts_dark_oak_planks",
+  oak_log: "game:map_parts_oak_log",
+  spruce_log: "game:map_parts_spruce_log",
   oak_stairs: "minecraft:oak_stairs",
   cobblestone_stairs: "minecraft:stone_stairs",
   stone_stairs: "minecraft:normal_stone_stairs",
   oak_slab: "minecraft:oak_slab",
   oak_fence: "minecraft:oak_fence",
 
-  stone_bricks: "minecraft:stone_bricks",
-  mossy_stone_bricks: "minecraft:mossy_stone_bricks",
+  stone_bricks: "game:map_parts_stone_bricks",
+  mossy_stone_bricks: "game:map_parts_mossy_stone_bricks",
   cracked_stone_bricks: "minecraft:cracked_stone_bricks",
   chiseled_stone_bricks: "minecraft:chiseled_stone_bricks",
   stone_brick_stairs: "minecraft:stone_brick_stairs",
   stone_brick_slab: "minecraft:stone_brick_slab",
   stone_brick_wall: "minecraft:stone_brick_wall",
   smooth_stone: "minecraft:smooth_stone",
-  cobblestone: "minecraft:cobblestone",
-  stone: "minecraft:stone",
-  andesite: "minecraft:andesite",
-  polished_andesite: "minecraft:polished_andesite",
-  deepslate_bricks: "minecraft:deepslate_bricks",
-  deepslate_tiles: "minecraft:deepslate_tiles",
+  cobblestone: "game:map_parts_cobblestone",
+  stone: "game:map_parts_stone",
+  andesite: "game:map_parts_andesite",
+  polished_andesite: "game:map_parts_polished_andesite",
+  deepslate_bricks: "game:map_parts_deepslate_bricks",
+  deepslate_tiles: "game:map_parts_deepslate_tiles",
   gravel: "minecraft:gravel",
   mud_bricks: "minecraft:mud_bricks",
 
   oak_leaves: "minecraft:oak_leaves",
   spruce_leaves: "minecraft:spruce_leaves",
   azalea_leaves: "minecraft:azalea_leaves",
-  moss_block: "minecraft:moss_block",
+  moss_block: "game:map_parts_moss_block",
   vine: "minecraft:vine",
 
   glass_pane: "minecraft:glass_pane",

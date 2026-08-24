@@ -69,6 +69,7 @@ worlds/<名>/docs/spec/ どう作るか
 - [07-player-skin-clone.md](research/07-player-skin-clone.md) — **プレイヤーのスキンを複製できるか。** API 表面の全数調査
 - [08-skin-clone-deep-research-brief.md](research/08-skin-clone-deep-research-brief.md) — 上記の深掘り依頼文
 - [09-skin-clone-deep-research-result.md](research/09-skin-clone-deep-research-result.md) — その結果。**アドオン範囲では不可能と確定**
+- [10-custom-block-replacement.md](research/10-custom-block-replacement.md) — **マップのブロックを壊せない独自ブロックにできるか。** 立方体は可、形を持つものは重い、チェストは不可
 
 ## 決定記録
 

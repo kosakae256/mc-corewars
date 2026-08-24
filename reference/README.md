@@ -18,6 +18,7 @@
 | [bedrock-samples/](bedrock-samples/) | **バニラの behavior_pack / resource_pack 一式**（v1.26.40.5） | 123MB | [Mojang/bedrock-samples](https://github.com/Mojang/bedrock-samples) |
 | [bedrock-wiki/](bedrock-wiki/) | コミュニティ Wiki（Markdown 276 ファイル） | 7.6MB | [Bedrock-OSS/bedrock-wiki](https://github.com/Bedrock-OSS/bedrock-wiki) |
 | [bedrock-json-schemas/](bedrock-json-schemas/) | 各種 JSON の検証スキーマ | 8MB | [Blockception/Minecraft-bedrock-json-schemas](https://github.com/Blockception/Minecraft-bedrock-json-schemas) |
+| [Chest-UI/](Chest-UI/) | **チェスト風のフォーム一式。** ショップで取り込んで使っている | 1MB | [Herobrine643928/Chest-UI](https://github.com/Herobrine643928/Chest-UI) |
 | `../addons/<名前>/node_modules/@minecraft/` | **Script API の型定義（.d.ts）** | — | npm |
 
 ---

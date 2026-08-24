@@ -1,0 +1,22 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "minecraft:soul_campfire_from_soul_sand_and_stripped_spruce_log"
+    },
+    "tags": [
+      "game:nowhere"
+    ],
+    "pattern": [
+      "#"
+    ],
+    "key": {
+      "#": {
+        "item": "minecraft:barrier"
+      }
+    },
+    "result": {
+      "item": "minecraft:barrier"
+    }
+  }
+}

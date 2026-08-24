@@ -1,0 +1,14 @@
+## 建材の呼び名。**バニラのブロックを流用しているので、名前もここで変える**
+##
+## 天然石   … プリズマリン（青） / プリズマリンレンガ（赤・テクスチャ差し替え）
+## 合成鋼   … 未加工の鉄（青） / 未加工の銅（赤・どちらもテクスチャ差し替え）
+##            この 2 つは硬さが同じなので、チーム間で不公平にならない
+
+tile.wool.blue.name=§9羊毛ブロック(青)§r
+tile.wool.red.name=§c羊毛ブロック(赤)§r
+tile.prismarine.rough.name=§9天然石(青)§r
+tile.prismarine.bricks.name=§c天然石(赤)§r
+tile.raw_iron_block.name=§9合成鋼(青)§r
+tile.raw_copper_block.name=§c合成鋼(赤)§r
+
+entity.game:shopkeeper.name=Shop

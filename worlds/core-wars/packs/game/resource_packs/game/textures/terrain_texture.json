@@ -1,0 +1,20 @@
+{
+  "resource_pack_name": "game",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "game_emerald_block_legacy": {
+      "textures": "textures/blocks/emerald_block_legacy"
+    },
+    "prismarine_bricks": {
+      "textures": "textures/blocks/prismarine_bricks"
+    },
+    "raw_iron_block": {
+      "textures": "textures/blocks/raw_iron_block"
+    },
+    "raw_copper_block": {
+      "textures": "textures/blocks/raw_copper_block"
+    }
+  }
+}

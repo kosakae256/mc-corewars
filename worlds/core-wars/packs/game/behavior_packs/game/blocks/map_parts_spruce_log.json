@@ -1,0 +1,76 @@
+{
+  "format_version": "1.26.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "game:map_parts_spruce_log",
+      "states": {
+        "game:axis": [
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "menu_category": {
+        "category": "construction"
+      }
+    },
+    "components": {
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "spruce_log_side"
+        },
+        "up": {
+          "texture": "spruce_log_top"
+        },
+        "down": {
+          "texture": "spruce_log_top"
+        }
+      },
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:collision_box": true,
+      "minecraft:selection_box": true,
+      "minecraft:light_dampening": 15,
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      },
+      "minecraft:flammable": false,
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "on_liquid_touches": "blocking",
+            "can_contain_liquid": false
+          }
+        ]
+      }
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('game:axis') == 'x'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              90
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:axis') == 'z'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              90,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

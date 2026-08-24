@@ -1,0 +1,78 @@
+{
+  "format_version": "1.21.40",
+  "game:map_parts_stone": {
+    "sound": "stone"
+  },
+  "game:map_parts_cobblestone": {
+    "sound": "stone"
+  },
+  "game:map_parts_stone_bricks": {
+    "sound": "stone"
+  },
+  "game:map_parts_mossy_stone_bricks": {
+    "sound": "stone"
+  },
+  "game:map_parts_andesite": {
+    "sound": "stone"
+  },
+  "game:map_parts_polished_andesite": {
+    "sound": "stone"
+  },
+  "game:map_parts_deepslate_bricks": {
+    "sound": "deepslate_bricks"
+  },
+  "game:map_parts_deepslate_tiles": {
+    "sound": "deepslate_bricks"
+  },
+  "game:map_parts_moss_block": {
+    "sound": "moss_block"
+  },
+  "game:map_parts_oak_planks": {
+    "sound": "wood"
+  },
+  "game:map_parts_dark_oak_planks": {
+    "sound": "wood"
+  },
+  "game:map_parts_spruce_planks": {
+    "sound": "wood"
+  },
+  "game:map_parts_oak_log": {
+    "sound": "wood"
+  },
+  "game:map_parts_spruce_log": {
+    "sound": "wood"
+  },
+  "game:map_parts_blue_terracotta": {
+    "sound": "terracotta"
+  },
+  "game:map_parts_red_terracotta": {
+    "sound": "terracotta"
+  },
+  "game:map_parts_blue_stained_glass": {
+    "sound": "glass"
+  },
+  "game:map_parts_red_stained_glass": {
+    "sound": "glass"
+  },
+  "game:map_parts_verdant_froglight": {
+    "sound": "froglight"
+  },
+  "game:map_parts_pearlescent_froglight": {
+    "sound": "froglight"
+  },
+  "game:map_parts_spruce_leaves": {
+    "sound": "grass"
+  },
+  "game:map_parts_iron_block": {
+    "sound": "iron"
+  },
+  "game:map_parts_gold_block": {
+    "sound": "metal"
+  },
+  "game:map_parts_diamond_block": {
+    "sound": "metal"
+  },
+  "game:map_parts_emerald_block": {
+    "sound": "metal"
+  }
+}

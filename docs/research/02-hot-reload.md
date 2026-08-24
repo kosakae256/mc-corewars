@@ -112,6 +112,60 @@ Custom Component のパラメータを JSON に書くと、調整のたびにワ
 **調整したい値は、開発中はスクリプト内の定数にしておく**と `/reload` だけで回せる。
 値が固まってから JSON に移す。
 
+### 3-2-b. 起動そのものを `worldLoad` に置かない（2026-08-24 追記）
+
+**実際に事故った。**
+
+保護機能の起動を `world.afterEvents.worldLoad` の中に書いていた。
+`/reload` してもこのイベントは発火しないので、**保護が起動しないまま動いていた。**
+気づかないうちに**マップの柵が燃えて消えた。**
+
+```ts
+// 悪い: /reload では発火しないので、起動しない
+world.afterEvents.worldLoad.subscribe(() => {
+  registerProtection();
+  startFireGuard();
+});
+
+// よい: トップレベル。/reload のたびに購読し直される
+registerProtection();
+startFireGuard();
+```
+
+**イベントの購読と `system.runInterval` は early execution でも許されている。**
+world の状態を読み書きする初期化だけを `worldLoad` に残す。
+
+> 二重購読の懸念（5章）は残るが、
+> **「起動しない」より「二重に起動する」方がまだ安全。**
+> 二重でも壊れない作りにしておく。
+
+### 3-2-c. `worldLoad` は `/reload` でも発火する（2026-08-24 判明）
+
+**「`/reload` では `worldLoad` が来ない」は誤りだった。**
+
+`system.beforeEvents.startup`（Custom Component の登録）は確かに
+ワールドロード時にしか走らない。だが **`world.afterEvents.worldLoad` は
+`/reload` でも発火する。**
+
+これを取り違えて「ワールドが落ちて再起動した」の判定に使ったところ、
+**スクリプトを直すたびに試合が一時停止した。**
+
+#### 見分け方
+
+`system.currentTick` を使う。**世界が動いている限り増え続ける。**
+
+| | `currentTick` |
+| --- | --- |
+| 世界が起動した直後 | **小さい**（0 から数え直す） |
+| `/reload` した | **大きい** |
+
+```ts
+system.run(() => {
+  if (system.currentTick > 200) return;   // /reload。世界は動き続けている
+  // ここに来たら、本当に世界が起動した直後
+});
+```
+
 ### 3-3. コンポーネントの「登録」と「中身」を分ける
 
 登録（`registerCustomComponent`）はワールドロード時にしか走らないが、

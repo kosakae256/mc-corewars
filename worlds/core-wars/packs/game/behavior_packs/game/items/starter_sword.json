@@ -1,0 +1,21 @@
+{
+  "format_version": "1.26.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "game:starter_sword",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "支給された剣"
+      },
+      "minecraft:icon": "game_starter_sword",
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:damage": 2,
+      "minecraft:can_destroy_in_creative": false
+    }
+  }
+}

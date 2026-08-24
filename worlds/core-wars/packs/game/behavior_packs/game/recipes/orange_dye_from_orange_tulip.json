@@ -1,0 +1,19 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "minecraft:orange_dye_from_orange_tulip"
+    },
+    "tags": [
+      "game:nowhere"
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:barrier"
+      }
+    ],
+    "result": {
+      "item": "minecraft:barrier"
+    }
+  }
+}
