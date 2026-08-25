@@ -14,6 +14,8 @@
 
 import type { Player } from "@minecraft/server";
 
+import { shouldBeInBattle } from "../../lib/match-state.js";
+
 /** 動的プロパティの名前 */
 const KEY = "cw:gas";
 
@@ -37,6 +39,7 @@ function setGas(player: Player, v: number): void {
  * 中途半端に減らすと、撃てないのにガスだけ減る事故になる。
  */
 export function spendGas(player: Player, amount: number): boolean {
+  if (free(player)) return true;
   const now = gasOf(player);
   if (now < amount) return false;
   setGas(player, now - amount);
@@ -45,10 +48,26 @@ export function spendGas(player: Player, amount: number): boolean {
 
 /** 減らせるだけ減らす。**移動中の消費に使う** */
 export function drainGas(player: Player, amount: number): number {
+  if (free(player)) return GAS_MAX;
   const now = gasOf(player);
   const used = Math.min(now, amount);
   setGas(player, now - used);
   return now - used;
+}
+
+/**
+ * ただで使えるか。**戦場に居ないなら。**
+ *
+ * 仕様は `docs/spec/13-grapple.md` 6章。
+ *
+ * ロビーでも使えるようにしてあるのは**練習させたいから。**
+ * そこでガスが尽きて 30 秒待たされるのでは、練習にならない。
+ *
+ * **減らす側を 1 箇所で止める。**
+ * 呼ぶ側それぞれに「ロビーなら」と書くと、経路が増えたときに必ず漏れる。
+ */
+function free(player: Player): boolean {
+  return !shouldBeInBattle(player);
 }
 
 /** 回復する */

@@ -1,0 +1,22 @@
+{
+  "format_version": "1.26.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "game:pillar_shot",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "§e支柱弾"
+      },
+      "minecraft:icon": "game_pillar_shot",
+      "minecraft:max_stack_size": 16,
+      "minecraft:cooldown": {
+        "category": "game_pillar",
+        "duration": 1.0
+      }
+    }
+  }
+}

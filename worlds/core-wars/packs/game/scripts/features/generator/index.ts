@@ -38,6 +38,8 @@ import {
 import { DebugText, debugDrawer } from "@minecraft/debug-utilities";
 
 import { isRunning } from "../../lib/match-state.js";
+import { ARENAS } from "../../lib/arena.js";
+import { reportTo } from "../../lib/op.js";
 
 /**
  * 目印のブロック → 湧くもの と 間隔（tick）。
@@ -83,14 +85,30 @@ interface Box {
   readonly max: Vector3;
 }
 
-const SCAN_BOXES: readonly Box[] = [
-  // 拠点A（41x41、地面 -10）
-  { min: { x: 878, y: -14, z: 978 }, max: { x: 922, y: 20, z: 1022 } },
-  // 拠点B
-  { min: { x: 1078, y: -14, z: 978 }, max: { x: 1122, y: 20, z: 1022 } },
-  // 中央（81x81、地面 -10）
-  { min: { x: 958, y: -14, z: 958 }, max: { x: 1042, y: 20, z: 1042 } },
-];
+/**
+ * 探す範囲。**島の箱そのまま。**
+ *
+ * 高さを戦闘範囲まで広げる案は取り下げた（2026-08-25）。
+ * **ジェネレータは島の上にしか無い**ので、広げても走査が増えるだけ。
+ *
+ * 数が合わなかったのは範囲ではなく、
+ * **読み込みが間に合っていない場所を「無い」と数えていた**ため
+ *（`unreadable` の説明）。
+ */
+const SCAN_BOXES: readonly Box[] = ARENAS[0].islands;
+
+/**
+ * 直前の走査で読めなかったマス数。
+ *
+ * **0 でなければ、その走査は信用できない。**
+ * 読み込みが間に合っていないだけなので、待ってやり直す。
+ */
+let unreadable = 0;
+
+/** 直前の走査は完全だったか */
+export function scanWasComplete(): boolean {
+  return unreadable === 0;
+}
 
 /** 1 tick あたりに見るマス数（watchdog 対策。docs/imp.md 5.3） */
 const PER_TICK = 2048;
@@ -170,6 +188,12 @@ function* scanJob(report: Player | undefined): Generator<void, void, void> {
   clearLabels();
   found.length = 0;
   let seen = 0;
+  // **読めなかったマスを数える。**
+  //
+  // 読み込みが間に合っていない場所を「何も無い」と数えると、
+  // **`/reload` のたびに違う数が出る**（2026-08-25 の指摘）。
+  // **部分的な結果は結果ではない。**
+  unreadable = 0;
 
   for (const box of SCAN_BOXES) {
     for (let x = box.min.x; x <= box.max.x; x++) {
@@ -178,7 +202,10 @@ function* scanJob(report: Player | undefined): Generator<void, void, void> {
           if (++seen % PER_TICK === 0) yield;
           try {
             const b = dim.getBlock({ x, y, z });
-            if (b === undefined) continue;
+            if (b === undefined) {
+              unreadable++;
+              continue;
+            }
             const spawner = GENERATORS.get(b.typeId);
             if (spawner === undefined) continue;
             // **湧く場所は目印の1つ上。** 目印の中に湧かせても取れない
@@ -194,7 +221,8 @@ function* scanJob(report: Player | undefined): Generator<void, void, void> {
               labelText: undefined,
             });
           } catch {
-            /* 読み込まれていない。飛ばす */
+            // **読めなかった。** この走査は信用できない
+            unreadable++;
           }
         }
       }
@@ -203,9 +231,14 @@ function* scanJob(report: Player | undefined): Generator<void, void, void> {
 
   scanning = false;
   const msg = summary();
+  // **誰にも頼まれていない自動の探索で、0 個のときは黙る。**
+  //
+  // 自動の探索は 10 秒ごとに回るので、
+  // **出すと同じ警告が延々と流れる**（2026-08-24 の指摘）。
+  // 頼まれたとき（`/game:regen`）は 0 個でも必ず出す
+  if (report === undefined && found.length === 0) return;
   // **必ず知らせる。** 黙って 0 個だと、湧かない理由が分からない
-  if (report !== undefined) report.sendMessage(msg);
-  else world.sendMessage(msg);
+  reportTo(report, msg);
 }
 
 /** 走査を始める */
@@ -238,13 +271,21 @@ const RETRY_TICKS = 60;
  * 黙って 0 個で進むと、湧かない理由が分からなくなる。
  */
 export function rescanUntilFound(report: Player | undefined, attempt = 1): void {
+  // **いつでも探せる**（2026-08-24 変更）。
+  //
+  // ティッキングエリアを張りっぱなしにしたので、
+  // 非開始中でもチャンクは読み込まれている
   rescan(report);
   system.runTimeout(() => {
-    if (found.length > 0) return;
+    // **数が揃っていても、読めない場所があればやり直す。**
+    // 部分的な結果を答えにすると、reload のたびに数が変わる
+    if (found.length > 0 && scanWasComplete()) return;
     if (attempt >= MAX_RETRY) {
-      const msg = "§cジェネレータが見つかりません。" + "§7ティッキングエリアと lib/arena.ts の範囲を確認してください";
-      if (report !== undefined) report.sendMessage(msg);
-      else world.sendMessage(msg);
+      const msg =
+        found.length > 0
+          ? `§eジェネレータ ${found.length} 個（§c読めない場所が ${unreadable} マス残っています§e）`
+          : "§cジェネレータが見つかりません。§7ティッキングエリアと lib/arena.ts の範囲を確認してください";
+      reportTo(report, msg);
       return;
     }
     rescanUntilFound(report, attempt + 1);
@@ -414,7 +455,8 @@ export function startGenerators(): void {
   //
   // > 見つかっているときは `found.length` を見るだけ。**費用はほぼゼロ。**
   system.runInterval(() => {
-    if (found.length > 0 || scanning) return;
+    // **数が揃っていて、かつ全部読めているときだけ休む**
+    if ((found.length > 0 && scanWasComplete()) || scanning) return;
     rescan(undefined);
   }, 200);
 
@@ -477,7 +519,7 @@ export function registerGeneratorCommands(registry: CustomCommandRegistry): void
     {
       name: "game:regen",
       description: "ジェネレータを置きなおしたあと、位置を探し直す",
-      permissionLevel: CommandPermissionLevel.GameDirectors,
+      permissionLevel: CommandPermissionLevel.Admin,
     },
     (origin: CustomCommandOrigin): CustomCommandResult => {
       rescan(playerOf(origin));

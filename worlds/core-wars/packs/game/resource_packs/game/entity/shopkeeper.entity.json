@@ -62,6 +62,7 @@
       "scripts": {
         "scale": "query.is_baby ? 2.0 : 0.9375",
         "pre_animation": [
+          "variable.raise_arms = 0;",
           "variable.num_professions = 15;",
           "variable.num_tiers = 3;",
           "variable.profession_index = (query.variant < variable.num_professions ? query.variant : 0);",

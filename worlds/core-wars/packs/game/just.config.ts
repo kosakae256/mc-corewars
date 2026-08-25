@@ -16,6 +16,7 @@ import {
   watchTask,
 } from "@minecraft/core-build-tasks";
 import path from "path";
+import { execFileSync } from "child_process";
 
 // Setup env variables
 setupEnvironment(path.resolve(__dirname, ".env"));
@@ -60,7 +61,28 @@ task("clean", parallel("clean-local", "clean-collateral"));
 
 // Package
 task("copyArtifacts", copyTask(copyTaskOptions));
-task("package", series("clean-collateral", "copyArtifacts"));
+// ---- 配るたびにリソースパックの版を上げる（2026-08-25 追加）
+//
+// **参加者はパックを UUID と版でしか見分けていない。**
+// 版が同じなら中身が変わっても取り直さないので、
+// 上げ忘れると**ホストにだけ見えて、他の人には見えない。**
+//
+// 手順書に「忘れずに上げる」と書くだけでは足りない。
+// **忘れたときの壊れ方が、自分の画面からは見えない。**
+//
+// `--if-changed` なので、RP の中身が変わったときだけ上がる。
+// `--watch` で TypeScript を直している間は動かない。
+//
+// 詳細は `docs/research/02-hot-reload.md` 7章
+task("bump-rp", () => {
+  execFileSync(
+    process.execPath,
+    [path.resolve(__dirname, "../../../../tools/bump-rp.mjs"), projectName, "--if-changed"],
+    { stdio: "inherit" }
+  );
+});
+
+task("package", series("bump-rp", "clean-collateral", "copyArtifacts"));
 
 // Local Deploy used for deploying local changes directly to output via the bundler. It does a full build and package first just in case.
 task(
@@ -73,4 +95,4 @@ task(
 
 // Mcaddon
 task("createMcaddonFile", mcaddonTask(mcaddonTaskOptions));
-task("mcaddon", series("clean-local", "build", "createMcaddonFile"));
+task("mcaddon", series("clean-local", "build", "bump-rp", "createMcaddonFile"));

@@ -1,113 +1,89 @@
 /**
- * 試合中だけ、マップの範囲を読み込み続ける。
+ * マップを常時読み込む設定。
  *
- * 仕様は `docs/spec/11-match.md` 6-C。
+ * 仕様は `docs/spec/11-match.md` 9章。
  *
- * ## なぜ要るのか
+ * ## スクリプトからは作れない
  *
- * 読み込まれていないチャンクでは**時間が進まない。**
+ * `Dimension.runCommand("tickingarea add ...")` は
+ * **例外も投げず、`successCount` も返すのに、実際には作られない**
+ *（2026-08-25 に実測）。
  *
- * - **ジェネレータが湧かない**（誰もその島に居ないとき）
- * - **ジェネレータが見つからない**（起動直後に走査すると 0 個）
- * - 後片付けが飛ばされる／マップの記憶が撮れない
+ * 同じコマンドを**プレイヤーが手で打つと作られる。**
  *
- * **一番まずいのは 2 つ目。** 起動時に 0 個だと、そのあと一生湧かない。
+ * だから**張るのは人の仕事**にする。
+ * ワールドに保存されるので、**一度打てば済む。**
  *
- * ## なぜ常時張らないのか
+ * ## ここに残すもの
  *
- * **張りっぱなしは常に負荷を掛ける。**
- * 誰も遊んでいない間もチャンクが動き続ける。制作中に払う理由が無い。
- *
- * ## 実行文脈
- *
- * `Dimension.runCommand` は **restricted-execution では呼べない**
- *（`docs/imp.md` 5.1）。必ず `system.run` の中から呼ぶこと。
+ * 打つべきコマンドを組み立てて見せるだけ。
+ * **座標は `lib/arena.ts` が唯一の正**なので、
+ * 手で書き写して食い違うことがないようにする。
  */
-
-import { system, world, type Dimension } from "@minecraft/server";
 
 import { ARENAS, type Arena, type Box } from "../../lib/arena.js";
 
 /**
- * 名前の付け方。
+ * 1 つのティッキングエリアが覆えるチャンク数の上限。
  *
- * **アリーナと島の番号から決まる。**
- * 決まった名前なら、外すときに名前で消せる。消し残しが起きない。
+ * **多すぎると弾かれる。** 余裕を見て 96。
  */
-function areaName(arena: Arena, index: number): string {
-  return `cw_${arena.id}_${index}`;
-}
+const MAX_CHUNKS = 96;
 
-/** 失敗しても進みたいので、投げずに握る */
-function tryCommand(dim: Dimension, command: string): boolean {
-  try {
-    dim.runCommand(command);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function addOne(dim: Dimension, name: string, box: Box): boolean {
-  // **同じ名前があると add が失敗する。** 先に外してから張る
-  tryCommand(dim, `tickingarea remove ${name}`);
-  // 末尾の true は preload。**ワールド起動時から読み込まれる**
-  return tryCommand(
-    dim,
-    `tickingarea add ${box.min.x} ${box.min.y} ${box.min.z} ` + `${box.max.x} ${box.max.y} ${box.max.z} ${name} true`
-  );
-}
+/** チャンクの大きさ（ブロック） */
+const CHUNK = 16;
 
 /**
- * 全アリーナぶん張る。
+ * 戦闘範囲を、張れる大きさに切り分ける。
  *
- * @returns 張れた数
+ * ## なぜ島だけでは足りないのか
+ *
+ * 島だけを張っていた頃は、**島の外が読み込まれていなかった。**
+ *
+ * ブロックを読めない場所は「何も無い」と同じ扱いになるので、
+ * **置かれたものが片付かず、数えるたびに結果が変わる。**
  */
-export function addTickingAreas(): number {
-  const dim = world.getDimension("overworld");
-  let n = 0;
-  for (const arena of ARENAS) {
-    arena.islands.forEach((box, i) => {
-      if (addOne(dim, areaName(arena, i), box)) n++;
+function sweepBoxes(arena: Arena): Box[] {
+  const b = arena.bounds;
+  const zChunks = Math.ceil((b.max.z - b.min.z + 1) / CHUNK);
+  const xPerBox = Math.max(1, Math.floor(MAX_CHUNKS / Math.max(1, zChunks)));
+  const width = xPerBox * CHUNK;
+
+  const out: Box[] = [];
+  for (let x = b.min.x; x <= b.max.x; x += width) {
+    out.push({
+      min: { x, y: 0, z: b.min.z },
+      max: { x: Math.min(b.max.x, x + width - 1), y: 0, z: b.max.z },
     });
   }
-  return n;
+  return out;
 }
 
 /**
- * 全アリーナぶん外す。
+ * 打つべきコマンドを組み立てる。
  *
- * @returns 外せた数
+ * **y は 0 で渡す。** ティッキングエリアはチャンクの柱を丸ごと読み込むので、
+ * 高さに意味は無い。範囲外の y を渡すと弾かれる。
  */
-export function removeTickingAreas(): number {
-  const dim = world.getDimension("overworld");
-  let n = 0;
+export function tickingAreaCommands(): string[] {
+  const out: string[] = [];
   for (const arena of ARENAS) {
-    arena.islands.forEach((_box, i) => {
-      if (tryCommand(dim, `tickingarea remove ${areaName(arena, i)}`)) n++;
+    sweepBoxes(arena).forEach((b, i) => {
+      out.push(`/tickingarea add ${b.min.x} 0 ${b.min.z} ${b.max.x} 0 ${b.max.z} cw_${arena.id}_${i} true`);
     });
   }
-  return n;
+  return out;
 }
 
 /**
- * 状態と実体を合わせる。
+ * 手順を見せる。
  *
- * ティッキングエリアは**ワールドに保存される**ので `/reload` では消えない。
- * だが**試合中かどうかはスクリプトが持っている。**
- *
- * 読み直したときに:
- * - 試合中なら**張り直す**
- * - 試合中でないなら**外す**
- *
- * これで状態と実体が必ず一致する（`docs/spec/11-match.md` 6-B / R-3）。
- *
- * **トップレベルから呼ぶこと。** `worldLoad` は `/reload` で来ない。
+ * **`/game:ticking` から呼ぶ。**
+ * 掃除が「読めなかった」と言ったときに、ここを見て打ち直す。
  */
-export function syncTickingAreas(running: boolean): void {
-  // **少し待つ。** 読み込み直後はコマンドが通らないことがある
-  system.runTimeout(() => {
-    if (running) addTickingAreas();
-    else removeTickingAreas();
-  }, 20);
+export function showTickingSetup(send: (line: string) => void): void {
+  send("§e マップを常時読み込むには、下のコマンドを手で打ってください");
+  send("§7 スクリプトからは作れません。§f一度打てばワールドに保存されます");
+  for (const line of tickingAreaCommands()) send(`§f${line}`);
+  send("§7 確認: §f/tickingarea list§7（見えないときは §f/gamerule sendcommandfeedback true§7）");
 }

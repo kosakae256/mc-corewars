@@ -15,6 +15,36 @@
     },
     "raw_copper_block": {
       "textures": "textures/blocks/raw_copper_block"
+    },
+    "game_pillar_red": {
+      "textures": "textures/blocks/game_pillar_red"
+    },
+    "game_pillar_blue": {
+      "textures": "textures/blocks/game_pillar_blue"
+    },
+    "game_guide_00": {
+      "textures": "textures/blocks/guide_00"
+    },
+    "game_guide_01": {
+      "textures": "textures/blocks/guide_01"
+    },
+    "game_guide_02": {
+      "textures": "textures/blocks/guide_02"
+    },
+    "game_guide_03": {
+      "textures": "textures/blocks/guide_03"
+    },
+    "game_guide_04": {
+      "textures": "textures/blocks/guide_04"
+    },
+    "game_guide_05": {
+      "textures": "textures/blocks/guide_05"
+    },
+    "game_guide_06": {
+      "textures": "textures/blocks/guide_06"
+    },
+    "game_guide_07": {
+      "textures": "textures/blocks/guide_07"
     }
   }
 }

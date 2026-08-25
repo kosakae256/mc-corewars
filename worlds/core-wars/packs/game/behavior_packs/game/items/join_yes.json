@@ -2,19 +2,22 @@
   "format_version": "1.26.40",
   "minecraft:item": {
     "description": {
-      "identifier": "game:starter_sword",
+      "identifier": "game:join_yes",
       "menu_category": {
-        "category": "equipment"
+        "category": "items"
       }
     },
     "components": {
       "minecraft:display_name": {
-        "value": "支給された剣"
+        "value": "§a参加する"
       },
-      "minecraft:icon": "game_starter_sword",
+      "minecraft:icon": "game_join_yes",
       "minecraft:max_stack_size": 1,
       "minecraft:hand_equipped": true,
-      "minecraft:damage": 2,
+      "minecraft:use_modifiers": {
+        "use_duration": 0.1,
+        "movement_modifier": 1.0
+      },
       "minecraft:can_destroy_in_creative": false
     }
   }

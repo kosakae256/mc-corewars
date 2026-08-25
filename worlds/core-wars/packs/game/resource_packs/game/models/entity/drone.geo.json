@@ -1,0 +1,344 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.drone",
+        "texture_width": 64,
+        "texture_height": 64,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 1.5,
+        "visible_bounds_offset": [
+          0,
+          0.3,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "name": "body",
+          "parent": "root",
+          "pivot": [
+            0,
+            4,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3,
+                3,
+                -3
+              ],
+              "size": [
+                6,
+                3,
+                6
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "camera",
+          "parent": "body",
+          "pivot": [
+            0,
+            3,
+            -3
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -1,
+                1.5,
+                -4
+              ],
+              "size": [
+                2,
+                2,
+                2
+              ],
+              "uv": [
+                24,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "frame",
+          "parent": "root",
+          "pivot": [
+            0,
+            4,
+            0
+          ],
+          "rotation": [
+            0,
+            45,
+            0
+          ]
+        },
+        {
+          "name": "arms",
+          "parent": "frame",
+          "pivot": [
+            0,
+            4,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                2,
+                4,
+                -1
+              ],
+              "size": [
+                5,
+                1,
+                2
+              ],
+              "uv": [
+                32,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -7,
+                4,
+                -1
+              ],
+              "size": [
+                5,
+                1,
+                2
+              ],
+              "uv": [
+                32,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -1,
+                4,
+                2
+              ],
+              "size": [
+                2,
+                1,
+                5
+              ],
+              "uv": [
+                32,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -1,
+                4,
+                -7
+              ],
+              "size": [
+                2,
+                1,
+                5
+              ],
+              "uv": [
+                32,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rotor1",
+          "parent": "frame",
+          "pivot": [
+            6.5,
+            5.2,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.5,
+                5,
+                -0.5
+              ],
+              "size": [
+                6,
+                1,
+                1
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            },
+            {
+              "origin": [
+                6.0,
+                5,
+                -3
+              ],
+              "size": [
+                1,
+                1,
+                6
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rotor2",
+          "parent": "frame",
+          "pivot": [
+            -6.5,
+            5.2,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -9.5,
+                5,
+                -0.5
+              ],
+              "size": [
+                6,
+                1,
+                1
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -7.0,
+                5,
+                -3
+              ],
+              "size": [
+                1,
+                1,
+                6
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rotor3",
+          "parent": "frame",
+          "pivot": [
+            0,
+            5.2,
+            6.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3,
+                5,
+                6.0
+              ],
+              "size": [
+                6,
+                1,
+                1
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -0.5,
+                5,
+                3.5
+              ],
+              "size": [
+                1,
+                1,
+                6
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rotor4",
+          "parent": "frame",
+          "pivot": [
+            0,
+            5.2,
+            -6.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3,
+                5,
+                -7.0
+              ],
+              "size": [
+                6,
+                1,
+                1
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -0.5,
+                5,
+                -9.5
+              ],
+              "size": [
+                1,
+                1,
+                6
+              ],
+              "uv": [
+                46,
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

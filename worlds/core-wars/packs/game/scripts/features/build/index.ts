@@ -20,12 +20,15 @@
  * 計算が外れることがあるので、**後から消す保険**も置く。
  */
 
+import { bar } from "../../lib/fx.js";
 import { system, world, type Block, type Player } from "@minecraft/server";
 
 import { ARENAS, coreAt, inBox } from "../../lib/arena.js";
 import { blockedByGenerator, generatorBlocks } from "../generator/index.js";
 import { isEditor } from "../protection/index.js";
 import { isMapBlock } from "../../lib/protection.js";
+import { LOBBY_BOUNDS } from "../../lib/lobby.js";
+import { opMessage } from "../../lib/op.js";
 
 /** 通知を絞る間隔（tick）。連打されるので */
 const NOTIFY_TICKS = 20;
@@ -33,15 +36,53 @@ const NOTIFY_TICKS = 20;
 const lastNotified = new Map<string, number>();
 
 function notify(player: Player, text: string): void {
+  // **黙って止める印**（`SILENT`）。出す側で落とす
+  if (text === SILENT) return;
   const now = system.currentTick;
   const last = lastNotified.get(player.id);
   if (last !== undefined && now - last < NOTIFY_TICKS) return;
   lastNotified.set(player.id, now);
-  player.onScreenDisplay.setActionBar(text);
+  bar(player, text);
+}
+
+/**
+ * **理由を出さずに止めるための印。**
+ *
+ * 空文字を返すと「置ける」と見分けが付かないので、
+ * **中身のある文字列**にしておく。出す側がこれを見て黙る。
+ */
+export const SILENT = "cw:silent";
+
+/**
+ * **拠点でも置けるもの。**
+ *
+ * 仕様は `docs/spec/11-match.md` 6-G。
+ *
+ * TNT は**置いた瞬間に実体になる**（`features/special/tnt.ts`）ので、
+ * **ブロックとして残らない。**
+ * 「埋めて塞ぐ」という、拠点で禁じたい行為にならない。
+ */
+const BASE_ALLOWED: ReadonlySet<string> = new Set(["minecraft:tnt"]);
+
+/** そのアイテムは拠点でも置けるか */
+export function allowedInBase(typeId: string | undefined): boolean {
+  return typeId !== undefined && BASE_ALLOWED.has(typeId);
 }
 
 /** 置けない場所か。置けないなら理由を返す */
 export function whyCannotBuild(x: number, y: number, z: number): string | undefined {
+  // ---- **ロビーには置けない**（2026-08-25 追加）
+  //
+  // ロビーは戦場の外にあり、後片付けの範囲にも入っていない。
+  // **置かれたものが誰にも消されず、そのまま残り続ける。**
+  //
+  // 運営は編集モード（`/game:build`）で置ける
+  //
+  // **理由は出さない**（2026-08-25 変更）。
+  // ロビーで置こうとする場面は多く、**そのたびに画面へ出るとうるさい。**
+  // 置けないことは、置けない時点で伝わる
+  if (inBox(LOBBY_BOUNDS, { x, y, z })) return SILENT;
+
   for (const arena of ARENAS) {
     for (const box of arena.noBuild) {
       if (inBox(box, { x, y, z })) return "§c拠点の中には置けません";
@@ -148,7 +189,7 @@ function* sweepBasesJob(): Generator<void, void, void> {
       }
     }
   }
-  if (removed > 0) world.sendMessage(`§7拠点の中に置かれていた ${removed} マスを消した`);
+  if (removed > 0) opMessage(`§7拠点の中に置かれていた ${removed} マスを消した`);
   baseSweeping = false;
 }
 
@@ -260,6 +301,8 @@ export function registerBuildRules(): void {
 
     const why = whyCannotBuild(target.x, target.y, target.z);
     if (why === undefined) return;
+    // **TNT は拠点でも置ける**（docs/spec/11-match.md 6-G）
+    if (why === "§c拠点の中には置けません" && allowedInBase(ev.itemStack.typeId)) return;
 
     ev.cancel = true;
     const player = ev.player;
@@ -273,6 +316,8 @@ export function registerBuildRules(): void {
     const at = ev.block.location;
     const why = whyCannotBuild(at.x, at.y, at.z);
     if (why === undefined) return;
+    // **TNT は拠点でも置ける**（置いた瞬間に実体になるので残らない）
+    if (why === "§c拠点の中には置けません" && allowedInBase(ev.block.typeId)) return;
 
     const block = ev.block;
     const player = ev.player;

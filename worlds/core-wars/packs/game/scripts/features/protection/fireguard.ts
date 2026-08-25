@@ -47,6 +47,7 @@
 import { system, world, type Vector3 } from "@minecraft/server";
 
 import { repairArea } from "./repair.js";
+import { opMessage } from "../../lib/op.js";
 
 /** 炎とみなすブロック */
 const FIRE: ReadonlySet<string> = new Set(["minecraft:fire", "minecraft:soul_fire"]);
@@ -156,7 +157,7 @@ function* guardJob(): Generator<void, void, void> {
   }
 
   if (out.restored > 0) {
-    world.sendMessage(`§6焼けたマップを ${out.restored} マス戻した`);
+    opMessage(`§6焼けたマップを ${out.restored} マス戻した`);
   }
   working = false;
 }

@@ -15,23 +15,7 @@
       "minecraft:max_stack_size": 1,
       "minecraft:hand_equipped": true,
       "minecraft:damage": 7,
-      "minecraft:durability": {
-        "max_durability": 1561
-      },
-      "minecraft:enchantable": {
-        "value": 10,
-        "slot": "sword"
-      },
-      "minecraft:repairable": {
-        "repair_items": [
-          {
-            "items": [
-              "minecraft:diamond"
-            ],
-            "repair_amount": 390
-          }
-        ]
-      }
+      "minecraft:can_destroy_in_creative": false
     }
   }
 }

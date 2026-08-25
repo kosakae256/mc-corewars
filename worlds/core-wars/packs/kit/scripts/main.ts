@@ -40,5 +40,11 @@ world.afterEvents.worldLoad.subscribe(() => {
   startScanLoop();
   startConvertLoop();
   startMarkLoop();
-  world.sendMessage("§bkit§r 読み込み完了 / §f/kit:scan on§r §7走査　§f/kit:convert§r §7置き換え");
+  // ---- **読み込みの報せは出さない**（2026-08-25 変更）
+  //
+  // `kit` は制作の道具なので、**遊ぶ人には何の意味も無い。**
+  // 全体に流れると、大事な報せが押し流されるだけ。
+  //
+  // 入っているかは `/kit:scan on` が通るかどうかで分かる
+  //（docs/spec/15-presentation.md 5-A）
 });

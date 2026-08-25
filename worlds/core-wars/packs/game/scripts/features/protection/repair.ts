@@ -212,7 +212,7 @@ export function registerRepairCommands(registry: CustomCommandRegistry): void {
     {
       name: "game:remember",
       description: "いまのマップの姿を記憶する（完成してから1回）",
-      permissionLevel: CommandPermissionLevel.GameDirectors,
+      permissionLevel: CommandPermissionLevel.Admin,
       optionalParameters: [{ name: "radius", type: CustomCommandParamType.Integer }],
     },
     (origin: CustomCommandOrigin, radius?: number): CustomCommandResult => {
@@ -232,7 +232,7 @@ export function registerRepairCommands(registry: CustomCommandRegistry): void {
     {
       name: "game:repair",
       description: "記憶と見比べて、欠けたマップを戻す",
-      permissionLevel: CommandPermissionLevel.GameDirectors,
+      permissionLevel: CommandPermissionLevel.Admin,
       optionalParameters: [{ name: "radius", type: CustomCommandParamType.Integer }],
     },
     (origin: CustomCommandOrigin, radius?: number): CustomCommandResult => {

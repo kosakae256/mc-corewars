@@ -32,10 +32,12 @@
  * 横の壁では起きない（体の幅が細いので目立たない）。
  */
 
-import { system, world, type Player, type Vector3 } from "@minecraft/server";
+import { bar } from "../../lib/fx.js";
+import { GameMode, system, world, type Player, type Vector3 } from "@minecraft/server";
 
-import { ARENAS, type Box } from "../../lib/arena.js";
-import { matchState, teamOf } from "../../lib/match-state.js";
+import { ARENAS, inBox, type Box } from "../../lib/arena.js";
+import { matchState, shouldBeInBattle, teamOf } from "../../lib/match-state.js";
+import { LOBBY_BOUNDS, lobbyPoint } from "../../lib/lobby.js";
 
 /**
  * **バニラのワールドボーダーの粒子から、動きだけを止めたもの。**
@@ -230,7 +232,7 @@ function notify(player: Player, text: string): void {
   const last = lastNotified.get(player.id);
   if (last !== undefined && now - last < NOTIFY_TICKS) return;
   lastNotified.set(player.id, now);
-  player.onScreenDisplay.setActionBar(text);
+  bar(player, text);
 }
 
 /**
@@ -243,15 +245,74 @@ export function startBorder(): void {
   system.runInterval(() => {
     // **会場は 1 つ前提。** 増えたら「その人がどの会場に居るか」で選ぶ
     const arena = ARENAS[0];
-    const paused = matchState() === "paused";
+    const state = matchState();
+
+    const paused = state === "paused";
+    const idle = state === "idle";
 
     for (const player of world.getAllPlayers()) {
+      // ---- **クリエイティブは通す**（2026-08-25 追加）
+      //
+      // 運営はマップを直しに行く。**境界に阻まれると仕事にならない。**
+      //
+      // 遊ぶ人はクリエイティブにならないので、これで区別が付く
+      try {
+        if (player.getGameMode() === GameMode.Creative) continue;
+      } catch {
+        continue;
+      }
+
+      // ---- 観戦者は触らない
+      //
+      // **倒れている人**（docs/spec/14-death.md）はここを通る。
+      // 押し戻すと、倒れた場所から飛ばされて何が起きたか分からなくなる。
+      // どこへ行っても実害は無いので、そのままにする
+      try {
+        if (player.getGameMode() === GameMode.Spectator) continue;
+      } catch {
+        continue;
+      }
+
       // ---- 一時停止中は自陣の建物から出られない
       //
       // **止まっている間に相手の陣地を見に行けると、
       // 再開したときに情報の差が付く。**
       //
       // 扱いはボーダーと同じ。**押し戻して、境界を見せる。** 殺さない
+      // ---- **どの領域の人か**（docs/spec/15-presentation.md 1章）
+      //
+      // 試合中でも、場に居る人と居ない人が同時に存在する。
+      //
+      // | 誰 | 領域 |
+      // | --- | --- |
+      // | 戦場に居るべき人 | 戦闘範囲（一時停止中は自陣） |
+      // | 参加していない人・**準備中の人** | ロビー |
+      //
+      // 判断は `shouldBeInBattle` に集めてある。
+      // **ここで独自に考えると、必ずどこかで食い違う**
+      const fighting = shouldBeInBattle(player);
+
+      // ---- **ロビーの中に居る人は、何があっても押さない**
+      //
+      // 準備中に読み込み直した、途中で迷い込んだ、など
+      // 想定していない経路で入ってくることがある。
+      // **ロビーは常に安全**という受け皿を残しておく
+      if (!fighting || inBox(LOBBY_BOUNDS, player.location)) {
+        if (!inBox(LOBBY_BOUNDS, player.location)) {
+          // 戦場に居るべきでないのに外に居る。**ロビーへ送る**
+          try {
+            player.teleport(lobbyPoint(), { dimension: player.dimension });
+            notify(player, "§7ロビーの外には出られません");
+          } catch {
+            /* 読み込まれていない */
+          }
+          continue;
+        }
+        showWalls(player, LOBBY_BOUNDS);
+        continue;
+      }
+
+      // ---- 戦場の領域
       const team = paused ? teamOf(player) : undefined;
       const box = team === undefined ? arena.bounds : arena.pauseBoxes[team];
       const back = pushInside(box, player.location);

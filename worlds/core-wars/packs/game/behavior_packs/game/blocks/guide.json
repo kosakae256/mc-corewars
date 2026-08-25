@@ -1,0 +1,129 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "game:guide",
+      "menu_category": {
+        "category": "none"
+      },
+      "states": {
+        "game:col": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "game:row": [
+          0,
+          1
+        ]
+      }
+    },
+    "components": {
+      "minecraft:display_name": "説明板",
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:flammable": false,
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "game_guide_00",
+          "render_method": "opaque"
+        }
+      }
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('game:col') == 0 && q.block_state('game:row') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_00",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:col') == 1 && q.block_state('game:row') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_01",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:col') == 2 && q.block_state('game:row') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_02",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:col') == 3 && q.block_state('game:row') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_03",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:col') == 0 && q.block_state('game:row') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_04",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:col') == 1 && q.block_state('game:row') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_05",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:col') == 2 && q.block_state('game:row') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_06",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('game:col') == 3 && q.block_state('game:row') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "game_guide_07",
+              "render_method": "opaque"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

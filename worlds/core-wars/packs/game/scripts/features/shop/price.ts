@@ -14,6 +14,7 @@
  * 遊ぶ人が値段を変えられてはいけない。
  */
 
+import { bar } from "../../lib/fx.js";
 import {
   system,
   world,
@@ -30,13 +31,24 @@ import {
   CATEGORY_NAME,
   CATEGORY_ORDER,
   CURRENCY_NAME_PLAIN,
+  CURRENCY_ORDER,
   ROW_SIZE,
   gridOf,
   unitsOf,
   type Category,
   type ShopItem,
 } from "../../lib/shop-items.js";
-import { isChanged, priceOf, resetAllPrices, resetPrice, setPrice } from "../../lib/shop-prices.js";
+import {
+  currencyOf,
+  isChanged,
+  priceOf,
+  priceText,
+  resetAllPrices,
+  resetPrice,
+  setCurrency,
+  setPrice,
+  totalOf,
+} from "../../lib/shop-prices.js";
 import { ChestFormData } from "../../vendor/chest-ui/forms.js";
 import { CATEGORY_ICON, CHEST_SIZE, SLOT_BACK, iconOf } from "./index.js";
 
@@ -78,10 +90,12 @@ function showItems(player: Player, category: Category): void {
     const now = priceOf(it);
     const units = unitsOf(it);
     // **編集するのは 1 個あたりの値段。** 総額は個数から決まる
-    const lore = [`§7１個あたり  §f${CURRENCY_NAME_PLAIN[it.currency]} ${now} 個`];
-    if (units > 1) lore.push(`§7合計（${units} 個）  §f${now * units}`);
+    const lore = [`§7１個あたり  §f${CURRENCY_NAME_PLAIN[currencyOf(it)]} ${priceText(now)} 個`];
+    if (units > 1) lore.push(`§7合計（${units} 個）  §f${totalOf(it)}`);
     // **初期値から変えたものに印を付ける。** どこを触ったか分かるように
-    if (isChanged(it)) lore.push(`§7初期値  §8${it.price} 個  §e(変更あり)`);
+    if (isChanged(it)) {
+      lore.push(`§7初期値  §8${CURRENCY_NAME_PLAIN[it.currency]} ${priceText(it.price)} 個  §e(変更あり)`);
+    }
     form.button(slot, `§f${it.label}`, lore, iconOf(it, undefined), it.give[0]?.amount ?? 1);
   });
   form.button(SLOT_BACK, "§7戻る", [], "minecraft:arrow");
@@ -103,35 +117,49 @@ function showItems(player: Player, category: Category): void {
     });
 }
 
-/** 1 つの値段を入れる */
+/**
+ * 1 つの値段と通貨を決める。
+ *
+ * **通貨も変えられる**（`docs/spec/12-shop.md` 5-A）。
+ * 値段だけでは釣り合いを取りきれない——
+ * 「鉄 60 個」より「金 8 個」のほうが早いことがある。
+ */
 function editOne(player: Player, category: Category, item: ShopItem): void {
   const now = priceOf(item);
+  const cur = currencyOf(item);
+  const names = CURRENCY_ORDER.map((c) => CURRENCY_NAME_PLAIN[c]);
+  const at = Math.max(0, CURRENCY_ORDER.indexOf(cur));
+  const back = `${CURRENCY_NAME_PLAIN[item.currency]} ${priceText(item.price)}`;
+
   new ModalFormData()
     .title(item.label)
-    .textField(
-      `${CURRENCY_NAME_PLAIN[item.currency]}§r で買う値段\n§7空にすると初期値（${item.price}）に戻ります`,
-      `${now}`,
-      { defaultValue: `${now}` }
-    )
+    .dropdown("何で買うか", names, { defaultValueIndex: at })
+    .textField(`値段（1 個あたり）\n§7空にすると初期値（${back}）に戻ります`, `${now}`, {
+      defaultValue: `${priceText(now)}`,
+    })
     .show(player)
     .then((res) => {
       if (res.canceled || res.formValues === undefined) {
         showItems(player, category);
         return;
       }
-      const raw = String(res.formValues[0] ?? "").trim();
+      const picked = CURRENCY_ORDER[Number(res.formValues[0] ?? at)] ?? cur;
+      const raw = String(res.formValues[1] ?? "").trim();
+
       let msg: string;
       if (raw === "") {
+        // **戻すのは値段も通貨も。** 「初期状態に戻す」操作を 2 つに分けない
         resetPrice(item.id);
-        msg = `§7${item.label} を初期値（${item.price}）に戻しました`;
+        msg = `§7${item.label} を初期値（${back}）に戻しました`;
       } else if (setPrice(item.id, Number(raw))) {
-        msg = `§a${item.label} を ${Math.floor(Number(raw))} にしました`;
+        setCurrency(item.id, picked);
+        msg = `§a${item.label} を ${CURRENCY_NAME_PLAIN[picked]} ${priceText(priceOf(item))} にしました`;
       } else {
         // **1 以上の数だけ。** 0 以下だとただで配れてしまう
-        msg = "§c1 以上の数を入れてください";
+        msg = "§c0 より大きい数を入れてください";
       }
       showItems(player, category);
-      player.onScreenDisplay.setActionBar(msg);
+      bar(player, msg);
     })
     .catch(() => {
       /* 画面を出せなかった */
@@ -164,6 +192,11 @@ function confirmResetAll(player: Player): void {
 function playerOf(origin: CustomCommandOrigin): Player | undefined {
   const e = origin.sourceEntity;
   return e !== undefined && e.typeId === "minecraft:player" ? (e as Player) : undefined;
+}
+
+/** 運営の道具から開く。**コマンドを打たずに済ませる** */
+export function openPriceEditor(player: Player): void {
+  showCategories(player);
 }
 
 export function registerPriceCommand(registry: CustomCommandRegistry): void {

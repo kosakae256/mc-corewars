@@ -70,6 +70,9 @@ worlds/<名>/docs/spec/ どう作るか
 - [08-skin-clone-deep-research-brief.md](research/08-skin-clone-deep-research-brief.md) — 上記の深掘り依頼文
 - [09-skin-clone-deep-research-result.md](research/09-skin-clone-deep-research-result.md) — その結果。**アドオン範囲では不可能と確定**
 - [10-custom-block-replacement.md](research/10-custom-block-replacement.md) — **マップのブロックを壊せない独自ブロックにできるか。** 立方体は可、形を持つものは重い、チェストは不可
+- [11-content-log.md](research/11-content-log.md) — **コンテンツログのどの行が自分のせいか。** `blocks.json` に独自ブロックの見た目を書かない
+- [12-item-hold.md](research/12-item-hold.md) — **アイテムの長押しを取る方法。** `use_modifiers` を付けると `itemStartUse` / `itemStopUse` が飛ぶ
+- [13-scripted-camera.md](research/13-scripted-camera.md) — **スクリプトから動かすカメラは滑らかにならない。** 実体に貼る手も無い
 
 ## 決定記録
 

@@ -220,16 +220,26 @@ node tools/mc.mjs restore <名前>                   # 戻す
 
 ## 現在のフェーズ
 
-**企画段階。何を作るかがまだ決まっていない。**
-
-次にやること: [docs/game/00-concept.md](worlds/core-wars/docs/00-concept.md) を埋める。
-**ここが「未定」のままでは、ルールもマップも仕様も書けない。**
+**実装段階。ひととおり遊べる形になっている。**
 
 済んでいること:
 
-- Script API の調査一式（[docs/research/](docs/research/)）
-- **マップの制作完了**（拠点2 + 中央1 の3島。[worlds/core-wars/docs/02-map.md](worlds/core-wars/docs/02-map.md)）
-- 設計から `.mcstructure` を作る道具一式（`tools/mapview`）
-- BDS の構築とフレンド欄からの参加（`tools/mc.mjs`）
-- ワールド制作用のディレクトリとバックアップ機構
-- アドオンのひな形と `game` / `kit` / `exp` の枠
+| | どこ |
+| --- | --- |
+| Script API の調査一式 | [docs/research/](docs/research/) |
+| **マップ**（拠点2 + 中央1 の3島） | [02-map.md](worlds/core-wars/docs/02-map.md) |
+| **ブロック保護**（マップを壊せない） | [10-block-protection.md](worlds/core-wars/docs/spec/10-block-protection.md) |
+| **試合の進行**（開始・停止・再開・後片付け） | [11-match.md](worlds/core-wars/docs/spec/11-match.md) |
+| **ショップ**（チェストUI・値段はゲーム内で変更可） | [12-shop.md](worlds/core-wars/docs/spec/12-shop.md) |
+| **ワイヤー射出装置**（立体機動） | [13-grapple.md](worlds/core-wars/docs/spec/13-grapple.md) |
+| **死亡と復活**（観戦5秒） | [14-death.md](worlds/core-wars/docs/spec/14-death.md) |
+| **演出と待機所** | [15-presentation.md](worlds/core-wars/docs/spec/15-presentation.md) |
+| **設定メニュー**（運営の道具をコンパス1つに集約） | [19-admin-menu.md](worlds/core-wars/docs/spec/19-admin-menu.md) |
+| **観戦**（試合中だけ・真上を向いて終了） | [20-spectate.md](worlds/core-wars/docs/spec/20-spectate.md) |
+| **金庫**（自陣に預ける・引き出し不可・買い物専用） | [22-vault.md](worlds/core-wars/docs/spec/22-vault.md) |
+
+次にやること:
+
+- **待機所の設定**（`/game:setlobby`）。初期値は上空を指しているだけ
+- **値段の調整**（`/game:price`）。いまの値は全部仮
+- [00-concept.md](worlds/core-wars/docs/00-concept.md) と [01-rules.md](worlds/core-wars/docs/01-rules.md) の未確定を埋める

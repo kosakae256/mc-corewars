@@ -30,6 +30,7 @@
  *（`docs/spec/11-match.md` 6-B / R-3）。
  */
 
+import { BAR, bar } from "../../lib/fx.js";
 import { system, world, type Dimension, type Entity, type Vector3 } from "@minecraft/server";
 
 import { ARENAS, type Arena, type Team } from "../../lib/arena.js";
@@ -300,14 +301,22 @@ export function registerShopKeeperInteract(): void {
       // **ここでしか分からないのは「自チームの店員か」だけ**
       const blocked = shopBlockedReason(player);
       if (blocked !== undefined) {
-        player.onScreenDisplay.setActionBar(blocked);
+        bar(player, blocked);
         return;
       }
+      // ---- **相手の店でも買える**（2026-08-26 変更）
+      //
+      // 仕様は `docs/spec/12-shop.md` 5-B。
+      //
+      // 以前は**店員の所属で弾いていた。**
+      // だが攻め込んだ先で買えないのは、**攻めた側だけが補給を絶たれる**
+      // ということで、拠点に踏み込む理由をひとつ削っていた。
+      //
+      // **開けるが、払えるのは手持ちだけ**（金庫もエンダーチェストも覗けない）。
+      // 何を持って攻め込むかが、そのまま判断になる
       const mine = teamOf(player);
-      // **相手の店では買えない。** 拠点を持つ意味を保つ
-      if (mine === undefined || !target.hasTag(teamTag(mine))) {
-        player.onScreenDisplay.setActionBar("§c相手チームのショップです");
-        return;
+      if (mine !== undefined && !target.hasTag(teamTag(mine))) {
+        bar(player, "§e敵陣のショップ §7手持ちの資源だけで買えます", BAR.notice, 60);
       }
       openShop(player);
     });

@@ -2,26 +2,35 @@
   "resource_pack_name": "game",
   "texture_name": "atlas.items",
   "texture_data": {
-    "game_starter_sword": {
-      "textures": "textures/items/wood_sword"
+    "game_grapple": {
+      "textures": "textures/items/game_grapple"
+    },
+    "game_drone": {
+      "textures": "textures/items/spyglass"
+    },
+    "game_fire_charge": {
+      "textures": "textures/items/fireball"
+    },
+    "game_pillar_shot": {
+      "textures": "textures/items/game_pillar_shot"
+    },
+    "game_join_yes": {
+      "textures": "textures/items/game_join_yes"
+    },
+    "game_join_no": {
+      "textures": "textures/items/game_join_no"
+    },
+    "game_sword_wood": {
+      "textures": "textures/items/game_sword_wood"
     },
     "game_sword_stone": {
-      "textures": "textures/items/stone_sword"
-    },
-    "game_sword_copper": {
-      "textures": "textures/items/copper_sword"
+      "textures": "textures/items/game_sword_stone"
     },
     "game_sword_iron": {
-      "textures": "textures/items/iron_sword"
+      "textures": "textures/items/game_sword_iron"
     },
     "game_sword_diamond": {
-      "textures": "textures/items/diamond_sword"
-    },
-    "game_sword_netherite": {
-      "textures": "textures/items/netherite_sword"
-    },
-    "game_grapple": {
-      "textures": "textures/items/fishing_rod_uncast"
+      "textures": "textures/items/game_sword_diamond"
     }
   }
 }

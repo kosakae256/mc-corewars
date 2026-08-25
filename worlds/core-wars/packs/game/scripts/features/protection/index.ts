@@ -33,9 +33,11 @@
  * - プレイヤーへの通知は**不可**。`system.run()` で次の tick に逃がす
  */
 
-import { system, world, PlayerPermissionLevel, type Block, type Player } from "@minecraft/server";
+import { system, world, PlayerPermissionLevel, type Block, type Player, type Vector3 } from "@minecraft/server";
 
 import { isMapBlock } from "../../lib/protection.js";
+import { LOBBY_BOUNDS } from "../../lib/lobby.js";
+import { ARENAS, coreAt, inBox } from "../../lib/arena.js";
 import { watchFireAt } from "./fireguard.js";
 
 /**
@@ -58,10 +60,22 @@ import { watchFireAt } from "./fireguard.js";
  * `/game:build` で**自分だけ**編集できるようになる。もう一度打つと戻る。
  *
  * - **人ごとに持つ。** 誰かが編集中でも、他の人の保護は効いたまま
- * - **メモリに置く。** `/reload` で全員が守られる側に戻る。
- *   消えても安全側に倒れるので、これでよい（`docs/spec/11-match.md` 6-B / R-3）
+ * - **`/reload` をまたぐ**（2026-08-25 変更）
+ *
+ * ## なぜ残すようにしたか
+ *
+ * 以前はメモリだけに置き、「消えても安全側に倒れる」としていた。
+ * だが**直している最中に `/reload` を打つのが普通**で、
+ * そのたびに**黙って守られる側に戻っていた。**
+ *
+ * **気づけない。** 壊せなくなった理由が分からないまま探すことになる。
+ * 安全側かどうかより、**言わずに変わることのほうが害が大きい**
+ *（`docs/spec/09-state-management.md` 4 章）。
  */
 const editors = new Set<string>();
+
+/** 編集できる印。**`/reload` で消えない** */
+const KEY_EDITOR = "cw:editor";
 
 /** 編集できる状態か */
 export function isEditor(playerId: string): boolean {
@@ -80,14 +94,37 @@ export function toggleEditor(player: Player): { allowed: boolean; on: boolean } 
   const on = !editors.has(player.id);
   if (on) editors.add(player.id);
   else editors.delete(player.id);
+  try {
+    player.setDynamicProperty(KEY_EDITOR, on ? true : undefined);
+  } catch {
+    /* 消えている。メモリの側は切り替わっている */
+  }
   return { allowed: true, on };
+}
+
+/**
+ * そのブロックは守るべきか。**人によらない判断。**
+ *
+ * ## 場所と種類の両方で決める
+ *
+ * 種類だけで決めていたので、
+ * **羊毛や黒曜石で作られた部分は壊せた**（買える建材は守らない一覧に入っている）。
+ *
+ * ロビーは試合の場ではない。**置くのも壊すのも運営だけ。**
+ * 場所で決めるほうが、材料を選ばずに済む。
+ *
+ * **掘るのも爆発も、ここを通す。** 別々に書くと必ず食い違う。
+ */
+export function isProtectedAt(typeId: string, at: Vector3): boolean {
+  if (inBox(LOBBY_BOUNDS, at)) return true;
+  return isMapBlock(typeId);
 }
 
 /** そのブロックを、このプレイヤーから守るべきか */
 function shouldProtect(player: Player, block: Block): boolean {
   // **編集中の人だけが素通りする。** 権限だけでは素通りしない
   if (editors.has(player.id)) return false;
-  return isMapBlock(block.typeId);
+  return isProtectedAt(block.typeId, block.location);
 }
 
 /**
@@ -123,7 +160,67 @@ const IGNITERS: ReadonlySet<string> = new Set([
  *
  * **`worldLoad` から呼ぶこと。** トップレベルで呼ぶと early execution になる。
  */
+/**
+ * 壊させない飾り。
+ *
+ * 仕様は `docs/spec/10-block-protection.md` 5 章。
+ *
+ * **ブロックではなく実体**なので、ブロックの保護が届かない。
+ */
+const DECOR: ReadonlySet<string> = new Set(["minecraft:painting"]);
+
+/**
+ * 合成鋼（青 = 未加工の鉄 / 赤 = 未加工の銅）。
+ *
+ * **バニラのブロックをテクスチャだけ差し替えたもの**なので、
+ * ブロック定義に爆発耐性を書けない。**script で対象から抜く。**
+ */
+const TOUGH: ReadonlySet<string> = new Set(["minecraft:raw_iron_block", "minecraft:raw_copper_block"]);
+
+/**
+ * コアの真上に張った、爆発を通さない箱。
+ *
+ * | | |
+ * | --- | --- |
+ * | 横 | コアから **10 マス** |
+ * | 下端 | コアの **5 マス上**（屋内はここより下） |
+ * | 上端 | **青天井** |
+ *
+ * **屋内で使うぶんには普通に爆ぜる。**
+ * 止めたいのは**屋根の上から掘り抜くこと**だけ。
+ */
+const CORE_SHIELD = { radius: 10, above: 5 } as const;
+
+/** そこはコアの真上か。**爆発の中心で見る** */
+function overCore(at: Vector3 | undefined): boolean {
+  if (at === undefined) return false;
+  for (const arena of ARENAS) {
+    for (const team of ["red", "blue"] as const) {
+      const c = arena.cores[team];
+      if (at.y < c.y + CORE_SHIELD.above) continue;
+      if (Math.abs(at.x - c.x) > CORE_SHIELD.radius) continue;
+      if (Math.abs(at.z - c.z) > CORE_SHIELD.radius) continue;
+      return true;
+    }
+  }
+  return false;
+}
+
 export function registerProtection(): void {
+  // ---- **`/reload` で消えた分を拾い直す**（2026-08-25 追加）
+  //
+  // `/reload` はここを通り直すので、**そのときに印から戻せる。**
+  // 抜けた人の id は消さない——同じ世界に戻れば同じ id なので、そのまま効く
+  system.run(() => {
+    for (const player of world.getAllPlayers()) {
+      try {
+        if (player.getDynamicProperty(KEY_EDITOR) === true) editors.add(player.id);
+      } catch {
+        /* 消えている */
+      }
+    }
+  });
+
   // ---- 手で掘る
   world.beforeEvents.playerBreakBlock.subscribe((ev) => {
     if (!shouldProtect(ev.player, ev.block)) return;
@@ -137,8 +234,30 @@ export function registerProtection(): void {
   //（docs/02-map.md 2-A-2）。**守るブロックだけを対象から抜く。**
   world.beforeEvents.explosion.subscribe((ev) => {
     const impacted = ev.getImpactedBlocks();
-    const kept = impacted.filter((b) => !isMapBlock(b.typeId));
+    // **掘るときと同じ規則を通す。** 別々に書くと必ず食い違う。
+    //
+    // ---- **コアは爆発では消えない**（2026-08-25 追加）
+    //
+    // コアは守るブロックではない（壊すことが目的）ので、
+    // そのままだと**爆発で消し飛ぶ。**
+    // それでは削った回数が数えられず、**勝敗が決まらないまま盤面から消える。**
+    //
+    // **削るのは殴ったときだけ**（`docs/spec/11-match.md`）
+    const kept = impacted.filter(
+      (b) => !isProtectedAt(b.typeId, b.location) && coreAt(b.location.x, b.location.y, b.location.z) === undefined
+    );
     if (kept.length !== impacted.length) ev.setImpactedBlocks(kept);
+  });
+
+  // ---- **絵画を壊せない**（docs/spec/10-block-protection.md 5 章）
+  //
+  // 絵画は**ブロックではなく実体**なので、ブロックの保護をすり抜ける。
+  // 殴れば消えるし、爆風でも飛ぶ。
+  //
+  // **マップの一部として扱う。** 傷つけようとしたら、そこで止める
+  world.beforeEvents.entityHurt.subscribe((ev) => {
+    if (!DECOR.has(ev.hurtEntity.typeId)) return;
+    ev.cancel = true;
   });
 
   // ---- 火を点ける・溶岩を流す

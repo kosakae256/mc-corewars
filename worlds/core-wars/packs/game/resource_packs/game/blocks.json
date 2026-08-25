@@ -74,5 +74,11 @@
   },
   "game:map_parts_emerald_block": {
     "sound": "metal"
+  },
+  "game:pillar_red": {
+    "sound": "slime"
+  },
+  "game:pillar_blue": {
+    "sound": "slime"
   }
 }

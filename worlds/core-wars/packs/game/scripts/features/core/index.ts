@@ -37,7 +37,11 @@
 import { BlockPermutation, system, world, type Player } from "@minecraft/server";
 
 import { damageCore, isRunning, teamName, teamOf } from "../../lib/match-state.js";
-import { ARENAS, CORE_BLOCK, coreAt } from "../../lib/arena.js";
+import { ARENAS, CORE_BLOCK, coreAt, type Team } from "../../lib/arena.js";
+import { bar, fxCoreHit } from "../../lib/fx.js";
+import { canBreakCore, coreLockLeft } from "../grapple/index.js";
+import { canDamageCore, phase1LeftSeconds } from "../../lib/phase.js";
+import { addCore } from "../../lib/stats.js";
 import { onCoreBroken } from "../match/index.js";
 
 /**
@@ -53,7 +57,7 @@ import { onCoreBroken } from "../match/index.js";
 const lastCounted = new Map<string, number>();
 
 function notify(player: Player, text: string): void {
-  player.onScreenDisplay.setActionBar(text);
+  bar(player, text);
 }
 
 /**
@@ -96,6 +100,24 @@ function alreadyCounted(key: string, tick: number): boolean {
  * **トップレベルから呼ぶこと。**
  * `worldLoad` の中に置くと `/reload` で起動しない。
  */
+/**
+ * 節目でだけ全体に告知する。
+ *
+ * **毎回出すと流れて読めない**（`docs/spec/15-presentation.md` 4-2）。
+ * 残りが減るほど間隔を詰め、最後の数回は警告音まで鳴らす。
+ */
+const MILESTONES: readonly number[] = [50, 25, 10, 5];
+
+function announce(owner: Team, left: number): void {
+  // ---- **残りわずかの警告は出さない**（2026-08-25 削除）
+  //
+  // タイトルと警告音を出していたが、**荒れるだけだった。**
+  // 削られている側には毎回音と足元の知らせが行くので、
+  // **気づく手段は既にある。**
+  if (!MILESTONES.includes(left)) return;
+  world.sendMessage(`§6${teamName(owner)} のコア  §f残り ${left}`);
+}
+
 export function registerCore(): void {
   // ---- 保険: **壊れてしまったら、必ず戻す**
   //
@@ -153,6 +175,25 @@ export function registerCore(): void {
       return;
     }
 
+    // ---- フェーズ 1 では削れない（docs/spec/11-match.md 6-Z）
+    //
+    // **黙って効かないと、壊れていると思われる。**
+    // あと何秒でフェーズ 2 になるかを添える
+    if (!canDamageCore()) {
+      const left = phase1LeftSeconds();
+      system.run(() => notify(player, `§cまだコアは削れません §7(あと ${left} 秒)`));
+      return;
+    }
+
+    // ---- 引き寄せた直後は削れない（docs/spec/13-grapple.md 7章）
+    //
+    // **飛び込んだ勢いのまま削れると、守る余地が無い**
+    if (!canBreakCore(player)) {
+      const left = coreLockLeft(player);
+      system.run(() => notify(player, `§c移動直後は削れません §7(あと ${left} 秒)`));
+      return;
+    }
+
     // **二重に数えない。** /reload で購読が重なっても 1 回で済む
     const key = `${hit.arena.id}:${owner}`;
     if (alreadyCounted(key, system.currentTick)) return;
@@ -162,7 +203,10 @@ export function registerCore(): void {
       const left = damageCore(hit.arena.id, owner);
       // **必ず出す。** 出ないと「効いていない」と見分けが付かない
       notify(player, `§6${teamName(owner)} のコア  §f残り ${left}`);
-      player.playSound("random.orb", { location: player.location });
+      fxCoreHit(player, at, owner, left);
+      // **戦績を数える**（docs/spec/15-presentation.md 4-4）
+      addCore(player);
+      announce(owner, left);
       onCoreBroken(hit.arena.id, owner, left);
     });
   });

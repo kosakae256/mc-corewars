@@ -25,13 +25,26 @@ import { system, world, type Dimension, type Vector3 } from "@minecraft/server";
 
 import { isRunning } from "../../lib/match-state.js";
 import { isMapBlock } from "../../lib/protection.js";
+import { isPlaceable } from "../../lib/placeable.js";
 import { coreAt } from "../../lib/arena.js";
 
 /** 試合中に置かれたブロックの位置 */
 const placed = new Map<string, Vector3>();
 
 /** 1 tick あたりに触るマス数（watchdog 対策。docs/imp.md 5.3） */
-const PER_TICK = 512;
+const PER_TICK = 2048;
+
+/**
+ * 掃き取る高さの下限。
+ *
+ * **戦闘範囲の下限（−60）まで見る必要が無い。**
+ * 島の底は −14 で、その下は奈落しかない。
+ *
+ * 4,710,951 マスを 1 マスずつ見ていたので、
+ * **終わるまで 7 分以上かかっていた**（2026-08-25 の「掃除されない」）。
+ * 終わる前に次の操作をすれば、当然残る。
+ */
+const SWEEP_MIN_Y = -20;
 
 /** 中身を空にする対象 */
 const CONTAINERS: ReadonlySet<string> = new Set([
@@ -46,6 +59,24 @@ const CONTAINERS: ReadonlySet<string> = new Set([
 const key = (v: Vector3): string => `${v.x},${v.y},${v.z}`;
 
 /** いま何マス覚えているか */
+/**
+ * いま片付けが動いているか。
+ *
+ * **動いている間は試合を始めさせない**（`docs/spec/11-match.md` 7-5）。
+ * 途中で始めると、始めたあとに片付けが走って
+ * **新しい試合の物を消す。**
+ */
+let busy = false;
+
+export function cleanupBusy(): boolean {
+  return busy;
+}
+
+/** 片付けの開始と終了を挟む。**呼ぶ側が忘れないよう関数で包む** */
+export function markCleanup(on: boolean): void {
+  busy = on;
+}
+
 export function placedCount(): number {
   return placed.size;
 }
@@ -88,23 +119,31 @@ export function* clearContainersJob(
   dim: Dimension,
   min: Vector3,
   max: Vector3,
-  out: { emptied: number }
+  out: { emptied: number; scanned?: number; unreadable?: number }
 ): Generator<void, void, void> {
   let seen = 0;
+  // **下は見ない。** 島の底より下は奈落しかない（SWEEP_MIN_Y の説明）
+  const fromY = Math.max(Math.floor(min.y), SWEEP_MIN_Y);
   for (let x = Math.floor(min.x); x <= Math.floor(max.x); x++) {
-    for (let y = Math.floor(min.y); y <= Math.floor(max.y); y++) {
+    for (let y = fromY; y <= Math.floor(max.y); y++) {
       for (let z = Math.floor(min.z); z <= Math.floor(max.z); z++) {
         if (++seen % PER_TICK === 0) yield;
+        if (out.scanned !== undefined) out.scanned++;
         try {
           const b = dim.getBlock({ x, y, z });
-          if (b === undefined || !CONTAINERS.has(b.typeId)) continue;
+          if (b === undefined) {
+            // **読めなかった。** 読み込まれていない場所は片付かない
+            if (out.unreadable !== undefined) out.unreadable++;
+            continue;
+          }
+          if (!CONTAINERS.has(b.typeId)) continue;
           const inv = b.getComponent("minecraft:inventory");
           const container = inv?.container;
           if (container === undefined) continue;
           container.clearAll();
           out.emptied++;
         } catch {
-          /* 読み込まれていない・容器ではない */
+          if (out.unreadable !== undefined) out.unreadable++;
         }
       }
     }
@@ -136,7 +175,13 @@ export function* clearContainersJob(
  * > 店員は消しても 2 秒で戻る（`features/shop/keeper.ts` が見張っている）。
  * > **消えて戻る点滅に意味が無い**ので、初めから触らない。
  */
-const KEEP_ENTITIES: ReadonlySet<string> = new Set(["minecraft:player", "game:shopkeeper"]);
+const KEEP_ENTITIES: ReadonlySet<string> = new Set([
+  "minecraft:player",
+  "game:shopkeeper",
+  // **絵画はマップの一部**（docs/spec/10-block-protection.md 5 章）。
+  // 実体だが、置かれたものではない——消すと**掲示物が毎試合消える**
+  "minecraft:painting",
+]);
 
 export function* clearEntitiesJob(
   dim: Dimension,
@@ -194,24 +239,37 @@ export function* sweepPlaceableJob(
   dim: Dimension,
   min: Vector3,
   max: Vector3,
-  out: { removed: number }
+  out: { removed: number; scanned?: number; unreadable?: number }
 ): Generator<void, void, void> {
   let seen = 0;
   for (let x = Math.floor(min.x); x <= Math.floor(max.x); x++) {
     for (let y = Math.floor(min.y); y <= Math.floor(max.y); y++) {
       for (let z = Math.floor(min.z); z <= Math.floor(max.z); z++) {
         if (++seen % PER_TICK === 0) yield;
+        if (out.scanned !== undefined) out.scanned++;
         try {
           const b = dim.getBlock({ x, y, z });
-          if (b === undefined || b.isAir) continue;
-          // **守るブロックには触らない。** マップを削る事故が起こりえない
+          if (b === undefined) {
+            if (out.unreadable !== undefined) out.unreadable++;
+            continue;
+          }
+          if (b.isAir) continue;
+          // ---- **置けるものだけ消す**（docs/spec/11-match.md 8章）
+          //
+          // 以前は「守らないブロック」を全部消していたため、
+          // **運営が編集したマップのブロックまで消えていた。**
+          //
+          // 判断の向きを逆にする。
+          // 「消してよいと分かっているもの」だけ消す
+          if (!isPlaceable(b.typeId)) continue;
+          // 念のため二重に見る。**守るブロックには触らない**
           if (isMapBlock(b.typeId)) continue;
           // コアは守らないブロックだが、位置が決まっている。消してはいけない
           if (coreAt(x, y, z) !== undefined) continue;
           b.setType("minecraft:air");
           out.removed++;
         } catch {
-          /* 読み込まれていない */
+          if (out.unreadable !== undefined) out.unreadable++;
         }
       }
     }

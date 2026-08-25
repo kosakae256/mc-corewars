@@ -1,0 +1,29 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "game:pillar_red"
+    },
+    "components": {
+      "minecraft:display_name": "§c支柱(赤)",
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "game_pillar_red",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 100
+      },
+      "minecraft:loot": "loot_tables/empty.json",
+      "minecraft:flammable": false,
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      }
+    }
+  }
+}
