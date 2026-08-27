@@ -142,9 +142,26 @@ const shots: Shot[] = [];
  *
  * 仕様は `docs/03-content.md` 1-5。
  *
- * **合成鋼**（青 = 未加工の鉄 / 赤 = 未加工の銅）。
+ * | 建材 | なぜ |
+ * | --- | --- |
+ * | **合成鋼**（青 = 未加工の鉄 / 赤 = 未加工の銅） | 一番硬い建材。金 2 個の弾で消えては置く意味が無い |
+ * | **黒曜石** | **そもそも何でも壊れない**建材（2026-08-26 追加） |
+ *
+ * ## 黒曜石が飛んでいた
+ *
+ * この爆発は**バニラの爆発ではない。**
+ * 「壊すブロックを自分で選んで消す」ので、
+ * **爆発耐性という考え方がそもそも通らない。**
+ *
+ * バニラなら耐性で守られるものも、**ここに書かないと消える。**
  */
-const TOUGH: ReadonlySet<string> = new Set(["minecraft:raw_iron_block", "minecraft:raw_copper_block"]);
+const TOUGH: ReadonlySet<string> = new Set([
+  "minecraft:raw_iron_block",
+  "minecraft:raw_copper_block",
+  "minecraft:obsidian",
+  // **泣く黒曜石も同じ扱い。** いまは売っていないが、置かれても壊れないほうが筋が通る
+  "minecraft:crying_obsidian",
+]);
 
 function norm(v: Vector3): Vector3 {
   const l = Math.hypot(v.x, v.y, v.z);

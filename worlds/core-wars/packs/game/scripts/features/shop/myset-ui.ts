@@ -32,11 +32,12 @@ import {
 import { currencyOf, totalOf } from "../../lib/shop-prices.js";
 // **払う元は 1 箇所に集めてある**（docs/spec/12-shop.md 4-B）
 import { have, pay, purseOf, type Purse } from "../../lib/purse.js";
+import { inEnemyBase } from "../../lib/zone.js";
 import { teamOf } from "../../lib/match-state.js";
 import { MYSET_MAX, isEmpty, myset, mysets, setMyset, totalCount, type MySet } from "../../lib/myset.js";
 import { wearBest } from "../../lib/armor.js";
 import { ChestFormData } from "../../vendor/chest-ui/forms.js";
-import { CATEGORY_ICON, CHEST_SIZE, SLOT_BACK, iconOf } from "./index.js";
+import { CATEGORY_ICON, CHEST_SIZE, SLOT_BACK, iconOf, makeStack } from "./index.js";
 import { CATEGORY_NAME, CATEGORY_ORDER } from "../../lib/shop-items.js";
 
 /** マイセットの合計値段。**通貨ごとに分けて返す** */
@@ -125,7 +126,8 @@ export function buyMyset(player: Player, index: number): string {
       for (const g of w.item.give) {
         const id = team === undefined ? g.item : variant(g.item, team);
         try {
-          purse.bag.addItem(new ItemStack(id, g.amount));
+          // **付呪も含めて、作るのは 1 箇所**（`features/shop/index.ts`）
+          purse.bag.addItem(makeStack(id, g.amount, w.item));
         } catch {
           /* 入らなかった */
         }
@@ -167,7 +169,11 @@ export type Back = (player: Player) => void;
  */
 export function showMysets(player: Player, canBuy: boolean, message?: string, onBack?: Back): void {
   const list = mysets(player);
-  const form = new ChestFormData(CHEST_SIZE).title(canBuy ? "マイセット" : "マイセット（登録）");
+  // **敵陣では手持ちだけで買う**（`docs/spec/12-shop.md` 6-B）。
+  // 足りない表示は `shortfall` が既に手持ちだけで見ているので、
+  // **見出しにも同じことを書く。** 数だけ合っていても理由が分からない
+  const title = canBuy ? (inEnemyBase(player) ? "マイセット  §c敵陣・手持ちのみ" : "マイセット") : "マイセット（登録）";
+  const form = new ChestFormData(CHEST_SIZE).title(title);
 
   // **買えないセットは押せない**（docs/spec/17-myset.md 3-1）。
   // どれが買えるかは、押す前に見て分かる必要がある

@@ -292,6 +292,21 @@ function textFor(player: Player, team: Team): string {
  * **本人には見せない**（`docs/spec/15-presentation.md` 7-3-A）。
  * 上を向いたときに自分のが見えても意味が無い。
  */
+/**
+ * その組の誰かが見つけているか。
+ *
+ * **見つけたのが誰であれ、組の全員に見える**（2026-08-26 変更）。
+ */
+function teammateSpots(spotters: ReadonlySet<string>, team: Team | undefined, all: Player[]): boolean {
+  if (spotters.size === 0) return false;
+  for (const p of all) {
+    if (!spotters.has(p.id)) continue;
+    // **所属が無い人が見つけた分は、その人にだけ**（ロビーなど）
+    if (team !== undefined && teamOf(p) === team) return true;
+  }
+  return false;
+}
+
 function audienceFor(player: Player, team: Team, spotters: ReadonlySet<string>, all: Player[]): Player[] {
   // ---- **透明なら敵には出さない**（2026-08-25 追加）
   //
@@ -318,13 +333,18 @@ function audienceFor(player: Player, team: Team, spotters: ReadonlySet<string>, 
       out.push(viewer);
       continue;
     }
-    // ---- **敵は、自分で見つけている人にだけ**（2026-08-25 変更）
+    // ---- **見つけたら、その組の全員に見える**（2026-08-26 変更）
     //
-    // 「誰か 1 人でも見つけていれば敵全員に見える」にしていたので、
-    // **壁の裏に居る自分にも、味方が見つけた相手が見えていた。**
+    // 以前は**見つけた本人にだけ**出していた。
     //
-    // 見えているかは**見る人ごとに違う。** 見せ先も人ごとに決める
-    if (!hidden && spotters.has(viewer.id)) out.push(viewer);
+    // > **見つけた情報を、本人だけに留める理由が無い。**
+    // > 声で伝えれば済むことを、画面が伝えないだけになる。
+    //
+    // 一度は「誰か 1 人でも見つければ全員」から
+    // 「見つけた人だけ」へ戻した（2026-08-25）が、**また全員に戻す。**
+    // 迷ったのは**壁の裏まで見えるのが強すぎないか**という点だったが、
+    // **見つけ続けないと消える**ので、居場所を握り続けるには誰かが見ている必要がある。
+    if (!hidden && teammateSpots(spotters, theirs, all)) out.push(viewer);
   }
   return out;
 }

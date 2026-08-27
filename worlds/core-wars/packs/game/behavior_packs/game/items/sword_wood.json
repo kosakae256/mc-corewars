@@ -9,7 +9,7 @@
     },
     "components": {
       "minecraft:display_name": {
-        "value": "木の剣"
+        "value": "Swift Sword [Mk-1]"
       },
       "minecraft:icon": "game_sword_wood",
       "minecraft:max_stack_size": 1,

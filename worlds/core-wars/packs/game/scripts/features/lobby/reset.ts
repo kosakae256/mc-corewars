@@ -28,6 +28,7 @@ import { removeTeamHat } from "../cosmetic/index.js";
 import { forceAlive } from "../death/index.js";
 import { lobbyPoint } from "../../lib/lobby.js";
 import { clearTeamOf } from "../../lib/match-state.js";
+import { clearJoinChoice } from "./join.js";
 
 /**
  * ロビーの人に戻す。
@@ -50,6 +51,14 @@ export function resetToLobby(player: Player, move: boolean): void {
 
   // ---- 倒れた記録を消す（観戦者のまま取り残されない）
   forceAlive(player);
+
+  // ---- **参加の答えも忘れる**（2026-08-26 追加）
+  //
+  // 仕様は `docs/spec/16-participation.md` 2 章。
+  //
+  // **次の試合は「非参加」から始まる。**
+  // 席を外した人が、押していないのに並び続けるのを防ぐ
+  clearJoinChoice(player);
 
   // ---- 持ち物・装備・効果・体力
   clearEverything(player);

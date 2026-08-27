@@ -31,6 +31,24 @@
     },
     "game_sword_diamond": {
       "textures": "textures/items/game_sword_diamond"
+    },
+    "game_pick_stone": {
+      "textures": "textures/items/stone_pickaxe"
+    },
+    "game_pick_iron": {
+      "textures": "textures/items/iron_pickaxe"
+    },
+    "game_pick_diamond": {
+      "textures": "textures/items/diamond_pickaxe"
+    },
+    "game_pick_gold": {
+      "textures": "textures/items/gold_pickaxe"
+    },
+    "game_pick_netherite": {
+      "textures": "textures/items/netherite_pickaxe"
+    },
+    "game_knock_stick": {
+      "textures": "textures/items/stick"
     }
   }
 }

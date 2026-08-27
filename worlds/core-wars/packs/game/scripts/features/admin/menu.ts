@@ -35,6 +35,7 @@ import {
 import { ARENAS } from "../../lib/arena.js";
 import { bar } from "../../lib/fx.js";
 import { autoStart, manualTeams, setAutoStart, setManualTeams } from "../../lib/settings.js";
+import { showRules as showRuleSettings } from "./rules.js";
 import { isOp } from "../../lib/op.js";
 import { beginFromMenu, clearTeam, forceTeam, runAdminCommand } from "../match/index.js";
 import { resetToLobby } from "../lobby/reset.js";
@@ -111,6 +112,11 @@ export function showSettings(player: Player): void {
       label: `§fフェーズ  ${phaseLabel()}`,
       icon: "textures/items/clock_item",
       run: (p) => showPhase(p),
+    },
+    {
+      label: "§fルール調整",
+      icon: "textures/items/book_writable",
+      run: (p) => showRuleSettings(p, (q) => showSettings(q)),
     },
     { label: "§fプレイヤー管理", icon: "textures/items/name_tag", run: (p) => showPlayers(p) },
     { label: "§f建築モード 切替", icon: "textures/items/brick", run: (p) => runAdminCommand(p, "build") },

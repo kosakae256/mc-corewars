@@ -47,7 +47,7 @@ import { ARENAS, type Team } from "../../lib/arena.js";
 import { isRunning, shouldBeInBattle, teamOf } from "../../lib/match-state.js";
 import { grantSpawnProtection } from "../combat/index.js";
 import { giveLoadout } from "../loadout/index.js";
-import { GRAPPLE_ITEM, GRAPPLE_ITEMS, KILL_GAS, isGrappleItem } from "../grapple/index.js";
+import { GRAPPLE_ITEM, KILL_GAS, isGrappleItem } from "../grapple/index.js";
 import { GRAPPLE2_ITEM } from "../grapple2/index.js";
 import { addGas, refillGas } from "../grapple/gas.js";
 import { fxDown, fxKill, fxRevive, fxTick, title } from "../../lib/fx.js";
@@ -56,9 +56,17 @@ import { addDeath, addKill, addStreak } from "../../lib/stats.js";
 import { clearAbsorb } from "../../lib/absorb.js";
 import { clearDart } from "../spotting/index.js";
 import { tntFrom, tntOwnerId } from "../special/tnt.js";
+import { PICKAXE_DAMAGE, isPickaxeHit } from "../special/pickaxe.js";
+import { ruleInt } from "../../lib/rule-config.js";
 
-/** 倒れてから戻るまで（tick）。**5 秒**（`docs/01-rules.md` 4-2） */
-const DOWN_TICKS = 100;
+/**
+ * 倒れてから戻るまで（tick）。**既定 5 秒**（`docs/01-rules.md` 4-2）。
+ *
+ * **ルール調整で変えられる**（`docs/spec/19-admin-menu.md` 9 章）。
+ */
+function downTicks(): number {
+  return ruleInt("reviveWait") * 20;
+}
 
 /** 復活する時刻を覚えておく名前。**プレイヤーに紐づく** */
 const KEY_REVIVE = "cw:revive_at";
@@ -210,15 +218,48 @@ function healthOf(player: Player): number | undefined {
   }
 }
 
+/**
+ * 支給品。**ロビーで配られる剣**（`features/loadout`）。
+ *
+ * **ここだけは死んでも落とさない。**
+ * 落とすと移動手段を失うが、配り直されるので**落とす意味が無い。**
+ */
+const SUPPLY_ITEM = "game:sword_wood";
+
 /** いま倒れているか */
 function isDown(player: Player): boolean {
   return typeof player.getDynamicProperty(KEY_REVIVE) === "number";
 }
 
-/** 落とさないもの。**拾われても意味が無く、場に増え続ける** */
+/**
+ * 落とさないもの。
+ *
+ * **配られたものだけ残す**（2026-08-26 修正）。
+ *
+ * ## 買った剣は落とす
+ *
+ * 一時は**ワイヤーを撃てるものを全部残していた。**
+ * 支給品を落とさない決まりの名残で、
+ * **ショップで買った Mk-2 以上まで死んでも残っていた。**
+ *
+ * > **買ったものは、死んだら落ちる。**
+ * > 落ちないなら、**倒しても相手は何も失わない。**
+ * > 高い剣を買うことに、失う危険が伴わなくなる。
+ *
+ * | | 死んだら |
+ * | --- | --- |
+ * | **Swift Sword [Mk-1]**（支給） | **残る**（無いと動けなくなる） |
+ * | Mk-2 / Mk-3 / Mk-4（買う） | **落ちる** |
+ * | 参加の札・運営の道具 | 残る |
+ *
+ * 支給品は**落としても 5 秒で配り直される**ので、
+ * 落とす意味がそもそも無い（`features/loadout`）。
+ */
 const KEEP: ReadonlySet<string> = new Set([
-  // **ワイヤーを撃てるものは全部残す**（剣もワイヤー射出装置。13-grapple.md 9 章）
-  ...GRAPPLE_ITEMS,
+  // **支給品**（`features/loadout` が配るもの）
+  SUPPLY_ITEM,
+  // **退役した支給品。** 手元に残っている分を、落として拾わせない
+  GRAPPLE_ITEM,
   GRAPPLE2_ITEM,
   "game:join_yes",
   "game:join_no",
@@ -321,7 +362,7 @@ export function goDown(
   // 刺さったまま復活すると、**死んでも位置が漏れ続ける**
   clearDart(player.id);
 
-  player.setDynamicProperty(KEY_REVIVE, system.currentTick + DOWN_TICKS);
+  player.setDynamicProperty(KEY_REVIVE, system.currentTick + downTicks());
   if (team !== undefined) player.setDynamicProperty(KEY_TEAM, team);
   player.setDynamicProperty(KEY_SPOT, JSON.stringify({ x: at.x, y: at.y, z: at.z }));
 
@@ -551,7 +592,7 @@ function killedHow(killer: Player, kind: HitKind | undefined): string {
   // **ワイヤーで倒された、とは書かない**（2026-08-26 変更）。
   // 引っ掛けた線で倒したように読めるが、実際は**振り回して殴っている**
   // **剣もワイヤー射出装置。** 段階で変わるのは火力だけ（13-grapple.md 9 章）
-  if (isGrappleItem(item) || item === GRAPPLE2_ITEM) return "§7 に硬い竹で斬られた";
+  if (isGrappleItem(item) || item === GRAPPLE2_ITEM) return "§7 の Swift Sword で切り刻まれた";
   if (item !== undefined && item.endsWith("_sword")) return "§7 に斬られた";
   if (item !== undefined && item.endsWith("_axe")) return "§7 に叩き斬られた";
   if (item !== undefined && item.endsWith("_pickaxe")) return "§7 にツルハシで殴られた";
@@ -904,17 +945,29 @@ export function registerDeathGuard(): void {
         return;
       }
 
+      // ---- **ツルハシは 1 として見積もる**（2026-08-26 追加）
+      //
+      // 実際に入るのはバニラの値（最大 6）で、
+      // **入った直後に差し引きを戻している**（`features/special/pickaxe`）。
+      //
+      // ここで生の値のまま見積もると、
+      // **1 しか減らないはずの一撃で「倒れる」と判断してしまう。**
+      const pick = isPickaxeHit(ev.damageSource);
+      const raw = pick ? Math.min(ev.damage, PICKAXE_DAMAGE) : ev.damage;
+
       const ratio = mitigation.get(player.id) ?? 1;
-      rawDamage.set(player.id, ev.damage);
+      // **ツルハシの分は軽減率の計測に混ぜない。**
+      // 入る値と戻す値が別なので、率が狂う
+      if (!pick) rawDamage.set(player.id, ev.damage);
 
       // **計算そのものを見せる。** 途中の値を並べても、
       // どれとどれを比べたのかが分からないと切り分けられない
-      const est = ev.damage * ratio;
+      const est = raw * ratio;
       const rest = now - est;
       tell(
         player,
         `§8[dmg] 受ける前 ${now.toFixed(2)} − 見積 ${est.toFixed(2)}` +
-          ` (生 ${ev.damage.toFixed(2)} × 率 ${ratio.toFixed(2)})` +
+          ` (生 ${raw.toFixed(2)}${pick ? "§8[ツルハシ]" : ""} × 率 ${ratio.toFixed(2)})` +
           ` = ${rest.toFixed(2)}  →  ${rest > 0 ? "§a耐える" : "§c倒れる"}` +
           `§8 [${ev.damageSource.cause}]`
       );

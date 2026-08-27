@@ -24,7 +24,7 @@
  * エンダーチェストは**どこにでもある同じ箱**で、行く理由にならない。
  */
 
-import { world } from "@minecraft/server";
+import { system, world } from "@minecraft/server";
 
 import { BAR, bar } from "../../lib/fx.js";
 import { inEnemyBase } from "../../lib/zone.js";
@@ -42,9 +42,20 @@ const ENDER = "minecraft:ender_chest";
 export function registerEnderGuard(): void {
   world.beforeEvents.playerInteractWithBlock.subscribe((ev) => {
     if (ev.block.typeId !== ENDER) return;
-    if (!inEnemyBase(ev.player)) return;
+    const player = ev.player;
+    if (!inEnemyBase(player)) return;
     // **開く前に止める。** 開いてから閉じると、中身が一瞬見える
     ev.cancel = true;
-    bar(ev.player, "§c敵陣ではエンダーチェストを開けません", BAR.notice, 40);
+
+    // ---- **知らせるのは次の tick**（2026-08-26 修正）
+    //
+    // before イベントの中は restricted execution で、**画面に書けない**
+    //（`docs/imp.md` 5.1）。
+    //
+    // `bar` は例外を握り潰すので、**何も出ないまま黙って弾かれていた。**
+    // 「押しても何も起きない」は、壊れているのと区別が付かない
+    system.run(() => {
+      bar(player, "§c敵陣のエンダーチェストは使えません", BAR.important, 60);
+    });
   });
 }

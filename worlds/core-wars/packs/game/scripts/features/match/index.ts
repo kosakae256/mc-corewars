@@ -83,7 +83,7 @@ import { showRules } from "../lobby/rules-ui.js";
 import { closeJoinWindow, wantsToJoin } from "../lobby/join.js";
 import { manualTeams } from "../../lib/settings.js";
 import { blockedReason } from "../../lib/timeout.js";
-import { PHASE1_TICKS, beginPhases, resetPhases } from "../../lib/phase.js";
+import { beginPhases, phase1Ticks, resetPhases } from "../../lib/phase.js";
 import { wearTeamHat } from "../cosmetic/index.js";
 import { forceAlive, goDown, toggleDamageLog } from "../death/index.js";
 import { lobbyPoint, resetLobbyPoint, setLobbyPoint } from "../../lib/lobby.js";
@@ -127,7 +127,7 @@ function onMatchStart(session: number): void {
   // **フェーズ 1 はここから数える**（docs/spec/11-match.md 6-Z）。
   // カウントダウンの間は含めない——まだ動けない
   beginPhases();
-  world.sendMessage(`§6フェーズ 1§r §e${PHASE1_TICKS / 20 / 60} 分間はコアを削れません`);
+  world.sendMessage(`§6フェーズ 1§r §e${phase1Ticks() / 20 / 60} 分間はコアを削れません`);
 }
 
 /**

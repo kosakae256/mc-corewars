@@ -35,7 +35,7 @@
 import { bar } from "../../lib/fx.js";
 import { GameMode, system, world, type Player, type Vector3 } from "@minecraft/server";
 
-import { ARENAS, inBox, type Box } from "../../lib/arena.js";
+import { ARENAS, inBox, type Arena, type Box } from "../../lib/arena.js";
 import { matchState, shouldBeInBattle, teamOf } from "../../lib/match-state.js";
 import { LOBBY_BOUNDS, lobbyPoint } from "../../lib/lobby.js";
 
@@ -125,6 +125,16 @@ const CEILING_MARGIN = 0.2;
 const NOTIFY_TICKS = 40;
 
 const lastNotified = new Map<string, number>();
+
+/**
+ * 押し戻すための箱。**上だけ `sky` まで伸ばす。**
+ *
+ * 横と下は `bounds` のまま。**落ちる先は奈落のままでよい。**
+ */
+function skyBox(arena: Arena): Box {
+  const b = arena.bounds;
+  return { min: b.min, max: { x: b.max.x, y: arena.sky, z: b.max.z } };
+}
 
 /**
  * 範囲の外に出ていたら、中へ戻した座標を返す。
@@ -314,7 +324,12 @@ export function startBorder(): void {
 
       // ---- 戦場の領域
       const team = paused ? teamOf(player) : undefined;
-      const box = team === undefined ? arena.bounds : arena.pauseBoxes[team];
+      // ---- **上は `sky` まで**（2026-08-26 追加）
+      //
+      // `bounds` の天井（50）は**後片付けで掃く高さ**でもある。
+      // 上げると掃く量がそのまま増えるので、
+      // **押し戻す高さだけを別に持つ**（`docs/spec/11-match.md` 6-F）
+      const box = team === undefined ? skyBox(arena) : arena.pauseBoxes[team];
       const back = pushInside(box, player.location);
       if (back !== undefined) {
         // ---- 一時停止中に外に居た

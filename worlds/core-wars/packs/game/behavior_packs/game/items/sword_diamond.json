@@ -9,7 +9,7 @@
     },
     "components": {
       "minecraft:display_name": {
-        "value": "ダイヤの剣"
+        "value": "Swift Sword [Mk-4]"
       },
       "minecraft:icon": "game_sword_diamond",
       "minecraft:max_stack_size": 1,

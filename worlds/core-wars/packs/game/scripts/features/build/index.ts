@@ -21,14 +21,16 @@
  */
 
 import { bar } from "../../lib/fx.js";
-import { system, world, type Block, type Player } from "@minecraft/server";
+import { system, world, type Block, type Player, type Vector3 } from "@minecraft/server";
 
 import { ARENAS, coreAt, inBox } from "../../lib/arena.js";
+import { teamOf } from "../../lib/match-state.js";
 import { blockedByGenerator, generatorBlocks } from "../generator/index.js";
 import { isEditor } from "../protection/index.js";
 import { isMapBlock } from "../../lib/protection.js";
 import { LOBBY_BOUNDS } from "../../lib/lobby.js";
 import { opMessage } from "../../lib/op.js";
+import { ruleBool } from "../../lib/rule-config.js";
 
 /** 通知を絞る間隔（tick）。連打されるので */
 const NOTIFY_TICKS = 20;
@@ -64,9 +66,40 @@ export const SILENT = "cw:silent";
  */
 const BASE_ALLOWED: ReadonlySet<string> = new Set(["minecraft:tnt"]);
 
-/** そのアイテムは拠点でも置けるか */
-export function allowedInBase(typeId: string | undefined): boolean {
+/**
+ * そこに置いてよいか。**拠点の中でだけ聞かれる。**
+ *
+ * @param at 置こうとしている場所
+ */
+export function allowedInBase(player: Player, typeId: string | undefined, at: Vector3): boolean {
+  // ---- **ルール調整で開けられる。ただし自陣だけ**（2026-08-26 追加）
+  //
+  // 仕様は `docs/spec/19-admin-menu.md` 9 章。
+  //
+  // **敵陣は開けない。** 相手の拠点を埋められるなら、
+  // それは「拠点に置けない」を無くしたのと同じで、
+  // **リスポーン地点も店も塞げてしまう。**
+  //
+  // 既定は閉じたまま。開けるのは試すときだけ
+  if (ruleBool("baseBuild") && inOwnBase(player, at)) return true;
   return typeId !== undefined && BASE_ALLOWED.has(typeId);
+}
+
+/**
+ * そこは自分の拠点か。
+ *
+ * **所属が無ければ「自分の拠点」も無い**（false）。
+ * ロビーで試す運営は編集モードを使う。
+ */
+function inOwnBase(player: Player, at: Vector3): boolean {
+  const team = teamOf(player);
+  if (team === undefined) return false;
+  try {
+    for (const arena of ARENAS) if (inBox(arena.bases[team], at)) return true;
+  } catch {
+    /* 消えている */
+  }
+  return false;
 }
 
 /** 置けない場所か。置けないなら理由を返す */
@@ -163,6 +196,23 @@ const PER_TICK = 1024;
 let baseSweeping = false;
 
 function* sweepBasesJob(): Generator<void, void, void> {
+  // ---- **開けているなら掃かない**（2026-08-26 追加）
+  //
+  // 仕様は `docs/spec/19-admin-menu.md` 9 章。
+  //
+  // 「自陣にブロックを置ける」を入にしているのに、
+  // **30 秒ごとに置いたものが消えて**
+  // 「拠点の中に置かれていた ○○ マスを消した」と出ていた。
+  //
+  // **置けるようにしたのなら、消す側も止める。**
+  //
+  // 掃く側は**誰が置いたかを知らない**ので、
+  // 「自陣の分だけ残す」ができない。**丸ごと止める。**
+  //
+  // 敵陣に置けないのは置く時点で止めている（`allowedInBase`）ので、
+  // **溜まっていくことはない。**
+  if (ruleBool("baseBuild")) return;
+
   const dim = world.getDimension("overworld");
   let seen = 0;
   let removed = 0;
@@ -302,7 +352,7 @@ export function registerBuildRules(): void {
     const why = whyCannotBuild(target.x, target.y, target.z);
     if (why === undefined) return;
     // **TNT は拠点でも置ける**（docs/spec/11-match.md 6-G）
-    if (why === "§c拠点の中には置けません" && allowedInBase(ev.itemStack.typeId)) return;
+    if (why === "§c拠点の中には置けません" && allowedInBase(ev.player, ev.itemStack.typeId, target)) return;
 
     ev.cancel = true;
     const player = ev.player;
@@ -317,7 +367,7 @@ export function registerBuildRules(): void {
     const why = whyCannotBuild(at.x, at.y, at.z);
     if (why === undefined) return;
     // **TNT は拠点でも置ける**（置いた瞬間に実体になるので残らない）
-    if (why === "§c拠点の中には置けません" && allowedInBase(ev.block.typeId)) return;
+    if (why === "§c拠点の中には置けません" && allowedInBase(ev.player, ev.block.typeId, at)) return;
 
     const block = ev.block;
     const player = ev.player;

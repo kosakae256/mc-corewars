@@ -115,6 +115,31 @@ const FUSE_TICKS = 120;
 /** 爆発の強さ。**バニラの TNT と同じ** */
 const POWER = 4;
 
+// ---------------------------------------------------------------- 音
+//
+// **どこを向いていても聞こえるようにする**（2026-08-26 追加）。
+//
+// バニラの導火線の音は**その場所から鳴る**ので、
+// **背中側にあると気づけない。**
+// 気づけないまま吹き飛ぶのは、時間差の攻撃として成立していない。
+//
+// **聞く人の足元で鳴らす。** 向きで小さくならない。
+// 代わりに**距離で音量を落とす**ので、遠さは分かる。
+
+/** 聞こえる距離（マス） */
+const HISS_RANGE = 28;
+
+/** 一番小さいときの音量 */
+const HISS_MIN = 0.15;
+
+/**
+ * 鳴らす音。**クリーパーが膨らむときの音。**
+ *
+ * 「そこに置かれた」ことが**一音で伝わる。**
+ * 短い音を刻むより、**この音のほうが意味が固まっている。**
+ */
+const HISS_SOUND = "random.fuse";
+
 /** 見張る間隔（tick）。**着地を取りこぼさないように毎 tick** */
 const WATCH = 1;
 
@@ -236,6 +261,35 @@ export function tntFrom(tnt: Entity): TntFrom {
 }
 
 /**
+ * 着いたことを知らせる。**クリーパーの音。**
+ *
+ * **聞く人それぞれの足元で鳴らす。**
+ * その場所から鳴らすと、**背中側では聞こえない。**
+ * 気づけないまま吹き飛ぶのでは、**時間差の攻撃として成立しない。**
+ *
+ * 向きでは変えず、**距離だけで音量を落とす**ので、遠さは分かる。
+ */
+function hiss(tnt: Entity): void {
+  let at;
+  try {
+    at = tnt.location;
+  } catch {
+    return;
+  }
+  for (const p of world.getAllPlayers()) {
+    try {
+      const d = Math.hypot(p.location.x - at.x, p.location.y - at.y, p.location.z - at.z);
+      if (d > HISS_RANGE) continue;
+      // **近いほど大きい。** 遠くても最低限は聞こえる
+      const volume = Math.max(HISS_MIN, 1 - d / HISS_RANGE);
+      p.playSound(HISS_SOUND, { location: p.location, volume });
+    } catch {
+      /* 消えている */
+    }
+  }
+}
+
+/**
  * 導火線を見張る。
  *
  * **トップレベルから呼ぶこと。**
@@ -274,7 +328,10 @@ export function startTntFuse(): void {
 
       // ---- **まだ着いていない。** 数え始めない
       if (rec.landedAt === undefined) {
-        if (onGround) rec.landedAt = now;
+        if (!onGround) continue;
+        rec.landedAt = now;
+        // **着いた瞬間に鳴らす。** ここから 6 秒
+        hiss(tnt);
         continue;
       }
 

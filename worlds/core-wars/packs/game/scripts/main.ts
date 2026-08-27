@@ -35,6 +35,9 @@ import { startBoard } from "./features/board/index.js";
 import { registerTntFuse, startTntFuse, startTntGuard } from "./features/special/tnt.js";
 import { registerNoBottle } from "./features/special/nobottle.js";
 import { registerEnderGuard } from "./features/special/enderchest.js";
+import { registerPickaxe } from "./features/special/pickaxe.js";
+import { registerNoDrop, startNoDrop } from "./features/special/nodrop.js";
+import { registerKnockStick } from "./features/special/knockstick.js";
 import { registerFireCharge, startFireCharge } from "./features/special/firecharge.js";
 import { registerFireproof, startFireproof } from "./features/special/fireproof.js";
 import { registerGrappleUse, registerReachCommand, startGrapple } from "./features/grapple/index.js";
@@ -155,6 +158,13 @@ startTntFuse();
 registerNoBottle();
 // **敵陣ではエンダーチェストを開けない**（docs/spec/12-shop.md 5-B）
 registerEnderGuard();
+// **ツルハシの攻撃力は 1 で固定**（docs/03-content.md 1-6）
+registerPickaxe();
+// **落ちた支給品は消す**（docs/spec/16-participation.md 2-4）
+registerNoDrop();
+startNoDrop();
+// **ノックバック棒は、バニラの分に上乗せして飛ばす**（docs/03-content.md 1-1-C）
+registerKnockStick();
 
 // **拠点に転がり込んだ TNT は消す。** 置けない場所を爆破で抜けさせない
 startTntGuard();

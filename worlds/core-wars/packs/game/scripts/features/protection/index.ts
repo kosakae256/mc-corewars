@@ -175,7 +175,14 @@ const DECOR: ReadonlySet<string> = new Set(["minecraft:painting"]);
  * **バニラのブロックをテクスチャだけ差し替えたもの**なので、
  * ブロック定義に爆発耐性を書けない。**script で対象から抜く。**
  */
-const TOUGH: ReadonlySet<string> = new Set(["minecraft:raw_iron_block", "minecraft:raw_copper_block"]);
+const TOUGH: ReadonlySet<string> = new Set([
+  "minecraft:raw_iron_block",
+  "minecraft:raw_copper_block",
+  // **黒曜石も同じ扱い。** バニラの耐性でも耐えるが、**書いておく**
+  //（`features/special/firecharge` と顔ぶれをそろえる）
+  "minecraft:obsidian",
+  "minecraft:crying_obsidian",
+]);
 
 /**
  * コアの真上に張った、爆発を通さない箱。
@@ -233,6 +240,25 @@ export function registerProtection(): void {
   // 消すとノックバックまで消え、奈落へ突き落とす戦術が変わってしまう
   //（docs/02-map.md 2-A-2）。**守るブロックだけを対象から抜く。**
   world.beforeEvents.explosion.subscribe((ev) => {
+    // ---- **コアの真上では、そもそも爆発しない**（2026-08-26 追加）
+    //
+    // 仕様は `docs/03-content.md` 1-4。
+    //
+    // **屋根の上から爆破で穴を開け、コアを直接殴れてしまう。**
+    // 拠点を崩す道は残したいが、**上から一直線に開けられるのは別の話。**
+    //
+    // **屋内はそのまま。** 中で使うぶんには普通に爆ぜる
+    let center: Vector3 | undefined;
+    try {
+      center = ev.source?.location;
+    } catch {
+      center = undefined;
+    }
+    if (overCore(center)) {
+      ev.cancel = true;
+      return;
+    }
+
     const impacted = ev.getImpactedBlocks();
     // **掘るときと同じ規則を通す。** 別々に書くと必ず食い違う。
     //
@@ -243,8 +269,18 @@ export function registerProtection(): void {
     // それでは削った回数が数えられず、**勝敗が決まらないまま盤面から消える。**
     //
     // **削るのは殴ったときだけ**（`docs/spec/11-match.md`）
+    //
+    // ---- **合成鋼と黒曜石は爆発では壊れない**（2026-08-26 追加）
+    //
+    // 仕様は `docs/03-content.md` 1-5。
+    // **一番硬い建材**として売っているのに、TNT 1 つで穴が開いていた。
+    //
+    // 掘る速さは変えない。**ツルハシで削るぶんには今までどおり**
     const kept = impacted.filter(
-      (b) => !isProtectedAt(b.typeId, b.location) && coreAt(b.location.x, b.location.y, b.location.z) === undefined
+      (b) =>
+        !isProtectedAt(b.typeId, b.location) &&
+        coreAt(b.location.x, b.location.y, b.location.z) === undefined &&
+        !TOUGH.has(b.typeId)
     );
     if (kept.length !== impacted.length) ev.setImpactedBlocks(kept);
   });

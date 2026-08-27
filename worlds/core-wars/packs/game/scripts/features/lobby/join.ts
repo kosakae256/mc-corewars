@@ -52,11 +52,34 @@ const INTERVAL = 100;
 /**
  * 参加するつもりか。
  *
- * **既定は参加。** 何もしなければ試合に入る。
- * 「入らない」を選ぶのは少数派なので、そちらを明示させる。
+ * **既定は非参加**（2026-08-26 変更）。
+ *
+ * > ### 押さなければ入らない。
+ *
+ * 以前は**既定が参加**だった。何もしなければ試合に入る形。
+ *
+ * だが**試合が終わるたびに全員が「次も出る」状態**に戻るので、
+ * **席を外した人・見に来ただけの人まで**次の試合に並んでいた。
+ *
+ * **出る意思を毎回確かめる。**
+ * 押していない人が混ざるより、**人数が足りないほうが分かりやすい。**
  */
 export function wantsToJoin(player: Player): boolean {
-  return player.getDynamicProperty(KEY) !== false;
+  return player.getDynamicProperty(KEY) === true;
+}
+
+/**
+ * 参加の答えを忘れる。**次は非参加から始まる。**
+ *
+ * **試合が終わってロビーに戻るときに呼ぶ**（`features/lobby/reset.ts`）。
+ * 戻る道はそこ 1 本にまとめてあるので、入口ごとに書かない。
+ */
+export function clearJoinChoice(player: Player): void {
+  try {
+    player.setDynamicProperty(KEY, undefined);
+  } catch {
+    /* 消えている */
+  }
 }
 
 /** 参加を締め切る。**チーム分けの瞬間に呼ぶ** */
@@ -111,9 +134,11 @@ function placeCard(player: Player): void {
       }
     }
     const card = new ItemStack(want, 1);
-    // **動かせない・捨てられない**（docs/spec/16-participation.md 2章）
-    card.lockMode = ItemLockMode.slot;
-    card.keepOnDeath = true;
+    // ---- **鍵は付けない**（2026-08-26 変更 / `docs/spec/16-participation.md` 2-4）
+    //
+    // 鍵を付けると**持ち替えるたびに但し書きが出る。**
+    // 捨てられたら拾い直して返す（`features/special/nodrop`）。
+    // 枠に戻すのは、この見張りが 5 秒ごとにやっている
     c.setItem(SLOT, card);
   } catch {
     /* 消えている */
@@ -131,6 +156,12 @@ function switchable(): boolean {
   // 猶予は切り替えるための時間（docs/spec/11-match.md 7-A）。
   // ここで締めると、置いた意味が無い
   const state = matchState();
+  // ---- **試合が終わっていれば、締め切りは開く**（2026-08-26 修正）
+  //
+  // 締め切りはチーム分けの瞬間に立てるが、
+  // **開け直す呼び出しがどこからも来ていなかった。**
+  // 一度試合をすると、**次からは札を押しても切り替わらない**
+  if (state === "idle") closed = false;
   return !closed && (state === "idle" || state === "preparing");
 }
 

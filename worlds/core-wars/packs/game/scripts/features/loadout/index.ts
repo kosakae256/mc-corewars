@@ -28,29 +28,31 @@ import { clearVault } from "../../lib/vault.js";
 /**
  * 支給するもの。
  *
- * **3D Maneuver Gear だけ。** 移動と攻撃を兼ねる（`docs/spec/13-grapple.md`）。
+ * **Swift Sword [Mk-1] だけ**（2026-08-26 変更）。
+ * 移動と攻撃を兼ねる（`docs/spec/13-grapple.md` 9 章）。
  *
- * 支給の剣は廃止した（2026-08-24）。
- * **専用アイテムの火力はバニラの計算と別に足し込まれ、
- * ネザライトの剣で一撃で倒せる状態になった**（`docs/spec/14-death.md` 7章）。
+ * ## 3D Maneuver Gear は退役した
+ *
+ * **剣が全部ワイヤー射出装置になった**ので、
+ * 「移動用の道具」と「武器」を分けて持つ理由が無くなった。
+ *
+ * **一番下の段（Mk-1）を無料で配る。**
+ * 買えるのは Mk-2 から。
+ * 買わなくても飛べて、買えば火力が上がる——という並びになる。
  */
-const SUPPLIES = [{ item: "game:grapple", slot: 0 }] as const;
-
-/**
- * 支給品に掛ける鍵。
- *
- * **捨てられない・素材にできない。だが枠は動かせる。**
- *
- * | | `slot` | **`inventory`** |
- * | --- | --- | --- |
- * | 捨てる | 不可 | **不可** |
- * | クラフトに使う | 不可 | **不可** |
- * | 枠を変える | 不可 | **できる** |
- */
-const LOCK = ItemLockMode.inventory;
+const SUPPLIES = [{ item: "game:sword_wood", slot: 0 }] as const;
 
 /** 支給品の識別子。**掛け替えの判定に使う** */
 const SUPPLY_IDS: ReadonlySet<string> = new Set(SUPPLIES.map((s) => s.item));
+
+/**
+ * もう配らないもの。**見つけたら取り上げる。**
+ *
+ * 3D Maneuver Gear は Swift Sword に置き換わった（2026-08-26）。
+ * **持ったままだと、退役した道具が手元に残り続ける**——
+ * 捨てられない印が付いているので、本人には外せない。
+ */
+const RETIRED: ReadonlySet<string> = new Set(["game:grapple"]);
 
 /**
  * 支給品を配る。
@@ -71,15 +73,22 @@ export function giveLoadout(player: Player): void {
   for (let i = 0; i < container.size; i++) {
     const it = container.getItem(i);
     if (it === undefined) continue;
+
+    // ---- **退役した道具は取り上げる**（2026-08-26 追加）
+    if (RETIRED.has(it.typeId)) {
+      container.setItem(i, undefined);
+      continue;
+    }
     held.add(it.typeId);
 
-    // ---- **前の鍵を掛け替える**（2026-08-25 追加）
+    // ---- **前の鍵を外す**（2026-08-26 変更）
     //
-    // 枠ごと固定していた頃の支給品が、**持ち物に残ったままになる。**
+    // 鍵を付けていた頃の支給品が、**持ち物に残ったままになる。**
     // 配り直しは「既に持っている」で素通りするので、
-    // **ここで直さないと一生動かせない。**
-    if (SUPPLY_IDS.has(it.typeId) && it.lockMode !== LOCK) {
-      it.lockMode = LOCK;
+    // **ここで外さないと、但し書きが出続ける。**
+    if (SUPPLY_IDS.has(it.typeId) && it.lockMode !== ItemLockMode.none) {
+      it.lockMode = ItemLockMode.none;
+      it.keepOnDeath = false;
       container.setItem(i, it);
     }
   }
@@ -87,14 +96,15 @@ export function giveLoadout(player: Player): void {
   for (const s of SUPPLIES) {
     if (held.has(s.item)) continue;
     const it = new ItemStack(s.item, 1);
-    // ---- **捨てられない。だが持ち替えは自由**（2026-08-25 変更）
+    // ---- **鍵は付けない**（2026-08-26 変更）
     //
-    // 邪魔だからと捨てられると、**移動手段を失って詰む。**
-    // 死んでも落とさない。
+    // 仕様は `docs/spec/16-participation.md` 2-4。
     //
-    // **枠には縛らない。** どの枠に置くかは持つ人が決める
-    it.lockMode = LOCK;
-    it.keepOnDeath = true;
+    // `ItemLockMode` を付けると、**持ち替えるたびに但し書きが出て、
+    // ワイヤーのガス表示と重なる。** 言語ファイルでは消せなかった。
+    //
+    // **捨てられたら拾い直して返す**（`features/special/nodrop`）。
+    // 死んでも落とさないのは `features/death` の側で決めている
     // 決まった枠が空いていればそこへ。埋まっていれば空きへ
     if (container.getItem(s.slot) === undefined) container.setItem(s.slot, it);
     else container.addItem(it);

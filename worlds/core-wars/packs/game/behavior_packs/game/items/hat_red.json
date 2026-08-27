@@ -15,7 +15,7 @@
       "minecraft:max_stack_size": 1,
       "minecraft:wearable": {
         "slot": "slot.armor.head",
-        "protection": 0
+        "protection": 5
       },
       "minecraft:dyeable": {
         "default_color": "#FF1A1A"

@@ -52,6 +52,7 @@ import { GAS_MAX, addGas, drainGas, gasOf, spendGas } from "./gas.js";
 // **ワイヤーを使っているかは v2 と共通で見る**（docs/spec/21-grapple-v2.md 5章）
 import { isBusy, isFlying, land, markFlying } from "./busy.js";
 import { crashDrone, droneOwner, isFlyingDrone } from "../drone/index.js";
+import { hideAimBox, showAimBox, sweepAimBoxes } from "./aimbox.js";
 
 /** この道具のアイテム。**支給品** */
 export const GRAPPLE_ITEM = "game:grapple";
@@ -158,6 +159,24 @@ const DRONE_CRASH_DELAY = 10;
 const RANGE = 25;
 
 /**
+ * 刺したあと、切れるまでの距離（マス）。
+ *
+ * **刺せるのは 25、切れるのは 35**（2026-08-26 変更。以前は 27）。
+ *
+ * ## なぜ猶予を広く取るのか
+ *
+ * **刺してから動く**のがこの道具の使い方で、
+ * **動けば必ず離れる。**
+ *
+ * 猶予が 2 マスしか無いと、
+ * **刺した直後に少し下がっただけで切れる。**
+ * 上に刺して振り子のように回るような動きも、途中で切れてしまう。
+ *
+ * **刺せる距離と、繋いでいられる距離は別のもの。**
+ */
+const CUT_DIST = 35;
+
+/**
  * 外したときのガス。**固定**（2026-08-24 変更）。
  *
  * 以前は「一番遠くまで撃った」とみなして距離の上限ぶん取っていたが、
@@ -213,12 +232,88 @@ const SPEED_MAX = 1.4;
 const PULL_ACCEL = 0.06;
 
 /**
- * 引っ掛けた点を、面からどれだけ手前にずらすか。
+ * 引っ掛けた点を、面からどれだけ離すか。
  *
  * **面ちょうどだと、ブロックの中に見える。**
- * 中を目指すことになるので、たどり着けずに押し付け続ける。
+ *
+ * ## 0.4 → 0.08（2026-08-26 変更）
+ *
+ * **照準と刺さる点がずれていた。**
+ *
+ * 0.4 も浮かせていたのは、**面の向きを正しく出せていなかった**ため。
+ * 自分のほうへずらす作りだったので、
+ * **大きく逃がさないとブロックの中に入っていた。**
+ *
+ * いまは**面の法線に沿って離す**（`blockFace`）ので、
+ * **ほんの少しで足りる。**
+ *
+ * > 壁に押し付けられる心配は要らない。
+ * > **手前 3 マスで切れる**（`CLOSE_DIST`）ので、点には届かない。
+ *
+ * **印（もや）も同じ点に出す。** 見えている所に刺さる。
  */
-const SURFACE_GAP = 0.4;
+const SURFACE_GAP = 0.08;
+
+/**
+ * 視線がブロックの箱に入る点と、その面の向き。
+ *
+ * 仕様は `docs/spec/13-grapple.md` 2-C。
+ *
+ * ## `faceLocation` は当てにしない（2026-08-26 修正）
+ *
+ * 型定義には「ブロックの北西下の角からの位置」と書いてあるが、
+ * **実際の値は面によって食い違う。**
+ *
+ * > **東西南北で見え方が変わる。下を向くと何も出ない。**
+ * > 面の向きを取り違えて、**点をブロックの中へ押し込んでいた。**
+ *
+ * `Direction` も使えない（型定義の但し書きが北と南で矛盾している）。
+ *
+ * ## 自分で解く
+ *
+ * **箱と線の交差**（スラブ法）。
+ * 3 軸それぞれで**入る時刻と出る時刻**を出し、
+ * **一番遅く入った軸**が、通り抜けた面。
+ *
+ * 面の向きは**その軸の、進行方向と逆側。**
+ *
+ * これなら**どの面でも同じ式**で出る。読み違えようが無い。
+ */
+function blockFace(from: Vector3, dir: Vector3, block: Vector3): { at: Vector3; normal: Vector3 } | undefined {
+  let near = Number.NEGATIVE_INFINITY;
+  let far = Number.POSITIVE_INFINITY;
+  let axis: "x" | "y" | "z" = "y";
+  for (const a of ["x", "y", "z"] as const) {
+    const d = dir[a];
+    const min = block[a] - from[a];
+    const max = block[a] + 1 - from[a];
+    if (Math.abs(d) < 1e-9) {
+      // **その軸には進んでいない。** 箱の外なら当たらない
+      if (min > 0 || max < 0) return undefined;
+      continue;
+    }
+    const t1 = min / d;
+    const t2 = max / d;
+    const lo = Math.min(t1, t2);
+    const hi = Math.max(t1, t2);
+    if (lo > near) {
+      near = lo;
+      axis = a;
+    }
+    far = Math.min(far, hi);
+    if (near > far) return undefined;
+  }
+  if (!Number.isFinite(near)) return undefined;
+
+  const t = Math.max(0, near);
+  const normal = { x: 0, y: 0, z: 0 };
+  // **入ってきた向きの逆**。それが面の向き
+  normal[axis] = dir[axis] > 0 ? -1 : 1;
+  return {
+    at: { x: from.x + dir.x * t, y: from.y + dir.y * t, z: from.z + dir.z * t },
+    normal,
+  };
+}
 
 /**
  * 動き出しでずらす角度（度）。
@@ -562,6 +657,46 @@ function raise(dir: Vector3, deg: number, view: Vector3): Vector3 {
  *
  * `getHeadLocation()` は目の位置を返す。**照準と完全に一致する。**
  */
+/** 手元を右へどれだけずらすか（マス） */
+const HAND_SIDE = 0.36;
+
+/** 手元を目からどれだけ下げるか（マス） */
+const HAND_DROP = 0.42;
+
+/** 手元を前へどれだけ出すか（マス） */
+const HAND_AHEAD = 0.32;
+
+/**
+ * 線が出る場所。**利き手のあたり。**
+ *
+ * 仕様は `docs/spec/13-grapple.md` 8-C。
+ *
+ * 目の位置から出すと、**顔から糸が出ているように見える。**
+ * 剣を持っているのは手なので、**そこから伸びるほうが素直。**
+ *
+ * 右手に固定する。**左利きの設定は script から読めない。**
+ */
+function handPoint(player: Player): Vector3 {
+  const eye = muzzle(player);
+  const dir = player.getViewDirection();
+  // **視線と真上から、右向きを作る。**
+  // 上下を向いていても横向きは変わらないので、`y` は使わない
+  const flat = Math.hypot(dir.x, dir.z);
+  const side =
+    flat < 1e-6
+      ? { x: 1, z: 0 }
+      : {
+          // 視線の水平成分を 90 度右へ回す
+          x: -dir.z / flat,
+          z: dir.x / flat,
+        };
+  return {
+    x: eye.x + dir.x * HAND_AHEAD + side.x * HAND_SIDE,
+    y: eye.y + dir.y * HAND_AHEAD - HAND_DROP,
+    z: eye.z + dir.z * HAND_AHEAD + side.z * HAND_SIDE,
+  };
+}
+
 function muzzle(player: Player): Vector3 {
   try {
     return player.getHeadLocation();
@@ -581,6 +716,132 @@ function holdingGrapple(player: Player): boolean {
   }
 }
 
+/**
+ * 狙いのぶれを許す角度（度）。
+ *
+ * 仕様は `docs/spec/13-grapple.md` 2-D。
+ *
+ * ## なぜ要るのか
+ *
+ * **script は 1 秒に 20 回しか動けない。**
+ * 撃った瞬間に読める向きは、**画面より最大 1 tick 古い。**
+ *
+ * > **照準は当たっているのに、外れたことになる。**
+ * > 振り向きながら撃つほど起きる。外すとガスが 10 減るので、
+ * > **こちらの都合で減っている。**
+ *
+ * 真っ直ぐで当たらなかったときだけ、**少しだけ首を振って探し直す。**
+ */
+const AIM_FORGIVE = [1.5] as const;
+
+/** 首を振る方向の数。**上下左右と斜め** */
+const AIM_DIRECTIONS = 8;
+
+/**
+ * 走査を投げる距離（マス）。
+ *
+ * **射程より広く投げて、届いたかどうかは自分で測る**（2026-08-26）。
+ *
+ * `maxDistance` に射程をそのまま渡すと、
+ * **斜めのときだけ 20.8 マスで打ち切られた。**
+ * ゲーム側が何を基準に測っているのか分からないので、当てにしない。
+ */
+const SCAN = RANGE * 2;
+
+/**
+ * そのブロックは射程の中か。
+ *
+ * **面までのまっすぐな距離**で測る（`blockFace`）。
+ * ブロックの中心で測ると、**面によって半マスぶん得したり損したりする。**
+ */
+function withinRange(player: Player, dir: Vector3, block: Vector3): boolean {
+  const eye = muzzle(player);
+  const face = blockFace(eye, dir, block);
+  if (face === undefined) return false;
+  return len(sub(face.at, eye)) <= RANGE;
+}
+
+/**
+ * 見ている先のブロックを探す。
+ *
+ * **真っ直ぐ → だめなら少しずらして**の順に見る。
+ * 見つかった中で**一番近いもの**を返す。
+ *
+ * @param forgive ずらして探す角度。**空なら真っ直ぐだけ**
+ */
+function findAim(player: Player, forgive: readonly number[]): { block: Vector3; dir: Vector3 } | undefined {
+  const dir = player.getViewDirection();
+  try {
+    // ---- **距離はこちらで測る**（2026-08-26 修正）
+    //
+    // `maxDistance` に 25 を渡すと、**斜めのときだけ 20.8 マスで打ち切られた。**
+    // ゲーム側が何を基準に測っているのか分からないので、当てにしない。
+    //
+    // **広めに投げて、当たった点までの距離を自分で見る。**
+    // これなら**どの向きでも同じ 25 マス**になる
+    const hit = player.getBlockFromViewDirection({ maxDistance: SCAN });
+    if (hit !== undefined) {
+      const block = { x: hit.block.x, y: hit.block.y, z: hit.block.z };
+      if (withinRange(player, dir, block)) return { block, dir };
+      // **届いていない。** 首を振っても届かないので、ここで終わり
+      return undefined;
+    }
+  } catch {
+    return undefined;
+  }
+  if (forgive.length === 0) return undefined;
+
+  // ---- **少しだけ首を振って探し直す**
+  //
+  // 基準になる横向きと上向きを作る。
+  // **真上を向いているときだけ別の軸を使う**（外積が潰れるため）
+  const upRef = Math.abs(dir.y) < 0.9 ? { x: 0, y: 1, z: 0 } : { x: 1, y: 0, z: 0 };
+  const side = norm({
+    x: dir.y * upRef.z - dir.z * upRef.y,
+    y: dir.z * upRef.x - dir.x * upRef.z,
+    z: dir.x * upRef.y - dir.y * upRef.x,
+  });
+  const up = {
+    x: side.y * dir.z - side.z * dir.y,
+    y: side.z * dir.x - side.x * dir.z,
+    z: side.x * dir.y - side.y * dir.x,
+  };
+
+  let best: { block: Vector3; dir: Vector3 } | undefined;
+  let nearest = Number.POSITIVE_INFINITY;
+  const eye = muzzle(player);
+  for (const deg of forgive) {
+    const r = Math.tan((deg * Math.PI) / 180);
+    for (let i = 0; i < AIM_DIRECTIONS; i++) {
+      const t = (i / AIM_DIRECTIONS) * Math.PI * 2;
+      const c = Math.cos(t) * r;
+      const sn = Math.sin(t) * r;
+      const d = norm({
+        x: dir.x + side.x * c + up.x * sn,
+        y: dir.y + side.y * c + up.y * sn,
+        z: dir.z + side.z * c + up.z * sn,
+      });
+      let hit;
+      try {
+        hit = player.dimension.getBlockFromRay(eye, d, { maxDistance: SCAN });
+      } catch {
+        continue;
+      }
+      if (hit === undefined) continue;
+      const b = { x: hit.block.x, y: hit.block.y, z: hit.block.z };
+      // **同じ物差しで測る**（面までの距離。25 マスまで）
+      if (!withinRange(player, d, b)) continue;
+      const dist = Math.hypot(b.x + 0.5 - eye.x, b.y + 0.5 - eye.y, b.z + 0.5 - eye.z);
+      if (dist >= nearest) continue;
+      nearest = dist;
+      best = { block: b, dir: d };
+    }
+    // **近い角度で見つかったら、それ以上は広げない**
+    if (best !== undefined) return best;
+  }
+  return best;
+}
+
 // ---------------------------------------------------------------- 引っ掛ける
 /**
  * 引っ掛ける。
@@ -594,16 +855,12 @@ function attach(player: Player): void {
   /** 引っ掛けたブロックの座標。**ゲームが返したものをそのまま使う** */
   let hitBlock: Vector3 | undefined;
   try {
-    // **プレイヤー専用の走査を使う**（2026-08-24 変更）。
+    // **狙いのぶれを少しだけ許す**（2026-08-26 変更 / `findAim`）。
     //
-    // 以前は `dimension.getBlockFromRay` に目の位置と向きを渡していたが、
-    // **ほとんど当たらなかった。**
-    // 目の位置や向きの扱いを自分で組み立てるぶん、ずれる余地がある。
-    //
-    // `getBlockFromViewDirection` は「そのプレイヤーが見ている先」を
-    // ゲーム側が出してくれる。**照準と必ず一致する。**
-    const hit = player.getBlockFromViewDirection({ maxDistance: RANGE });
-    if (hit !== undefined) {
+    // 撃った瞬間に読める向きは**画面より最大 1 tick 古い**ので、
+    // **当たっているのに外れたことになる**ことがあった。
+    const aim = findAim(player, AIM_FORGIVE);
+    if (aim !== undefined) {
       // ---- **ブロックの座標は計算し直さない**（2026-08-25 修正）
       //
       // 引っ掛けた点から割り出していたが、
@@ -612,24 +869,25 @@ function attach(player: Player): void {
       //
       // 「x・z の + 方向で、壁 1 枚だと刺さらない」の正体はこれ。
       // 刺さった直後に「足場が無い」と判定されて切れていた
-      hitBlock = { x: hit.block.x, y: hit.block.y, z: hit.block.z };
-      // `faceLocation` はブロックの中での位置（0〜1）。足すと世界の座標になる
-      const on = {
-        x: hit.block.x + hit.faceLocation.x,
-        y: hit.block.y + hit.faceLocation.y,
-        z: hit.block.z + hit.faceLocation.z,
-      };
-      // **面より少し手前を狙う。**
+      hitBlock = aim.block;
+      // ---- **当たった点と面は、自分で解く**（2026-08-26 修正）
+      //
+      // `faceLocation` は面によって食い違うので使わない（`blockFace`）。
       //
       // 面ちょうどだと、引っ掛けた点がブロックの中に見える
       //（2026-08-24 の「埋まってるところに当たってる」）。
-      // 中を目指すぶん、たどり着けずに壁へ押し付け続けることにもなる
-      const back = norm(sub(from, on));
-      hitAt = {
-        x: on.x + back.x * SURFACE_GAP,
-        y: on.y + back.y * SURFACE_GAP,
-        z: on.z + back.z * SURFACE_GAP,
-      };
+      // 中を目指すぶん、たどり着けずに壁へ押し付け続けることにもなる。
+      //
+      // **面の向きへ離す。** 自分のほうへ離すと、
+      // **斜めから狙ったときにまだブロックの中**だった
+      const face = blockFace(from, aim.dir, hitBlock);
+      if (face !== undefined) {
+        hitAt = {
+          x: face.at.x + face.normal.x * SURFACE_GAP,
+          y: face.at.y + face.normal.y * SURFACE_GAP,
+          z: face.at.z + face.normal.z * SURFACE_GAP,
+        };
+      }
     }
   } catch {
     // 読み込まれていない
@@ -886,7 +1144,7 @@ function step(player: Player, wire: Wire): void {
   }
 
   // ---- 離れすぎたら切れる
-  if (dist > RANGE + 2) {
+  if (dist > CUT_DIST) {
     cut(player, wire.moving);
     return;
   }
@@ -1037,7 +1295,9 @@ function drawSlipstream(player: Player, wire: Wire): void {
     z: dir.x * side.y - dir.y * side.x,
   };
 
-  const id = SLIP_PARTICLE[teamOf(player) ?? "blue"];
+  // **所属が無ければ白**（ロビーでの練習。上記 `WIRE_PLAIN` と同じ考え）
+  const team = teamOf(player);
+  const id = team === undefined ? SLIP_PLAIN : SLIP_PARTICLE[team];
   const dim = player.dimension;
   for (let i = 0; i < SLIP_STEPS; i++) {
     // **前の位置と今の位置の間を埋める。** 速いほど長い線になる
@@ -1082,6 +1342,17 @@ const WIRE_PARTICLE: Readonly<Record<Team, string>> = {
 };
 
 /**
+ * 所属が無いときの色。**白。**
+ *
+ * ロビーで練習しているときは**どちらの色でもない**（2026-08-26 変更）。
+ * 青に寄せていたが、**青チームの人が撃っているように見える。**
+ */
+const WIRE_PLAIN = "game:wire_white";
+
+/** 同じく、置き去りにする粒の白 */
+const SLIP_PLAIN = "game:speed_white";
+
+/**
  * 引かれている間に置き去りにする粒。**チームの色。**
  *
  * 仕様は `docs/spec/13-grapple.md` 8-B。
@@ -1113,14 +1384,53 @@ const SLIP_SPREAD = 0.45;
  */
 function wireParticle(player: Player): string {
   const team = teamOf(player);
-  return team === undefined ? WIRE_PARTICLE.blue : WIRE_PARTICLE[team];
+  return team === undefined ? WIRE_PLAIN : WIRE_PARTICLE[team];
+}
+
+/**
+ * **いま掛かる点に、うっすら印を出す。**
+ *
+ * 仕様は `docs/spec/13-grapple.md` 2-C。
+ *
+ * ## なぜ要るのか
+ *
+ * **届くかどうかが、目で測れない。**
+ *
+ * 25 マスは遠い。**壁までの距離は見た目では分からない**ので、
+ * 「撃ってみて外す」以外に確かめる方法が無かった。
+ * 外せばガスが 10 減る——**確かめることに値段が付いていた。**
+ *
+ * ## 出るもの
+ *
+ * | | |
+ * | --- | --- |
+ * | いつ | **持っている間、常に**（刺していないとき） |
+ * | どこ | **掛かる点**（面より少し手前。刺したときと同じ位置） |
+ * | 何が | **ごく小さなもや。** 0.1 秒で消える |
+ * | 届かないとき | **何も出ない**（それが答え） |
+ *
+ * **出ない = 届かない。** 説明せずに伝わる。
+ */
+function drawAim(player: Player): void {
+  // ---- **判定とまったく同じ探し方をする**（2026-08-26 修正）
+  //
+  // 枠は「撃ったら掛かる場所」を見せるためのもの。
+  // **探し方が違えば、出ているのに掛からない**（逆もある）。
+  const aim = findAim(player, AIM_FORGIVE);
+  if (aim === undefined) {
+    // **届いていない。** 枠も消す
+    hideAimBox(player.id);
+    return;
+  }
+  // **狙っているブロックを縁取る**（`features/grapple/aimbox.ts`）
+  showAimBox(player, aim.block);
 }
 
 function drawWire(player: Player, wire: Wire): void {
   const particle = wireParticle(player);
-  const eye = muzzle(player);
-  const v = player.getViewDirection();
-  const from = { x: eye.x + v.x * 0.6, y: eye.y + v.y * 0.6, z: eye.z + v.z * 0.6 };
+  // **線は手元から伸ばす**（2026-08-26 変更）。
+  // 目の位置から出すと、**顔から糸が出ているように見える**
+  const from = handPoint(player);
   const to = wire.at;
   const d = sub(to, from);
   const n = Math.max(2, Math.min(24, Math.ceil(len(d))));
@@ -1195,8 +1505,19 @@ export function startGrapple(): void {
         if (!isFlying(player.id) && !isBusy(player.id)) addGas(player, REGEN_PER_TICK);
       }
 
-      if (holdingGrapple(player)) showGas(player);
+      if (holdingGrapple(player) && !wires.has(player.id)) {
+        showGas(player);
+        // **掛かる点に印を出す**（刺していないときだけ。13-grapple.md 2-C）
+        drawAim(player);
+      } else {
+        // **持ち替えた・刺した。** 狙いの印は消す
+        hideAimBox(player.id);
+        if (holdingGrapple(player)) showGas(player);
+      }
     }
+
+    // **居なくなった人の枠を片付ける**
+    sweepAimBoxes();
   }, 1);
 }
 

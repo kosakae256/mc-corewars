@@ -9,7 +9,7 @@
     },
     "components": {
       "minecraft:display_name": {
-        "value": "鉄の剣"
+        "value": "Swift Sword [Mk-3]"
       },
       "minecraft:icon": "game_sword_iron",
       "minecraft:max_stack_size": 1,

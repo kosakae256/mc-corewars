@@ -29,9 +29,11 @@ import {
   type CustomCommandOrigin,
   type CustomCommandResult,
   type CustomCommandRegistry,
+  EnchantmentTypes,
 } from "@minecraft/server";
 import { ChestFormData } from "../../vendor/chest-ui/forms.js";
 import { vaultLine } from "./vault.js";
+import { inEnemyBase } from "../../lib/zone.js";
 
 import {
   CATEGORY_NAME,
@@ -80,6 +82,28 @@ function hasRoom(container: Container, need: number): boolean {
   return free >= need;
 }
 
+/**
+ * 渡すものを作る。
+ *
+ * **付呪はここでだけ付ける**（`docs/spec/12-shop.md` 8 章）。
+ * 買う道が 2 つ（店員・マイセット）あるので、**作る場所は 1 つにする。**
+ */
+export function makeStack(id: string, amount: number, item: ShopItem): ItemStack {
+  const stack = new ItemStack(id, amount);
+  if (item.enchant === undefined) return stack;
+  try {
+    const e = stack.getComponent("minecraft:enchantable");
+    for (const ench of item.enchant) {
+      const type = EnchantmentTypes.get(ench.type);
+      if (type === undefined) continue;
+      e?.addEnchantment({ type, level: ench.level });
+    }
+  } catch {
+    // **付けられなくても渡す。** 手ぶらで帰すよりまし
+  }
+  return stack;
+}
+
 // ---------------------------------------------------------------- 購入
 function buy(player: Player, item: ShopItem): string {
   const inv = player.getComponent("minecraft:inventory");
@@ -107,7 +131,7 @@ function buy(player: Player, item: ShopItem): string {
   const team = teamOf(player);
   for (const g of item.give) {
     if (g.data === undefined) {
-      container.addItem(new ItemStack(teamVariant(g.item, team), g.amount));
+      container.addItem(makeStack(teamVariant(g.item, team), g.amount, item));
       continue;
     }
     // **データ値の要るものはコマンドで渡す。**
@@ -181,7 +205,12 @@ export function iconOf(item: ShopItem, team: Team | undefined): string {
  */
 function showCategories(player: Player, message?: string): void {
   const team = teamOf(player);
-  const form = new ChestFormData(CHEST_SIZE).title("ショップ");
+  // **最初の画面にも同じ見出しを出す**（2026-08-26 修正）。
+  //
+  // 品揃えの画面にだけ残高を出していたので、
+  // **開いた直後は、いくら持っているか分からなかった。**
+  // 敵陣であることも、1 枚めくらないと分からない
+  const form = new ChestFormData(CHEST_SIZE).title(titleFor(player));
 
   // 真ん中の行（3 行目）の、左右に 1 マスずつ余裕を持たせた位置
   const start = ROW_SIZE * 2 + 1;
@@ -216,6 +245,21 @@ function showCategories(player: Player, message?: string): void {
 }
 
 /**
+ * 盤面の見出し。
+ *
+ * | どこで開いたか | 見出し |
+ * | --- | --- |
+ * | 自陣 | `ショップ  鉄12 金3`（金庫の残高） |
+ * | **敵陣** | **`ショップ  敵陣・手持ちのみ`** |
+ */
+function titleFor(player: Player): string {
+  // **敵陣では金庫が使えない。** 残高の代わりにそう書く
+  if (inEnemyBase(player)) return "ショップ  §c敵陣・金庫は使えません";
+  const vault = vaultLine(player);
+  return vault === "" ? "ショップ" : `ショップ  §e${vault}`;
+}
+
+/**
  * 品揃えを見せる画面。
  *
  * **通貨ごとに横一列。** 空きマスは空けたままにする
@@ -235,8 +279,15 @@ function showItems(player: Player, category: Category): void {
   // **並んでいる品物を見れば分かる**ので、書いても幅を取るだけ。
   //
   // 「金庫」とも名乗らない。**数字が読めれば足りる**
-  const vault = vaultLine(player);
-  const form = new ChestFormData(CHEST_SIZE).title(vault === "" ? "ショップ" : `ショップ  §e${vault}`);
+  //
+  // ---- **敵陣では金庫を出さない**（2026-08-26 修正）
+  //
+  // 敵陣では金庫から払えない（`docs/spec/12-shop.md` 6-B）のに、
+  // **見出しだけ金庫の残高を出していた。**
+  //
+  // **使えない数字を出すのは、嘘をついているのと同じ。**
+  // 代わりに**なぜ少ないのか**を書く
+  const form = new ChestFormData(CHEST_SIZE).title(titleFor(player));
 
   grid.forEach((it, slot) => {
     if (it === undefined) return;
