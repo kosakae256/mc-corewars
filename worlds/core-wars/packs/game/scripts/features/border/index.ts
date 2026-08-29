@@ -25,17 +25,19 @@
  * **奈落へ落ちるのはゲームの一部**（`docs/02-map.md` 2-A）。
  * y の下限は見ない。
  *
- * ## 上は頭で判定する
+ * ## 戦場の上は区切らない
  *
- * 座標は**足元**を指す。天井を足元で見ると、
- * **体のぶんだけ丸ごと天井の外に出られる。**
- * 横の壁では起きない（体の幅が細いので目立たない）。
+ * **上へ行くのはこのゲームの主要な動き方**（2026-08-26 変更）。
+ * 押し戻しも粒子も**横だけ。**
+ *
+ * **ロビーは上も区切る。** 箱の外へ出たら待機所へ送り返すので、
+ * そこには**本当に境界がある。**
  */
 
 import { bar } from "../../lib/fx.js";
 import { GameMode, system, world, type Player, type Vector3 } from "@minecraft/server";
 
-import { ARENAS, inBox, type Arena, type Box } from "../../lib/arena.js";
+import { ARENAS, inBox, type Box } from "../../lib/arena.js";
 import { matchState, shouldBeInBattle, teamOf } from "../../lib/match-state.js";
 import { LOBBY_BOUNDS, lobbyPoint } from "../../lib/lobby.js";
 
@@ -102,39 +104,10 @@ const CEILING_STEP = 2;
 /** 押し戻したあと、境界からどれだけ内側に置くか */
 const PUSH_IN = 1.5;
 
-/**
- * プレイヤーの背丈（マス）。
- *
- * **座標は足元を指す。** 天井を足元で判定すると、
- * **体のぶんだけ丸ごとはみ出す**（実際に 2 マスほど超えられた）。
- *
- * 横の壁では起きない。横は体の幅が細く、ずれても目立たないため。
- */
-const PLAYER_HEIGHT = 1.8;
-
-/**
- * 天井に頭がついたとき、どれだけ下に置くか。
- *
- * **横の押し戻し（`PUSH_IN`）より小さくする。**
- * 上から 1.5 マス引き下ろされると、落とされたように感じる。
- * **頭をぶつけた程度**に留めたい。
- */
-const CEILING_MARGIN = 0.2;
-
 /** 押し戻しを知らせる間隔（tick） */
 const NOTIFY_TICKS = 40;
 
 const lastNotified = new Map<string, number>();
-
-/**
- * 押し戻すための箱。**上だけ `sky` まで伸ばす。**
- *
- * 横と下は `bounds` のまま。**落ちる先は奈落のままでよい。**
- */
-function skyBox(arena: Arena): Box {
-  const b = arena.bounds;
-  return { min: b.min, max: { x: b.max.x, y: arena.sky, z: b.max.z } };
-}
 
 /**
  * 範囲の外に出ていたら、中へ戻した座標を返す。
@@ -159,14 +132,16 @@ function pushInside(box: Box, at: Vector3): Vector3 | undefined {
     z = box.max.z - PUSH_IN;
     moved = true;
   }
-  // **上だけ見る。** 下は奈落なので区切らない。
+  // ---- **上は区切らない**（2026-08-26 変更）
   //
-  // **頭の位置で判定する。** 足元で見ると、
-  // 天井の粒子より体のぶん（約 1.8 マス）上に出られてしまう
-  if (y + PLAYER_HEIGHT > box.max.y) {
-    y = box.max.y - PLAYER_HEIGHT - CEILING_MARGIN;
-    moved = true;
-  }
+  // 以前は天井（`sky`）で押し戻していた。
+  //
+  // > **上へ行くのはこのゲームの主要な動き方。**
+  // > ワイヤーも支柱弾も超加速装置も、**上へ伸ばすためにある。**
+  // > 止める理由が無い。
+  //
+  // 下も見ない（**奈落は正しい死に方**）。
+  // 結局、**横だけを区切る。**
 
   return moved ? { x, y, z } : undefined;
 }
@@ -184,7 +159,7 @@ function pushInside(box: Box, at: Vector3): Vector3 | undefined {
  *
  * 丸く切れば、**どの方向を見ても縁までの距離が同じ**になる。
  */
-function showWalls(player: Player, box: Box): void {
+function showWalls(player: Player, box: Box, top: boolean): void {
   const p = player.location;
   const dim = player.dimension;
   const r = SHOW_RADIUS;
@@ -219,7 +194,16 @@ function showWalls(player: Player, box: Box): void {
     }
   };
 
-  /** 天井。**上方向にも境界がある** */
+  // ---- **天井は「本当に止まる所」だけ描く**（2026-08-28 修正）
+  //
+  // 戦場は**押し戻すのを横だけ**にした（`pushInside`）のに、
+  // **絵のほうを消し忘れていた。**
+  //
+  // > 高い所へ上がると、**何も止めない粒の膜**が張っている。
+  // > **止まらない境界を見せるのは、嘘をついているのと同じ。**
+  //
+  // ロビーは違う。**箱から出たら待機所へ送り返す**ので、
+  // 上にも本当に境界がある。**そこには出す。**
   const ceiling = (): void => {
     const away = Math.abs(p.y - box.max.y);
     const reach = Math.sqrt(Math.max(0, rr - away * away));
@@ -234,7 +218,7 @@ function showWalls(player: Player, box: Box): void {
   if (box.max.x - p.x < r) wall("x", box.max.x);
   if (p.z - box.min.z < r) wall("z", box.min.z);
   if (box.max.z - p.z < r) wall("z", box.max.z);
-  if (box.max.y - p.y < r) ceiling();
+  if (top && box.max.y - p.y < r) ceiling();
 }
 
 function notify(player: Player, text: string): void {
@@ -318,18 +302,15 @@ export function startBorder(): void {
           }
           continue;
         }
-        showWalls(player, LOBBY_BOUNDS);
+        // **ロビーは上にも境界がある**（箱の外へ出たら待機所へ送り返す）
+        showWalls(player, LOBBY_BOUNDS, true);
         continue;
       }
 
       // ---- 戦場の領域
       const team = paused ? teamOf(player) : undefined;
-      // ---- **上は `sky` まで**（2026-08-26 追加）
-      //
-      // `bounds` の天井（50）は**後片付けで掃く高さ**でもある。
-      // 上げると掃く量がそのまま増えるので、
-      // **押し戻す高さだけを別に持つ**（`docs/spec/11-match.md` 6-F）
-      const box = team === undefined ? skyBox(arena) : arena.pauseBoxes[team];
+      // **横だけ区切る**（上も下も見ない。`docs/spec/11-match.md` 6-F）
+      const box = team === undefined ? arena.bounds : arena.pauseBoxes[team];
       const back = pushInside(box, player.location);
       if (back !== undefined) {
         // ---- 一時停止中に外に居た
@@ -360,7 +341,8 @@ export function startBorder(): void {
         }
         continue;
       }
-      showWalls(player, box);
+      // **戦場の上には境界が無い**（`docs/spec/11-match.md` 6-F）
+      showWalls(player, box, false);
     }
   }, INTERVAL);
 }

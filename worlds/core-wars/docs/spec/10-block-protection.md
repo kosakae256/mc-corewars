@@ -56,10 +56,24 @@ Core Wars では**ブロックが足そのもの**（[02-map.md](../02-map.md) 2
 | ブロック | 理由 |
 | --- | --- |
 | `blue_concrete` `red_concrete` | **コア。壊すことが目的** |
-| `red_wool` `blue_wool` | ショップで売る建材 |
+| `red_wool` `blue_wool` **`white_wool`** | ショップで売る建材 |
+| `prismarine` `prismarine_bricks` | 天然石（見た目だけ差し替え） |
+| `raw_iron_block` `raw_copper_block` | 合成鋼（同上） |
+| `obsidian` | ショップで売る建材 |
+| `tnt` | 置いた瞬間に実体になる |
+| `game:pillar_red` `game:pillar_blue` **`game:pillar_white`** | 支柱弾で生えた足場 |
 | `air` | 守る対象ではない |
 
 **これ以外はすべて守られる。**
+
+> **白は入れ忘れていた**（2026-08-28 修正）。
+> 試合では**チームの色に差し替えて渡す**ので、
+> 白のまま置かれるのは**ロビーで試すとき**だけ
+>（[25-practice.md](25-practice.md)）——
+> そこを作るまで、白が置かれる場面が無かった。
+>
+> 守る側に入っていたので、**掘れないうえに、後片付けでも消えずに残っていた。**
+> **一覧に無いものは掃除もされない**（[11-match.md](11-match.md) 8 章）。
 
 ### 2-2. なぜこの向きなのか
 

@@ -1,0 +1,14 @@
+{
+  "format_version": "1.8.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "game:dart",
+      "textures": {
+        "default": "textures/entity/arrows"
+      },
+      "geometry": {
+        "default": "geometry.arrow"
+      }
+    }
+  }
+}

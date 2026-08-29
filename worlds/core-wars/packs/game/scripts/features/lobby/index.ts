@@ -28,7 +28,7 @@ import { system, world } from "@minecraft/server";
 import { ARENAS } from "../../lib/arena.js";
 import { isRunning, matchState, teamOf } from "../../lib/match-state.js";
 import { lobbyPoint } from "../../lib/lobby.js";
-import { title } from "../../lib/fx.js";
+import { BAR, bar, title } from "../../lib/fx.js";
 import { giveLoadout } from "../loadout/index.js";
 import { hasStaleState, resetToLobby } from "./reset.js";
 import { hasAgreed } from "../../lib/rules.js";
@@ -42,6 +42,9 @@ import { isWatching } from "../spectate/index.js";
  * 何かの拍子に失っても 5 秒で戻る。
  */
 const KIT_INTERVAL = 100;
+
+/** 入り方を出し直す間隔（tick）。**2 秒** */
+const HINT_INTERVAL = 40;
 
 /** 待機所へ移す */
 function toLobby(playerId: string): void {
@@ -168,6 +171,26 @@ export function registerLobby(): void {
       }
     }
   }, KIT_INTERVAL);
+
+  // ---- **ロビーに居る間、入り方を出し続ける**（2026-08-28 追加）
+  //
+  // 仕様は `docs/spec/16-participation.md` 2 章。
+  //
+  // **看板を押せば入れることを、誰も知らないまま待っている。**
+  // 試合中に来た人には特に届かない——
+  // **始まってしまえば、もう入れないと思ってしまう。**
+  //
+  // 足元の行は**いちばん弱い強さ**で書く（`BAR.ambient`）ので、
+  // 買えない・置けないといった知らせに**押しのけられる。**
+  system.runInterval(() => {
+    const running = isRunning();
+    for (const player of world.getAllPlayers()) {
+      // **試合に出ている人には出さない。** その人はもう入っている
+      if (teamOf(player) !== undefined) continue;
+      if (isWatching(player.id)) continue;
+      bar(player, running ? "§e看板から途中参加できます" : "§7看板で参加を選べます", BAR.ambient, HINT_INTERVAL + 10);
+    }
+  }, HINT_INTERVAL);
 
   // ---- 場外の見張りは置かない
   //

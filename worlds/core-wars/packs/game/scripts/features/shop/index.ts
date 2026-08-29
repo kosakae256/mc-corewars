@@ -50,6 +50,7 @@ import {
 } from "../../lib/shop-items.js";
 import { isRunning, teamOf, type Team } from "../../lib/match-state.js";
 import { currencyOf, priceText, priceOf, totalOf } from "../../lib/shop-prices.js";
+import { practicing } from "../../lib/practice.js";
 // **払う元は持ち物とエンダーチェストの両方**（docs/spec/12-shop.md 4-B）
 import { have as haveIn, pay, purseOf } from "../../lib/purse.js";
 import { isArmorItem, wearBest } from "../../lib/armor.js";
@@ -110,8 +111,19 @@ function buy(player: Player, item: ShopItem): string {
   const container = inv?.container;
   if (container === undefined) return "§c持ち物を読めません";
 
+  // ---- **押した瞬間に見る**（`docs/spec/25-practice.md` 1 章）
+  //
+  // **開いている画面を script から閉じる手段が無い。**
+  // ロビーで開いたまま試合が始まれば、
+  // **0 で買える画面がそのまま戦場へ持ち込める。**
+  //
+  // 開くときの判定だけでは足りない。**買う瞬間にもう一度見る。**
+  const free = practicing(player);
+  const why = shopBlockedReason(player);
+  if (why !== undefined) return why;
+
   // **1 個あたりの値段 x 個数（切り上げ）。** まとめ買いで安くしない
-  const price = totalOf(item);
+  const price = free ? 0 : totalOf(item);
   const cur = currencyOf(item);
   // **エンダーチェストからも払う**（docs/spec/12-shop.md 4-B）。
   // 奪われない金庫に貯めた資源を、いちいち出させる理由が無い
@@ -127,7 +139,7 @@ function buy(player: Player, item: ShopItem): string {
     return "§c持ち物がいっぱいです";
   }
 
-  pay(purse, cur, price);
+  if (price > 0) pay(purse, cur, price);
   const team = teamOf(player);
   for (const g of item.give) {
     if (g.data === undefined) {
@@ -152,7 +164,7 @@ function buy(player: Player, item: ShopItem): string {
   }
 
   player.playSound("random.orb", { location: player.location });
-  return `§a${item.label} を買いました`;
+  return free ? `§a${item.label} を出した §7(お試し)` : `§a${item.label} を買いました`;
 }
 
 // ---------------------------------------------------------------- 画面
@@ -288,6 +300,8 @@ function showItems(player: Player, category: Category): void {
   // **使えない数字を出すのは、嘘をついているのと同じ。**
   // 代わりに**なぜ少ないのか**を書く
   const form = new ChestFormData(CHEST_SIZE).title(titleFor(player));
+  // **ロビーでは全部ただ**（`docs/spec/25-practice.md` 3 章）
+  const free = practicing(player);
 
   grid.forEach((it, slot) => {
     if (it === undefined) return;
@@ -299,11 +313,17 @@ function showItems(player: Player, category: Category): void {
     const lore: string[] = [];
     // **性能を先に出す。** 何を買うかは、まず性能で決める
     if (it.damage !== undefined) lore.push(`§7攻撃力  §f${it.damage}`);
-    // **値段は色で買えるかどうかも示す。**
-    // 手持ちの数を別の行に出すと、行が増える割に読み取ることが増えない
-    lore.push(`§7値段  ${have >= price ? "§a" : "§c"}${CURRENCY_NAME_PLAIN[cur]} ${price} 個`);
-    // **まとめ買いでも単価は同じ。** 得だと誤解させないよう、単価も出す
-    if (units > 1) lore.push(`§81 個あたり ${priceText(unit)}`);
+    if (free) {
+      // **本来の値段は出さない。** 試す場では意味が無いうえ、
+      // **払うつもりで身構えさせる**だけになる
+      lore.push("§a値段  0 §7(お試し)");
+    } else {
+      // **値段は色で買えるかどうかも示す。**
+      // 手持ちの数を別の行に出すと、行が増える割に読み取ることが増えない
+      lore.push(`§7値段  ${have >= price ? "§a" : "§c"}${CURRENCY_NAME_PLAIN[cur]} ${price} 個`);
+      // **まとめ買いでも単価は同じ。** 得だと誤解させないよう、単価も出す
+      if (units > 1) lore.push(`§81 個あたり ${priceText(unit)}`);
+    }
     const first = it.give[0];
     form.button(slot, `§f${it.label}`, lore, iconOf(it, team), first?.amount ?? 1);
   });
@@ -342,6 +362,8 @@ function showItems(player: Player, category: Category): void {
  * @returns 開けないなら理由、開けるなら `undefined`
  */
 export function shopBlockedReason(player: Player): string | undefined {
+  // ---- **ロビーでは、無所属の人だけが試せる**（`docs/spec/25-practice.md`）
+  if (practicing(player)) return undefined;
   // **試合中しか買えない。** 開始前に装備が揃ってしまう
   if (!isRunning()) return "§c試合中しか買えません";
   // **所属が無いと、渡すブロックの色が決まらない。**

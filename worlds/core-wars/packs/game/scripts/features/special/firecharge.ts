@@ -67,7 +67,8 @@ import { system, world, type Block, type Player, type Vector3 } from "@minecraft
 
 import { bar } from "../../lib/fx.js";
 // **ドローンから撃つ**（docs/spec/23-drone.md 5 章）
-import { droneMuzzle, droneReady, isFlyingDrone } from "../drone/index.js";
+import { droneMuzzle, droneThrowCost, isFlyingDrone } from "../drone/index.js";
+import { spendGas } from "../grapple/gas.js";
 import { isProtectedAt } from "../protection/index.js";
 import { coreAt } from "../../lib/arena.js";
 
@@ -80,21 +81,22 @@ const ITEM = "game:fire_charge";
  * 以前は `createExplosion` の「強さ 4」だったものを、
  * **実際に消す距離**として書き直した（2026-08-25）。
  *
- * ## 4 倍にしたのを戻した（2026-08-26）
- *
- * 一度 2 倍にし、さらに 2 倍にして**ガストの 4 倍（TNT と同じ）**にしていた。
- * **元の強さ 1 相当に戻す。**
+ * ## 4 倍に戻した（2026-08-28）
  *
  * | | 半径 |
  * | --- | --- |
- * | 元（ガストと同じ） | **0.9** |
+ * | 元（ガストと同じ） | 0.9 |
  * | 2 倍 | 1.75 |
- * | 4 倍（TNT と同じ） | 3.5 |
+ * | **4 倍（TNT と同じ）** | **3.5** |
  *
- * **1 発で壁が消えるのは強すぎた。**
- * 面を焼く道具であって、拠点を崩す道具ではない——それは TNT の役。
+ * 一度 4 倍にし、**強すぎる**として 0.9 へ戻した（2026-08-26）。
+ * **もう一度 4 倍にする**（2026-08-28 の指定）。
+ *
+ * **壊れないものは変わらない**（`TOUGH` と保護）——
+ * 黒曜石と合成鋼は、半径がいくつでも消えない。
+ * **広くなっても、崩せる物の種類は増えない。**
  */
-const RADIUS = 0.9;
+const RADIUS = 3.5;
 
 /** 飛ぶ速さ（マス/tick） */
 const SPEED = 1.2;
@@ -193,15 +195,16 @@ function consume(player: Player): boolean {
 
 /** 投げる */
 function throwCharge(player: Player): void {
-  // ---- **機体から撃つときは間隔を空ける**（2026-08-26 追加）
+  // ---- **機体から撃つときはマナを使う**（2026-08-26 変更）
   //
-  // 仕様は `docs/spec/23-drone.md` 5-D。
+  // 仕様は `docs/spec/24-role.md` 4-3。
   //
-  // **空からは撃ち返されない。** 連射できると、
-  // 通路を焼き続けるだけで相手を止められてしまう。
-  //
-  // **手で投げる分は縛らない。** 撃ち合いの中で使うぶんには釣り合っている
-  if (isFlyingDrone(player.id) && !droneReady(player, "fire")) return;
+  // **間隔（CT）は廃止した。マナがその役をする。**
+  // **手で投げる分は縛らない**（撃ち合いの中で使うぶんには釣り合っている）
+  if (isFlyingDrone(player.id) && !spendGas(player, droneThrowCost(ITEM))) {
+    bar(player, "§cマナが足りません");
+    return;
+  }
 
   let eye: Vector3;
   let dir: Vector3;

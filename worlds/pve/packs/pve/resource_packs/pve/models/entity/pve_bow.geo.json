@@ -1,0 +1,7173 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_common_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_common_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_common_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_common_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heal_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heal_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heal_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heal_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_rapid_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_rapid_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_rapid_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_rapid_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_long_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_long_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_long_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_long_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_scatter_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_scatter_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_scatter_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_scatter_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stake_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stake_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stake_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stake_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heavy_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heavy_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heavy_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_heavy_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_chain_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_chain_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_chain_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_chain_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_recoil_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_recoil_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_recoil_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_recoil_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_purify_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_purify_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_purify_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_purify_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hunter_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hunter_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hunter_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hunter_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_picker_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_picker_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_picker_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_picker_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_picker_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_picker_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_guardian_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_guardian_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_guardian_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_guardian_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_plain_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_plain_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_plain_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_plain_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_burst_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_burst_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_burst_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_burst_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_lance_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_lance_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_lance_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_lance_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_billiard_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_billiard_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_billiard_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_billiard_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_billiard_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_billiard_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_firework_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_firework_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_firework_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_firework_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_firework_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_firework_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_gravity_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_gravity_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_gravity_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_gravity_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blood_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blood_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blood_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blood_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_railgun_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_railgun_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_railgun_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_railgun_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_railgun_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_railgun_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_spider_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_spider_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_spider_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_spider_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_mine_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_mine_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_mine_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_mine_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_twin_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_twin_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_twin_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_twin_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_twin_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_twin_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_holy_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_holy_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_holy_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_holy_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_brand_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_brand_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_brand_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_brand_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dice_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dice_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dice_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dice_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dice_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dice_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_card_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_card_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_card_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_card_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_card_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_card_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_cannon_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_cannon_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_cannon_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_cannon_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_harpoon_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_harpoon_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_harpoon_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_harpoon_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pierce_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pierce_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pierce_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pierce_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pierce_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pierce_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_named_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_named_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_named_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_named_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stardust_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stardust_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stardust_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stardust_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stardust_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_stardust_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_clock_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_clock_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_clock_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_clock_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pin_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pin_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pin_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_pin_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_echo_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_echo_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_echo_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_echo_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_ward_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_ward_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_ward_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_ward_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_missile_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_missile_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_missile_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_missile_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_reverb_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_reverb_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_reverb_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_reverb_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_reverb_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_reverb_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_meteor_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_meteor_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_meteor_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_meteor_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_meteor_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_meteor_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_return_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_return_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_return_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_return_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_return_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_return_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hook_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hook_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hook_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_hook_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_combo_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_combo_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_combo_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_combo_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_combo_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_combo_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_shadow_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_shadow_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_shadow_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_shadow_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_quiver_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_quiver_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_quiver_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_quiver_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_quiver_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_quiver_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dual_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dual_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dual_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dual_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dual_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_dual_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blackhole_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blackhole_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blackhole_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_blackhole_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_aurora_standby",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_aurora_pulling_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_aurora_pulling_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_aurora_pulling_2",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.04,
+                4.0,
+                -4.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "pulling_2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_aurora_twinkle_0",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.pve_bow_aurora_twinkle_1",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "rightitem",
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                24.0,
+                0.0,
+                24.0
+              ],
+              "position": [
+                8.0,
+                4.0,
+                -8.0
+              ],
+              "rotation": [
+                0.0,
+                -135.0,
+                90.0
+              ],
+              "texture": "twinkle_1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

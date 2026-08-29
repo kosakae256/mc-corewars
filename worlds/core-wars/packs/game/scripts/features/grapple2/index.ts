@@ -271,7 +271,7 @@ function startMove(player: Player, wire: Wire): void {
   } catch {
     wire.vel = { x: 0, y: 0, z: 0 };
   }
-  player.playSound("random.levelup", { location: player.location, pitch: 1.6, volume: 0.4 });
+  player.playSound("game.levelup", { location: player.location, pitch: 1.6, volume: 0.4 });
 }
 
 /**

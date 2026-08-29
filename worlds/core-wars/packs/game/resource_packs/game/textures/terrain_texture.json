@@ -45,6 +45,9 @@
     },
     "game_guide_07": {
       "textures": "textures/blocks/guide_07"
+    },
+    "game_pillar_white": {
+      "textures": "textures/blocks/game_pillar_white"
     }
   }
 }

@@ -52,6 +52,7 @@ import {
   isRunning,
   matchState,
   matchStateName,
+  rawTeamOf,
   pauseMatch,
   resumeMatch,
   sessionId,
@@ -86,11 +87,15 @@ import { blockedReason } from "../../lib/timeout.js";
 import { beginPhases, phase1Ticks, resetPhases } from "../../lib/phase.js";
 import { wearTeamHat } from "../cosmetic/index.js";
 import { forceAlive, goDown, toggleDamageLog } from "../death/index.js";
-import { lobbyPoint, resetLobbyPoint, setLobbyPoint } from "../../lib/lobby.js";
+import { LOBBY_BOUNDS, lobbyPoint, resetLobbyPoint, setLobbyPoint } from "../../lib/lobby.js";
 import { keeperCount } from "../shop/keeper.js";
 import { opMessage, reportTo } from "../../lib/op.js";
 import { generatorCount, rescanUntilFound } from "../generator/index.js";
 import { clearEverything, giveLoadout, resetInventory } from "../loadout/index.js";
+import { cleanupRole, settleRole } from "../role/change.js";
+import { clearLobbyBlocks } from "../cleanup/index.js";
+import { LOBBY_BUILD_Y } from "../build/index.js";
+import { syncRoleKeepers } from "../role/keeper.js";
 import {
   cleanupBusy,
   clearContainersJob,
@@ -173,13 +178,14 @@ function onMatchEnd(reason: string): void {
   // **すぐ戻す。** 強制終了は見せる場面ではない
   const at = lobbyPoint();
   for (const p of world.getAllPlayers()) {
-    // **ロビーの人に戻す**（features/lobby/reset.ts に集約）。
-    // 持ち物・装備・効果・帽子・観戦者、まとめて元に戻す
-    resetToLobby(p, false);
+    // **1 人ずつ守る。** 途中で止まると、残りの人が片付かない（2026-08-28 修正）
     try {
+      // **ロビーの人に戻す**（features/lobby/reset.ts に集約）。
+      // 持ち物・装備・効果・帽子・観戦者、まとめて元に戻す
+      resetToLobby(p, false);
       p.teleport(at, { dimension: p.dimension });
     } catch {
-      /* 読み込まれていない */
+      /* その人だけ諦める */
     }
   }
 }
@@ -330,6 +336,12 @@ function joinMatch(player: Player, announce: boolean, fromStart = false, given?:
   //（docs/spec/14-death.md）
   forceAlive(player);
 
+  // ---- **ロビーで選んでいたロールを引き継ぐ**（`docs/spec/25-practice.md` 4 章）
+  //
+  // **持っているものだけ。** 買っていないものは Swift に戻る。
+  // **支給品を配る前に決める**——ロールに付いてくる物が変わる
+  settleRole(player);
+
   // **持ち物とエンダーチェストを空にして、支給品だけにする**
   resetInventory(player);
   // **金庫も 0 に戻す**（docs/spec/22-vault.md 1 章）。
@@ -420,6 +432,25 @@ function* cleanupJob(report: Player | undefined, attempt: number): Generator<voi
     yield* sweepPlaceableJob(dim, a.bounds.min, a.bounds.max, blocks);
   }
 
+  // ---- **ロビーも掃く**（2026-08-28 追加。`docs/spec/25-practice.md` 3-A）
+  //
+  // ロビーでも**ショップのブロックを置ける**ようにした。
+  // 置いた場所は覚えている（`clearLobbyBlocks`）が、
+  // **記録は `/reload` で消える。**
+  //
+  // > **戦場と同じ扱いにする。**
+  // > 人が行ける範囲は、**種類でも掃き取る。**
+  //
+  // **置ける高さから上だけ**（y 120 以上）。
+  // それより下はロビーの建物なので、**触らない**
+  clearLobbyBlocks();
+  yield* sweepPlaceableJob(
+    dim,
+    { x: LOBBY_BOUNDS.min.x, y: LOBBY_BUILD_Y, z: LOBBY_BOUNDS.min.z },
+    LOBBY_BOUNDS.max,
+    blocks
+  );
+
   // **持ち物には触らない。**
   // 空にするのは「試合に加わるとき」の仕事（joinMatch）。
   // 両方でやると、どちらが正か分からなくなる
@@ -504,6 +535,36 @@ function runCleanup(report: Player | undefined, attempt = 1): void {
  * 「スタート」 ＋ 同時に自陣へテレポート
  * ```
  */
+/**
+ * ロビーで試したものを片付ける。
+ *
+ * 仕様は `docs/spec/25-practice.md` 4 章。
+ *
+ * ## 参加する人はここで扱わない
+ *
+ * 参加処理（`joinMatch`）が**持ち物も金庫も空にしている。**
+ * 同じことを 2 か所に書くと、**片方だけ直して食い違う。**
+ *
+ * ここで見るのは**参加しない人**と、**場に残った物**。
+ *
+ * > 参加しない人の持ち物まで消すのは、
+ * > **戦場の人へ渡せてしまう**から。ロビーでは 5 秒で配り直される。
+ */
+function clearPractice(): void {
+  for (const p of world.getAllPlayers()) {
+    // **ロールに付いた実体は全員ぶん消す**（ドローンなど）。
+    // 参加する人も、ロビーで出したまま始められては困る
+    cleanupRole(p);
+    if (teamOf(p) !== undefined) continue;
+    clearEverything(p);
+  }
+  // **ロビーに置かれたブロックを消す**（`docs/spec/25-practice.md` 4 章）。
+  // 戦場の掃除と同じ考え方——**置いた場所を覚えておいて、そこだけ消す**
+  clearLobbyBlocks();
+  // **待機所の球も消す。** 試合中は置かない
+  syncRoleKeepers();
+}
+
 function startMatch(by: Player): string {
   if (isRunning()) return "もう始まっている";
   // **一時停止中に新規開始させない。**
@@ -561,6 +622,8 @@ function startMatch(by: Player): string {
         // **表示と同時に戦場へ送る**（docs/spec/11-match.md 7-2）
         setPreparing(false);
         for (const p of world.getAllPlayers()) sendToBattle(p, true);
+        // **ロビーで試したものを、ここで全部落とす**（docs/spec/25-practice.md 4 章）
+        clearPractice();
         onMatchStart(session);
       });
     },
@@ -809,7 +872,38 @@ export function finishMatch(loser: Team): void {
   // **ティッキングエリアは外さない**（2026-08-24 変更）。
   // 外すとジェネレータが見つからなくなる
   system.runTimeout(() => runCleanup(undefined), CELEBRATION_TICKS);
+
+  // ---- **終わり損ねを拾う**（2026-08-28 追加）
+  //
+  // 所属を外すのは**演出の最後**（`features/finish` の 3 段目）。
+  // そこまで辿り着けなかったとき——途中で例外が出た、`/reload` が挟まった——
+  // **「試合終了」のまま止まり、所属も帽子も残る。**
+  //
+  // > 終わらせる処理が 1 本しか無いと、**そこが折れた時に戻れない。**
+  //
+  // 演出の長さを過ぎても終わっていなければ、**こちらで降ろす。**
+  system.runTimeout(() => {
+    if (matchState() !== "finished") return;
+    // **先に降ろす。** ここで例外が出ても、状態だけは戻っている
+    setCelebrating(false);
+    for (const p of world.getAllPlayers()) {
+      try {
+        resetToLobby(p, false);
+      } catch {
+        /* その人だけ諦める */
+      }
+    }
+    world.sendMessage("§7試合を終了しました");
+  }, CELEBRATION_TICKS + FINISH_GRACE);
 }
+
+/**
+ * 演出が終わったはずの時刻から、どれだけ待って諦めるか（tick）。**5 秒。**
+ *
+ * 演出の側（`features/finish`）が正しく終わっていれば、
+ * このときには**もう「試合終了」ではない**ので何も起きない。
+ */
+const FINISH_GRACE = 100;
 
 /**
  * コアが壊されたときに呼ぶ。
@@ -1091,6 +1185,20 @@ export function registerMatchCommands(registry: CustomCommandRegistry): void {
     const hostPlayer = h === undefined ? undefined : world.getAllPlayers().find((q) => q.id === h);
     lines.push(`  運営主 ${h === undefined ? "§c未設定（/game:host）" : (hostPlayer?.name ?? "§7オフライン")}§r`);
     lines.push(`  記録した設置ブロック ${placedCount()}`);
+
+    // ---- **所属の中身をそのまま出す**（2026-08-28 追加）
+    //
+    // 「終わったのにチームが残る」を**推測で追わない。**
+    // **状態で断たれているのか、記録が残っているのか**を分けて見る
+    lines.push(`§e所属§r  いまのセッション ${sessionId()}`);
+    for (const q of world.getAllPlayers()) {
+      const raw = rawTeamOf(q);
+      const now = teamOf(q);
+      lines.push(
+        `  ${q.name} — 見え方 ${now === undefined ? "§7なし" : teamName(now)}§r` +
+          ` §8/ 記録 ${String(raw.team)} (session ${String(raw.session)})`
+      );
+    }
     // **ジェネレータの把握数。** 0 なら湧かない。/game:regen で探し直す
     const gen = generatorCount();
     lines.push(`  ジェネレータ ${gen === 0 ? "§c0（湧きません。/game:regen）" : `§a${gen}`}§r`);

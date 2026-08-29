@@ -1,0 +1,38 @@
+{
+  "format_version": "1.10",
+  "render_controllers": {
+    "controller.render.pve_bow": {
+      "arrays": {
+        "textures": {
+          "array.frames": [
+            "texture.default",
+            "texture.pulling_0",
+            "texture.pulling_1",
+            "texture.pulling_2",
+            "texture.twinkle_0",
+            "texture.twinkle_1"
+          ]
+        },
+        "geometries": {
+          "array.geos": [
+            "geometry.default",
+            "geometry.pulling_0",
+            "geometry.pulling_1",
+            "geometry.pulling_2",
+            "geometry.twinkle_0",
+            "geometry.twinkle_1"
+          ]
+        }
+      },
+      "geometry": "array.geos[query.main_hand_item_use_duration > 0.0 ? math.clamp(math.floor(1.0 + 2.0 * math.clamp((query.main_hand_item_max_duration - query.main_hand_item_use_duration) / 20.0, 0.0, 1.0)), 1.0, 3.0) : (variable.pve_twinkle > 0.5 && math.mod(math.floor(query.life_time * 1.5), 3.0) != 0.0 ? 3.0 + math.mod(math.floor(query.life_time * 1.5), 3.0) : 0.0)]",
+      "materials": [
+        {
+          "*": "material.default"
+        }
+      ],
+      "textures": [
+        "array.frames[query.main_hand_item_use_duration > 0.0 ? math.clamp(math.floor(1.0 + 2.0 * math.clamp((query.main_hand_item_max_duration - query.main_hand_item_use_duration) / 20.0, 0.0, 1.0)), 1.0, 3.0) : (variable.pve_twinkle > 0.5 && math.mod(math.floor(query.life_time * 1.5), 3.0) != 0.0 ? 3.0 + math.mod(math.floor(query.life_time * 1.5), 3.0) : 0.0)]"
+      ]
+    }
+  }
+}

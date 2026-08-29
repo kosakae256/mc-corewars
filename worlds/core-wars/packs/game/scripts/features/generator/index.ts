@@ -62,7 +62,9 @@ const CYAN = { red: 0.4, green: 0.9, blue: 1, alpha: 1 };
 const GREEN = { red: 0.3, green: 1, blue: 0.4, alpha: 1 };
 
 const GENERATORS: ReadonlyMap<string, Spawner> = new Map([
-  ["game:map_parts_iron_block", { item: "minecraft:iron_ingot", intervalTicks: 30, label: "鉄", color: WHITE }],
+  // **鉄は 3 秒に 1 つ**（2026-08-28 変更。1.5 秒 → 3 秒）。
+  // 溜まる速さが**買い物の間隔を決めている**ので、ここだけで試合の速さが変わる
+  ["game:map_parts_iron_block", { item: "minecraft:iron_ingot", intervalTicks: 60, label: "鉄", color: WHITE }],
   ["game:map_parts_gold_block", { item: "minecraft:gold_ingot", intervalTicks: 120, label: "金", color: YELLOW }],
   ["game:map_parts_diamond_block", { item: "minecraft:diamond", intervalTicks: 600, label: "ダイヤ", color: CYAN }],
   [
@@ -351,21 +353,6 @@ function clearLabels(): void {
   for (const g of found) dropLabel(g);
 }
 
-/** 落ちている数を数える */
-function droppedCount(dim: Dimension, at: Vector3): number {
-  try {
-    const items = dim.getEntities({ location: at, maxDistance: 2, type: "minecraft:item" });
-    let n = 0;
-    for (const e of items) {
-      const c = e.getComponent("minecraft:item");
-      n += c?.itemStack.amount ?? 1;
-    }
-    return n;
-  } catch {
-    return 0;
-  }
-}
-
 /** どこかのプレイヤーの近くにあるか */
 function nearAnyPlayer(at: Vector3, players: readonly { location: Vector3 }[]): boolean {
   for (const p of players) {
@@ -400,38 +387,38 @@ function updateLabels(dim: Dimension, tick: number): void {
       continue;
     }
     const left = Math.max(0, Math.ceil((g.next - tick) / 20));
-    const dropped = droppedCount(dim, g.at);
-    // **短く出す。** 頭上の文字が長いと、隣のジェネレータの表示と重なって読めない。
-    // 「種類 落ちている数 / 次の秒数」だけあれば足りる。
-    // 見出しを付けなくても、位置と並びで何の数字かは分かる
+    // ---- **落ちている数は出さない**（2026-08-28 変更）
     //
-    // 止まっているときは秒数を出さない。**進まない秒数を出しても嘘になる**
-    const text = running ? `${g.spawner.label} §7${dropped} §8/ §7${left}s` : `${g.spawner.label} §7${dropped}`;
+    // 拾えば済む数を頭上に出しても、**やることは変わらない。**
+    // 数えるために足元を見るくらいなら、**拾ってから考える。**
+    //
+    // 止まっているときは秒数も出さない。**進まない秒数を出しても嘘になる**
+    const text = running ? `${g.spawner.label} §8${left}s` : g.spawner.label;
 
-    // **文字は後から変えられない**（`text` は読み取り専用）。
-    // 中身が変わったら作り直す。1 秒に 2 回なので、作り直しでも問題ない
-    // ---- 文字が同じなら作り直さない
+    // ---- **中身が変わっただけなら、貼り直さない**（2026-08-28 修正）
     //
-    // **作り直すと一瞬消える。** それがちらつきの正体だった。
-    // `text` は読み取り専用なので書き換えられないが、
-    // **`timeLeft` は書き換えられる。** 寿命を延ばすだけなら消えない
-    if (g.label !== undefined && g.labelText === text) continue;
+    // `setText` があるので、**同じ実体のまま書き換える。**
+    //
+    // > 作り直すと、**消えるのと出るのが同じ tick に重なる。**
+    // > 間に合わないと消え、間に合いすぎると二重に見える——
+    // > **これがちらつきの正体**（頭上の名前と同じ原因）。
+    if (g.label !== undefined) {
+      if (g.labelText === text) continue;
+      try {
+        g.label.setText(text);
+        g.labelText = text;
+        continue;
+      } catch {
+        // **書き換えられなかった。** 下で作り直す
+        dropLabel(g);
+      }
+    }
 
-    // ---- 文字が変わった。**先に新しいものを出してから、古いものを消す**
-    //
-    // 逆にすると、消してから出すまでの 1 フレームだけ何も無い状態ができる
-    const old = g.label;
+    // ---- **まだ出していない。** ここで作る
     const shape = new DebugText({ x: g.at.x, y: g.at.y + LABEL_HEIGHT, z: g.at.z }, text);
     shape.color = g.spawner.color;
     // **timeLeft は設定しない。** 無期限にする（上のコメント参照）
     debugDrawer.addShape(shape, dim);
-    if (old !== undefined) {
-      try {
-        debugDrawer.removeShape(old);
-      } catch {
-        /* 既に消えている */
-      }
-    }
     g.label = shape;
     g.labelText = text;
   }

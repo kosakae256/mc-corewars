@@ -51,6 +51,8 @@ const ERASE: ReadonlySet<string> = new Set([
   "game:join_no",
   // 退役した支給品
   "game:grapple",
+  // **ロールのもの**（Engineer の操作アイテム。`docs/spec/24-role.md` 4-3）
+  "game:drone_control",
 ]);
 
 /** 拾い残しを消す間隔（tick）。**1 秒** */

@@ -41,6 +41,12 @@
       "minecraft:knockback_resistance": {
         "value": 1
       },
+      "minecraft:damage_sensor": {
+        "triggers": {
+          "cause": "fall",
+          "deals_damage": "no"
+        }
+      },
       "minecraft:fire_immune": {},
       "minecraft:persistent": {},
       "minecraft:loot": {

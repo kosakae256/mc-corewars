@@ -1,0 +1,1015 @@
+{
+  "format_version": "1.20.20",
+  "sound_definitions": {
+    "pve.element.thunder": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/thunder_crack",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.element.ice": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/ice_shatter",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.weapon.stardust_land": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/star_land",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.bow.charged": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/bow_charged",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.common": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_common",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.common": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_common",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.heal": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_heal",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.heal": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_heal",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.rapid": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_rapid",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.rapid": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_rapid",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.long": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_long",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.long": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_long",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.scatter": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_scatter",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.scatter": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_scatter",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.stake": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_stake",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.stake": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_stake",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.heavy": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_heavy",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.heavy": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_heavy",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.chain": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_chain",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.chain": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_chain",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.recoil": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_recoil",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.recoil": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_recoil",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.purify": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_purify",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.purify": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_purify",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.hunter": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_hunter",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.hunter": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_hunter",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.picker": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_picker",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.picker": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_picker",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.guardian": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_guardian",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.guardian": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_guardian",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.plain": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_plain",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.plain": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_plain",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.burst": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_burst",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.burst": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_burst",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.lance": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_lance",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.lance": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_lance",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.billiard": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_billiard",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.billiard": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_billiard",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.firework": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_firework",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.firework": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_firework",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.gravity": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_gravity",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.gravity": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_gravity",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.blood": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_blood",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.blood": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_blood",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.railgun": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_railgun",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.railgun": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_railgun",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.spider": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_spider",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.spider": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_spider",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.mine": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_mine",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.mine": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_mine",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.twin": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_twin",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.twin": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_twin",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.holy": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_holy",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.holy": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_holy",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.brand": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_brand",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.brand": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_brand",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.dice": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_dice",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.dice": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_dice",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.card": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_card",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.card": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_card",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.cannon": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_cannon",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.cannon": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_cannon",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.harpoon": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_harpoon",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.harpoon": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_harpoon",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.pierce": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_pierce",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.pierce": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_pierce",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.named": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_named",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.named": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_named",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.stardust": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_stardust",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.stardust": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_stardust",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.clock": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_clock",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.clock": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_clock",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.pin": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_pin",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.pin": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_pin",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.echo": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_echo",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.echo": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_echo",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.ward": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_ward",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.ward": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_ward",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.missile": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_missile",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.missile": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_missile",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.reverb": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_reverb",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.reverb": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_reverb",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.meteor": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_meteor",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.meteor": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_meteor",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.return": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_return",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.return": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_return",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.hook": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_hook",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.hook": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_hook",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.combo": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_combo",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.combo": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_combo",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.shadow": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_shadow",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.shadow": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_shadow",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.quiver": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_quiver",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.quiver": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_quiver",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.dual": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_dual",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.dual": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_dual",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.blackhole": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_blackhole",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.blackhole": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_blackhole",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.trail.aurora": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/trail_aurora",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.ability.aurora": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/w/ability_aurora",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    },
+    "pve.common.bless": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/pve/common_bless",
+          "volume": 1.0,
+          "is3D": true
+        }
+      ]
+    }
+  }
+}

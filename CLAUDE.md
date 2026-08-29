@@ -117,6 +117,11 @@ Script API は破壊的変更が頻繁で、v1 時代の情報がネット上に
 
 いま作っているワールド: **[worlds/core-wars/](worlds/core-wars/)**
 
+次に作るもの: **[worlds/pve/](worlds/pve/)**（2026-08-28 開始）。
+**ローグライクの PVE。** 企画を `docs/` に書いている段階で、実装はまだ無い。
+**Core Wars からは何も引き継がない**（Swift Sword も含む）。
+書き方は [docs/imp.md](docs/imp.md) 10 章の新しい形を使う。
+
 > **なぜアドオン単位をやめたか。**
 > `addons/game` と `addons/kit` に置いていたが、
 > 設計文書が `docs/` に、ワールドが `world/` にあり、
@@ -237,6 +242,9 @@ node tools/mc.mjs restore <名前>                   # 戻す
 | **設定メニュー**（運営の道具をコンパス1つに集約） | [19-admin-menu.md](worlds/core-wars/docs/spec/19-admin-menu.md) |
 | **観戦**（試合中だけ・真上を向いて終了） | [20-spectate.md](worlds/core-wars/docs/spec/20-spectate.md) |
 | **金庫**（自陣に預ける・引き出し不可・買い物専用） | [22-vault.md](worlds/core-wars/docs/spec/22-vault.md) |
+| **ドローン**（Engineer 専用・空から落とす） | [23-drone.md](worlds/core-wars/docs/spec/23-drone.md) |
+| **ロール**（8 種・点で買う・球で変える） | [24-role.md](worlds/core-wars/docs/spec/24-role.md) |
+| **ロビーで試す**（無所属なら 0 で全部試せる） | [25-practice.md](worlds/core-wars/docs/spec/25-practice.md) |
 
 次にやること:
 

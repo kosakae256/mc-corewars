@@ -1,4 +1,8 @@
 {
+	// **マナの数字の色**（`docs/spec/13-grapple.md` 2-E）。
+	// バニラの変数をそのまま上書きする
+	"$experience_text_color": [ 0.42, 0.88, 0.94 ],
+
 	"$show_inventory": true, // Set to false if don't want to show inventory. Not recommended for low end devices.
 	"$border_and_background_texture": "textures/ui/dialog_background_opaque", // Add your own texture for background and border here. Edit `textures/ui/item_background` to change slot texture.
 	/*

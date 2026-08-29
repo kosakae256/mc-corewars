@@ -26,7 +26,8 @@ import { system, world, type Dimension, type Vector3 } from "@minecraft/server";
 import { isRunning } from "../../lib/match-state.js";
 import { isMapBlock } from "../../lib/protection.js";
 import { isPlaceable } from "../../lib/placeable.js";
-import { coreAt } from "../../lib/arena.js";
+import { LOBBY_BOUNDS } from "../../lib/lobby.js";
+import { coreAt, inBox } from "../../lib/arena.js";
 
 /** 試合中に置かれたブロックの位置 */
 const placed = new Map<string, Vector3>();
@@ -67,6 +68,47 @@ const key = (v: Vector3): string => `${v.x},${v.y},${v.z}`;
  * **新しい試合の物を消す。**
  */
 let busy = false;
+
+/**
+ * **ロビーで置かれたもの。**
+ *
+ * 仕様は `docs/spec/25-practice.md` 4 章。
+ *
+ * ロビーは戦場の外にあり、**掃除の範囲に入っていない。**
+ * 範囲で掃くには広すぎる（100x300x100）ので、
+ * **戦場と同じように、置かれた場所を覚えておく。**
+ */
+const lobbyPlaced = new Map<string, Vector3>();
+
+/** ロビーに置かれたものを覚える。**script が置いたものもここへ**（支柱など） */
+export function noteLobbyBlock(at: Vector3): void {
+  lobbyPlaced.set(key(at), { x: Math.floor(at.x), y: Math.floor(at.y), z: Math.floor(at.z) });
+}
+
+/**
+ * ロビーに置かれたものを全部消す。
+ *
+ * **試合が始まるときに呼ぶ**（`features/match`）。
+ * 数はたかが知れているので、job にせず一度に消す。
+ */
+export function clearLobbyBlocks(): number {
+  const dim = world.getDimension("overworld");
+  let removed = 0;
+  for (const [k, at] of [...lobbyPlaced]) {
+    lobbyPlaced.delete(k);
+    try {
+      const b = dim.getBlock(at);
+      if (b === undefined || b.isAir) continue;
+      // **置けるものだけ消す。** 迷ったら消さない（戦場の掃除と同じ）
+      if (!isPlaceable(b.typeId)) continue;
+      b.setType("minecraft:air");
+      removed++;
+    } catch {
+      /* 読み込まれていない */
+    }
+  }
+  return removed;
+}
 
 export function cleanupBusy(): boolean {
   return busy;
@@ -178,6 +220,8 @@ export function* clearContainersJob(
 const KEEP_ENTITIES: ReadonlySet<string> = new Set([
   "minecraft:player",
   "game:shopkeeper",
+  // **ロールを変える村人**（`docs/spec/24-role.md` 2-1）
+  "game:rolekeeper",
   // **絵画はマップの一部**（docs/spec/10-block-protection.md 5 章）。
   // 実体だが、置かれたものではない——消すと**掲示物が毎試合消える**
   "minecraft:painting",
@@ -284,14 +328,27 @@ export function* sweepPlaceableJob(
  */
 export function registerCleanup(): void {
   world.afterEvents.playerPlaceBlock.subscribe((ev) => {
-    // **試合中だけ覚える。** 準備中の建築を消してしまわないように
-    if (!isRunning()) return;
     const at = ev.block.location;
+    // ---- **ロビーに置かれたものは別に覚える**（`docs/spec/25-practice.md` 4 章）
+    //
+    // 試合の記録（`placed`）に混ぜない。
+    // あちらは**試合を始めるときに忘れる**ので、混ぜると消し損ねる
+    // ---- **ロビーに置かれたものは別に覚える**（`docs/spec/25-practice.md` 4 章）
+    //
+    // **試合中でも覚える**（2026-08-27 変更）。
+    // 試合の間もロビーに人は居て、そこで置ける
+    if (inBox(LOBBY_BOUNDS, at)) {
+      noteLobbyBlock(at);
+      return;
+    }
+    if (!isRunning()) return;
+    // **試合中だけ覚える。** 準備中の建築を消してしまわないように
     placed.set(key(at), { x: at.x, y: at.y, z: at.z });
   });
 
   // 置いたものを壊したら、記録から外す。**消す対象を増やさない**
   world.afterEvents.playerBreakBlock.subscribe((ev) => {
+    lobbyPlaced.delete(key(ev.block.location));
     if (!isRunning()) return;
     placed.delete(key(ev.block.location));
   });

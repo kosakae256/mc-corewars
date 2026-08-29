@@ -40,6 +40,7 @@ import { damageCore, isRunning, teamName, teamOf } from "../../lib/match-state.j
 import { ARENAS, CORE_BLOCK, coreAt, type Team } from "../../lib/arena.js";
 import { bar, fxCoreHit } from "../../lib/fx.js";
 import { canBreakCore, coreLockLeft } from "../grapple/index.js";
+import { roleOf } from "../../lib/roles.js";
 import { canDamageCore, phase1LeftSeconds } from "../../lib/phase.js";
 import { addCore } from "../../lib/stats.js";
 import { onCoreBroken } from "../match/index.js";
@@ -187,8 +188,10 @@ export function registerCore(): void {
 
     // ---- 引き寄せた直後は削れない（docs/spec/13-grapple.md 7章）
     //
+    // **Loophole だけ無視できる**（`docs/spec/24-role.md` 4-3）
+    //
     // **飛び込んだ勢いのまま削れると、守る余地が無い**
-    if (!canBreakCore(player)) {
+    if (!roleOf(player).ignoreCoreLock && !canBreakCore(player)) {
       const left = coreLockLeft(player);
       system.run(() => notify(player, `§c移動直後は削れません §7(あと ${left} 秒)`));
       return;

@@ -38,8 +38,8 @@
 import { world, type Player, type RGBA } from "@minecraft/server";
 import { DebugText, debugDrawer } from "@minecraft/debug-utilities";
 
-import { teamOf, type Team } from "../../lib/match-state.js";
-import { GAS_MAX, gasOf } from "../grapple/gas.js";
+import { matchState, teamOf, type Team } from "../../lib/match-state.js";
+import { gasOf } from "../grapple/gas.js";
 import { absorbOf } from "../../lib/absorb.js";
 import { isSpectating } from "../death/index.js";
 import { isWatching } from "../spectate/index.js";
@@ -76,9 +76,6 @@ const COLOR: Readonly<Record<Team, RGBA>> = {
 
 /** チームの色記号 */
 const TAG: Readonly<Record<Team, string>> = { red: "§c", blue: "§9" };
-
-/** ガスの色。**水色** */
-const GAS_COLOR = "§b";
 
 /** 出している表示。**メモリだけ。** `/reload` で消えてよい */
 interface Mark {
@@ -219,19 +216,6 @@ const DIGITS = 3;
 /** 読めなかったときに出す字。**幅は数と同じにする** */
 const UNKNOWN = "?".repeat(DIGITS);
 
-/**
- * 目盛りと数を 1 行にする。
- *
- * **どの行も同じ幅になる。**
- * 幅が変わると、行が中央でそろわず**がたつく。**
- *
- * **数も目盛りと同じ色にする。** 別の色にすると、
- * どの数がどの目盛りのものか**目で追う必要が出る。**
- */
-function row(ratio: number, value: number, color: string): string {
-  return bar(ratio, color) + " " + number(value, color);
-}
-
 /** 数だけを、桁をそろえて組む */
 function number(value: number, color: string): string {
   const digits = String(Math.max(0, Math.round(value)));
@@ -257,20 +241,17 @@ function healthRow(now: number, max: number, absorb: number): string {
  * ```
  *   名前               ← チームの色
  *   |||||||||| 016     ← 体力
- *   |||||||||| 100     ← ガス（水色）
  * ```
  *
- * **体力とガスは行を分ける。**
- * 横に並べると、どちらの目盛りを読んでいるのか分からない。
+ * **マナとロールは出さない**（2026-08-28 変更）。**相手の手の内**なので。
  *
  * **桁は 0 で埋めて幅をそろえる**（`DIGITS`）。
  * そろっていないと行ががたつく。
  */
 function textFor(player: Player, team: Team): string {
   const hp = healthOf(player);
-  const gas = Math.round(gasOf(player));
 
-  // **並びは 名前 → 体力 → ガス で固定する。**
+  // **並びは 名前 → 体力 で固定する。**
   //
   // 読めなかったときに行ごと落とすと、**並びが変わって見える。**
   // 読めないなら「読めない」と出す。**行は落とさない**
@@ -283,7 +264,17 @@ function textFor(player: Player, team: Team): string {
   // 飛ばしている間、その人は**立っているだけで何もできない。**
   // 味方から見て**守るべき相手**だと分かる必要がある
   const name = TAG[team] + player.name + (isFlyingDrone(player.id) ? " §b[操縦中]" : "");
-  return [name, health, row(gas / GAS_MAX, gas, GAS_COLOR)].join("\n");
+
+  // ---- **マナとロールは出さない**（2026-08-28 変更）
+  //
+  // どちらも**相手の手の内**で、頭上に常に出るものではない。
+  //
+  // > **マナが見えると、跳べるかどうかまで読める。**
+  // > **ロールが見えると、間合いを詰める前に答えが出ている。**
+  //
+  // 頭上に残すのは**誰が、どれだけ削れているか**だけ。
+  // 自分のマナは**経験値の段と帯**に出ている（`docs/spec/13-grapple.md` 2-E）。
+  return [name, health].join("\n");
 }
 
 /**
@@ -395,10 +386,24 @@ export function refreshMarks(spotters: (player: Player) => ReadonlySet<string>):
   const all = world.getAllPlayers();
   const live = new Set<string>();
 
+  // ---- **戦っている間だけ出す**（2026-08-28 追加）
+  //
+  // 所属が外れるのは**演出の最後**（`docs/spec/11-match.md` 4-C）。
+  // 決着してから片付くまでの十数秒は、**まだ所属が残っている。**
+  //
+  // > 勝ち負けが決まったあとに、**敵味方の色で名前が浮かんでいる。**
+  // > 見る人には**まだ試合が続いているように見える。**
+  //
+  // 表示は戦うための道具なので、**決着した時点で用が無い**
+  const battle = matchState() === "running";
+
   for (const player of all) {
     const team = teamOf(player);
     // **試合に入っていない人には出さない**（ロビーで文字が浮かぶ）
-    if (team === undefined) continue;
+    if (team === undefined || !battle) {
+      hideMark(player.id);
+      continue;
+    }
     // ---- **観戦中は出さない**（2026-08-25 追加）
     //
     // 倒れて復活を待っている 5 秒間は観戦者になる
@@ -422,20 +427,33 @@ export function refreshMarks(spotters: (player: Player) => ReadonlySet<string>):
     const text = textFor(player, team);
     const now = marks.get(player.id);
 
-    // ---- 見せる相手だけが変わったなら、貼り直さずに差し替える
+    // ---- **中身が変わっただけなら、貼り直さない**（2026-08-28 修正）
     //
-    // **作り直すと一瞬消える。** それがちらつきの正体
-    //（`features/generator` で分かったこと）
-    if (now !== undefined && now.text === text) {
-      if (now.audience !== key) {
-        try {
+    // 体力もマナも**毎秒変わる**ので、作り直しは事実上ずっと走っていた。
+    //
+    // > **作り直すと、消えるのと出るのが同じ tick に重なる。**
+    // > 出し直しが間に合わないと消え、間に合いすぎると二重に見える——
+    // > **これがちらつきの正体**（2026-08-28 の指摘）。
+    //
+    // `setText` があるので、**同じ実体のまま書き換える。**
+    // 出し直しが起きないので、**ちらつきようが無い。**
+    if (now !== undefined) {
+      try {
+        if (now.text !== text) {
+          now.shape.setText(text);
+          now.text = text;
+        }
+        if (now.audience !== key) {
           now.shape.visibleTo = audience;
           now.audience = key;
-        } catch {
-          /* 消えている */
         }
+        // **色は所属で決まる。** 途中で変わることは無いが、揃えておく
+        now.shape.color = COLOR[team];
+        continue;
+      } catch {
+        // **書き換えられなかった。** 下で作り直す
+        hideMark(player.id);
       }
-      continue;
     }
 
     try {
@@ -449,14 +467,8 @@ export function refreshMarks(spotters: (player: Player) => ReadonlySet<string>):
       shape.visibleTo = audience;
       shape.maximumRenderDistance = RENDER_DISTANCE;
       debugDrawer.addShape(shape, player.dimension);
-
-      if (now !== undefined) {
-        try {
-          debugDrawer.removeShape(now.shape);
-        } catch {
-          /* 既に消えている */
-        }
-      }
+      // **ここへ来るのは「まだ出していない人」だけ。**
+      // 出 している人は上で書き換えて帰っている（作り直さない）
       marks.set(player.id, { shape, text, audience: key });
     } catch {
       /* 出せなかった。次の機会に */

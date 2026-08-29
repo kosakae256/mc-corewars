@@ -37,6 +37,15 @@ import { clearJoinChoice } from "./join.js";
  *   **既にロビーに居るなら動かさない。**
  *   歩いているのに引き戻されると、操作を奪われたように感じる。
  */
+/** 1 つ実行する。**失敗しても次へ進む** */
+function step(run: () => void): void {
+  try {
+    run();
+  } catch {
+    /* この 1 つは諦める。残りは続ける */
+  }
+}
+
 export function resetToLobby(player: Player, move: boolean): void {
   // ---- **所属を外す**（2026-08-25 追加）
   //
@@ -47,10 +56,18 @@ export function resetToLobby(player: Player, move: boolean): void {
   // **終わったあとも出ていると判断してしまう。**
   //
   // 戦績は数えた時点の所属を控えてあるので、消しても色は残る（`lib/stats.ts`）
-  clearTeamOf(player);
+  //
+  // ---- **1 つずつ守る**（2026-08-28 修正）
+  //
+  // まとめて並べていたので、**途中で例外が出ると残りが全部飛んだ。**
+  // 抜けかけの人が 1 人居るだけで、**所属が消えないまま終わる。**
+  //
+  // > **後始末は、途中で止まってはいけない。**
+  // > 1 つ失敗しても、**残りは必ず実行する。**
+  step(() => clearTeamOf(player));
 
   // ---- 倒れた記録を消す（観戦者のまま取り残されない）
-  forceAlive(player);
+  step(() => forceAlive(player));
 
   // ---- **参加の答えも忘れる**（2026-08-26 追加）
   //
@@ -58,13 +75,13 @@ export function resetToLobby(player: Player, move: boolean): void {
   //
   // **次の試合は「非参加」から始まる。**
   // 席を外した人が、押していないのに並び続けるのを防ぐ
-  clearJoinChoice(player);
+  step(() => clearJoinChoice(player));
 
   // ---- 持ち物・装備・効果・体力
-  clearEverything(player);
+  step(() => clearEverything(player));
 
   // ---- チームの帽子（所属が無いのにかぶったままにしない）
-  removeTeamHat(player);
+  step(() => removeTeamHat(player));
 
   try {
     if (player.getGameMode() === GameMode.Spectator) player.setGameMode(GameMode.Survival);

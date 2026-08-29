@@ -48,10 +48,11 @@ import {
 
 import { isRunning, teamOf, type Team } from "../../lib/match-state.js";
 import { BAR, bar } from "../../lib/fx.js";
-import { GAS_MAX, addGas, drainGas, gasOf, spendGas } from "./gas.js";
+import { GAS_MAX, REGEN_PER_TICK, addGas, drainGas, gasOf, regenAllowed, spendGas } from "./gas.js";
 // **ワイヤーを使っているかは v2 と共通で見る**（docs/spec/21-grapple-v2.md 5章）
 import { isBusy, isFlying, land, markFlying } from "./busy.js";
 import { crashDrone, droneOwner, isFlyingDrone } from "../drone/index.js";
+import { roleOf, type WireSpec } from "../../lib/roles.js";
 import { hideAimBox, showAimBox, sweepAimBoxes } from "./aimbox.js";
 
 /** この道具のアイテム。**支給品** */
@@ -152,11 +153,19 @@ const DRONE_CRASH_DELAY = 10;
 // **速さは 1 tick あたりのマス数。** 1 秒 = 20 tick
 
 /**
- * 届く距離（マス）。
+ * 届く距離（マス）。**ロールごとに違う**（`docs/spec/24-role.md` 4 章）。
  *
- * **当たったときのガスの消費はこの距離ぶん。**
+ * ここに書いてあるのは**既定（Swift）の値**で、
+ * 実際に使うのは `wireOf(player)` から引いた値。
+ *
+ * **定数を直接見ない。** ロールが増えるたびに `if` を足すことになる。
  */
 const RANGE = 25;
+
+/** その人のワイヤーの効き方 */
+function wireOf(player: Player): WireSpec {
+  return roleOf(player).wire;
+}
 
 /**
  * 刺したあと、切れるまでの距離（マス）。
@@ -221,6 +230,26 @@ const SPEED_START = 0.7;
 
 /** 最高速。**ダッシュの 5 倍くらい**（約 28 マス/秒） */
 const SPEED_MAX = 1.4;
+
+/**
+ * 低速で近づくときの速さ（マス/tick）。
+ *
+ * 仕様は `docs/spec/24-role.md` 4-2（Zipline）。
+ *
+ * **歩きより遅い。** 300 マス先まで運べる代わりに、
+ * **戦っている最中には使えない遅さ**にしてある（2026-08-26。0.45 → 0.22）。
+ */
+const GLIDE_SPEED = 0.22;
+
+/**
+ * 低速で近づくとき、切れる距離（マス）。
+ *
+ * **着いたら切れる。** それ以外では自動で切らない。
+ *
+ * 引き寄せ（`CLOSE_DIST` = 3）より短いのは、
+ * **勢いを残す必要が無い**から。**着いた場所に留まりたい。**
+ */
+const GLIDE_CLOSE = 2;
 
 /**
  * 加速（マス/tick²）。**毎 tick、目標の速さがこの分だけ上がる。**
@@ -419,9 +448,6 @@ const PULL_START_COST = 5;
 /** 移動中の消費。**1 tick あたり 1**（1 秒あたり 20） */
 const MOVE_COST_PER_TICK = 1;
 
-/** 時間での回復。**1 秒あたり 3.3（空から 30 秒で満タン）** */
-const REGEN_PER_TICK = GAS_MAX / (30 * 20);
-
 /**
  * 与える値の倍率。
  *
@@ -474,6 +500,11 @@ const BEND_DEADZONE = 10;
 
 /** キルでの回復 */
 export const KILL_GAS = 40;
+
+/** その人が倒したときに戻る量。**ロールで違う**（Duelist は 100） */
+export function killGasOf(player: Player): number {
+  return roleOf(player).wire.kill;
+}
 
 /**
  * 着地したあと、コアを削れない時間（tick）。**3 秒。**
@@ -557,6 +588,13 @@ interface Wire {
    * **面の向きによって隣の空気のマスを指す**（2026-08-25 修正）。
    */
   readonly block: Vector3;
+  /**
+   * **空気に刺したか**（Sky walker。`docs/spec/24-role.md` 4-2）。
+   *
+   * 空気には**壊れる足場が無い**ので、
+   * 「掛けた足場が消えた」判定（`gone`）を通さない。
+   */
+  readonly air?: boolean;
   /** 引き寄せ中か */
   moving: boolean;
   /**
@@ -717,6 +755,29 @@ function holdingGrapple(player: Player): boolean {
 }
 
 /**
+ * 空気に刺す点。**Sky walker だけ。**
+ *
+ * 仕様は `docs/spec/24-role.md` 4-2。
+ *
+ * **射程いっぱいの、視線の先。**
+ * ブロックに当たらなかったときだけ使う（当たればそちらが優先）。
+ *
+ * **刺すときと、枠を出すときで同じ点**を使う——
+ * 別々に計算すると、**枠と刺さる場所がずれる。**
+ */
+function airAnchor(player: Player): Vector3 | undefined {
+  const wire = wireOf(player);
+  if (!wire.air || wire.range <= 0) return undefined;
+  try {
+    const from = muzzle(player);
+    const dir = player.getViewDirection();
+    return { x: from.x + dir.x * wire.range, y: from.y + dir.y * wire.range, z: from.z + dir.z * wire.range };
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * 狙いのぶれを許す角度（度）。
  *
  * 仕様は `docs/spec/13-grapple.md` 2-D。
@@ -746,7 +807,7 @@ const AIM_DIRECTIONS = 8;
  * **斜めのときだけ 20.8 マスで打ち切られた。**
  * ゲーム側が何を基準に測っているのか分からないので、当てにしない。
  */
-const SCAN = RANGE * 2;
+const SCAN_SCALE = 2;
 
 /**
  * そのブロックは射程の中か。
@@ -758,7 +819,7 @@ function withinRange(player: Player, dir: Vector3, block: Vector3): boolean {
   const eye = muzzle(player);
   const face = blockFace(eye, dir, block);
   if (face === undefined) return false;
-  return len(sub(face.at, eye)) <= RANGE;
+  return len(sub(face.at, eye)) <= wireOf(player).range;
 }
 
 /**
@@ -779,15 +840,23 @@ function findAim(player: Player, forgive: readonly number[]): { block: Vector3; 
     //
     // **広めに投げて、当たった点までの距離を自分で見る。**
     // これなら**どの向きでも同じ 25 マス**になる
-    const hit = player.getBlockFromViewDirection({ maxDistance: SCAN });
+    const hit = player.getBlockFromViewDirection({ maxDistance: wireOf(player).range * SCAN_SCALE });
     if (hit !== undefined) {
       const block = { x: hit.block.x, y: hit.block.y, z: hit.block.z };
       if (withinRange(player, dir, block)) return { block, dir };
-      // **届いていない。** 首を振っても届かないので、ここで終わり
-      return undefined;
+      // ---- **届かなくても、ここで諦めない**（2026-08-28 修正）
+      //
+      // 以前は**その場で「外れ」にしていた。**
+      // 真っ直ぐの線が**遠くの地面に届いてしまう**と、
+      // **すぐ横にある足場を見に行かないまま終わっていた。**
+      //
+      // > 高い所ほど起きる。**視線の先はたいてい遠くの地面**なので、
+      // > 縁を狙っているつもりで**毎回「届きません」**になる。
+      //
+      // 首を振る方（下）へ進む
     }
   } catch {
-    return undefined;
+    // **読めなかっただけ。** 首を振る方は試す
   }
   if (forgive.length === 0) return undefined;
 
@@ -823,7 +892,7 @@ function findAim(player: Player, forgive: readonly number[]): { block: Vector3; 
       });
       let hit;
       try {
-        hit = player.dimension.getBlockFromRay(eye, d, { maxDistance: SCAN });
+        hit = player.dimension.getBlockFromRay(eye, d, { maxDistance: wireOf(player).range * SCAN_SCALE });
       } catch {
         continue;
       }
@@ -906,7 +975,7 @@ function attach(player: Player): void {
   // **箱を 2 倍にして、こちらで交差を見る**（`DRONE_HIT`）
   let hitDrone: Entity | undefined;
   try {
-    const reach = hitAt === undefined ? RANGE : len(sub(hitAt, from));
+    const reach = hitAt === undefined ? wireOf(player).range : len(sub(hitAt, from));
     const dir = player.getViewDirection();
     let nearest = Number.POSITIVE_INFINITY;
     for (const e of player.dimension.getEntities({
@@ -927,13 +996,14 @@ function attach(player: Player): void {
   //
   // 当たり外れを見る前に確かめる。**外しても撃った分は減る**が、
   // 「撃てたのに引けない」状態を作らない
-  if (gasOf(player) < ATTACH_MIN) {
-    bar(player, `§cガスが足りません §7(${Math.floor(gasOf(player))}/${ATTACH_MIN})`);
+  if (gasOf(player) < wireOf(player).attach + wireOf(player).pull) {
+    const need = wireOf(player).attach + wireOf(player).pull;
+    bar(player, `§cガスが足りません §7(${Math.floor(gasOf(player))}/${need})`);
     return;
   }
 
   // **外しても当たっても同じ。** 距離では変えない
-  const cost = hitAt === undefined && hitDrone === undefined ? MISS_COST : ATTACH_COST;
+  const cost = hitAt === undefined && hitDrone === undefined ? MISS_COST : wireOf(player).attach;
   if (!spendGas(player, cost)) {
     bar(player, `§cガスが足りません §7(${Math.floor(gasOf(player))}/${cost})`);
     return;
@@ -974,7 +1044,36 @@ function attach(player: Player): void {
     return;
   }
 
+  // ---- **空気にも刺さる**（Sky walker。`docs/spec/24-role.md` 4-2）
+  //
+  // ブロックに当たらなかったときだけ、**射程いっぱいの空中**に刺す。
+  // 途中にブロックがあれば、そちらが優先される（上の分岐で決まっている）。
+  //
+  // **足場が要らない。** 短い射程の代わりに、どこでも跳べる
+  const airAt = hitAt === undefined ? airAnchor(player) : undefined;
+  if (airAt !== undefined) {
+    const at = airAt;
+    wires.set(player.id, {
+      at,
+      // **空気には座標としてのブロックが無い。** 印だけ置く
+      block: { x: Math.floor(at.x), y: Math.floor(at.y), z: Math.floor(at.z) },
+      air: true,
+      moving: false,
+      axis: norm(sub(at, from)),
+      stuck: 0,
+      speed: SPEED_START,
+      slot: player.selectedSlotIndex,
+    });
+    player.playSound("random.bow", { location: player.location, pitch: 1.4 });
+    return;
+  }
+
   if (hitAt === undefined || hitBlock === undefined) {
+    // ---- **なぜ刺さらなかったのかを出す**（2026-08-28 追加）
+    //
+    // 音だけでは**届かなかった**のか**面が読めなかった**のか分からない。
+    // 高い所で刺さらないという報告を、**推測で追わせない**
+    bar(player, hitBlock === undefined ? "§7届きませんでした" : "§7面が読めませんでした", BAR.notice, 20);
     player.playSound("random.click", { location: player.location });
     return;
   }
@@ -997,9 +1096,34 @@ function attach(player: Player): void {
  * **走り込んでから撃つと伸びる。**
  * いまの速度はゲーム側が持っているので、こちらで覚える必要が無い。
  */
+/**
+ * **引き寄せたあと、まだ着地していない人**（`docs/spec/24-role.md` 4-2）。
+ *
+ * 超加速装置は**一発で吹き飛ぶ道具。**
+ * 飛んだ先で必ず落ちるので、**着地のたびに削れては使えない。**
+ *
+ * **落下ダメージを全部無くすのとは違う。**
+ * 自分から飛び降りたぶんは、これまで通り痛い。
+ */
+const softLanding = new Map<string, number>();
+
+/** 引き寄せたあとの着地か。**一度きり**（見たら忘れる） */
+export function takeSoftLanding(playerId: string): boolean {
+  const at = softLanding.get(playerId);
+  if (at === undefined) return false;
+  softLanding.delete(playerId);
+  // **飛んでいる間だけ。** ずっと効いていては「無効」と変わらない
+  return system.currentTick - at <= SOFT_LANDING_TICKS;
+}
+
+/** 引き寄せてから、着地の守りが効いている長さ（tick）。**15 秒** */
+const SOFT_LANDING_TICKS = 300;
+
 function startPull(player: Player, wire: Wire): void {
   wire.moving = true;
-  wire.speed = SPEED_START;
+  // **引き寄せた——この飛行の着地は守る**（`takeSoftLanding`）
+  softLanding.set(player.id, system.currentTick);
+  wire.speed = SPEED_START * wireOf(player).speed;
   // **引き寄せを始めた地点を基準にする。**
   // 引っ掛けてから歩き回っていることがあるので、ここで取り直す
   wire.axis = norm(sub(wire.at, muzzle(player)));
@@ -1023,7 +1147,14 @@ function startPull(player: Player, wire: Wire): void {
   } catch {
     /* 消えている */
   }
-  player.playSound("random.levelup", { location: player.location, pitch: 1.6, volume: 0.4 });
+  // ---- **場所を指定しない**（2026-08-26 修正）
+  //
+  // 場所を渡すと**そこから鳴る。**
+  // 引き寄せは**その場から飛び去る**動きなので、
+  // **鳴っている間に音源を置き去りにして、途中で聞こえなくなる。**
+  //
+  // 渡さなければ**本人について回る。** 最後まで同じ大きさで聞こえる
+  player.playSound("game.levelup", { pitch: 1.6, volume: 0.4 });
 }
 
 /**
@@ -1037,6 +1168,8 @@ function startPull(player: Player, wire: Wire): void {
  * 何かを足す必要は無い。物理がそうなっている。
  */
 function cut(player: Player, moving: boolean): void {
+  // **溜めたずれを忘れる**（次に張ったときへ持ち越さない）
+  glideBias.delete(player.id);
   if (!wires.delete(player.id)) return;
   // ---- **ワイヤーで浮いた印を付ける**（docs/spec/13-grapple.md 2章）
   //
@@ -1048,7 +1181,9 @@ function cut(player: Player, moving: boolean): void {
   // **ここではまだ数え始めない。** 数えるのは**着地してから**
   airborne.add(player.id);
   try {
-    player.playSound("random.break", { location: player.location, pitch: 1.8, volume: 0.5 });
+    // **場所を渡さない。** 飛んでいる最中に鳴るので、
+    // 座標を渡すと**音源を置き去りにして途中で切れる**（引き寄せ開始と同じ）
+    player.playSound("random.break", { pitch: 1.8, volume: 0.5 });
   } catch {
     /* 消えている */
   }
@@ -1093,6 +1228,9 @@ function steerVector(player: Player): Vector3 {
 
 /** 掛けた足場が無くなったか。**読めないときは「ある」ことにする** */
 function gone(player: Player, wire: Wire): boolean {
+  // ---- **空気に刺している場合は、消えようが無い**（Sky walker）
+  if (wire.air === true) return false;
+
   // ---- **実体に刺している場合は、その実体を見る**
   //
   // 動く的なので、ブロックの座標には意味が無い
@@ -1144,7 +1282,7 @@ function step(player: Player, wire: Wire): void {
   }
 
   // ---- 離れすぎたら切れる
-  if (dist > CUT_DIST) {
+  if (dist > wireOf(player).cut) {
     cut(player, wire.moving);
     return;
   }
@@ -1158,8 +1296,30 @@ function step(player: Player, wire: Wire): void {
   if (!wire.moving) return;
 
   // ---- ガス切れ
-  if (drainGas(player, MOVE_COST_PER_TICK) <= 0) {
+  if (drainGas(player, wireOf(player).move) <= 0 && wireOf(player).move > 0) {
     cut(player, true);
+    return;
+  }
+
+  // ---- **低速で近づくロールは、切れる条件が違う**（Zipline。2026-08-26 追加）
+  //
+  // 仕様は `docs/spec/24-role.md` 4-2。
+  //
+  // | 切れる条件 | Swift | **Zipline** |
+  // | --- | --- | --- |
+  // | 通り過ぎた | 切る | **見ない** |
+  // | 壁で止まった | 切る | **見ない** |
+  // | 手前まで来た | 3 マス | **2 マス** |
+  // | 持ち替え・足場が消えた | 切る | 切る |
+  //
+  // > 途中で放り出されると、**運ぶ道具として使えない。**
+  // > **着いたら切れる**、それだけでよい。
+  if (wireOf(player).mode === "glide") {
+    if (dist <= GLIDE_CLOSE) {
+      cut(player, false);
+      return;
+    }
+    glide(player, toward);
     return;
   }
 
@@ -1216,7 +1376,10 @@ function step(player: Player, wire: Wire): void {
   const steer = steerVector(player);
 
   // ---- 目標の速さは毎 tick 上がる
-  wire.speed = Math.min(SPEED_MAX, wire.speed + PULL_ACCEL);
+  // **ロールごとに速さが違う**（`docs/spec/24-role.md` 4-2）。
+  // 超加速装置は 20 倍——**刺した先へ一瞬で着く**
+  const top = SPEED_MAX * wireOf(player).speed;
+  wire.speed = Math.min(top, wire.speed + PULL_ACCEL * wireOf(player).speed);
 
   // ---- **毎 tick、目標の速度をそのまま与える**
   //
@@ -1262,6 +1425,87 @@ function step(player: Player, wire: Wire): void {
 
   try {
     player.applyKnockback({ x: vx, z: vz }, vy);
+  } catch {
+    cut(player, false);
+  }
+}
+
+/**
+ * 溜めたずれ。**プレイヤーごと。**
+ *
+ * 低速で近づく間、**足りない縦の力を少しずつ溜める**（積分項）。
+ * 切ったら忘れる。
+ */
+const glideBias = new Map<string, number>();
+
+/** 1 tick に溜める割合。**大きいと揺れる** */
+const GLIDE_BIAS_GAIN = 0.08;
+
+/**
+ * 縦を直しにいかない幅（マス/tick）。
+ *
+ * **ずれが小さいうちは触らない。**
+ *
+ * 毎 tick 縦を上書きすると、**クライアント側の予測と押し合って画面が揺れる。**
+ * 遅い移動ほど、補正の割合が大きく見える。
+ */
+const GLIDE_DEAD = 0.05;
+
+/** 溜められる上限。**暴走させない**（上がりすぎたので 0.5 → 0.2） */
+const GLIDE_BIAS_MAX = 0.2;
+
+/**
+ * 低速で近づく（Zipline）。
+ *
+ * 仕様は `docs/spec/24-role.md` 4-2。
+ *
+ * 加速しない・曲げない・重力を無視する。
+ * **刺した点へ、決まった速さでまっすぐ進む。**
+ *
+ * 戦うための動きではなく、**運ぶための動き。**
+ */
+function glide(player: Player, toward: Vector3): void {
+  const to = norm(toward);
+  const want = { x: to.x * GLIDE_SPEED, y: to.y * GLIDE_SPEED, z: to.z * GLIDE_SPEED };
+
+  try {
+    // ---- **重力は切らない**（2026-08-26 決定）
+    //
+    // 一度は `minecraft:physics` で重力そのものを止めた。**やめた。**
+    //
+    // > **減速させる力が無くなる。**
+    // > 移動中に殴られると、その勢いが**どこまでも残って飛んでいく。**
+    //
+    // 打ち消す側に戻す。ただし**足す量を当てにいかない。**
+    //
+    // ## 実測から決める
+    //
+    // **いまの縦速度と、出したい縦速度の差**を見て、その分を足す。
+    // 何倍で目減りするかを知らなくても、**ずれていれば自動で埋まる。**
+    //
+    // **上へは押すが、下へは押さない**（負の値は素直に効かない）。
+    // 上がりすぎたぶんは**重力が戻してくれる**——切っていないので
+    const cur = player.getVelocity();
+    const err = want.y - cur.y;
+
+    // ---- **ずれを溜めて足す**（2026-08-26 追加）
+    //
+    // 差を見て足すだけ（比例）では、**重力 1 回分ぶん遅れて追いかける**形になり、
+    // **その差が残り続ける。** 結果、少しずつ沈む。
+    //
+    // > **溜めた分を足す**（積分）と、**残る差そのものが埋まる。**
+    // > 何倍で目減りするかを知らなくても、**勝手に釣り合う所へ収束する。**
+    // **小さいずれは直さない。** 直しにいくほど揺れる
+    const fix = Math.abs(err) < GLIDE_DEAD ? 0 : err;
+
+    // **溜めるのも、ずれているときだけ。**
+    //
+    // 釣り合っている所でも溜め続けると、**少しずつ上がっていく**（2026-08-26 修正）
+    const bias = Math.max(0, Math.min(GLIDE_BIAS_MAX, (glideBias.get(player.id) ?? 0) + fix * GLIDE_BIAS_GAIN));
+    glideBias.set(player.id, bias);
+
+    const lift = Math.max(0, want.y + fix + bias);
+    player.applyKnockback({ x: want.x * KNOCK_SCALE, z: want.z * KNOCK_SCALE }, lift * KNOCK_SCALE);
   } catch {
     cut(player, false);
   }
@@ -1418,6 +1662,13 @@ function drawAim(player: Player): void {
   // **探し方が違えば、出ているのに掛からない**（逆もある）。
   const aim = findAim(player, AIM_FORGIVE);
   if (aim === undefined) {
+    // ---- **空気には枠を出さない**（2026-08-26 変更）
+    //
+    // 一度は空気にも白枠を出したが、やめた。
+    // **何も無い所に枠だけ浮くのは、かえって読みにくい。**
+    //
+    // 刺さること自体は変わらない（`airAnchor`）
+    //
     // **届いていない。** 枠も消す
     hideAimBox(player.id);
     return;
@@ -1453,7 +1704,8 @@ function drawWire(player: Player, wire: Wire): void {
 function showGas(player: Player): void {
   const g = Math.floor(gasOf(player));
   const filled = Math.round((g / GAS_MAX) * 20);
-  const color = g >= RANGE ? "§b" : "§c";
+  // **一度撃てるだけ残っていれば青。** 足りなければ赤
+  const color = g >= wireOf(player).attach + wireOf(player).pull ? "§b" : "§c";
   // **いちばん弱い優先度で出す**（docs/spec/13-grapple.md）。
   // 毎 tick 書くので、他の知らせを押し流してしまう
   bar(player, `${color}${"|".repeat(filled)}§8${"|".repeat(20 - filled)} §r${g}`, BAR.ambient, 2);
@@ -1502,17 +1754,27 @@ export function startGrapple(): void {
           landedForLock(player.id);
         }
         // **v2 で飛んでいる間も回復させない**（docs/spec/21-grapple-v2.md 5章）
-        if (!isFlying(player.id) && !isBusy(player.id)) addGas(player, REGEN_PER_TICK);
+        // ---- **ドローンを飛ばしている間も回復する**（2026-08-28 変更）
+        //
+        // 動かしている間だけ止めていたが、**その消費ごと無くした**
+        //（`docs/spec/23-drone.md` 5-D）。止める理由も消えた。
+        //
+        // **ロールによっては時間で回復しない**（Duelist。24-role.md 4-2）
+        if (!isFlying(player.id) && !isBusy(player.id) && regenAllowed(player)) {
+          addGas(player, REGEN_PER_TICK);
+        }
       }
 
+      // ---- **足元にマナは出さない**（2026-08-26 変更）
+      //
+      // **経験値の所に常に出している**（`features/grapple/manabar.ts`）ので、
+      // 二重になる。足元の 1 行は**知らせのために空けておく**
       if (holdingGrapple(player) && !wires.has(player.id)) {
-        showGas(player);
         // **掛かる点に印を出す**（刺していないときだけ。13-grapple.md 2-C）
         drawAim(player);
       } else {
         // **持ち替えた・刺した。** 狙いの印は消す
         hideAimBox(player.id);
-        if (holdingGrapple(player)) showGas(player);
       }
     }
 
@@ -1531,6 +1793,14 @@ export function registerGrappleUse(): void {
   world.afterEvents.itemUse.subscribe((ev) => {
     if (!isGrappleItem(ev.itemStack.typeId)) return;
     const player = ev.source;
+    // ---- **ワイヤーを使えないロール**（`docs/spec/24-role.md` 4-3）
+    //
+    // 射程 0 は「持っているが撃てない」という意味。
+    // **道具を取り上げない**のは、**殴る道具でもあるから**
+    if (wireOf(player).range <= 0) {
+      bar(player, `§c${roleOf(player).name} はワイヤーを使えません`, BAR.notice, 30);
+      return;
+    }
     // ---- **ドローンを飛ばしている間は使えない**（docs/spec/23-drone.md 2 章）
     //
     // 飛んでいるのは**本人**なので、そのままだと空中でワイヤーが撃てる。
@@ -1545,8 +1815,9 @@ export function registerGrappleUse(): void {
     }
     if (wire.moving) return;
     // **踏み切りに値段を付ける**（docs/spec/13-grapple.md 2章）
-    if (!spendGas(player, PULL_START_COST)) {
-      bar(player, `§cガスが足りません §7(${Math.floor(gasOf(player))}/${PULL_START_COST})`);
+    const start = wireOf(player).pull;
+    if (!spendGas(player, start)) {
+      bar(player, `§cガスが足りません §7(${Math.floor(gasOf(player))}/${start})`);
       return;
     }
     startPull(player, wire);
@@ -1612,6 +1883,35 @@ export function registerReachCommand(registry: CustomCommandRegistry): void {
         }
         lines.push(`§7上限 §f${max}§7 → ${text}`);
       }
+
+      // ---- **狙いの通り道をそのまま出す**（2026-08-28 追加）
+      //
+      // 「高い所で刺さらない」を**推測で追わない。**
+      // `attach` が見ているものを、同じ順で並べる
+      const w = wireOf(player);
+      lines.push(`§7ロール §f${roleOf(player).name}§7  射程 §f${w.range}§7  切断 §f${w.cut}`);
+      lines.push(
+        `§7いる高さ §f${from.y.toFixed(1)}§7  マナ §f${Math.floor(gasOf(player))}§7（要 ${w.attach + w.pull}）`
+      );
+
+      const aim = findAim(player, AIM_FORGIVE);
+      if (aim === undefined) {
+        lines.push("§7狙い → §c何も掴めない §8(findAim が undefined)");
+      } else {
+        const face = blockFace(from, aim.dir, aim.block);
+        const d = face === undefined ? undefined : len(sub(face.at, from));
+        lines.push(
+          `§7狙い → §f${aim.block.x},${aim.block.y},${aim.block.z}§7  面まで ` +
+            (d === undefined ? "§c読めない" : `§f${d.toFixed(1)}§7 マス`)
+        );
+      }
+      const air = airAnchor(player);
+      lines.push(
+        air === undefined
+          ? "§7空気には刺さらないロール"
+          : `§7空気の刺し先 → §f${air.x.toFixed(0)},${air.y.toFixed(0)},${air.z.toFixed(0)}`
+      );
+
       return { status: CustomCommandStatus.Success, message: lines.join("\n") };
     }
   );

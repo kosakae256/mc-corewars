@@ -1,0 +1,82 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "pve:el_water_wet",
+      "basic_render_parameters": {
+        "material": "particles_alpha",
+        "texture": "textures/particle/pve_droplet"
+      }
+    },
+    "components": {
+      "minecraft:emitter_local_space": {
+        "position": false
+      },
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 4
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.05
+      },
+      "minecraft:emitter_shape_sphere": {
+        "offset": [
+          0,
+          1.1,
+          0
+        ],
+        "radius": 0.7,
+        "direction": "outwards"
+      },
+      "minecraft:particle_initial_speed": 0.3,
+      "minecraft:particle_motion_dynamic": {
+        "linear_acceleration": [
+          0,
+          -9.0,
+          0
+        ],
+        "linear_drag_coefficient": 0.6
+      },
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": 0.55
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "0.13 * (1 - (v.particle_age / v.particle_lifetime))",
+          "0.17 * (1 - (v.particle_age / v.particle_lifetime))"
+        ],
+        "facing_camera_mode": "lookat_xyz",
+        "uv": {
+          "texture_width": 16,
+          "texture_height": 16,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            16,
+            16
+          ]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": {
+          "gradient": [
+            [
+              0.7,
+              0.9,
+              1.0,
+              0.75
+            ],
+            [
+              0.3,
+              0.6,
+              1.0,
+              0.0
+            ]
+          ],
+          "interpolant": "v.particle_age / v.particle_lifetime"
+        }
+      }
+    }
+  }
+}

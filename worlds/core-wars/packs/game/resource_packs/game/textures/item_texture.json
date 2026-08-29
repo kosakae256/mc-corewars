@@ -49,6 +49,27 @@
     },
     "game_knock_stick": {
       "textures": "textures/items/stick"
+    },
+    "game_role_swift": {
+      "textures": "textures/items/game_role_swift"
+    },
+    "game_role_sky": {
+      "textures": "textures/items/game_role_sky"
+    },
+    "game_role_duelist": {
+      "textures": "textures/items/game_role_duelist"
+    },
+    "game_role_zipline": {
+      "textures": "textures/items/game_role_zipline"
+    },
+    "game_role_engineer": {
+      "textures": "textures/items/game_role_engineer"
+    },
+    "game_role_berserker": {
+      "textures": "textures/items/game_role_berserker"
+    },
+    "game_role_loophole": {
+      "textures": "textures/items/game_role_loophole"
     }
   }
 }

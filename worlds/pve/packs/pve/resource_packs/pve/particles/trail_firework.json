@@ -1,0 +1,80 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "pve:trail_firework",
+      "basic_render_parameters": {
+        "material": "particles_add",
+        "texture": "textures/particle/pve_dash"
+      }
+    },
+    "components": {
+      "minecraft:emitter_local_space": {
+        "position": false
+      },
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 1
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.05
+      },
+      "minecraft:emitter_shape_point": {
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      "minecraft:particle_initial_speed": 0,
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": 0.286
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          1.05,
+          "0.1268 * (1 - (v.particle_age / v.particle_lifetime))"
+        ],
+        "facing_camera_mode": "direction_x",
+        "direction": {
+          "mode": "custom",
+          "custom_direction": [
+            "v.dx",
+            "v.dy",
+            "v.dz"
+          ]
+        },
+        "uv": {
+          "texture_width": 32,
+          "texture_height": 8,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            32,
+            8
+          ]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": {
+          "gradient": [
+            [
+              1.0,
+              0.65,
+              0.825,
+              0.95
+            ],
+            [
+              0.75,
+              0.038,
+              0.536,
+              0.0
+            ]
+          ],
+          "interpolant": "v.particle_age / v.particle_lifetime"
+        }
+      }
+    }
+  }
+}

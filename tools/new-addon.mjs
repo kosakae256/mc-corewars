@@ -2,7 +2,11 @@
 /**
  * addons/_template から新しいアドオンを生成する。
  *
- *   node tools/new-addon.mjs <アドオン名> ["説明"]
+ *   node tools/new-addon.mjs <アドオン名> ["説明"] [出力先]
+ *
+ * 出力先を省くと `addons/<名前>`。
+ * ワールドに属するパックは `worlds/<名>/packs` を渡す
+ * （`CLAUDE.md` の「ディレクトリ構成」）。
  *
  * - アドオン名は英小文字・数字・アンダースコアのみ（パックフォルダ名と
  *   Custom Component の名前空間に使うため）
@@ -21,9 +25,11 @@ const TEMPLATE = join(ROOT, "addons", "_template");
 
 const name = process.argv[2];
 const description = process.argv[3] ?? `${name} behavior pack`;
+/** 出力先。**省いたら addons/** */
+const intoDir = process.argv[4] ?? "addons";
 
 if (!name) {
-  console.error("使い方: node tools/new-addon.mjs <アドオン名> [\"説明\"]");
+  console.error("使い方: node tools/new-addon.mjs <アドオン名> [\"説明\"] [出力先]");
   process.exit(1);
 }
 if (!/^[a-z][a-z0-9_]*$/.test(name)) {
@@ -35,9 +41,9 @@ if (name === "_template") {
   process.exit(1);
 }
 
-const dest = join(ROOT, "addons", name);
+const dest = join(ROOT, intoDir, name);
 if (existsSync(dest)) {
-  console.error(`すでに存在します: addons/${name}`);
+  console.error(`すでに存在します: ${intoDir}/${name}`);
   process.exit(1);
 }
 if (!existsSync(TEMPLATE)) {
@@ -77,7 +83,7 @@ function walk(dir) {
 }
 walk(dest);
 
-console.log(`addons/${name} を作成しました。`);
+console.log(`${intoDir}/${name} を作成しました。`);
 console.log(`  BP UUID: ${replacements.__UUID_BP_HEADER__}`);
 console.log(`  RP UUID: ${replacements.__UUID_RP_HEADER__}`);
 

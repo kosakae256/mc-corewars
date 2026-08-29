@@ -1,0 +1,57 @@
+{
+  "format_version": "1.26.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "game:dart",
+      "is_spawnable": false,
+      "is_summonable": true
+    },
+    "components": {
+      "minecraft:collision_box": {
+        "height": 0.25,
+        "width": 0.25
+      },
+      "minecraft:physics": {},
+      "minecraft:projectile": {
+        "anchor": 1,
+        "angle_offset": 0.0,
+        "offset": [
+          0,
+          -0.1,
+          0
+        ],
+        "gravity": 0.0,
+        "power": 5.0,
+        "on_hit": {
+          "impact_damage": {
+            "damage": 0,
+            "knockback": false,
+            "destroy_on_hit": true
+          },
+          "particle_on_hit": {
+            "num_particles": 4,
+            "on_other_hit": true,
+            "on_entity_hit": true,
+            "particle_type": "critical_hit_emitter"
+          },
+          "remove_on_hit": {}
+        },
+        "uncertainty_base": 0,
+        "uncertainty_multiplier": 0,
+        "inertia": 1.0
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:damage_sensor": {
+        "triggers": {
+          "deals_damage": "no"
+        }
+      },
+      "minecraft:sound_volume": {
+        "value": 0.0
+      }
+    }
+  }
+}

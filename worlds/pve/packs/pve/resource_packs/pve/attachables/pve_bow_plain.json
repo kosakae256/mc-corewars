@@ -1,0 +1,47 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "pve:bow_plain",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/pve_bow_plain_standby",
+        "pulling_0": "textures/items/pve_bow_plain_pulling_0",
+        "pulling_1": "textures/items/pve_bow_plain_pulling_1",
+        "pulling_2": "textures/items/pve_bow_plain_pulling_2",
+        "twinkle_0": "textures/items/pve_bow_plain_standby",
+        "twinkle_1": "textures/items/pve_bow_plain_standby"
+      },
+      "geometry": {
+        "default": "geometry.pve_bow_plain_standby",
+        "pulling_0": "geometry.pve_bow_plain_pulling_0",
+        "pulling_1": "geometry.pve_bow_plain_pulling_1",
+        "pulling_2": "geometry.pve_bow_plain_pulling_2",
+        "twinkle_0": "geometry.pve_bow_plain_standby",
+        "twinkle_1": "geometry.pve_bow_plain_standby"
+      },
+      "animations": {
+        "wield": "animation.pve_bow.wield",
+        "pull": "animation.pve_bow.pull"
+      },
+      "scripts": {
+        "pre_animation": [
+          "variable.charge_amount = math.clamp(((query.main_hand_item_max_duration - query.main_hand_item_use_duration) + query.frame_alpha) / 20.0, 0.0, 1.0);",
+          "variable.pve_twinkle = 0.0;"
+        ],
+        "animate": [
+          "wield",
+          {
+            "pull": "query.main_hand_item_use_duration > 0.0f && c.is_first_person"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.pve_bow"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "random.levelup": {
+      "category": "player",
+      "sounds": []
+    },
+    "game.levelup": {
+      "category": "player",
+      "sounds": [
+        {
+          "name": "sounds/game/levelup",
+          "load_on_low_memory": true
+        }
+      ]
+    }
+  }
+}

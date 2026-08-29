@@ -36,6 +36,7 @@ import { system, world, type Dimension, type Entity, type Vector3 } from "@minec
 import { ARENAS, type Arena, type Team } from "../../lib/arena.js";
 import { matchState, teamOf } from "../../lib/match-state.js";
 import { openShop, shopBlockedReason } from "./index.js";
+import { droneUiBlocked } from "../drone/index.js";
 
 /** 店員の種類。`behavior_packs/game/entities/shopkeeper.json` */
 const KEEPER = "game:shopkeeper";
@@ -289,6 +290,8 @@ export function registerShopKeeperInteract(): void {
   world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
     const target = ev.target;
     if (target.typeId !== KEEPER) return;
+    // **ドローンの最中は開かない**（`features/drone` 5-E）
+    if (droneUiBlocked(ev.player, ev.itemStack?.typeId)) return;
 
     // **バニラの動きを止める。** 手に持っているものが暴発しないように
     ev.cancel = true;

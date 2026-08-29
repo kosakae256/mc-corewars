@@ -30,6 +30,7 @@ import { registerCore } from "./features/core/index.js";
 import { startBorder } from "./features/border/index.js";
 import { registerBuildRules } from "./features/build/index.js";
 import { registerLobby } from "./features/lobby/index.js";
+import { registerWelcome } from "./features/welcome/index.js";
 import { startHud } from "./features/hud/index.js";
 import { startBoard } from "./features/board/index.js";
 import { registerTntFuse, startTntFuse, startTntGuard } from "./features/special/tnt.js";
@@ -37,15 +38,20 @@ import { registerNoBottle } from "./features/special/nobottle.js";
 import { registerEnderGuard } from "./features/special/enderchest.js";
 import { registerPickaxe } from "./features/special/pickaxe.js";
 import { registerNoDrop, startNoDrop } from "./features/special/nodrop.js";
+import { registerRoleCleanup } from "./features/role/change.js";
+import { registerRoleKeeper, registerRoleKeeperCommand, startRoleKeeper } from "./features/role/keeper.js";
+import { registerRoleDamage, startRoleEffects } from "./features/role/effects.js";
 import { registerKnockStick } from "./features/special/knockstick.js";
 import { registerFireCharge, startFireCharge } from "./features/special/firecharge.js";
 import { registerFireproof, startFireproof } from "./features/special/fireproof.js";
 import { registerGrappleUse, registerReachCommand, startGrapple } from "./features/grapple/index.js";
+import { startManaBar } from "./features/grapple/manabar.js";
 import { registerShopCommand } from "./features/shop/index.js";
 import { registerPriceCommand } from "./features/shop/price.js";
 import { forgetPrices } from "./lib/shop-prices.js";
 import { registerTeamChat } from "./features/chat/index.js";
 import { registerSpotCommands } from "./features/spotting/command.js";
+import { registerPointsCommand } from "./features/admin/points.js";
 import { startCosmetic } from "./features/cosmetic/index.js";
 import { registerJoinCard } from "./features/lobby/join.js";
 import { registerLobbySigns, registerSignCommand } from "./features/lobby/signs.js";
@@ -111,11 +117,14 @@ system.beforeEvents.startup.subscribe((init) => {
   registerUnstuckCommand(registry);
   // **射程の実測**（docs/spec/13-grapple.md 2 章）
   registerReachCommand(registry);
+  // **ロールの村人を置く**（docs/spec/24-role.md 2-1）
+  registerRoleKeeperCommand(registry);
 
   // 味方だけに話す（/game:team）。**誰でも使える**
   registerTeamChat(registry);
   // **発光の確認用**（docs/spec/15-presentation.md 7-3）
   registerSpotCommands(registry);
+  registerPointsCommand(registry);
 });
 
 // ---------------------------------------------------------------------------
@@ -163,6 +172,16 @@ registerPickaxe();
 // **落ちた支給品は消す**（docs/spec/16-participation.md 2-4）
 registerNoDrop();
 startNoDrop();
+
+// ---- ロール（docs/spec/24-role.md）
+//
+// **いまの挙動は Swift という 1 つのロール。**
+// 変える村人・常時効果・片付け、どれもここから起こす
+registerRoleKeeper();
+startRoleKeeper();
+registerRoleDamage();
+startRoleEffects();
+registerRoleCleanup();
 // **ノックバック棒は、バニラの分に上乗せして飛ばす**（docs/03-content.md 1-1-C）
 registerKnockStick();
 
@@ -183,6 +202,8 @@ startFireproof();
 
 // **ワイヤー射出装置**（docs/spec/13-grapple.md）
 startGrapple();
+// **マナを経験値の所に出す**（docs/spec/13-grapple.md 2-E）
+startManaBar();
 registerGrappleUse();
 
 // **ワイヤー射出装置 v2 は動かさない**（docs/spec/21-grapple-v2.md）。
@@ -193,6 +214,8 @@ registerAutoPause();
 
 // **試合をしていない間の居場所**（docs/spec/15-presentation.md 1章）
 registerLobby();
+// **初めて来た人を迎える**（docs/spec/24-role.md 3-2-B）
+registerWelcome();
 
 // **コアの残りを常に見せる**（docs/spec/15-presentation.md 5章）
 startHud();

@@ -15,6 +15,8 @@ import { system, world, Player, EntityDamageCause, type Entity, type EntityDamag
 import { isRunning, shouldBeInBattle, teamOf } from "../../lib/match-state.js";
 import { giveLoadout } from "../loadout/index.js";
 import { droneOwner, isFlyingDrone } from "../drone/index.js";
+import { isDying } from "../death/index.js";
+import { roleOf } from "../../lib/roles.js";
 import { tntOwnerId } from "../special/tnt.js";
 
 /** 無敵の長さ（tick）。5 秒 */
@@ -182,6 +184,21 @@ export function registerCombat(): void {
     // 自分自身は対象外
     if (attacker.id === victim.id) return;
 
+    // ---- **倒れると決まった人は、もう殴れない**（2026-08-28 追加）
+    //
+    // 仕様は `docs/spec/14-death.md` 6-C。
+    //
+    // 致命傷は**打ち消してから次の tick で倒す**ので、
+    // **その 1 tick の間、倒れるはずの人がまだ立っている。**
+    // 体力も打ち消したぶん減っていない。
+    //
+    // > **先に当てたほうが勝つ。**
+    // > 「殴り合って同時に死ぬ」のは、この隙間で殴り返されていたから
+    if (isDying(attacker.id)) {
+      ev.cancel = true;
+      return;
+    }
+
     // ---- **試合に出ていない人は殴れない・殴られない**（2026-08-25 追加）
     //
     // ロビーで殴り合えると、**待っている間に削り合いが始まる。**
@@ -191,6 +208,15 @@ export function registerCombat(): void {
     // **どちらか一方でも試合の外なら止める。**
     // 戦場から届く攻撃も、ロビーから出る攻撃も同じ
     if (!shouldBeInBattle(attacker) || !shouldBeInBattle(victim)) {
+      ev.cancel = true;
+      return;
+    }
+
+    // ---- **敵を殴れないロール**（`docs/spec/24-role.md` 4-3）
+    //
+    // Loophole は**削ることしかできない。**
+    // 味方への攻撃は元から通らないので、ここで見るのは敵への攻撃だけ
+    if (!roleOf(attacker).canAttack) {
       ev.cancel = true;
       return;
     }

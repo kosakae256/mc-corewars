@@ -16,10 +16,35 @@
 | --- | --- | --- | --- |
 | [minecraft-creator-docs/](minecraft-creator-docs/) | **公式ドキュメント全文**（Markdown 3,652 ファイル） | 24MB | [MicrosoftDocs/minecraft-creator](https://github.com/MicrosoftDocs/minecraft-creator) |
 | [bedrock-samples/](bedrock-samples/) | **バニラの behavior_pack / resource_pack 一式**（v1.26.40.5） | 123MB | [Mojang/bedrock-samples](https://github.com/Mojang/bedrock-samples) |
+| `../bedrock-samples/` | **同じものの完全版。** 絵・音と **公式 HTML 資料 21 本**込み（v1.26.40.5） | 701MB | 同上（2026-08-29 に手で配置） |
 | [bedrock-wiki/](bedrock-wiki/) | コミュニティ Wiki（Markdown 276 ファイル） | 7.6MB | [Bedrock-OSS/bedrock-wiki](https://github.com/Bedrock-OSS/bedrock-wiki) |
 | [bedrock-json-schemas/](bedrock-json-schemas/) | 各種 JSON の検証スキーマ | 8MB | [Blockception/Minecraft-bedrock-json-schemas](https://github.com/Blockception/Minecraft-bedrock-json-schemas) |
 | [Chest-UI/](Chest-UI/) | **チェスト風のフォーム一式。** ショップで取り込んで使っている | 1MB | [Herobrine643928/Chest-UI](https://github.com/Herobrine643928/Chest-UI) |
 | `../addons/<名前>/node_modules/@minecraft/` | **Script API の型定義（.d.ts）** | — | npm |
+
+---
+
+## 根に置いた完全版 `bedrock-samples/`（2026-08-29）
+
+`reference/bedrock-samples/` は **JSON だけ**に絞ってある——**絵と音が無い。**
+**バニラの絵を下敷きにしたい**ときは、根の完全版を見る。
+
+| 欲しいもの | どこ |
+| --- | --- |
+| バニラの絵（PNG） | `bedrock-samples/resource_pack/textures/` |
+| **公式の HTML 資料** | `bedrock-samples/documentation/` |
+
+`documentation/` は **JSON の書式そのものの説明**（Molang・Particles・Entities・
+Item・Blocks・Animations・Schemas ほか 21 本）。
+**部品名や綴りで迷ったら、まずここ**——`tools/validate-pack.py` で弾かれた理由もここに載っている。
+
+実例:
+
+| 使った所 | 何を持ってきたか |
+| --- | --- |
+| [worlds/pve](../worlds/pve/docs/spec/13-bow-view.md) の弓 | **弓の絵 4 枚を塗り替えて**こちらの弓にした。置き方・手つきの値もそのまま |
+
+**git には入れない**（701MB）。消えても Mojang/bedrock-samples から取り直せる。
 
 ---
 

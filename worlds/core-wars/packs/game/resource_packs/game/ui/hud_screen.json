@@ -1,0 +1,9 @@
+{
+  "namespace": "hud",
+  "hud_actionbar_text": {
+    "offset": [
+      0,
+      "50%-86px"
+    ]
+  }
+}

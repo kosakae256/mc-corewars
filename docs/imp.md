@@ -461,3 +461,232 @@ Web 側の `sanitizeExternalUrl()` に相当する方針を持つ。
 - [ ] マルチプレイ時の状態同期の方針
 - [ ] 複数アドオン間で共通ロジックを共有するかどうか（現状は「共有しない」＝1アドオン1プロジェクト）
 - [ ] 多言語対応（`texts/*.lang`）をやるかどうか
+---
+
+## 10. 次に作るものの形（2026-08-28 決定）
+
+**`worlds/swift/` から、この形で書く。**
+[core-wars](../worlds/core-wars/) は**そのまま**——動いているものを作り直す危険を取らない。
+
+### 10-0. なぜ書き直すのか
+
+1〜9 章の構成（機能ごとのフォルダ・純粋関数の切り出し・`main.ts` は配線だけ）は
+**そのまま正しい。** 変えたいのは、そこに**書いていなかったこと**。
+
+core-wars を 1 週間書いて、**同じ種類の事故が繰り返し起きた。**
+
+| 起きたこと | 何が足りなかったか |
+| --- | --- |
+| `registerNoDrop` / `registerRoleDamage` の**呼び忘れが 2 回** | 登録が**人の手で並べる配列**だった |
+| 1 ファイルが 1400〜1900 行 | 「機能ごと」だけでは**中身の割り方**が決まらない |
+| `entityHurt` の before を **8 ファイル**が購読 | **打ち消す順番がどこにも書いていない** |
+| 「ロビーで爆風では死なない」を入れ忘れ | 原因を**並べて**いた（落下・攻撃…）。**1 行で断てば漏れない** |
+| feature どうしの相互 import が増殖 | **依存の向きを決めていなかった** |
+| `runInterval` が 1・2・5・20・40・100 tick でばらばら | **順序と負荷が読めない** |
+
+**どれも「書き方が悪い」ではなく、「決めていなかった」。**
+
+### 10-1. 輪は 1 本にする
+
+**`system.runInterval(1)` を 1 つだけ持ち、その中から順に呼ぶ。**
+
+```ts
+// scripts/loop.ts
+const SYSTEMS: readonly TickSystem[] = [
+  { name: "grapple", every: 1, run: tickGrapple },
+  { name: "border", every: 2, run: tickBorder },
+  { name: "lobby", every: 100, run: tickLobby },
+];
+
+system.runInterval(() => {
+  const t = system.currentTick;
+  for (const s of SYSTEMS) if (t % s.every === 0) s.run(t);
+}, 1);
+```
+
+| これで決まること | |
+| --- | --- |
+| **順序** | 上から順。**表を読めば分かる** |
+| **負荷** | 1 か所で測れる。重い system を後ろへ回せる |
+| **止め方** | 配列から外すだけ |
+
+**機能ごとに `runInterval` を書かない。**
+
+### 10-2. 1 つのイベントを購読するのは 1 か所
+
+**打ち消し合うイベント（`beforeEvents`）は、順番が意味を持つ。**
+
+```ts
+// scripts/events/hurt.ts
+const RULES: readonly HurtRule[] = [
+  { name: "試合の外は無敵", run: outsideMatch },
+  { name: "味方は殴れない", run: friendlyFire },
+  { name: "倒れる人はもう殴れない", run: dying },
+];
+
+world.beforeEvents.entityHurt.subscribe((ev) => {
+  for (const r of RULES) {
+    if (ev.cancel) return;
+    r.run(ev);
+  }
+});
+```
+
+**規則は `(ev) => void` の小さな関数**で、feature 側に置いてよい。
+**並べる場所だけを 1 か所にする。**
+
+> 8 ファイルが同じイベントを取り合っていると、
+> **「どれが先に打ち消すか」を誰も知らないまま**直すことになる。
+
+### 10-3. 機能は「宣言」して、配列で登録する
+
+**`register〇〇()` を `main.ts` に並べない。** 呼び忘れても誰も気づかない。
+
+```ts
+// features/grapple/index.ts
+export const grapple: Feature = {
+  name: "grapple",
+  tick: { every: 1, run: tickGrapple },
+  hurtRules: [{ name: "…", run: … }],
+  commands: [reachCommand],
+};
+
+// scripts/features.ts   ← ここに足すだけ
+export const FEATURES = [grapple, drone, shop, lobby] as const;
+```
+
+`main.ts` は **`FEATURES` を回すだけ。**
+足したものが**必ず配線される**——**呼び忘れが構造的に起きない。**
+
+### 10-4. 依存は一方向。feature どうしは import しない
+
+```
+lib/      純粋（Minecraft API に触らない）計算・整形
+  ↑
+state/    保存と読み出し（動的プロパティ・メモリ）
+  ↑
+features/ 振る舞い
+```
+
+**feature が別の feature を import したくなったら、それは `state/` に置くもの。**
+
+| 例（core-wars で起きたもの） | 直し方 |
+| --- | --- |
+| `death` が `grapple` の `takeSoftLanding` を呼ぶ | **`state/landing.ts`** に移す |
+| `combat` が `death` の `isDying` を呼ぶ | **`state/dying.ts`** に移す |
+| `grapple` が `drone` の `isFlyingDrone` を呼ぶ | **`state/drone.ts`** に移す |
+
+**振る舞いは共有しない。状態だけ共有する。**
+
+### 10-5. 保存する鍵は 1 か所に宣言する
+
+```ts
+// state/keys.ts
+export const KEYS = {
+  team: { key: "team", scope: "player", type: "string" },
+  points: { key: "points", scope: "player", type: "number" },
+  lobby: { key: "lobby", scope: "world", type: "json" },
+} as const;
+```
+
+| これで決まること | |
+| --- | --- |
+| **接頭辞** | 1 か所で付ける。`cw:` と `game:` が混ざらない |
+| **型** | 読むときに必ず型ガードを通す（[3.3](#33-型ガードを必ず通すもの外部入力)） |
+| **消し方** | 「その人の記録を全部消す」が**一覧を回すだけ**で書ける |
+
+### 10-6. before は「決める」、tick は「する」
+
+**`beforeEvents` は restricted execution**（[5.1](#51-実行権限は3種類ある)）。
+画面も出せず、実体も触れない。
+
+**そこで判断だけして、やることは次の tick に回す。**
+
+```ts
+// before: 決めるだけ
+if (lethal(ev)) {
+  dying.add(player.id);   // ← 印を付ける
+  ev.cancel = true;
+}
+
+// tick: する
+for (const id of dying) goDown(id);
+```
+
+**印を付けた瞬間から、他の規則もそれを見られる。**
+「殴り合って同時に死ぬ」は、**印を付けずに次の tick まで待っていた**ために起きた。
+
+### 10-7. 覚えるより、あるべき姿へ寄せる
+
+**`/reload` でメモリは消え、`runTimeout` も消える。**
+
+「覚えておいて、あとで消す」形は**必ずどこかで取りこぼす。**
+
+```ts
+// 良い: 毎周期、あるべき姿と突き合わせる
+function tickKeepers(): void {
+  for (const spot of WANT) if (!alive(spot)) spawn(spot);
+  for (const e of extra()) e.remove();
+}
+```
+
+core-wars で**安定して動いているのはこの形のものだけ**だった
+（店員・ロールの球・ドローンの掃除）。
+
+**時限で終わらせる処理には、必ず受け皿を置く**（決着の後始末など）。
+
+### 10-8. 1 ファイルは 300 行まで
+
+超えたら割る。**割り方は決まっている。**
+
+```
+features/<機能>/
+  index.ts      宣言（Feature オブジェクト）だけ。50 行以内
+  tick.ts       毎周期の処理
+  events.ts     イベント規則
+  commands.ts   コマンド
+  ui.ts         画面
+  logic.ts      純粋関数（テストできる）
+  state.ts      その機能だけが持つ状態
+```
+
+**`index.ts` に処理を書かない。** 読めば「何でできているか」だけが分かる状態にする。
+
+### 10-8-A. JSON はスキーマで確かめる（2026-08-28 追加）
+
+**JSON が 1 つでも不正だと、そのファイルは黙って読み込まれない。**
+ゲームは「そんなエンティティは無い」としか言わない——
+**どの部品が悪いのかは教えてくれない。**
+
+```bash
+python tools/validate-pack.py <パックの根>
+```
+
+**スキーマは手元にある**（`reference/bedrock-json-schemas`）。
+
+実際にこれで 3 つ見つかった:
+
+| 書いたもの | 何が悪かったか |
+| --- | --- |
+| `minecraft:pushable` | **その名前の部品は無い** |
+| `breathable` の `totalSupply` | **綴りが古い**（いまは `total_supply`） |
+| `nearest_attackable_target` の `within_default_range` | **そんな鍵は無い** |
+| アイテムの `minecraft:damage: 0` | **0 は取れない** |
+
+**書いた直後に通す。** ゲームを起動してから気づくと、
+**「湧かない」から原因まで戻るのに何十分もかかる。**
+
+### 10-9. 純粋関数はテストする
+
+`logic.ts` は **Minecraft API に触らない**ので、`node` で動かせる。
+
+| 対象 | 例 |
+| --- | --- |
+| 幾何 | 面の交点・射程判定・当たり判定 |
+| 数値 | 落下ダメージ・値段・マナ |
+| 整形 | 目盛り・桁揃え |
+
+**game を起動しないと確かめられない部分を、できるだけ小さくする。**
+core-wars では**照準の計算を node で検算して**、ようやく直った。
+
+---

@@ -39,7 +39,7 @@ export function showRules(player: Player): void {
         agree(player);
         player.sendMessage("§aルールに同意しました。試合に参加できます");
         try {
-          player.playSound("random.levelup", { location: player.location, pitch: 1.2 });
+          player.playSound("game.levelup", { location: player.location, pitch: 1.2 });
         } catch {
           /* 消えている */
         }

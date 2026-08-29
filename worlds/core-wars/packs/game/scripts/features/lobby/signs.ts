@@ -57,6 +57,7 @@ import { showRules } from "./rules-ui.js";
 import { enterSpectate } from "../spectate/index.js";
 import { showConcept, showCredits } from "./concept-ui.js";
 import { depositAll } from "../shop/vault.js";
+import { droneUiBlocked } from "../drone/index.js";
 
 /**
  * 同じ人が続けて押したとき、無視する長さ（tick）。
@@ -201,6 +202,8 @@ export function registerLobbySigns(joinNow: JoinFn): void {
     const block = ev.block;
     if (!isSign(block)) return;
     const player = ev.player;
+    // **ドローンの最中は反応しない**（`features/drone` 5-E）
+    if (droneUiBlocked(player, ev.itemStack?.typeId)) return;
 
     // ---- **止めている人には何もしない**（docs/spec/16-participation.md 4 章）
     //

@@ -73,7 +73,7 @@ export function startPhases(): void {
  */
 function announcePhase2(): void {
   titleAll("§6§lフェーズ 2", "§eコアを削れます", 60);
-  soundAll("random.levelup", 1, 1);
+  soundAll("game.levelup", 1, 1);
   world.sendMessage("§6§lフェーズ 2§r §eコアを削れるようになりました");
 }
 

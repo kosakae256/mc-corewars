@@ -1,4 +1,26 @@
 /**
+ * ロールの道具を作る。
+ *
+ * 仕様は `docs/spec/24-role.md` 4-3。
+ *
+ * ## 鍵は付けない
+ *
+ * `ItemLockMode` を付けると、**持ち替えるたびに但し書きが出る**
+ *（`docs/spec/16-participation.md` 2-4）。常時持ち歩く道具なので、毎回出る。
+ *
+ * **script の側で守る。**
+ *
+ * | | どこで |
+ * | --- | --- |
+ * | 倒されても落ちない | `features/death` の残すもの一覧 |
+ * | 捨てたら消える | `features/special/nodrop` |
+ * | 無くしていたら渡す | `features/role/effects`（2 秒ごと） |
+ */
+export function roleStack(item: string): ItemStack {
+  return new ItemStack(item, 1);
+}
+
+/**
  * 支給品を配る。
  *
  * 仕様は `docs/spec/11-match.md` 5-3。
@@ -21,9 +43,10 @@
  * `ItemLockMode.inventory`（**捨てられない・素材にできない**）で足りる。
  */
 
-import { EquipmentSlot, ItemLockMode, ItemStack, type Player } from "@minecraft/server";
+import { EquipmentSlot, ItemLockMode, ItemStack, type Container, type Player } from "@minecraft/server";
 
 import { clearVault } from "../../lib/vault.js";
+import { roleOf } from "../../lib/roles.js";
 
 /**
  * 支給するもの。
@@ -41,6 +64,18 @@ import { clearVault } from "../../lib/vault.js";
  * 買わなくても飛べて、買えば火力が上がる——という並びになる。
  */
 const SUPPLIES = [{ item: "game:sword_wood", slot: 0 }] as const;
+
+/**
+ * ロールに付いてくるもの。
+ *
+ * 仕様は `docs/spec/24-role.md` 4-3。
+ *
+ * **買うのではなく、そのロールだから持っている。**
+ * ロールを変えれば片付けられる（`features/role/change`）。
+ */
+const ROLE_ITEMS: Readonly<Partial<Record<string, string>>> = {
+  engineer: "game:drone_control",
+};
 
 /** 支給品の識別子。**掛け替えの判定に使う** */
 const SUPPLY_IDS: ReadonlySet<string> = new Set(SUPPLIES.map((s) => s.item));
@@ -93,6 +128,16 @@ export function giveLoadout(player: Player): void {
     }
   }
 
+  // ---- **ロールのものも配る**（`docs/spec/24-role.md` 4-3）
+  const roleItem = ROLE_ITEMS[roleOf(player).id];
+  if (roleItem !== undefined && !held.has(roleItem)) {
+    try {
+      container.addItem(roleStack(roleItem));
+    } catch {
+      /* 入らなかった。次の配り直しで */
+    }
+  }
+
   for (const s of SUPPLIES) {
     if (held.has(s.item)) continue;
     const it = new ItemStack(s.item, 1);
@@ -112,6 +157,35 @@ export function giveLoadout(player: Player): void {
 }
 
 /**
+ * 中身を空にする。
+ *
+ * **`clearAll()` だけでは足りない**（2026-08-28 修正）。
+ *
+ * 動かせない印（`ItemLockMode`）の付いた物は、
+ * バニラの `/clear` と同じく**残ることがある。**
+ * 支給品には印が付いている（[13-grapple.md](13-grapple.md) 6 章）ので、
+ * **前の試合の支給品がそのまま残る**形になる。
+ *
+ * **枠をひとつずつ空にして、確実に落とす。**
+ * 支給品はこの直後に配り直されるので、消して困るものは無い。
+ */
+function wipe(container: Container | undefined): void {
+  if (container === undefined) return;
+  try {
+    container.clearAll();
+  } catch {
+    /* 消えている */
+  }
+  for (let i = 0; i < container.size; i++) {
+    try {
+      if (container.getItem(i) !== undefined) container.setItem(i, undefined);
+    } catch {
+      /* 触れない枠。次へ */
+    }
+  }
+}
+
+/**
  * 持ち物とエンダーチェストを空にして、支給品だけにする。
  *
  * **後片付けで使う**（`docs/spec/11-match.md` 4章）。
@@ -125,13 +199,34 @@ export function giveLoadout(player: Player): void {
  * これが無いと、前の試合の資源を持ち越せてしまう。
  */
 export function resetInventory(player: Player): void {
-  const inv = player.getComponent("minecraft:inventory");
-  const container = inv?.container;
-  if (container !== undefined) container.clearAll();
+  wipe(player.getComponent("minecraft:inventory")?.container);
+  wipe(player.getComponent("minecraft:ender_inventory")?.container);
 
-  const ender = player.getComponent("minecraft:ender_inventory");
-  const box = ender?.container;
-  if (box !== undefined) box.clearAll();
+  // ---- **着ているものも脱がせる**（2026-08-28 修正）
+  //
+  // 持ち物とエンダーチェストだけ空にしていたので、
+  // **前の試合で買った防具を着たまま次の試合に入れた。**
+  // ロビーで只で試した防具も、そのまま持ち込めていた。
+  //
+  // > 空にするのは**持ち込ませないため。**
+  // > **身に着けている分は、いちばん持ち込みたいもの。**
+  //
+  // 頭は直後にチームの帽子で埋まる（`features/cosmetic`）が、
+  // **ここでも外す**——参加処理を通らない呼び方をされても揃うように
+  try {
+    const eq = player.getComponent("minecraft:equippable");
+    for (const slot of [
+      EquipmentSlot.Head,
+      EquipmentSlot.Chest,
+      EquipmentSlot.Legs,
+      EquipmentSlot.Feet,
+      EquipmentSlot.Offhand,
+    ]) {
+      eq?.setEquipment(slot, undefined);
+    }
+  } catch {
+    /* 消えている */
+  }
 
   giveLoadout(player);
 }
@@ -163,17 +258,9 @@ export function resetInventory(player: Player): void {
 export function clearEverything(player: Player): void {
   // **金庫も空にする**（持ち物と同じ扱い）
   clearVault(player);
-  try {
-    player.getComponent("minecraft:inventory")?.container?.clearAll();
-  } catch {
-    /* 消えている */
-  }
-  try {
-    const ender = player.getComponent("minecraft:ender_inventory")?.container;
-    if (ender !== undefined) ender.clearAll();
-  } catch {
-    /* 消えている */
-  }
+  // **鍵の付いた物も落とす**（`wipe`。2026-08-28 修正）
+  wipe(player.getComponent("minecraft:inventory")?.container);
+  wipe(player.getComponent("minecraft:ender_inventory")?.container);
   try {
     // **装備も外す。** 防具を着たまま次の試合に入れない
     const eq = player.getComponent("minecraft:equippable");

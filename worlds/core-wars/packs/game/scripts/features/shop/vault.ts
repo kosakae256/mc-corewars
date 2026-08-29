@@ -131,7 +131,7 @@ export function depositAll(player: Player, sign: Team): void {
   player.sendMessage(`§a金庫へ預けた§r §f${took.join("§7 / §f")}`);
   showVault(player);
   try {
-    player.playSound("random.levelup", { location: player.location, pitch: 1.4, volume: 0.5 });
+    player.playSound("game.levelup", { location: player.location, pitch: 1.4, volume: 0.5 });
   } catch {
     /* 消えている */
   }

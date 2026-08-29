@@ -1,0 +1,80 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "pve:trail_ward",
+      "basic_render_parameters": {
+        "material": "particles_add",
+        "texture": "textures/particle/pve_splinter"
+      }
+    },
+    "components": {
+      "minecraft:emitter_local_space": {
+        "position": false
+      },
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 1
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.05
+      },
+      "minecraft:emitter_shape_point": {
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      "minecraft:particle_initial_speed": 0,
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": 0.352
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          0.855,
+          "0.1461 * (1 - (v.particle_age / v.particle_lifetime))"
+        ],
+        "facing_camera_mode": "direction_x",
+        "direction": {
+          "mode": "custom",
+          "custom_direction": [
+            "v.dx",
+            "v.dy",
+            "v.dz"
+          ]
+        },
+        "uv": {
+          "texture_width": 16,
+          "texture_height": 16,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            16,
+            16
+          ]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": {
+          "gradient": [
+            [
+              0.65,
+              1.0,
+              0.796,
+              0.95
+            ],
+            [
+              0.038,
+              0.75,
+              0.192,
+              0.0
+            ]
+          ],
+          "interpolant": "v.particle_age / v.particle_lifetime"
+        }
+      }
+    }
+  }
+}

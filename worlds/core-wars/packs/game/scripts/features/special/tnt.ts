@@ -97,7 +97,7 @@ interface Lit {
 const FORGET = 400;
 
 /**
- * 地面に着いてから爆ぜるまで（tick）。**6 秒。**
+ * 地面に着いてから爆ぜるまで（tick）。**4 秒**（2026-08-28 変更。6 → 4）。
  *
  * 仕様は `docs/03-content.md` 1-4。
  *
@@ -107,10 +107,10 @@ const FORGET = 400;
  * ドローンから落とす（`docs/spec/23-drone.md` 5-D）と、
  * 高さによって**着く前に爆ぜたり、着いた瞬間に爆ぜたり**する。
  *
- * **着いてから数えれば、どこから落としても同じ 6 秒。**
+ * **着いてから数えれば、どこから落としても同じ 4 秒。**
  * 落とされた側にも、逃げるか押し返すかを決める時間が同じだけある。
  */
-const FUSE_TICKS = 120;
+const FUSE_TICKS = 80;
 
 /** 爆発の強さ。**バニラの TNT と同じ** */
 const POWER = 4;
@@ -299,7 +299,7 @@ function hiss(tnt: Entity): void {
  * ## 爆発そのものをこちらで起こす
  *
  * 実体の導火線に任せると、**何秒後に爆ぜるかを後から変えられない。**
- * 60 秒まで延ばしておいて、**着地から 6 秒で自分で爆発させる。**
+ * 60 秒まで延ばしておいて、**着地から 4 秒で自分で爆発させる。**
  *
  * 爆発の出どころ（`source`）にその TNT を渡す。
  * **誰が点けたか**（`features/death`）と
@@ -330,7 +330,7 @@ export function startTntFuse(): void {
       if (rec.landedAt === undefined) {
         if (!onGround) continue;
         rec.landedAt = now;
-        // **着いた瞬間に鳴らす。** ここから 6 秒
+        // **着いた瞬間に鳴らす。** ここから 4 秒
         hiss(tnt);
         continue;
       }

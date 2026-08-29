@@ -28,6 +28,7 @@ import { teamOf } from "../../lib/match-state.js";
 import { blockedByGenerator, generatorBlocks } from "../generator/index.js";
 import { isEditor } from "../protection/index.js";
 import { isMapBlock } from "../../lib/protection.js";
+import { isPlaceable } from "../../lib/placeable.js";
 import { LOBBY_BOUNDS } from "../../lib/lobby.js";
 import { opMessage } from "../../lib/op.js";
 import { ruleBool } from "../../lib/rule-config.js";
@@ -102,8 +103,20 @@ function inOwnBase(player: Player, at: Vector3): boolean {
   return false;
 }
 
-/** 置けない場所か。置けないなら理由を返す */
-export function whyCannotBuild(x: number, y: number, z: number): string | undefined {
+/**
+ * ロビーでブロックを置ける高さ（2026-08-27 決定）。
+ *
+ * **待機所（y=100）より上。**
+ * 地表には**看板・球・掲示板**があるので、囲われると誰も触れなくなる。
+ */
+export const LOBBY_BUILD_Y = 120;
+
+/**
+ * 置けない場所か。置けないなら理由を返す。
+ *
+ * @param typeId 置こうとしているもの。**ロビーの判定にだけ使う**
+ */
+export function whyCannotBuild(x: number, y: number, z: number, typeId?: string): string | undefined {
   // ---- **ロビーには置けない**（2026-08-25 追加）
   //
   // ロビーは戦場の外にあり、後片付けの範囲にも入っていない。
@@ -114,7 +127,27 @@ export function whyCannotBuild(x: number, y: number, z: number): string | undefi
   // **理由は出さない**（2026-08-25 変更）。
   // ロビーで置こうとする場面は多く、**そのたびに画面へ出るとうるさい。**
   // 置けないことは、置けない時点で伝わる
-  if (inBox(LOBBY_BOUNDS, { x, y, z })) return SILENT;
+  if (inBox(LOBBY_BOUNDS, { x, y, z })) {
+    // ---- **上のほうでだけ置ける**（2026-08-27 変更）
+    //
+    // ロビーは**試す場所**（`docs/spec/25-practice.md`）。
+    // 置いて足場を組んでみないと、**買う値打ちが分からない。**
+    //
+    // **ただし地表には置かせない。**
+    // 看板も球も掲示板も地表にあるので、**囲われると誰も触れなくなる。**
+    //
+    // 消せるものに限る。**後片付けが消せるのは
+    // `lib/placeable.ts` に載っているものだけ**なので、
+    // それ以外を置かれると誰にも消せないまま残る
+    // ---- **TNT は高さを問わない**（2026-08-27 追加）
+    //
+    // 置いた瞬間に実体へ変わる（`features/special/tnt`）ので、
+    // **ブロックとしては残らない。**
+    // 地表を囲われる心配が無いものに、高さの縛りを掛ける理由が無い
+    if (typeId === "minecraft:tnt") return undefined;
+    if (y >= LOBBY_BUILD_Y && typeId !== undefined && isPlaceable(typeId)) return undefined;
+    return SILENT;
+  }
 
   for (const arena of ARENAS) {
     for (const box of arena.noBuild) {
@@ -349,7 +382,7 @@ export function registerBuildRules(): void {
     if (off === undefined) return;
     const target = { x: b.x + off.x, y: b.y + off.y, z: b.z + off.z };
 
-    const why = whyCannotBuild(target.x, target.y, target.z);
+    const why = whyCannotBuild(target.x, target.y, target.z, ev.itemStack.typeId);
     if (why === undefined) return;
     // **TNT は拠点でも置ける**（docs/spec/11-match.md 6-G）
     if (why === "§c拠点の中には置けません" && allowedInBase(ev.player, ev.itemStack.typeId, target)) return;
@@ -364,7 +397,7 @@ export function registerBuildRules(): void {
   world.afterEvents.playerPlaceBlock.subscribe((ev) => {
     if (isEditor(ev.player.id)) return;
     const at = ev.block.location;
-    const why = whyCannotBuild(at.x, at.y, at.z);
+    const why = whyCannotBuild(at.x, at.y, at.z, ev.block.typeId);
     if (why === undefined) return;
     // **TNT は拠点でも置ける**（置いた瞬間に実体になるので残らない）
     if (why === "§c拠点の中には置けません" && allowedInBase(ev.player, ev.block.typeId, at)) return;

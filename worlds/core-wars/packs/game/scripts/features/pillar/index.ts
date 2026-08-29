@@ -25,9 +25,13 @@ import { system, world, type Dimension, type Player, type Vector3 } from "@minec
 
 import { ARENAS, inBox, type Team } from "../../lib/arena.js";
 import { isRunning, teamOf } from "../../lib/match-state.js";
-import { droneMuzzle } from "../drone/index.js";
+import { LOBBY_BOUNDS } from "../../lib/lobby.js";
+import { noteLobbyBlock } from "../cleanup/index.js";
+import { practicing } from "../../lib/practice.js";
+import { droneMuzzle, droneThrowCost, isFlyingDrone } from "../drone/index.js";
+import { spendGas } from "../grapple/gas.js";
 import { whyCannotBuild } from "../build/index.js";
-import { particle, sound, soundAll } from "../../lib/fx.js";
+import { bar, particle, sound, soundAll } from "../../lib/fx.js";
 
 /** 投げるアイテム */
 const ITEM = "game:pillar_shot";
@@ -93,10 +97,24 @@ const PILLAR: Readonly<Record<Team, string>> = {
   blue: "game:pillar_blue",
 };
 
+/**
+ * ロビーで撃ったときの柱。**白**（`docs/spec/25-practice.md`）。
+ *
+ * 無所属で撃つので**チームの色が無い。**
+ * 試合の色を使うと、**どちらの陣営の物か**という意味が付いてしまう。
+ */
+const PILLAR_LOBBY = "game:pillar_white";
+
+/** 柱として消してよいブロック */
+const PILLAR_BLOCKS: ReadonlySet<string> = new Set([PILLAR.red, PILLAR.blue, PILLAR_LOBBY]);
+
 /** 飛んでいる弾。**メモリだけ。** `/reload` で消えてよい */
 interface Shot {
   readonly owner: string;
-  readonly team: Team;
+  /** 撃った人の所属。**ロビーで撃ったなら undefined** */
+  readonly team: Team | undefined;
+  /** 立てる柱のブロック */
+  readonly block: string;
   at: Vector3;
   readonly dir: Vector3;
   age: number;
@@ -122,7 +140,7 @@ function norm(v: Vector3): Vector3 {
  * **置けない場所には生えない**（`docs/spec/18-pillar.md` 2-3）。
  * 投げれば置けるなら、置けない場所を作った意味が無い。
  */
-function canPlace(dim: Dimension, at: Vector3): boolean {
+function canPlace(dim: Dimension, at: Vector3, block: string): boolean {
   // ---- **手で置くときと同じ規則を通す**（2026-08-25 修正）
   //
   // 拠点の中だけを見ていたので、
@@ -130,14 +148,10 @@ function canPlace(dim: Dimension, at: Vector3): boolean {
   // 手では置けない場所に、投げれば置ける状態だった。
   //
   // 規則が 2 箇所にあると必ず食い違う。**`features/build` に寄せる**
-  if (whyCannotBuild(at.x, at.y, at.z) !== undefined) return false;
+  if (whyCannotBuild(at.x, at.y, at.z, block) !== undefined) return false;
 
-  // **戦闘範囲の外には作らない**（ロビーもここで外れる）
-  let inside = false;
-  for (const arena of ARENAS) {
-    if (inBox(arena.bounds, at)) inside = true;
-  }
-  if (!inside) return false;
+  // **人が行ける範囲の外には作らない**（`docs/spec/25-practice.md`）
+  if (!reachable(at)) return false;
 
   try {
     const b = dim.getBlock(at);
@@ -149,13 +163,30 @@ function canPlace(dim: Dimension, at: Vector3): boolean {
 }
 
 /**
+ * そこは**人が行ける範囲**か。
+ *
+ * | | |
+ * | --- | --- |
+ * | 試合中 | **戦闘範囲**（`arena.bounds`） |
+ * | ロビー | **ロビーの範囲**（`LOBBY_BOUNDS`） |
+ *
+ * **範囲の外では炸裂させない**（2026-08-27 追加）。
+ * 誰も行けない場所で爆ぜても、**誰にも見えないまま柱が残る。**
+ */
+function reachable(at: Vector3): boolean {
+  for (const arena of ARENAS) {
+    if (inBox(arena.bounds, at)) return true;
+  }
+  return inBox(LOBBY_BOUNDS, at);
+}
+
+/**
  * 柱を立てる。
  *
  * **途中にブロックがあれば、そこで止まる**（貫通しない）。
  * 貫通させると、壁の向こう側に足場ができてしまう。
  */
-function raise(dim: Dimension, center: Vector3, team: Team): void {
-  const block = PILLAR[team];
+function raise(dim: Dimension, center: Vector3, block: string): void {
   const cells: Vector3[] = [];
   const base = { x: Math.floor(center.x), y: Math.floor(center.y), z: Math.floor(center.z) };
 
@@ -163,10 +194,12 @@ function raise(dim: Dimension, center: Vector3, team: Team): void {
     for (let i = 0; i < REACH; i++) {
       const at = { x: base.x, y: base.y + step * i, z: base.z };
       // **止まったらそこまで。** 先へは伸ばさない
-      if (!canPlace(dim, at)) break;
+      if (!canPlace(dim, at, block)) break;
       try {
         dim.setBlockType(at, block);
         cells.push(at);
+        // **ロビーに立てたぶんは覚えておく**（試合が始まるときに消す）
+        if (block === PILLAR_LOBBY) noteLobbyBlock(at);
       } catch {
         break;
       }
@@ -189,6 +222,10 @@ function burst(shot: Shot, at: Vector3): void {
   const dim = world.getDimension("overworld");
   const center = { x: at.x, y: at.y, z: at.z };
 
+  // **人が行ける範囲の外では炸裂しない**（2026-08-27 追加）。
+  // 見えない所で音と粒を出しても、驚かせるだけで意味が無い
+  if (!reachable(center)) return;
+
   // ---- 炸裂の粒。**小さく散らして、爆ぜたように見せる**
   for (let i = 0; i < BURST_PARTICLES; i++) {
     particle(
@@ -204,7 +241,7 @@ function burst(shot: Shot, at: Vector3): void {
   particle(center, "minecraft:knockback_roar_particle", dim);
   soundAll("random.explode", 1.6, 0.25);
 
-  raise(dim, center, shot.team);
+  raise(dim, center, shot.block);
 }
 
 /** 炸裂の粒の数 */
@@ -258,7 +295,7 @@ export function startPillar(): void {
         let onPlayer = false;
         for (const p of world.getAllPlayers()) {
           if (p.id === s.owner) continue;
-          if (teamOf(p) === s.team) continue;
+          if (s.team !== undefined && teamOf(p) === s.team) continue;
           const d = Math.hypot(p.location.x - next.x, p.location.y + 1 - next.y, p.location.z - next.z);
           if (d <= HIT_RADIUS) {
             onPlayer = true;
@@ -304,7 +341,7 @@ export function startPillar(): void {
         try {
           const b = dim.getBlock(c);
           // **他のものに変わっていたら触らない。** 上書き事故を避ける
-          if (b !== undefined && (b.typeId === PILLAR.red || b.typeId === PILLAR.blue)) {
+          if (b !== undefined && PILLAR_BLOCKS.has(b.typeId)) {
             b.setType("minecraft:air");
             particle({ x: c.x + 0.5, y: c.y + 0.5, z: c.z + 0.5 }, "minecraft:basic_smoke_particle", dim);
           }
@@ -326,9 +363,14 @@ export function registerPillarThrow(): void {
   world.afterEvents.itemUse.subscribe((ev) => {
     if (ev.itemStack.typeId !== ITEM) return;
     const player = ev.source;
-    if (!isRunning()) return;
+    // ---- **ロビーでも撃てる**（`docs/spec/25-practice.md`）
+    //
+    // 試す場所なので、**投げてみないと使い道が分からない。**
+    // 立つ柱は**白**——所属が無いので、陣営の色を使う理由が無い
+    const lobby = practicing(player);
+    if (!lobby && !isRunning()) return;
     const team = teamOf(player);
-    if (team === undefined) return;
+    if (!lobby && team === undefined) return;
 
     system.run(() => {
       // **1 個消費する。** クールダウンは定義側（`items/pillar_shot.json`）
@@ -346,12 +388,21 @@ export function registerPillarThrow(): void {
         return;
       }
 
+      // ---- **機体から撃つときはマナを使う**（`docs/spec/24-role.md` 4-3）
+      //
+      // 手で投げる分は縛らない。**空から出すぶんにだけ値段を付ける**
+      if (isFlyingDrone(player.id) && !spendGas(player, droneThrowCost(ITEM))) {
+        bar(player, "§cマナが足りません");
+        return;
+      }
+
       // **ドローンを飛ばしているなら、機体から出す**（docs/spec/23-drone.md 5 章）
       const eye = droneMuzzle(player) ?? player.getHeadLocation();
       const dir = norm(player.getViewDirection());
       shots.push({
         owner: player.id,
         team,
+        block: team === undefined ? PILLAR_LOBBY : PILLAR[team],
         at: { x: eye.x + dir.x, y: eye.y + dir.y, z: eye.z + dir.z },
         dir,
         age: 0,

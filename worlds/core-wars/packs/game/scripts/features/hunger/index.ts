@@ -29,6 +29,8 @@
 
 import { system, world, type Player } from "@minecraft/server";
 
+import { isSpectating } from "../death/index.js";
+
 /**
  * 見張る間隔（tick）。**1 秒。**
  *
@@ -66,6 +68,42 @@ function feed(player: Player): void {
 }
 
 /**
+ * 自然回復を、もう 1 本ぶん足す間隔（tick）。**0.5 秒。**
+ *
+ * 仕様は `docs/01-rules.md` 3-B。
+ *
+ * ## なぜ足すのか
+ *
+ * 自然回復そのものは**バニラの仕組み**（飽和度を食って戻る）で、
+ * **速さをこちらから設定する口が無い。**
+ *
+ * **止められないなら、同じ量をもう 1 本流す。**
+ * バニラと同じ間隔・同じ量を足せば、**結果として倍の速さ**になる。
+ */
+const HEAL_INTERVAL = 10;
+
+/** 1 回に戻す量。**バニラの自然回復と同じ 1** */
+const HEAL_AMOUNT = 1;
+
+/**
+ * 1 段ぶん戻す。
+ *
+ * **上限は超えない。** 増えている分（吸収）まで押し上げない。
+ * **倒れている人には触らない**——復活のときに満タンで戻る。
+ */
+function heal(player: Player): void {
+  try {
+    if (isSpectating(player)) return;
+    const h = player.getComponent("minecraft:health");
+    if (h === undefined) return;
+    if (h.currentValue >= h.effectiveMax) return;
+    h.setCurrentValue(Math.min(h.effectiveMax, h.currentValue + HEAL_AMOUNT));
+  } catch {
+    /* 消えている */
+  }
+}
+
+/**
  * 見張りを始める。
  *
  * **トップレベルから呼ぶこと。**
@@ -79,4 +117,9 @@ export function startHunger(): void {
   system.runInterval(() => {
     for (const player of world.getAllPlayers()) feed(player);
   }, INTERVAL);
+
+  // **自然回復をもう 1 本**（2026-08-28 追加）。合わせて倍の速さになる
+  system.runInterval(() => {
+    for (const player of world.getAllPlayers()) heal(player);
+  }, HEAL_INTERVAL);
 }

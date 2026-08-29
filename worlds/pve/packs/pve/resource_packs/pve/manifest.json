@@ -1,0 +1,21 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "pve RP",
+    "description": "PVE 本体",
+    "uuid": "f3ecf377-f06c-4242-b876-62efd2e8660c",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 40]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "6fb20558-3423-461d-953a-d134357a068c",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "fb430ec1-316a-4e48-a53b-1dcdea9956bb", "version": [1, 0, 0] }
+  ]
+}

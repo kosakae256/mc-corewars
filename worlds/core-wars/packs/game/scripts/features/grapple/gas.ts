@@ -16,12 +16,21 @@ import type { Player } from "@minecraft/server";
 
 import { shouldBeInBattle } from "../../lib/match-state.js";
 import { ruleBool } from "../../lib/rule-config.js";
+import { roleOf } from "../../lib/roles.js";
 
 /** 動的プロパティの名前 */
 const KEY = "cw:gas";
 
 /** 上限 */
 export const GAS_MAX = 100;
+
+/**
+ * 時間での回復（1 tick）。**空から 30 秒で満タン。**
+ *
+ * ワイヤーもドローンもここを見る。
+ * **2 箇所に書くと、片方だけ直して食い違う。**
+ */
+export const REGEN_PER_TICK = GAS_MAX / (30 * 20);
 
 /**
  * ガスは減らない設定か。
@@ -33,9 +42,28 @@ function infinite(): boolean {
   return ruleBool("infiniteGas");
 }
 
+/**
+ * 時間で回復するか。**ロールで決まる**（`docs/spec/24-role.md` 4-2）。
+ *
+ * Duelist は**倒したときにしか戻らない。**
+ */
+export function regenAllowed(player: Player): boolean {
+  return infinite() || roleOf(player).wire.regen;
+}
+
 export function gasOf(player: Player): number {
   // **無限なら常に満タン。** 表示もこれを通る
   if (infinite()) return GAS_MAX;
+
+  // ---- **ただで使えるなら、満タンとして扱う**（2026-08-26 修正）
+  //
+  // ロビーでは減らない（`free`）のに、
+  // **表示だけ前の試合の残りを出していた。**
+  //
+  // > 減らないのに減って見える。**画面が嘘をつく。**
+  //
+  // 使う側の判定（足りるか）もここを通るので、**扱いが揃う**
+  if (free(player)) return GAS_MAX;
   const v = player.getDynamicProperty(KEY);
   // **既定は満タン。** 初参加でいきなり使えないのは不親切
   return typeof v === "number" ? v : GAS_MAX;

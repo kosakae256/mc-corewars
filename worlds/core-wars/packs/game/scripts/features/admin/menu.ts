@@ -36,6 +36,10 @@ import { ARENAS } from "../../lib/arena.js";
 import { bar } from "../../lib/fx.js";
 import { autoStart, manualTeams, setAutoStart, setManualTeams } from "../../lib/settings.js";
 import { showRules as showRuleSettings } from "./rules.js";
+import { KIND_COLOR, ROLES, ROLE_ORDER, pointsOf, roleOf, unlockRole } from "../../lib/roles.js";
+import { changeRole } from "../role/change.js";
+import { showPoints } from "./points.js";
+import { isRookie } from "../../lib/first.js";
 import { isOp } from "../../lib/op.js";
 import { beginFromMenu, clearTeam, forceTeam, runAdminCommand } from "../match/index.js";
 import { resetToLobby } from "../lobby/reset.js";
@@ -119,6 +123,11 @@ export function showSettings(player: Player): void {
       run: (p) => showRuleSettings(p, (q) => showSettings(q)),
     },
     { label: "§fプレイヤー管理", icon: "textures/items/name_tag", run: (p) => showPlayers(p) },
+    {
+      label: "§fポイントを配る  §7全員",
+      icon: "textures/items/experience_bottle",
+      run: (p) => showPoints(p, undefined, (q) => showSettings(q)),
+    },
     { label: "§f建築モード 切替", icon: "textures/items/brick", run: (p) => runAdminCommand(p, "build") },
     { label: "§f後片付け", icon: "textures/items/sponge", run: (p) => runAdminCommand(p, "clean") },
     { label: "§f状態を見る", icon: "textures/items/book_normal", run: (p) => runAdminCommand(p, "status") },
@@ -289,7 +298,11 @@ export function showPlayers(player: Player): void {
   const all = world.getAllPlayers();
 
   const form = new ActionFormData().title("プレイヤー管理").body(`${DIM}${all.length} 人`);
-  for (const p of all) form.button(`§f${p.name}\n${teamLabel(p)}`, "textures/items/name_tag");
+  // **初参加の人には印を出す**（`docs/spec/24-role.md` 3-2-B）。
+  // **説明する相手が要る**ので、一覧で分かるようにする
+  for (const p of all) {
+    form.button(`§f${p.name}${isRookie(p) ? " §e[初]" : ""}\n${teamLabel(p)}`, "textures/items/name_tag");
+  }
   form.button("§e戻る", "textures/items/arrow");
 
   form
@@ -321,7 +334,14 @@ function showOnePlayer(admin: Player, targetId: string): void {
     return;
   }
 
-  const actions: { label: string; run: () => void }[] = [
+  /**
+   * 一覧に並べる操作。
+   *
+   * `own` は「**この操作が自分で次の画面を出す**」という印。
+   * 立てておかないと、**押した先の画面とプレイヤー一覧が二重に開く**
+   *（2026-08-26 修正）。
+   */
+  const actions: { label: string; run: () => void; own?: boolean }[] = [
     {
       label: "§c赤へ",
       run: () => {
@@ -377,7 +397,17 @@ function showOnePlayer(admin: Player, targetId: string): void {
         else admin.sendMessage(`§f${target.name} を観戦にした`);
       },
     },
-    { label: "§c§lキック", run: () => askKick(admin, targetId) },
+    {
+      label: `§fロールを変える  §b${roleOf(target).name}`,
+      run: () => showRolePick(admin, targetId),
+      own: true,
+    },
+    {
+      label: `§fポイント  §e${pointsOf(target)}P`,
+      run: () => showPoints(admin, targetId, (p) => showOnePlayer(p, targetId)),
+      own: true,
+    },
+    { label: "§c§lキック", run: () => askKick(admin, targetId), own: true },
   ];
 
   const form = new ActionFormData()
@@ -394,8 +424,62 @@ function showOnePlayer(admin: Player, targetId: string): void {
         showPlayers(admin);
         return;
       }
-      actions[res.selection].run();
-      showPlayers(admin);
+      const action = actions[res.selection];
+      if (action === undefined) return;
+      action.run();
+      // **自分で次の画面を出す操作は、ここで戻さない。** 二重に開く
+      if (action.own !== true) showPlayers(admin);
+    })
+    .catch(() => {
+      /* 画面を出せなかった */
+    });
+}
+
+/**
+ * その人のロールを選び直す。**運営の道具**（`docs/spec/24-role.md` 3 章）。
+ *
+ * ## 買っていなくても選べる
+ *
+ * **試すためのもの。** 点を貯めないと触れないのでは、確かめようが無い。
+ *
+ * 選んだロールは**その人のものとして記録する**（買った扱い）。
+ * 運営が試したあと、本人が盤面から戻せなくなるのを避ける。
+ */
+function showRolePick(admin: Player, targetId: string): void {
+  const target = world.getAllPlayers().find((p) => p.id === targetId);
+  if (target === undefined) {
+    admin.sendMessage("§7その人はもう居ません");
+    showPlayers(admin);
+    return;
+  }
+
+  const now = roleOf(target);
+  const form = new ActionFormData().title(`${target.name} のロール`).body(`${DIM}いま  §b${now.name}
+${DIM}選ぶと、その場で一度倒れます（持ち物は残る）`);
+
+  for (const id of ROLE_ORDER) {
+    const role = ROLES[id];
+    const here = role.id === now.id;
+    form.button(`${here ? "§a" : KIND_COLOR[role.kind]}${role.name}${here ? "  §7(いま)" : ""}`, role.icon);
+  }
+  form.button("§e戻る", "textures/items/arrow");
+
+  form
+    .show(admin)
+    .then((res) => {
+      if (res.canceled || res.selection === undefined) return;
+      if (res.selection >= ROLE_ORDER.length) {
+        showOnePlayer(admin, targetId);
+        return;
+      }
+      const id = ROLE_ORDER[res.selection];
+      if (id === undefined) return;
+
+      // **買った扱いにする。** 本人が盤面から戻せるように
+      unlockRole(target, id);
+      const why = changeRole(target, id);
+      admin.sendMessage(why ?? `§f${target.name} を §b${ROLES[id].name}§f にした`);
+      showOnePlayer(admin, targetId);
     })
     .catch(() => {
       /* 画面を出せなかった */

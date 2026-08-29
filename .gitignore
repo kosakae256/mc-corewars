@@ -30,3 +30,7 @@ world/backups/
 *.log
 .DS_Store
 Thumbs.db
+
+# 根に置いたバニラ一式の**完全版**（絵・音・documentation 込みで 701MB）
+# 取り直せるので git には入れない。reference/README.md 参照
+/bedrock-samples/

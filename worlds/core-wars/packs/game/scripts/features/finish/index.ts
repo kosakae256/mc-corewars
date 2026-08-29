@@ -43,6 +43,7 @@ import {
   saveResult,
   type Stat,
 } from "../../lib/stats.js";
+import { awardPoints } from "../role/points.js";
 import { particle, soundAll, titleAll } from "../../lib/fx.js";
 import { resetToLobby } from "../lobby/reset.js";
 
@@ -305,7 +306,7 @@ function streamResult(blocks: readonly string[][]): void {
       () => {
         for (const l of block) world.sendMessage(l);
         const last = i === blocks.length - 1;
-        soundAll(last ? "random.levelup" : "random.toast", last ? 1 : 1.2, 0.8);
+        soundAll(last ? "game.levelup" : "random.toast", last ? 1 : 1.2, 0.8);
       },
       REVEAL_START + i * REVEAL_EVERY
     );
@@ -336,7 +337,7 @@ export function celebrate(winner: Team, loser: Team): void {
         stayDuration: 50,
         fadeOutDuration: 10,
       });
-      p.playSound(won ? "random.levelup" : "mob.wither.death", { location: p.location, pitch: won ? 1 : 0.7 });
+      p.playSound(won ? "game.levelup" : "mob.wither.death", { location: p.location, pitch: won ? 1 : 0.7 });
     } catch {
       /* 消えている */
     }
@@ -367,6 +368,9 @@ export function celebrate(winner: Team, loser: Team): void {
     // 次の試合が始まると個人の戦績は 0 に戻るので、
     // **この瞬間に残しておかないと、始まった瞬間に掲示板が空になる**
     saveAwards(buildAwards(collectStats()));
+    // **ロールを買うための点を配る**（`docs/spec/24-role.md` 3-2）。
+    // **戦績を消す前に。** 数えているのは同じものなので、順番を間違えると 0 になる
+    awardPoints();
 
     streamResult(blocks);
   }, TO_CENTER);
@@ -375,9 +379,19 @@ export function celebrate(winner: Team, loser: Team): void {
   system.runTimeout(() => {
     const at = lobbyPoint();
     for (const p of world.getAllPlayers()) {
-      // **ロビーの人に戻す**（features/lobby/reset.ts に集約）
-      resetToLobby(p, false);
-      moveTo(p, at);
+      // ---- **1 人ずつ守る**（2026-08-28 修正）
+      //
+      // 途中で例外が出ると、**そこから先の人が誰も片付かない**——
+      // 所属も帽子も残ったままロビーに立つことになる。
+      //
+      // > **後始末は、1 人でこけても止まってはいけない。**
+      try {
+        // **ロビーの人に戻す**（features/lobby/reset.ts に集約）
+        resetToLobby(p, false);
+        moveTo(p, at);
+      } catch {
+        /* その人だけ諦める */
+      }
     }
     // **戦績はもう流してある。** ここで出し直すと二重になる
     world.sendMessage("§7戦績は §f/game:result§7 で見返せます");
@@ -386,6 +400,10 @@ export function celebrate(winner: Team, loser: Team): void {
     //
     // 移し終わってから降ろす。
     // 先に降ろすと、移す途中で境界が割り込む
+    //
+    // **必ず降ろす**（2026-08-28 修正）。ここを通り損ねると
+    // **「試合終了」のまま止まり、所属が消えない**
+    //（`docs/spec/11-match.md` 4-C）
     setCelebrating(false);
   }, TO_CENTER + SHOW_TICKS);
 }

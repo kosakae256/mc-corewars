@@ -47,7 +47,7 @@ import { ARENAS, type Team } from "../../lib/arena.js";
 import { isRunning, shouldBeInBattle, teamOf } from "../../lib/match-state.js";
 import { grantSpawnProtection } from "../combat/index.js";
 import { giveLoadout } from "../loadout/index.js";
-import { GRAPPLE_ITEM, KILL_GAS, isGrappleItem } from "../grapple/index.js";
+import { GRAPPLE_ITEM, isGrappleItem, killGasOf, takeSoftLanding } from "../grapple/index.js";
 import { GRAPPLE2_ITEM } from "../grapple2/index.js";
 import { addGas, refillGas } from "../grapple/gas.js";
 import { fxDown, fxKill, fxRevive, fxTick, title } from "../../lib/fx.js";
@@ -58,6 +58,7 @@ import { clearDart } from "../spotting/index.js";
 import { tntFrom, tntOwnerId } from "../special/tnt.js";
 import { PICKAXE_DAMAGE, isPickaxeHit } from "../special/pickaxe.js";
 import { ruleInt } from "../../lib/rule-config.js";
+import { roleOf } from "../../lib/roles.js";
 
 /**
  * 倒れてから戻るまで（tick）。**既定 5 秒**（`docs/01-rules.md` 4-2）。
@@ -193,6 +194,11 @@ export function toggleDamageLog(): boolean {
   return dmgLog;
 }
 
+/** いま記録を出しているか。**他の機能もこれに合わせる** */
+export function damageLogOn(): boolean {
+  return dmgLog;
+}
+
 /** 見せる相手。**倒れた本人と、切り替えた運営** */
 function tell(player: Player, line: string): void {
   if (!dmgLog) return;
@@ -228,7 +234,35 @@ const SUPPLY_ITEM = "game:sword_wood";
 
 /** いま倒れているか */
 function isDown(player: Player): boolean {
+  if (dying.has(player.id)) return true;
   return typeof player.getDynamicProperty(KEY_REVIVE) === "number";
+}
+
+/**
+ * **致命傷を受けた、と決まった人。**
+ *
+ * 仕様は `docs/spec/14-death.md` 6-C。
+ *
+ * ## なぜ要るのか
+ *
+ * 致命傷は**打ち消してから、次の tick で倒す**（`goDown` は画面を触るので、
+ * 打ち消しの場からは呼べない）。
+ *
+ * **その 1 tick の間、その人はまだ立っている。**
+ * 打ち消したぶん体力も減っていないので、
+ * **倒したはずの相手に殴り返されて、こちらも倒れる**——
+ * 「殴り合って同時に死ぬ」の正体はこれ（2026-08-28 の指摘）。
+ *
+ * **決まった瞬間に印を付ける。**
+ * 印が付いた人の攻撃は通らない（`features/combat`）。
+ *
+ * **メモリだけ。** `/reload` で消えてよい——次の tick には倒れている
+ */
+const dying = new Set<string>();
+
+/** 致命傷が決まっているか。**この人の攻撃はもう通らない** */
+export function isDying(playerId: string): boolean {
+  return dying.has(playerId);
 }
 
 /**
@@ -263,6 +297,9 @@ const KEEP: ReadonlySet<string> = new Set([
   GRAPPLE2_ITEM,
   "game:join_yes",
   "game:join_no",
+  // **ロールに付いてくるもの**（Engineer の操作機。`docs/spec/24-role.md` 4-3）。
+  // 買ったものではないので、**倒されても失わない**
+  "game:drone_control",
 ]);
 
 /**
@@ -372,7 +409,7 @@ export function goDown(
   if (byPlayer) {
     addKill(killer as Player);
     // **倒した側にガスを返す**（docs/spec/13-grapple.md 2章）
-    addGas(killer as Player, KILL_GAS);
+    addGas(killer as Player, killGasOf(killer as Player));
     // **連続で倒しているなら知らせる**（docs/spec/15-presentation.md 4-1-A）
     announceStreak(killer as Player);
   }
@@ -898,6 +935,19 @@ export function registerDeathGuard(): void {
       const player = ev.hurtEntity as Player;
       if (isDown(player)) return;
 
+      // ---- **試合に出ていない人は、何でも減らない**（`docs/spec/14-death.md` 6-A）
+      //
+      // 落下と人の攻撃だけ止めていたので、**爆風で死ねた**
+      //（2026-08-27 の指摘。ドローンから落とした TNT の自爆）。
+      //
+      // > **ロビーは試す場所。** そこで死ぬ理由がひとつも無い。
+      //
+      // **原因を並べない。** 数え漏らすたびに同じ事故が起きる
+      if (!shouldBeInBattle(player)) {
+        ev.cancel = true;
+        return;
+      }
+
       const killer = blameOf(ev.damageSource);
 
       // **殴られた記録を残す。** 落ちて倒れたときに誰のせいか決めるのに使う
@@ -920,6 +970,20 @@ export function registerDeathGuard(): void {
         //
         // 打ち消しはそのまま。**バニラのぶんも入れない**
         if (!shouldBeInBattle(player)) return;
+
+        // ---- **引き寄せたあとの着地は痛くない**（2026-08-28 変更）
+        //
+        // 仕様は `docs/spec/14-death.md` 6-B。
+        //
+        // 超加速装置だけの性質だったが、**全員のものにする。**
+        //
+        // > **ワイヤーで飛べば、必ずどこかに落ちる。**
+        // > 移動そのものに税を掛けているようなもので、
+        // > **飛ぶほど損をする**のでは、この道具を使う理由が削れる。
+        //
+        // **落下ダメージを全部無くすのとは違う。**
+        // 自分から飛び降りたぶんは、これまで通り痛い
+        if (takeSoftLanding(player.id)) return;
 
         const hurt = fallDamage(ev.damage + VANILLA_FALL_FREE);
         if (hurt <= 0) return;
@@ -974,9 +1038,13 @@ export function registerDeathGuard(): void {
 
       if (rest > 0) return;
       ev.cancel = true;
+      // **この瞬間に「もう倒れている」ことにする**（`dying`）。
+      // 次の tick まで待つと、その間の一撃が通ってしまう
+      dying.add(player.id);
       const fall = ev.damageSource.cause === EntityDamageCause.fall;
       const blame = killer ?? (fall ? pusher(player) : undefined);
       system.run(() => {
+        dying.delete(player.id);
         if (!isRunning()) {
           try {
             player.getComponent("minecraft:health")?.resetToMaxValue();

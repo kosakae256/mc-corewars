@@ -1,0 +1,31 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "game:rolekeeper",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/orb",
+        "blue": "textures/entity/orb_blue",
+        "red": "textures/entity/orb_red",
+        "gold": "textures/entity/orb_gold"
+      },
+      "geometry": {
+        "default": "geometry.orb"
+      },
+      "animations": {
+        "float": "animation.orb.float"
+      },
+      "scripts": {
+        "animate": [
+          "float"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.orb"
+      ]
+    }
+  }
+}

@@ -27,6 +27,7 @@
 import { system, world, type Player, type Vector3 } from "@minecraft/server";
 
 import { isRunning, teamOf } from "../../lib/match-state.js";
+import { ruleBool } from "../../lib/rule-config.js";
 import { clearSpotted, isSpotted } from "../cosmetic/index.js";
 import { refreshMarks } from "./marker.js";
 import { isSpectating } from "../death/index.js";
@@ -143,8 +144,56 @@ export function hasDart(playerId: string): boolean {
  * 見つけ続けなくても見える、というのがダーツの値打ち。
  */
 function spottersOf(player: Player): ReadonlySet<string> {
+  // ---- **常に出す設定**（`docs/spec/19-admin-menu.md` 9-A。2026-08-28 追加）
+  //
+  // 見つける遊びを止めて、**全員が全員を見える**ようにする。
+  // 動きの確認や、人数の少ない練習で使う
+  //
+  // **しゃがめば隠れる**（2026-08-28 追加）。
+  // バニラの名札と同じ振る舞いにする——
+  // **隠れる手段が何も無いのでは、常時表示が重すぎる。**
+  //
+  // **しゃがんだら、敵からは消える**（2026-08-28 修正）。
+  //
+  // 「見えている相手だから出る」という理屈もここでは持ち込まない。
+  // **この設定の間は、見つける遊びそのものを止めている**ので、
+  // **姿勢だけで決まる**ほうが分かりやすい。
+  //
+  // 味方には出したまま——**味方の位置が消えると、組んで動けない。**
+  // ダーツと `/game:glow` は**相手が働いて得たもの**なので、姿勢では消えない
+  if (ruleBool("showNames")) {
+    if (!sneaking(player)) return everyoneElse(player);
+    if (isSpotted(player) || hasDart(player.id)) return everyoneElse(player);
+    return teammatesOf(player);
+  }
+  return found(player);
+}
+
+/** 見つけられているか、ダーツが刺さっているか。**設定に依らない分** */
+function found(player: Player): ReadonlySet<string> {
   if (isSpotted(player) || hasDart(player.id)) return everyoneElse(player);
   return spottedBy.get(player.id) ?? NOBODY;
+}
+
+/** 同じ組の人。**所属が無いなら誰も居ない** */
+function teammatesOf(player: Player): ReadonlySet<string> {
+  const mine = teamOf(player);
+  if (mine === undefined) return NOBODY;
+  const out = new Set<string>();
+  for (const p of world.getAllPlayers()) {
+    if (p.id === player.id) continue;
+    if (teamOf(p) === mine) out.add(p.id);
+  }
+  return out;
+}
+
+/** しゃがんでいるか。**読めなければ「していない」** */
+function sneaking(player: Player): boolean {
+  try {
+    return player.isSneaking;
+  } catch {
+    return false;
+  }
 }
 
 /** その人以外の全員 */
@@ -307,6 +356,16 @@ export function startSpotting(): void {
       seenSince.clear();
       spottedBy.clear();
       clearSpotted();
+      // ---- **出ているものを消してから帰る**（2026-08-28 修正）
+      //
+      // 記録だけ消して**画面はそのまま**にしていた。
+      //
+      // > 表示は**相手に貼り付いている**（`attachedTo`）ので、
+      // > **ロビーまで付いてくる。**
+      // > 試合が終わったのに、**名前がチームの色で浮かんだまま**だった。
+      //
+      // `refreshMarks` は試合中でなければ全部消す（`marker.ts`）
+      refreshMarks(spottersOf);
       return;
     }
 
