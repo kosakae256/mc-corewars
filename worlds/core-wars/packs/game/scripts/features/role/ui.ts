@@ -22,6 +22,7 @@ import {
   type RoleId,
   hasRole,
   pointsOf,
+  roleEnabled,
   roleOf,
   spendPoints,
   unlockRole,
@@ -121,6 +122,10 @@ export function showRoles(player: Player, message?: string): void {
     used.set(lane, nth + 1);
     const owned = hasRole(player, id);
     const here = now.id === id;
+    // ---- **運営が止めているロール**（`docs/spec/19-admin-menu.md` 10 章）
+    //
+    // **押しても `changeRole` が弾く。** ここは見せ方だけ
+    const usable = roleEnabled(id);
 
     // ---- **名前の色は、必ず区分の色**（2026-08-27 修正）
     //
@@ -131,11 +136,13 @@ export function showRoles(player: Player, message?: string): void {
     // > **色は「何の仲間か」を表すもの。**
     // > **持っているかどうかは、値段が出ているかで分かる。**
     const color = KIND_COLOR[role.kind];
-    const label = here
-      ? `${color}${role.name}  §a(いま)`
-      : owned
-        ? `${color}${role.name}`
-        : `${color}${role.name}  §e${role.cost}P`;
+    const label = !usable
+      ? `${color}${role.name}  §c使用停止中`
+      : here
+        ? `${color}${role.name}  §a(いま)`
+        : owned
+          ? `${color}${role.name}`
+          : `${color}${role.name}  §e${role.cost}P`;
 
     const desc = [
       `${KIND_COLOR[role.kind]}【${KIND_NAME[role.kind]}】`,
@@ -144,7 +151,11 @@ export function showRoles(player: Player, message?: string): void {
       ...statLines(role),
     ];
 
-    if (practicing(player)) {
+    if (!usable) {
+      // **止めているなら、買う案内も変える案内も出さない。**
+      // 押せないものに手順を書くと、押せると思わせる
+      desc.push("§8──────────", "§c運営が使用停止にしています");
+    } else if (practicing(player)) {
       if (!here) desc.push("§8──────────", "§aお試し");
     } else if (!owned) {
       desc.push("§8──────────", points >= role.cost ? "§e押すと買う" : `§c${role.cost - points}P 足りない`);
@@ -214,6 +225,15 @@ function statLines(role: (typeof ROLES)[keyof typeof ROLES]): string[] {
 /** 押されたときの動き。**持っていなければ買う、持っていれば変える** */
 function pick(player: Player, id: (typeof ROLE_ORDER)[number]): void {
   const role = ROLES[id];
+
+  // ---- **止めてあるなら、買わせもしない**（`docs/spec/19-admin-menu.md` 10 章）
+  //
+  // `changeRole` も弾くが、**そこまで行くと点を払った後**になる。
+  // 使えないものに払わせない
+  if (!roleEnabled(id)) {
+    showRoles(player, `§c${role.name} は運営が使用停止にしています`);
+    return;
+  }
 
   // ---- **ロビーでは点を払わずに試せる**（`docs/spec/25-practice.md` 3 章）
   //

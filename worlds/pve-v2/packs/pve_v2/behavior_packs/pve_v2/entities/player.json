@@ -1,0 +1,2737 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "minecraft:player",
+      "is_summonable": false,
+      "is_spawnable": false,
+      "spawn_category": "creature"
+    },
+    "components": {
+      "minecraft:attack": {
+        "damage": 1
+      },
+      "minecraft:block_climber": {},
+      "minecraft:breathable": {
+        "generates_bubbles": false,
+        "inhale_time": 3.75,
+        "suffocate_time": -1,
+        "total_supply": 15
+      },
+      "minecraft:can_climb": {},
+      "minecraft:collision_box": {
+        "height": 1.8,
+        "width": 0.6
+      },
+      "minecraft:conditional_bandwidth_optimization": {},
+      "minecraft:environment_sensor": {
+        "triggers": {
+          "event": "minecraft:gain_raid_omen",
+          "filters": {
+            "all_of": [
+              {
+                "subject": "self",
+                "test": "has_mob_effect",
+                "value": "bad_omen"
+              },
+              {
+                "subject": "self",
+                "test": "is_in_village",
+                "value": true
+              }
+            ]
+          }
+        }
+      },
+      "minecraft:exhaustion_values": {
+        "sprint": 0.1,
+        "jump": 0.05,
+        "attack": 0.1,
+        "damage": 0.1,
+        "heal": 6.0,
+        "lunge": 4.0,
+        "sprint_jump": 0.2,
+        "mine": 0.005,
+        "swim": 0.01,
+        "walk": 0.0
+      },
+      "minecraft:experience_reward": {
+        "on_death": "Math.Min(query.player_level * 7, 100)"
+      },
+      "minecraft:hurt_on_condition": {
+        "damage_conditions": [
+          {
+            "cause": "lava",
+            "damage_per_tick": 4,
+            "filters": {
+              "operator": "==",
+              "test": "in_lava",
+              "subject": "self",
+              "value": true
+            }
+          }
+        ]
+      },
+      "minecraft:insomnia": {
+        "days_until_insomnia": 3
+      },
+      "minecraft:is_hidden_when_invisible": {},
+      "minecraft:loot": {
+        "table": "loot_tables/empty.json"
+      },
+      "minecraft:movement": {
+        "value": 0.1
+      },
+      "minecraft:nameable": {
+        "allow_name_tag_renaming": false,
+        "always_show": true
+      },
+      "minecraft:physics": {
+        "push_towards_closest_space": true
+      },
+      "minecraft:player.exhaustion": {
+        "max": 20,
+        "value": 0
+      },
+      "minecraft:player.experience": {
+        "max": 1,
+        "value": 0
+      },
+      "minecraft:player.level": {
+        "max": 24791,
+        "value": 0
+      },
+      "minecraft:player.saturation": {
+        "max": 20,
+        "value": 5
+      },
+      "minecraft:pushable_by_block": {},
+      "minecraft:apply_knockback_rules": {
+        "presets": [
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "bouncy"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.105,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "regular"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.105,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "slow_bouncy"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.24,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "slow_flat"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.105,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "fast_flat"
+            },
+            "horizontal_power": 0.365,
+            "vertical_power": 0.09,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "light"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.18,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "fast_sliding"
+            },
+            "horizontal_power": 0.265,
+            "vertical_power": 0.09,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "slow_sliding"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.09,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "sticky"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.09,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "high_resistance"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.09,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "explosive"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.09,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          },
+          {
+            "filter": {
+              "test": "enum_property",
+              "subject": "other",
+              "domain": "minecraft:sulfur_cube_archetype",
+              "value": "hot"
+            },
+            "horizontal_power": 0.165,
+            "vertical_power": 0.105,
+            "vertical_velocity_cap": 8.0,
+            "slowdown_scale": 1.0,
+            "scale_with_damage": true,
+            "knockback_mode": "hit_direction",
+            "extra_knockback_approach": "multiply_reduced"
+          }
+        ]
+      },
+      "minecraft:rideable": {
+        "family_types": [
+          "parrot_tame"
+        ],
+        "pull_in_entities": true,
+        "seat_count": 2,
+        "seats": [
+          {
+            "lock_rider_rotation": 0,
+            "min_rider_count": 0,
+            "max_rider_count": 0,
+            "position": [
+              0.4,
+              -0.2,
+              -0.1
+            ]
+          },
+          {
+            "lock_rider_rotation": 0,
+            "min_rider_count": 1,
+            "max_rider_count": 2,
+            "position": [
+              -0.4,
+              -0.2,
+              -0.1
+            ]
+          }
+        ]
+      },
+      "minecraft:type_family": {
+        "family": [
+          "player"
+        ]
+      }
+    },
+    "component_groups": {
+      "minecraft:add_raid_omen": {
+        "minecraft:spell_effects": {
+          "add_effects": [
+            {
+              "display_on_screen_animation": true,
+              "duration": 30,
+              "effect": "raid_omen"
+            }
+          ],
+          "remove_effects": "bad_omen"
+        },
+        "minecraft:timer": {
+          "looping": false,
+          "time": [
+            0.0,
+            0.0
+          ],
+          "time_down_event": {
+            "event": "minecraft:clear_add_raid_omen",
+            "target": "self"
+          }
+        }
+      },
+      "minecraft:clear_raid_omen_spell_effect": {
+        "minecraft:spell_effects": {}
+      },
+      "minecraft:raid_trigger": {
+        "minecraft:raid_trigger": {
+          "triggered_event": {
+            "event": "minecraft:remove_raid_trigger",
+            "target": "self"
+          }
+        }
+      },
+      "pve_v2:spd_100": {
+        "minecraft:movement": {
+          "value": 0.1
+        }
+      },
+      "pve_v2:spd_105": {
+        "minecraft:movement": {
+          "value": 0.105
+        }
+      },
+      "pve_v2:spd_110": {
+        "minecraft:movement": {
+          "value": 0.11
+        }
+      },
+      "pve_v2:spd_115": {
+        "minecraft:movement": {
+          "value": 0.115
+        }
+      },
+      "pve_v2:spd_120": {
+        "minecraft:movement": {
+          "value": 0.12
+        }
+      },
+      "pve_v2:spd_125": {
+        "minecraft:movement": {
+          "value": 0.125
+        }
+      },
+      "pve_v2:spd_130": {
+        "minecraft:movement": {
+          "value": 0.13
+        }
+      },
+      "pve_v2:spd_135": {
+        "minecraft:movement": {
+          "value": 0.135
+        }
+      },
+      "pve_v2:spd_140": {
+        "minecraft:movement": {
+          "value": 0.14
+        }
+      },
+      "pve_v2:spd_145": {
+        "minecraft:movement": {
+          "value": 0.145
+        }
+      },
+      "pve_v2:spd_150": {
+        "minecraft:movement": {
+          "value": 0.15
+        }
+      },
+      "pve_v2:spd_155": {
+        "minecraft:movement": {
+          "value": 0.155
+        }
+      },
+      "pve_v2:spd_160": {
+        "minecraft:movement": {
+          "value": 0.16
+        }
+      },
+      "pve_v2:spd_165": {
+        "minecraft:movement": {
+          "value": 0.165
+        }
+      },
+      "pve_v2:spd_170": {
+        "minecraft:movement": {
+          "value": 0.17
+        }
+      },
+      "pve_v2:spd_175": {
+        "minecraft:movement": {
+          "value": 0.175
+        }
+      },
+      "pve_v2:spd_180": {
+        "minecraft:movement": {
+          "value": 0.18
+        }
+      },
+      "pve_v2:spd_185": {
+        "minecraft:movement": {
+          "value": 0.185
+        }
+      },
+      "pve_v2:spd_190": {
+        "minecraft:movement": {
+          "value": 0.19
+        }
+      },
+      "pve_v2:spd_195": {
+        "minecraft:movement": {
+          "value": 0.195
+        }
+      },
+      "pve_v2:spd_200": {
+        "minecraft:movement": {
+          "value": 0.2
+        }
+      },
+      "pve_v2:spd_205": {
+        "minecraft:movement": {
+          "value": 0.205
+        }
+      },
+      "pve_v2:spd_210": {
+        "minecraft:movement": {
+          "value": 0.21
+        }
+      },
+      "pve_v2:spd_215": {
+        "minecraft:movement": {
+          "value": 0.215
+        }
+      },
+      "pve_v2:spd_220": {
+        "minecraft:movement": {
+          "value": 0.22
+        }
+      },
+      "pve_v2:spd_225": {
+        "minecraft:movement": {
+          "value": 0.225
+        }
+      },
+      "pve_v2:spd_230": {
+        "minecraft:movement": {
+          "value": 0.23
+        }
+      },
+      "pve_v2:spd_235": {
+        "minecraft:movement": {
+          "value": 0.235
+        }
+      },
+      "pve_v2:spd_240": {
+        "minecraft:movement": {
+          "value": 0.24
+        }
+      },
+      "pve_v2:spd_245": {
+        "minecraft:movement": {
+          "value": 0.245
+        }
+      },
+      "pve_v2:spd_250": {
+        "minecraft:movement": {
+          "value": 0.25
+        }
+      },
+      "pve_v2:spd_255": {
+        "minecraft:movement": {
+          "value": 0.255
+        }
+      },
+      "pve_v2:spd_260": {
+        "minecraft:movement": {
+          "value": 0.26
+        }
+      },
+      "pve_v2:spd_265": {
+        "minecraft:movement": {
+          "value": 0.265
+        }
+      },
+      "pve_v2:spd_270": {
+        "minecraft:movement": {
+          "value": 0.27
+        }
+      },
+      "pve_v2:spd_275": {
+        "minecraft:movement": {
+          "value": 0.275
+        }
+      },
+      "pve_v2:spd_280": {
+        "minecraft:movement": {
+          "value": 0.28
+        }
+      },
+      "pve_v2:spd_285": {
+        "minecraft:movement": {
+          "value": 0.285
+        }
+      },
+      "pve_v2:spd_290": {
+        "minecraft:movement": {
+          "value": 0.29
+        }
+      },
+      "pve_v2:spd_295": {
+        "minecraft:movement": {
+          "value": 0.295
+        }
+      },
+      "pve_v2:spd_300": {
+        "minecraft:movement": {
+          "value": 0.3
+        }
+      }
+    },
+    "events": {
+      "minecraft:clear_add_raid_omen": {
+        "add": {
+          "component_groups": [
+            "minecraft:clear_raid_omen_spell_effect"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "minecraft:add_raid_omen"
+          ]
+        }
+      },
+      "minecraft:remove_raid_trigger": {
+        "remove": {
+          "component_groups": [
+            "minecraft:raid_trigger"
+          ]
+        }
+      },
+      "minecraft:gain_raid_omen": {
+        "add": {
+          "component_groups": [
+            "minecraft:add_raid_omen"
+          ]
+        }
+      },
+      "minecraft:trigger_raid": {
+        "add": {
+          "component_groups": [
+            "minecraft:raid_trigger"
+          ]
+        }
+      },
+      "pve_v2:spd_100": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_100"
+          ]
+        }
+      },
+      "pve_v2:spd_105": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_105"
+          ]
+        }
+      },
+      "pve_v2:spd_110": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_110"
+          ]
+        }
+      },
+      "pve_v2:spd_115": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_115"
+          ]
+        }
+      },
+      "pve_v2:spd_120": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_120"
+          ]
+        }
+      },
+      "pve_v2:spd_125": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_125"
+          ]
+        }
+      },
+      "pve_v2:spd_130": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_130"
+          ]
+        }
+      },
+      "pve_v2:spd_135": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_135"
+          ]
+        }
+      },
+      "pve_v2:spd_140": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_140"
+          ]
+        }
+      },
+      "pve_v2:spd_145": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_145"
+          ]
+        }
+      },
+      "pve_v2:spd_150": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_150"
+          ]
+        }
+      },
+      "pve_v2:spd_155": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_155"
+          ]
+        }
+      },
+      "pve_v2:spd_160": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_160"
+          ]
+        }
+      },
+      "pve_v2:spd_165": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_165"
+          ]
+        }
+      },
+      "pve_v2:spd_170": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_170"
+          ]
+        }
+      },
+      "pve_v2:spd_175": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_175"
+          ]
+        }
+      },
+      "pve_v2:spd_180": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_180"
+          ]
+        }
+      },
+      "pve_v2:spd_185": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_185"
+          ]
+        }
+      },
+      "pve_v2:spd_190": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_190"
+          ]
+        }
+      },
+      "pve_v2:spd_195": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_195"
+          ]
+        }
+      },
+      "pve_v2:spd_200": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_200"
+          ]
+        }
+      },
+      "pve_v2:spd_205": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_205"
+          ]
+        }
+      },
+      "pve_v2:spd_210": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_210"
+          ]
+        }
+      },
+      "pve_v2:spd_215": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_215"
+          ]
+        }
+      },
+      "pve_v2:spd_220": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_220"
+          ]
+        }
+      },
+      "pve_v2:spd_225": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_225"
+          ]
+        }
+      },
+      "pve_v2:spd_230": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_230"
+          ]
+        }
+      },
+      "pve_v2:spd_235": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_235"
+          ]
+        }
+      },
+      "pve_v2:spd_240": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_240"
+          ]
+        }
+      },
+      "pve_v2:spd_245": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_245"
+          ]
+        }
+      },
+      "pve_v2:spd_250": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_250"
+          ]
+        }
+      },
+      "pve_v2:spd_255": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_255"
+          ]
+        }
+      },
+      "pve_v2:spd_260": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_260"
+          ]
+        }
+      },
+      "pve_v2:spd_265": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_265"
+          ]
+        }
+      },
+      "pve_v2:spd_270": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_270"
+          ]
+        }
+      },
+      "pve_v2:spd_275": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_275"
+          ]
+        }
+      },
+      "pve_v2:spd_280": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_280"
+          ]
+        }
+      },
+      "pve_v2:spd_285": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_285"
+          ]
+        }
+      },
+      "pve_v2:spd_290": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_290"
+          ]
+        }
+      },
+      "pve_v2:spd_295": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_295"
+          ]
+        }
+      },
+      "pve_v2:spd_300": {
+        "remove": {
+          "component_groups": [
+            "pve_v2:spd_100",
+            "pve_v2:spd_105",
+            "pve_v2:spd_110",
+            "pve_v2:spd_115",
+            "pve_v2:spd_120",
+            "pve_v2:spd_125",
+            "pve_v2:spd_130",
+            "pve_v2:spd_135",
+            "pve_v2:spd_140",
+            "pve_v2:spd_145",
+            "pve_v2:spd_150",
+            "pve_v2:spd_155",
+            "pve_v2:spd_160",
+            "pve_v2:spd_165",
+            "pve_v2:spd_170",
+            "pve_v2:spd_175",
+            "pve_v2:spd_180",
+            "pve_v2:spd_185",
+            "pve_v2:spd_190",
+            "pve_v2:spd_195",
+            "pve_v2:spd_200",
+            "pve_v2:spd_205",
+            "pve_v2:spd_210",
+            "pve_v2:spd_215",
+            "pve_v2:spd_220",
+            "pve_v2:spd_225",
+            "pve_v2:spd_230",
+            "pve_v2:spd_235",
+            "pve_v2:spd_240",
+            "pve_v2:spd_245",
+            "pve_v2:spd_250",
+            "pve_v2:spd_255",
+            "pve_v2:spd_260",
+            "pve_v2:spd_265",
+            "pve_v2:spd_270",
+            "pve_v2:spd_275",
+            "pve_v2:spd_280",
+            "pve_v2:spd_285",
+            "pve_v2:spd_290",
+            "pve_v2:spd_295",
+            "pve_v2:spd_300"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v2:spd_300"
+          ]
+        }
+      }
+    }
+  }
+}

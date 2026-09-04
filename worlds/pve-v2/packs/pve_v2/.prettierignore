@@ -1,0 +1,3 @@
+# **自動生成のデータは整形しない**（1 行が数 MB になり、整形が終わらない）
+scripts/features/map/models/
+dist/

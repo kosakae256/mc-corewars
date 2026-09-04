@@ -1,0 +1,52 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "pve_v2 BP",
+    "description": "PVE v2 本体",
+    "uuid": "0d8e175a-c9e9-4f53-be41-f64e2b8d16b4",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "description": "ブロック・実体・道具（**これが無いと blocks/ が読まれない**）",
+      "type": "data",
+      "uuid": "cb6b7516-68ac-4dac-8831-39c7a45f21ad",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "7beab239-a600-48ea-bd93-ec476b18b9e4",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.9.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.1.0"
+    }
+  ]
+}

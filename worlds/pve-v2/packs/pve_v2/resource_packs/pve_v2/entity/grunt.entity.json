@@ -1,0 +1,34 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v2:grunt",
+      "materials": {
+        "default": "zombie"
+      },
+      "textures": {
+        "default": "textures/entity/zombie/zombie"
+      },
+      "geometry": {
+        "default": "geometry.zombie"
+      },
+      "animations": {
+        "humanoid_base_pose": "animation.humanoid.base_pose",
+        "look_at_target": "animation.humanoid.look_at_target",
+        "move": "animation.humanoid.move",
+        "zombie_attack_bare_hand": "animation.zombie.attack_bare_hand"
+      },
+      "scripts": {
+        "animate": [
+          "humanoid_base_pose",
+          "look_at_target",
+          "move",
+          "zombie_attack_bare_hand"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.pve2_hurt"
+      ]
+    }
+  }
+}

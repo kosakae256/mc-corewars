@@ -115,12 +115,16 @@ Script API は破壊的変更が頻繁で、v1 時代の情報がネット上に
 | `tools/` | 開発・運営用スクリプト |
 | `reference/` | 外部から取得した参照資料。**編集しない**（git 管理外） |
 
-いま作っているワールド: **[worlds/core-wars/](worlds/core-wars/)**
+いま作っているワールド: **[worlds/pve-v2/](worlds/pve-v2/)**（2026-08-30 開始）。
+**PVE の作り直し。** 企画を書いている段階で、実装はまだ無い。
+**コードは書き直す**が、**実装の形**（[docs/imp.md](docs/imp.md) 10 章）と
+**絵・音を書き出す道具**（`tools/pve-*.py`）は引き継ぐ。
 
-次に作るもの: **[worlds/pve/](worlds/pve/)**（2026-08-28 開始）。
-**ローグライクの PVE。** 企画を `docs/` に書いている段階で、実装はまだ無い。
-**Core Wars からは何も引き継がない**（Swift Sword も含む）。
-書き方は [docs/imp.md](docs/imp.md) 10 章の新しい形を使う。
+| ワールド | いま |
+| --- | --- |
+| [worlds/pve-v2/](worlds/pve-v2/) | **作っている**（企画から） |
+| [worlds/pve/](worlds/pve/) | **止めた**（2026-08-30）。弓 48 本・エンチャント 26 種まで作った。**参照用に残す** |
+| [worlds/core-wars/](worlds/core-wars/) | 遊べる形まで作った。**そのまま残す** |
 
 > **なぜアドオン単位をやめたか。**
 > `addons/game` と `addons/kit` に置いていたが、

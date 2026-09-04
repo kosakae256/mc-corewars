@@ -1,0 +1,74 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.pve2_bow.wield": {
+      "loop": true,
+      "bones": {
+        "rightitem": {
+          "scale": 0.25,
+          "position": [
+            "c.is_first_person ? -5.5 : 0.5",
+            "c.is_first_person ? -3.0 : -2.5",
+            "c.is_first_person ? -3.0 : 1.0"
+          ],
+          "rotation": [
+            "c.is_first_person ? 38.0 : 0.0",
+            "c.is_first_person ? -120.0 : 0.0",
+            "c.is_first_person ? -63.0 : 0.0"
+          ]
+        }
+      }
+    },
+    "animation.pve2_bow.fire": {
+      "loop": true,
+      "bones": {
+        "rightitem": {
+          "position": [
+            0.0,
+            "(math.clamp(3.0 - math.mod((query.main_hand_item_max_duration - query.main_hand_item_use_duration), 10.0), 0.0, 3.0) / 3.0) * 0.5",
+            "(math.clamp(3.0 - math.mod((query.main_hand_item_max_duration - query.main_hand_item_use_duration), 10.0), 0.0, 3.0) / 3.0) * -1.6"
+          ],
+          "rotation": [
+            "(math.clamp(3.0 - math.mod((query.main_hand_item_max_duration - query.main_hand_item_use_duration), 10.0), 0.0, 3.0) / 3.0) * 13.0",
+            "(math.clamp(3.0 - math.mod((query.main_hand_item_max_duration - query.main_hand_item_use_duration), 10.0), 0.0, 3.0) / 3.0) * -4.0",
+            "(math.clamp(3.0 - math.mod((query.main_hand_item_max_duration - query.main_hand_item_use_duration), 10.0), 0.0, 3.0) / 3.0) * 2.0"
+          ]
+        }
+      }
+    },
+    "animation.pve2_bow.sway": {
+      "loop": true,
+      "bones": {
+        "rightitem": {
+          "position": [
+            "math.cos(query.life_time * 43.0) * 0.12",
+            "math.sin(query.life_time * 70.0) * 0.22",
+            0.0
+          ],
+          "rotation": [
+            "math.sin(query.life_time * 70.0) * 1.1",
+            "math.cos(query.life_time * 43.0) * 1.6",
+            "math.sin(query.life_time * 70.0) * 0.9"
+          ]
+        }
+      }
+    },
+    "animation.pve2_bow.run": {
+      "loop": true,
+      "bones": {
+        "rightitem": {
+          "position": [
+            0.0,
+            -1.2,
+            -0.6
+          ],
+          "rotation": [
+            18.0,
+            -10.0,
+            6.0
+          ]
+        }
+      }
+    }
+  }
+}

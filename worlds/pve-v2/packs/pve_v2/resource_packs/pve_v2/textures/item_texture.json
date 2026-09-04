@@ -1,0 +1,12 @@
+{
+  "resource_pack_name": "pve_v2",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "pve2_bow": {
+      "textures": "textures/items/pve2_bow_bow"
+    },
+    "pve2_sheet": {
+      "textures": "textures/items/book_normal"
+    }
+  }
+}

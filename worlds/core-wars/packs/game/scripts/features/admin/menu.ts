@@ -36,7 +36,17 @@ import { ARENAS } from "../../lib/arena.js";
 import { bar } from "../../lib/fx.js";
 import { autoStart, manualTeams, setAutoStart, setManualTeams } from "../../lib/settings.js";
 import { showRules as showRuleSettings } from "./rules.js";
-import { KIND_COLOR, ROLES, ROLE_ORDER, pointsOf, roleOf, unlockRole } from "../../lib/roles.js";
+import { showRoleAdmin } from "./roles.js";
+import {
+  KIND_COLOR,
+  ROLES,
+  ROLE_ORDER,
+  disabledRoles,
+  pointsOf,
+  roleEnabled,
+  roleOf,
+  unlockRole,
+} from "../../lib/roles.js";
 import { changeRole } from "../role/change.js";
 import { showPoints } from "./points.js";
 import { isRookie } from "../../lib/first.js";
@@ -62,6 +72,17 @@ function onOff(on: boolean): string {
 
 /** 説明の色。**地に沈まない明るさにする** */
 const DIM = "§f";
+
+/**
+ * 止めているロールの数。**開かずに分かるようにする**
+ *（`docs/spec/19-admin-menu.md` 10 章）。
+ *
+ * 止めたことを忘れたまま「なぜか選べない」と言われるのを避ける。
+ */
+function roleOffLabel(): string {
+  const n = disabledRoles().size;
+  return n === 0 ? "" : `  §c${n} 個 停止中`;
+}
 
 /**
  * 設定を開く。
@@ -121,6 +142,12 @@ export function showSettings(player: Player): void {
       label: "§fルール調整",
       icon: "textures/items/book_writable",
       run: (p) => showRuleSettings(p, (q) => showSettings(q)),
+    },
+    {
+      // **止めているものがあるなら、開かなくても分かるようにする**
+      label: `§fロール管理${roleOffLabel()}`,
+      icon: "textures/items/game_role_swift",
+      run: (p) => showRoleAdmin(p, (q) => showSettings(q)),
     },
     { label: "§fプレイヤー管理", icon: "textures/items/name_tag", run: (p) => showPlayers(p) },
     {
@@ -460,7 +487,10 @@ ${DIM}選ぶと、その場で一度倒れます（持ち物は残る）`);
   for (const id of ROLE_ORDER) {
     const role = ROLES[id];
     const here = role.id === now.id;
-    form.button(`${here ? "§a" : KIND_COLOR[role.kind]}${role.name}${here ? "  §7(いま)" : ""}`, role.icon);
+    // **止めてあるロールは、押しても `changeRole` が弾く。**
+    // ここは見せ方だけ——押す前に分かるようにする
+    const off = !roleEnabled(id) ? "  §c使用停止" : "";
+    form.button(`${here ? "§a" : KIND_COLOR[role.kind]}${role.name}${here ? "  §7(いま)" : ""}${off}`, role.icon);
   }
   form.button("§e戻る", "textures/items/arrow");
 

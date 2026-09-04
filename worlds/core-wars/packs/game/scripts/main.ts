@@ -64,6 +64,7 @@ import {
 import { registerGuideCommand } from "./features/lobby/guide.js";
 import { startSpotting } from "./features/spotting/index.js";
 import { startHunger } from "./features/hunger/index.js";
+import { startMaxPlayers } from "./features/session/maxplayers.js";
 import { startAbsorb } from "./lib/absorb.js";
 import { registerPillarThrow, startPillar } from "./features/pillar/index.js";
 import { registerAdminKit, startAdminKit } from "./features/admin/index.js";
@@ -130,6 +131,9 @@ system.beforeEvents.startup.subscribe((init) => {
 // ---------------------------------------------------------------------------
 // 2. 購読。**トップレベル。** /reload でも効かせるため
 // ---------------------------------------------------------------------------
+
+// **最大人数を 20 にする**（docs/01-rules.md 3-C）
+startMaxPlayers();
 
 // マップのブロックを守る（docs/spec/10-block-protection.md）
 registerProtection();

@@ -1,0 +1,12 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v2:dmg",
+      "materials": { "default": "entity_alphatest" },
+      "textures": { "default": "textures/particle/pve2_star" },
+      "geometry": { "default": "geometry.pve2_none" },
+      "render_controllers": ["controller.render.pve2_none"]
+    }
+  }
+}
