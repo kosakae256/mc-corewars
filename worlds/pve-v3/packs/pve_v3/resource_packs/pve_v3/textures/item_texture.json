@@ -1,0 +1,9 @@
+{
+  "resource_pack_name": "pve_v3",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "pve3_bow": {
+      "textures": "textures/items/pve3_bow_bow"
+    }
+  }
+}

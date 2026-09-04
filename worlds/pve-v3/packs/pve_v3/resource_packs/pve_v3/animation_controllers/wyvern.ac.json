@@ -1,0 +1,399 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.pve3_wyvern.move": {
+      "initial_state": "idle",
+      "states": {
+        "idle": {
+          "animations": [
+            "idle"
+          ],
+          "transitions": [
+            {
+              "fly": "q.property('pve_v3:fly')"
+            },
+            {
+              "walk": "q.ground_speed > 0.08"
+            }
+          ]
+        },
+        "walk": {
+          "animations": [
+            "walk"
+          ],
+          "blend_transition": 0.2,
+          "transitions": [
+            {
+              "fly": "q.property('pve_v3:fly')"
+            },
+            {
+              "idle": "q.ground_speed <= 0.08"
+            }
+          ]
+        },
+        "fly": {
+          "animations": [
+            "fly"
+          ],
+          "blend_transition": 0.3,
+          "transitions": [
+            {
+              "idle": "!q.property('pve_v3:fly')"
+            }
+          ]
+        }
+      }
+    },
+    "controller.animation.pve3_wyvern.attack": {
+      "initial_state": "none",
+      "states": {
+        "none": {
+          "transitions": [
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "charge": {
+          "animations": [
+            "charge"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "bite": {
+          "animations": [
+            "bite"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'bite'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "spin": {
+          "animations": [
+            "spin"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'spin'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "fireball": {
+          "animations": [
+            "fireball"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'fireball'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "strafe_l": {
+          "animations": [
+            "strafe_l"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'strafe_l'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "strafe_r": {
+          "animations": [
+            "strafe_r"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'strafe_r'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "takeoff": {
+          "animations": [
+            "takeoff"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'takeoff'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "land": {
+          "animations": [
+            "land"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'land'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "recover": "q.property('pve_v3:act') == 'recover'"
+            }
+          ]
+        },
+        "recover": {
+          "animations": [
+            "recover"
+          ],
+          "blend_transition": 0.12,
+          "transitions": [
+            {
+              "none": "q.property('pve_v3:act') != 'recover'"
+            },
+            {
+              "charge": "q.property('pve_v3:act') == 'charge'"
+            },
+            {
+              "bite": "q.property('pve_v3:act') == 'bite'"
+            },
+            {
+              "spin": "q.property('pve_v3:act') == 'spin'"
+            },
+            {
+              "fireball": "q.property('pve_v3:act') == 'fireball'"
+            },
+            {
+              "strafe_l": "q.property('pve_v3:act') == 'strafe_l'"
+            },
+            {
+              "strafe_r": "q.property('pve_v3:act') == 'strafe_r'"
+            },
+            {
+              "takeoff": "q.property('pve_v3:act') == 'takeoff'"
+            },
+            {
+              "land": "q.property('pve_v3:act') == 'land'"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

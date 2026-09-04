@@ -1,0 +1,22 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.pve3_hurt": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "overlay_color": {
+        "r": 0.3,
+        "g": 0.72,
+        "b": 1.0,
+        "a": "q.property('pve_v3:chill') * 0.28"
+      }
+    }
+  }
+}

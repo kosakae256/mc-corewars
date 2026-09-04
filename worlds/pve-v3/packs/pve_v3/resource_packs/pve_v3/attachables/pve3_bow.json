@@ -1,0 +1,39 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "pve_v3:bow",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/pve3_bow_bow"
+      },
+      "geometry": {
+        "default": "geometry.pve3_bow"
+      },
+      "animations": {
+        "wield": "animation.pve3_bow.wield",
+        "fire": "animation.pve3_bow.fire",
+        "sway": "animation.pve3_bow.sway",
+        "run": "animation.pve3_bow.run"
+      },
+      "scripts": {
+        "animate": [
+          "wield",
+          "sway",
+          {
+            "fire": "query.main_hand_item_use_duration > 0.0f"
+          },
+          {
+            "run": "query.is_sprinting"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.pve3_bow"
+      ]
+    }
+  }
+}

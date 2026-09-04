@@ -115,13 +115,15 @@ Script API は破壊的変更が頻繁で、v1 時代の情報がネット上に
 | `tools/` | 開発・運営用スクリプト |
 | `reference/` | 外部から取得した参照資料。**編集しない**（git 管理外） |
 
-いま作っているワールド: **[worlds/pve-v2/](worlds/pve-v2/)**（2026-08-30 開始）。
-**PVE の作り直し。** 企画を書いている段階で、実装はまだ無い。
+いま作っているワールド: **[worlds/pve-v3/](worlds/pve-v3/)**（2026-09-02 開始）。
+**PVE の作り直し。** **企画は 2026-09-04 に書いた**
+（[worlds/pve-v3/docs/00-concept.md](worlds/pve-v3/docs/00-concept.md) が起点）。
 **コードは書き直す**が、**実装の形**（[docs/imp.md](docs/imp.md) 10 章）と
 **絵・音を書き出す道具**（`tools/pve-*.py`）は引き継ぐ。
 
 | ワールド | いま |
 | --- | --- |
+| [worlds/pve-v3/](worlds/pve-v3/) | **作っている**（2026-09-02 開始）。**企画あり**（[00-concept.md](worlds/pve-v3/docs/00-concept.md)）／**仕組みだけ移植済み**（[実装の記録](worlds/pve-v3/docs/spec/10-implementation.md)） |
 | [worlds/pve-v2/](worlds/pve-v2/) | **作っている**（企画から） |
 | [worlds/pve/](worlds/pve/) | **止めた**（2026-08-30）。弓 48 本・エンチャント 26 種まで作った。**参照用に残す** |
 | [worlds/core-wars/](worlds/core-wars/) | 遊べる形まで作った。**そのまま残す** |

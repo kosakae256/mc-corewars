@@ -1,0 +1,42 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v3:wyvern",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/pve3_wyvern"
+      },
+      "geometry": {
+        "default": "geometry.pve3_wyvern"
+      },
+      "animations": {
+        "idle": "animation.pve3_wyvern.idle",
+        "walk": "animation.pve3_wyvern.walk",
+        "fly": "animation.pve3_wyvern.fly",
+        "bite": "animation.pve3_wyvern.bite",
+        "move_ctl": "controller.animation.pve3_wyvern.move",
+        "attack_ctl": "controller.animation.pve3_wyvern.attack",
+        "strafe_l": "animation.pve3_wyvern.strafe_l",
+        "strafe_r": "animation.pve3_wyvern.strafe_r",
+        "takeoff": "animation.pve3_wyvern.takeoff",
+        "land": "animation.pve3_wyvern.land",
+        "charge": "animation.pve3_wyvern.charge",
+        "spin": "animation.pve3_wyvern.spin",
+        "fireball": "animation.pve3_wyvern.fireball",
+        "recover": "animation.pve3_wyvern.recover"
+      },
+      "scripts": {
+        "animate": [
+          "move_ctl",
+          "attack_ctl"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.pve3_hurt"
+      ]
+    }
+  }
+}

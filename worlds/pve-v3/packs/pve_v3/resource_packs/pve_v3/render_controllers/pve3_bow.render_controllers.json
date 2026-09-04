@@ -1,0 +1,16 @@
+{
+  "format_version": "1.10",
+  "render_controllers": {
+    "controller.render.pve3_bow": {
+      "geometry": "geometry.default",
+      "materials": [
+        {
+          "*": "material.default"
+        }
+      ],
+      "textures": [
+        "texture.default"
+      ]
+    }
+  }
+}

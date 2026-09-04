@@ -382,3 +382,29 @@ manifest が `1.0.3` なら、次に閉じた時点でこのファイルも `1.0
 参加者も**ゲーム本体を立ち上げ直さないと反映されないことがある。**
 
 「見えない」と言われたら、まず**版・再起動の両方**を確かめる。
+
+## カスタムコマンドは **`/reload` で引数を変えられない**（2026-09-05）
+
+**`script closure has been invalidated` を追った記録。**
+
+公式の [`CustomCommandErrorReason`](../../reference/minecraft-creator-docs/creator/ScriptAPI/minecraft/server/CustomCommandErrorReason.md) にこうある。
+
+> **RegistryReadOnly** — *Command parameters cannot be redefined during reload.
+> Only the script closure itself can be changed.*
+
+| 変えたもの | `/reload` で足りるか |
+| --- | --- |
+| **中身だけ**（closure の本体） | **足りる** |
+| **引数を足す・消す・型や名前を変える** | **足りない。** 入り直す |
+| **コマンドを増やす・減らす** | **足りない。** 入り直す |
+
+**足りないのに `/reload` すると、古い登録がそのまま残る。**
+叩くと **`script closure has been invalidated`**——
+**古い文脈の closure を呼んでいる**ため。
+
+**直し方はワールドに入り直すだけ**（`/reload all` でも可）。
+
+> ### 握りつぶさない
+>
+> 登録は `system.beforeEvents.startup` の中で行う。**1 本ずつ try/catch で囲み、
+> 失敗を `console.warn` に出す。** 黙って古い挙動が続くのがいちばん困る。

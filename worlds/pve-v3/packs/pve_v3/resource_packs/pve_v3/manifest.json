@@ -1,0 +1,30 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "pve_v3 RP",
+    "description": "PVE v3 本体",
+    "uuid": "677445f3-475b-4a43-a04b-60949a525a05",
+    "version": [
+      1,
+      0,
+      22
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      80
+    ]
+  },
+  "modules": [
+    {
+      "description": "Resources",
+      "type": "resources",
+      "uuid": "de923b38-5fa0-47c5-8dc5-babb10bd7513",
+      "version": [
+        1,
+        0,
+        22
+      ]
+    }
+  ]
+}
