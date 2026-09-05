@@ -1,0 +1,37 @@
+[
+  {
+    "flipbook_texture": "textures/blocks/pve3_portal_1",
+    "atlas_tile": "pve3_portal_1",
+    "ticks_per_frame": 2
+  },
+  {
+    "flipbook_texture": "textures/blocks/pve3_portal_2",
+    "atlas_tile": "pve3_portal_2",
+    "ticks_per_frame": 2
+  },
+  {
+    "flipbook_texture": "textures/blocks/pve3_portal_3",
+    "atlas_tile": "pve3_portal_3",
+    "ticks_per_frame": 2
+  },
+  {
+    "flipbook_texture": "textures/blocks/pve3_portal_4",
+    "atlas_tile": "pve3_portal_4",
+    "ticks_per_frame": 2
+  },
+  {
+    "flipbook_texture": "textures/blocks/pve3_portal_5",
+    "atlas_tile": "pve3_portal_5",
+    "ticks_per_frame": 2
+  },
+  {
+    "flipbook_texture": "textures/blocks/pve3_portal_6",
+    "atlas_tile": "pve3_portal_6",
+    "ticks_per_frame": 2
+  },
+  {
+    "flipbook_texture": "textures/blocks/pve3_portal_rest",
+    "atlas_tile": "pve3_portal_rest",
+    "ticks_per_frame": 2
+  }
+]

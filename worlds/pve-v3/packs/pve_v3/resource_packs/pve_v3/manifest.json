@@ -3,27 +3,37 @@
   "header": {
     "name": "pve_v3 RP",
     "description": "PVE v3 本体",
-    "uuid": "677445f3-475b-4a43-a04b-60949a525a05",
+    "uuid": "09259888-444e-4199-8097-492cd2b0125e",
     "version": [
       1,
       0,
-      22
+      13
     ],
     "min_engine_version": [
       1,
-      21,
-      80
+      26,
+      40
     ]
   },
   "modules": [
     {
       "description": "Resources",
       "type": "resources",
-      "uuid": "de923b38-5fa0-47c5-8dc5-babb10bd7513",
+      "uuid": "a69a3e62-7538-485f-8070-5f96e2b32fe5",
       "version": [
         1,
         0,
-        22
+        13
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "11e92775-a4e4-4fc8-b302-89dd656e63d4",
+      "version": [
+        1,
+        0,
+        0
       ]
     }
   ]

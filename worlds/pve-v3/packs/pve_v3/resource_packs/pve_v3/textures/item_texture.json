@@ -4,6 +4,9 @@
   "texture_data": {
     "pve3_bow": {
       "textures": "textures/items/pve3_bow_bow"
+    },
+    "pve3_admin": {
+      "textures": "textures/items/compass_item"
     }
   }
 }

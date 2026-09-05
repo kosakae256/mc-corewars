@@ -10,6 +10,7 @@
  */
 
 import {
+  world,
   CommandPermissionLevel,
   CustomCommandParamType,
   CustomCommandStatus,
@@ -21,7 +22,9 @@ import {
 } from "@minecraft/server";
 
 import type { Feature } from "../../types.js";
-import { FACING, PLACES } from "../../core/places.js";
+import { BALLOT, castVote, ensureGates, gateOf } from "../../services/restgate.js";
+import { phase } from "../../services/match.js";
+import { center, FACING, PLACES } from "../../core/places.js";
 import { FLOOR, restOps } from "../../core/rest.js";
 import { busy, start } from "../../services/builder.js";
 
@@ -46,7 +49,7 @@ function goPlace(player: Player, name: string): boolean {
   try {
     const yaw = FACING[where];
     // **向きが決まっている場所では、必ずそちらを向かせる**
-    player.teleport(PLACES[where], yaw === undefined ? undefined : { rotation: { x: 0, y: yaw } });
+    player.teleport(center(PLACES[where]), yaw === undefined ? undefined : { rotation: { x: 0, y: yaw } });
   } catch {
     /* 消えている */
   }
@@ -112,7 +115,32 @@ function gotoCommand(registry: CustomCommandRegistry): void {
   );
 }
 
+/**
+ * **投票用のモブを殴ったら、その候補に入れる**（`13-flow.md` 3-2）。
+ *
+ * **トップレベルから 1 度だけ**（`docs/imp.md` 10-2）。
+ */
+function subscribe(): void {
+  world.afterEvents.entityHitEntity.subscribe((ev) => {
+    if (ev.hitEntity.typeId !== BALLOT) return;
+    const by = ev.damagingEntity;
+    if (!(by instanceof Player)) return;
+    const gate = gateOf(ev.hitEntity);
+    if (gate === undefined) return;
+    castVote(by, gate);
+  });
+}
+
+/** 休憩所に居る間、3 択が立っているか見る */
+function tick(): void {
+  if (phase() !== "rest") return;
+  ensureGates();
+}
+
 export const rest: Feature = {
   name: "rest",
+  subscribe,
+  // **2 秒に 1 回で足りる**（売り子と同じ）
+  tick: { every: 40, run: tick },
   commands: [buildCommand, gotoCommand],
 };

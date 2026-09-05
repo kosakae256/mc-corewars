@@ -4,7 +4,18 @@
     "description": {
       "identifier": "pve_v3:vendor",
       "is_summonable": true,
-      "is_spawnable": false
+      "is_spawnable": false,
+      "properties": {
+        "pve_v3:kind": {
+          "type": "int",
+          "range": [
+            0,
+            4
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
     },
     "components": {
       "minecraft:type_family": {
@@ -13,10 +24,13 @@
         ]
       },
       "minecraft:collision_box": {
-        "width": 0.6,
-        "height": 1.9
+        "width": 0.75,
+        "height": 0.75
       },
-      "minecraft:physics": {},
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": false
+      },
       "minecraft:knockback_resistance": {
         "value": 1
       },
@@ -42,10 +56,6 @@
         "suffocate_time": -20,
         "breathes_air": true,
         "breathes_water": true
-      },
-      "minecraft:behavior.look_at_player": {
-        "priority": 1,
-        "look_distance": 12
       },
       "minecraft:nameable": {
         "always_show": true,

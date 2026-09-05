@@ -26,6 +26,10 @@ export const KEYS = {
   hpMax: `${PREFIX}hp_max`,
   /** **その人の最大 HP**（既定 100） */
   hpBase: `${PREFIX}hp_base`,
+  /** **その敵 1 体の攻撃力**（`services/spawn.ts` が置き、`features/mob` が読む） */
+  atk: `${PREFIX}atk`,
+  /** **その敵の種類**（`core/enemy.ts` の id） */
+  kind: `${PREFIX}kind`,
   /** 実体の表示名（`state/label.ts`） */
   label: `${PREFIX}label`,
   /** **強化を買った回数**（`state/growth.ts`）。HP */
@@ -48,14 +52,22 @@ export const KEYS = {
   wave: `${PREFIX}wave`,
   /** 選ばれている敵グループ */
   legion: `${PREFIX}legion`,
+  /** 次の 3 戦の相手（`,` 区切り）。休憩所の 3 択で決まる */
+  run: `${PREFIX}run`,
+  /** その人が入れた門（0〜2）。**休憩所の 3 択** */
+  vote: `${PREFIX}vote`,
   /** 一時停止から戻る先 */
   resumeTo: `${PREFIX}resume_to`,
+  /** **どこから幕間へ入ったか**（`wave` なら 3 択を出す） */
+  interFrom: `${PREFIX}inter_from`,
 
   // ---- その人の参加（`state/member.ts`）
   /** 参加のしかた（`out` / `member` / `late`） */
   member: `${PREFIX}member`,
   /** 戦場で倒れているか */
   dead: `${PREFIX}dead`,
+  /** **幕間で強化を選び終わったか**（`state/pick.ts`） */
+  picked: `${PREFIX}picked`,
 
   /** **売り子が何を売るか**（`core/shop.ts` の `VendorKind`） */
   sells: `${PREFIX}sells`,

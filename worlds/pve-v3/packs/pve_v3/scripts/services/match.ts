@@ -16,10 +16,18 @@ import { world, type Player } from "@minecraft/server";
 
 import { canEnter, isResumable, type EndReason, type WorldPhase } from "../core/state.js";
 import * as match from "../state/match.js";
+import { resetPicked, setPicked } from "../state/pick.js";
 import { membership, setDead, setMembership } from "../state/member.js";
 import { reset as resetGrowth } from "../state/growth.js";
 import { heal, max as hpMax } from "../state/hp.js";
 import { clearEnemies } from "./field.js";
+import { forgetPrepared, prepareField, readyEnemies } from "./stage.js";
+import { closeGates, openGates, settleGates } from "./restgate.js";
+import { resetVotes } from "../state/vote.js";
+import { cue } from "./interlude.js";
+import { blackout, forgetAll as forgetDark } from "./dark.js";
+import { center, FACING, isOutside, PLACES } from "../core/places.js";
+import { stopSpawning } from "./spawn.js";
 import { awardClear, forgetAll } from "./reward.js";
 import { alive, members, unfreezeAll } from "./presence.js";
 
@@ -85,6 +93,9 @@ function exit(from: WorldPhase, to: WorldPhase): void {
 function entry(to: WorldPhase, from: WorldPhase, now: number): void {
   switch (to) {
     case "idle":
+      stopSpawning();
+      // **覚えているぶんを捨てる**（画面は 2 秒で勝手に明ける）
+      forgetDark();
       // **全部リセット。**参加を解き、強化とエメラルドを消す
       for (const p of world.getAllPlayers()) {
         setMembership(p, "out");
@@ -93,6 +104,8 @@ function entry(to: WorldPhase, from: WorldPhase, now: number): void {
       }
       match.clear();
       clearEnemies();
+      closeGates();
+      forgetPrepared();
       forgetAll();
       break;
 
@@ -109,13 +122,60 @@ function entry(to: WorldPhase, from: WorldPhase, now: number): void {
     case "rest":
       // **死んでいた人はここで生き返る**
       for (const p of members()) revive(p);
-      announce(`§a休憩所 §7— 30 秒。次の相手を選ぶ §8(wave ${match.wave()} 終了)`);
+      stopSpawning();
+      // ---- **次の相手を、ここで選ぶ**（`13-flow.md` 3-2）
+      //
+      // **票は捨ててから引き直す**（前の休憩所のぶんが残らないように）
+      resetVotes();
+      openGates();
+      announce("§b次の敵を投票しよう！ §7— §f門の前のモブを殴る");
+      // **次の戦場は、ここに居る間に作っておく**（`13-flow.md` 2 章）
+      prepareField(match.wave() + 1);
+      announce(`§a休憩所 §7— 30 秒。次の 3 戦の相手を選ぶ §8(wave ${match.wave()} まで終了)`);
       break;
 
-    case "wave":
+    case "wave": {
+      // **休憩所から出るなら、ここで投票を締める**（`17-state.md`）
+      if (from === "rest" || from === "interlude") settleGates();
       match.setWave(match.wave() + 1);
-      for (const p of members()) revive(p);
-      announce(`§cwave ${match.wave()} §7— 開始`);
+      for (const p of members()) {
+        revive(p);
+        // > ### **もう湧く所に居るなら、飛ばさない**（2026-09-05）
+        // >
+        // > 幕間で運んである（`moveAll`）のに、ここでもう一度飛ばしていた。
+        // > **飛ばすと暗転が外れる**ので、**まだ選んでいる人の画面が一瞬明るくなっていた**
+        // > （「チェスト UI が出る 3 tick 前に見える」の正体。`13-flow.md` 2 章）。
+        try {
+          if (isOutside(p.location, PLACES.field)) {
+            p.teleport(center(PLACES.field), { rotation: { x: 0, y: FACING.field ?? 0 } });
+          }
+        } catch {
+          /* 抜けた */
+        }
+      }
+      // **敵は 10 秒後から**（`13-flow.md` 2-2）。積むのは `features/match` が待ってからやる
+      announce(`§cwave ${match.wave()} §7— 開始 §8(10 秒後に湧く)`);
+      break;
+    }
+
+    case "interlude":
+      // **どこから来たかを覚える**（`wave` から来たときだけ 3 択を出す）
+      match.setInterFrom(from);
+      // **幕間はいつでも暗転する**（3 択を出すかどうかとは別）
+      for (const p of members()) blackout(p);
+      // > ### 状態はここで落とす
+      // >
+      // > **次の周期まで待つと、その間だけ「選んでいる」でなくなり、
+      // > 暗転が掛け直されずに一度明るくなる**（2026-09-05 の失敗）。
+      if (from === "wave") resetPicked();
+      else for (const p of members()) setPicked(p, true);
+      // **暗くするだけ。** 運ぶのも組み直すのも `features/match` が順に進める
+      //
+      // > ### 暗転は「置き終わるまで」
+      // >
+      // > **明転してから 3 択を出す**（2026-09-05 変更。`13-flow.md` 2 章）。
+      // > 暗いまま UI を開き続けるのは、**黒を保ち切れなかった。**
+      cue();
       break;
 
     case "paused":
@@ -125,6 +185,7 @@ function entry(to: WorldPhase, from: WorldPhase, now: number): void {
       break;
 
     case "result":
+      stopSpawning();
       clearEnemies();
       announce(`§7──── §fリザルト §7──── §8到達 wave ${match.wave()}`);
       break;

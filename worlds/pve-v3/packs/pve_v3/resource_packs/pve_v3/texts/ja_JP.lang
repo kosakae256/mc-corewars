@@ -1,1 +1,8 @@
-tile.pve_v2:portal.name=ネザーゲート（飾り）
+tile.pve_v3:portal.name=ネザーゲート（飾り）
+tile.pve_v3:portal_1.name=ネザーゲート ★1（紫）
+tile.pve_v3:portal_2.name=ネザーゲート ★2（赤紫）
+tile.pve_v3:portal_3.name=ネザーゲート ★3（紅紫）
+tile.pve_v3:portal_4.name=ネザーゲート ★4（朱）
+tile.pve_v3:portal_5.name=ネザーゲート ★5（赤）
+tile.pve_v3:portal_6.name=ネザーゲート ★6（赤黒）
+tile.pve_v3:portal_rest.name=ネザーゲート 休憩所（水色）

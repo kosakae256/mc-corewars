@@ -3,11 +3,11 @@
   "header": {
     "name": "pve_v3 BP",
     "description": "PVE v3 本体",
-    "uuid": "9544954d-5494-48cc-8227-ab8507e2d8ab",
+    "uuid": "11e92775-a4e4-4fc8-b302-89dd656e63d4",
     "version": [
       1,
       0,
-      22
+      0
     ],
     "min_engine_version": [
       1,
@@ -19,22 +19,22 @@
     {
       "description": "ブロック・実体・道具（**これが無いと blocks/ が読まれない**）",
       "type": "data",
-      "uuid": "d3017253-771e-427e-9ab2-f93e8e2afa71",
+      "uuid": "b2befef1-ee71-4553-addb-4003bb834e93",
       "version": [
         1,
         0,
-        22
+        0
       ]
     },
     {
       "description": "Script resources",
       "language": "javascript",
       "type": "script",
-      "uuid": "e634f131-a722-49ea-ad77-08f009adaddc",
+      "uuid": "ff12bb9d-c05f-453b-9cd7-2de0cc42784d",
       "version": [
         1,
         0,
-        22
+        0
       ],
       "entry": "scripts/main.js"
     }
@@ -49,12 +49,8 @@
       "version": "2.1.0"
     },
     {
-      "uuid": "677445f3-475b-4a43-a04b-60949a525a05",
-      "version": [
-        1,
-        0,
-        22
-      ]
+      "module_name": "@minecraft/debug-utilities",
+      "version": "1.0.0-beta"
     }
   ]
 }

@@ -30,6 +30,7 @@ import {
 } from "@minecraft/server";
 
 import type { Feature } from "../../types.js";
+import { center } from "../../core/places.js";
 import { place } from "./gate.js";
 
 /** ゲートのブロック */
@@ -94,7 +95,7 @@ function shove(player: Player): void {
     if (foot.typeId === PORTAL || head.typeId === PORTAL) continue;
     if (!foot.isAir || !head.isAir || under.isAir) continue;
     try {
-      player.teleport({ x: x + 0.5, y, z: z + 0.5 });
+      player.teleport(center({ x, y, z }));
     } catch {
       /* 置けなければ諦める */
     }
@@ -110,7 +111,7 @@ function tick(): void {
       if (inPortal(player)) {
         const back = safe.get(player.id);
         if (back === undefined) shove(player);
-        else player.teleport(back);
+        else player.teleport(center(back));
         tell(player);
         continue;
       }
@@ -132,7 +133,7 @@ function subscribe(): void {
     const back = safe.get(ev.player.id) ?? ev.fromLocation;
     system.run(() => {
       try {
-        ev.player.teleport(back, { dimension: ev.fromDimension });
+        ev.player.teleport(center(back), { dimension: ev.fromDimension });
         tell(ev.player);
       } catch {
         /* 消えている */

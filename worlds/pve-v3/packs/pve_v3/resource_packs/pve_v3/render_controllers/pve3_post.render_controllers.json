@@ -1,0 +1,27 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.pve3_post": {
+      "arrays": {
+        "textures": {
+          "array.skins": [
+            "texture.hp",
+            "texture.speed",
+            "texture.shop",
+            "texture.haste",
+            "texture.power"
+          ]
+        }
+      },
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "array.skins[query.property('pve_v3:kind')]"
+      ]
+    }
+  }
+}

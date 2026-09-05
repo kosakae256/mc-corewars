@@ -20,6 +20,7 @@ import { bar, barColor, hpNumber, SEGMENTS } from "../scripts/core/bar.ts";
 import { plateText } from "../scripts/core/plate.ts";
 import {
   canEnter,
+  restsAfter,
   homeOf,
   isResumable,
   isRunning,
@@ -211,11 +212,24 @@ describe("core/growth — ステータス強化", () => {
 });
 
 describe("core/state — 世界の遷移", () => {
+  it("**戦場 3 連戦**——3 の倍数を終えたら休憩所へ", () => {
+    // **wave 0 も 3 の倍数。** だから最初は休憩所から始まる
+    assert.equal(restsAfter(0), true);
+    assert.equal(restsAfter(1), false);
+    assert.equal(restsAfter(2), false);
+    assert.equal(restsAfter(3), true);
+    assert.equal(restsAfter(6), true);
+  });
+
   it("表にある遷移は通る", () => {
     assert.equal(canEnter("idle", "prepare"), true);
     assert.equal(canEnter("prepare", "rest"), true);
-    assert.equal(canEnter("rest", "wave"), true);
-    assert.equal(canEnter("wave", "rest"), true);
+    // **休憩所を出るときも幕間を挟む**（暗転してから運ぶ）
+    assert.equal(canEnter("rest", "interlude"), true);
+    // **戦場が終わったら必ず幕間**（`13-flow.md` 2 章）
+    assert.equal(canEnter("wave", "interlude"), true);
+    assert.equal(canEnter("interlude", "wave"), true);
+    assert.equal(canEnter("interlude", "rest"), true);
     assert.equal(canEnter("paused", "wave"), true);
     assert.equal(canEnter("result", "idle"), true);
   });
@@ -223,6 +237,9 @@ describe("core/state — 世界の遷移", () => {
   it("**表に無い遷移は通さない**", () => {
     // 非開始からいきなり戦場へは行けない
     assert.equal(canEnter("idle", "wave"), false);
+    // **戦場から休憩所へ、休憩所から戦場へ、直には行けない**——必ず幕間を挟む
+    assert.equal(canEnter("wave", "rest"), false);
+    assert.equal(canEnter("rest", "wave"), false);
     // リザルトの次は必ず非開始
     assert.equal(canEnter("result", "prepare"), false);
     assert.equal(canEnter("result", "rest"), false);
@@ -302,6 +319,8 @@ describe("core/state — 人の状態", () => {
   });
 
   it("止まる状態", () => {
+    // **選んでいる間は留め置かない**（UI 自体が動きを止める。2026-09-05 変更）
+    assert.equal(mustFreeze("picking"), false);
     assert.equal(mustFreeze("paused"), true);
     assert.equal(mustFreeze("result"), true);
     assert.equal(mustFreeze("lateResult"), true);

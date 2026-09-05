@@ -1,0 +1,29 @@
+{
+  "resource_pack_name": "pve_v3",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "pve3_portal_1": {
+      "textures": "textures/blocks/pve3_portal_1"
+    },
+    "pve3_portal_2": {
+      "textures": "textures/blocks/pve3_portal_2"
+    },
+    "pve3_portal_3": {
+      "textures": "textures/blocks/pve3_portal_3"
+    },
+    "pve3_portal_4": {
+      "textures": "textures/blocks/pve3_portal_4"
+    },
+    "pve3_portal_5": {
+      "textures": "textures/blocks/pve3_portal_5"
+    },
+    "pve3_portal_6": {
+      "textures": "textures/blocks/pve3_portal_6"
+    },
+    "pve3_portal_rest": {
+      "textures": "textures/blocks/pve3_portal_rest"
+    }
+  }
+}

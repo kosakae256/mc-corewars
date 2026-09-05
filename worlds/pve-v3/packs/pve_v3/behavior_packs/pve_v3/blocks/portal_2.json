@@ -1,0 +1,61 @@
+{
+  "format_version": "1.26.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "pve_v3:portal_2",
+      "menu_category": {
+        "category": "construction"
+      },
+      "states": {
+        "pve_v3:across": [
+          false,
+          true
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": "geometry.pve_v3_portal",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "pve3_portal_2",
+          "render_method": "blend",
+          "face_dimming": false,
+          "ambient_occlusion": 0
+        }
+      },
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -1
+        ],
+        "size": [
+          16,
+          16,
+          2
+        ]
+      },
+      "minecraft:light_emission": 11,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:map_color": "#3b1a63"
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('pve_v3:across')",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

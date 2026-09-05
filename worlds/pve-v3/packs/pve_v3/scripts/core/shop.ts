@@ -34,6 +34,20 @@ export const VENDOR_SPOTS: Readonly<Partial<Record<VendorKind, { x: number; y: n
   power: { x: 10, y: 1, z: 31 },
 };
 
+/**
+ * **見た目の番号。** 実体のプロパティ `pve_v3:kind` に入れる。
+ *
+ * **並びは `render_controllers/pve3_post.render_controllers.json` の
+ * `Array.skins` と同じ順**——ずらすと別のブロックの絵になる。
+ */
+export const LOOKS: readonly VendorKind[] = ["hp", "speed", "shop", "haste", "power"];
+
+/** その売り子の見た目の番号（表に無ければ 0） */
+export function lookOf(kind: VendorKind): number {
+  const i = LOOKS.indexOf(kind);
+  return i < 0 ? 0 : i;
+}
+
 /** 頭の上に出す名前 */
 export function vendorLabel(kind: VendorKind): string {
   if (kind === "shop") return "§aショップ§7（仮）";

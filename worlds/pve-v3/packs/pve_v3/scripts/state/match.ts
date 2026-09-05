@@ -74,6 +74,31 @@ export function setWave(value: number): void {
 }
 
 /** 選ばれている敵グループ */
+/**
+ * **次の 3 戦の相手**（`13-flow.md` 3-2）。**休憩所の 3 択で決まる。**
+ *
+ * 空なら、まだ選んでいない——`legion()`（`/pve:legion`）で代わりを引く。
+ */
+export function run(): readonly string[] {
+  const v = str(KEYS.run);
+  return v === undefined || v === "" ? [] : v.split(",");
+}
+
+export function setRun(ids: readonly string[]): void {
+  put(KEYS.run, ids.join(","));
+}
+
+/**
+ * **その wave の相手。**
+ *
+ * 3 戦で 1 巡（`wave` は 1 から数える）。**決まっていなければ undefined。**
+ */
+export function legionFor(wave: number): string | undefined {
+  const ids = run();
+  if (ids.length === 0 || wave < 1) return undefined;
+  return ids[(wave - 1) % ids.length];
+}
+
 export function legion(): string | undefined {
   const v = str(KEYS.legion);
   return v === undefined || v === "" ? undefined : v;
@@ -97,5 +122,22 @@ export function setResumeTo(value: WorldPhase | ""): void {
 export function clear(): void {
   setWave(0);
   put(KEYS.legion, "");
+  put(KEYS.run, "");
   setResumeTo("");
+}
+
+/**
+ * **どこから幕間へ入ったか。**
+ *
+ * > ### 3 択は「戦場が終わったとき」だけ
+ * >
+ * > 休憩所を出るときも暗転するが、**そこでは強化を選ばない。**
+ */
+export function interFrom(): WorldPhase | undefined {
+  const v = str(KEYS.interFrom);
+  return v === "" || v === undefined ? undefined : (v as WorldPhase);
+}
+
+export function setInterFrom(from: WorldPhase): void {
+  put(KEYS.interFrom, from);
 }

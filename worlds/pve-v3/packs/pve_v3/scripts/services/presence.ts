@@ -19,10 +19,11 @@
 
 import { GameMode, world, type Player, type Vector3 } from "@minecraft/server";
 
-import { homeOf, mustFreeze, mustSpectate, playerPhase, type PlayerPhase } from "../core/state.js";
-import { FACING, isOutside, PLACES } from "../core/places.js";
+import { homeOf, mustFreeze, mustSpectate, playerPhase, type PlayerPhase, type Home } from "../core/state.js";
+import { center, FACING, isOutside, PLACES } from "../core/places.js";
 import * as match from "../state/match.js";
 import { isDead, membership, setDead, setMembership } from "../state/member.js";
+import { isPicked } from "../state/pick.js";
 
 /** 固定しているときの立ち位置。**メモリだけ**（`/reload` で消えてよい） */
 const anchors = new Map<string, Vector3>();
@@ -39,7 +40,7 @@ export function alive(): Player[] {
 
 /** その人のいまの状態 */
 export function phaseOf(player: Player): PlayerPhase {
-  return playerPhase(match.phase(), membership(player), isDead(player));
+  return playerPhase(match.phase(), membership(player), isDead(player), isPicked(player));
 }
 
 /**
@@ -131,7 +132,7 @@ export function reconcile(player: Player, _now: number): void {
     anchors.set(player.id, at);
     if (isOutside(player.location, at, 2)) {
       try {
-        player.teleport(at);
+        player.teleport(center(at));
       } catch {
         /* 消えている */
       }
@@ -140,13 +141,19 @@ export function reconcile(player: Player, _now: number): void {
   }
   anchors.delete(player.id);
 
+  // > ### 幕間の間は、居場所を直さない
+  // >
+  // > **暗転中に運ぶのはこちら**（`moveAll`）。
+  // > 毎周期の寄せと取り合うと、**運んだ先から引き戻される。**
+  if (worldPhase === "interlude") return;
+
   const where = homeOf(worldPhase, membership(player));
   const home = PLACES[where];
   if (!isOutside(player.location, home)) return;
   try {
     const yaw = FACING[where];
     // **向きが決まっている場所では、必ずそちらを向かせる**
-    player.teleport(home, yaw === undefined ? undefined : { rotation: { x: 0, y: yaw } });
+    player.teleport(center(home), yaw === undefined ? undefined : { rotation: { x: 0, y: yaw } });
   } catch {
     /* 消えている */
   }
@@ -155,4 +162,31 @@ export function reconcile(player: Player, _now: number): void {
 /** 固定を全部解く。**一時停止から戻るとき** */
 export function unfreezeAll(): void {
   anchors.clear();
+}
+
+/**
+ * **全員をその場所へ運ぶ**（幕間の暗転中）。
+ *
+ * > ### 暗くなり切ってすぐ運ぶ
+ * >
+ * > 明るくする側で運ぶと**遅すぎて、移動が見える。**
+ *
+ * **湧く所はどのマップでも地面がある**（`14-map-build.md` 0-1）ので、
+ * マップの差し替え前に運んでも足元が抜けない。
+ */
+export function moveAll(where: Home): void {
+  const home = PLACES[where];
+  const yaw = FACING[where];
+  for (const p of members()) {
+    try {
+      p.teleport(center(home), yaw === undefined ? undefined : { rotation: { x: 0, y: yaw } });
+    } catch {
+      /* 抜けた */
+    }
+    // > ### 覚えた立ち位置も、ここで動かす
+    // >
+    // > 留め置かれている人（一時停止・リザルト）を運ぶことがある。
+    // > **運ぶ前の立ち位置を覚えたままだと、運んだ先から引き戻される。**
+    anchors.set(p.id, home);
+  }
 }

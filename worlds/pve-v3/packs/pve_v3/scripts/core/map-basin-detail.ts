@@ -6,7 +6,7 @@
  */
 
 import { set, type BuildOp } from "./build.js";
-import { GROUND, heightOf, inRiverAt } from "./map-basin.js";
+import { GROUND, heightOf, inRiverAt, inLane } from "./map-basin.js";
 import { spot } from "./noise.js";
 
 /** 種。**`map-basin.ts` と揃える** */
@@ -19,6 +19,8 @@ export function detailOps(): BuildOp[] {
     for (let z = -40; z < 40; z++) {
       if (spot(x, z, SEED + 41) > 0.03) continue;
       if (Math.hypot(x, z) > 34) continue;
+      // **見通しの帯には置かない**（0-3）
+      if (inLane(x, z)) continue;
       const h = heightOf(x, z) + (inRiverAt(x, z) ? -2 : 0);
       if (h < GROUND - 4) continue;
       ops.push(set(x, h + 1, z, spot(x, z, SEED + 43) > 0.5 ? "short_grass" : "moss_carpet"));

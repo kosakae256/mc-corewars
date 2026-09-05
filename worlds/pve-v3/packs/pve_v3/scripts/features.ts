@@ -11,6 +11,8 @@
  */
 
 import type { Feature } from "./types.js";
+import { admin } from "./features/admin/index.js";
+import { darkness } from "./features/dark/index.js";
 import { battlefield } from "./features/map/index.js";
 import { boss } from "./features/boss/index.js";
 import { bow } from "./features/bow/index.js";
@@ -21,6 +23,7 @@ import { mob } from "./features/mob/index.js";
 import { hud } from "./features/hud/index.js";
 import { matchFlow } from "./features/match/index.js";
 import { portal } from "./features/portal/index.js";
+import { progress } from "./features/progress/index.js";
 import { rest } from "./features/rest/index.js";
 import { role } from "./features/role/index.js";
 import { shop } from "./features/shop/index.js";
@@ -28,6 +31,12 @@ import { shop } from "./features/shop/index.js";
 /** 動かすもの。**並びが tick の順番になる**（`loop.ts`） */
 export const FEATURES: readonly Feature[] = [
   matchFlow,
+  // **運営の道具**（`spec/19-map-store.md` 7 章）
+  admin,
+  // **ロビーの進捗ボード**（`docs/05-progress.md`）
+  progress,
+  // **暗転**（`services/dark.ts`）。掛け直すだけ
+  darkness,
   damageSystem,
   growth,
   bow,

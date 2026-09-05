@@ -24,8 +24,9 @@
  *
  * ## やること
  *
- * 1. `behavior_packs/<名>` ＋ `dist/scripts` → `com.mojang/behavior_packs/<名>`
- * 2. `resource_packs/<名>` → `com.mojang/resource_packs/<名>`
+ * 1. `behavior_packs/<名>` ＋ `dist/scripts` → `com.mojang/development_behavior_packs/<名>`
+ * 2. `resource_packs/<名>` → `com.mojang/development_resource_packs/<名>`
+ *    （`--formal` を付けると `resource_packs/` `behavior_packs/` の方へ置く）
  * 3. ワールドの `world_behavior_packs.json` / `world_resource_packs.json` に
  *    **uuid と版を書く**（同じ uuid の行は入れ替える）
  *
@@ -77,12 +78,23 @@ if (packRoot === undefined) {
   process.exit(1);
 }
 
+/**
+ * **どちらの棚に置くか。**
+ *
+ * > ### 既定は `development_*_packs`（2026-09-05 に切り替えた）
+ * >
+ * > 正式版（`resource_packs/` `behavior_packs/`）に置いていたが、
+ * > **参加者のリソパ読み込みが通らなかった。**
+ * > `--formal` で元に戻せる。**同じ uuid を 2 か所に置かない**こと。
+ */
+const DEV = !args.includes("--formal");
+
 /** その組の中の behavior_packs/* と resource_packs/* を集める */
 function sources(root) {
   const out = [];
   for (const [kind, dest] of [
-    ["behavior_packs", "behavior_packs"],
-    ["resource_packs", "resource_packs"],
+    ["behavior_packs", DEV ? "development_behavior_packs" : "behavior_packs"],
+    ["resource_packs", DEV ? "development_resource_packs" : "resource_packs"],
   ]) {
     const base = path.join(root, kind);
     if (!existsSync(base)) continue;
@@ -102,10 +114,15 @@ if (packs.length === 0) {
 }
 
 // ---- ワールドを選ぶ
+//
+// **`--no-world` のときは要らない**——ワールドが 1 つも無くても置けるようにする
+const noWorld = args.includes("--no-world");
 const worlds = worldList();
 const wanted = flag("world");
 let world;
-if (typeof wanted === "string") {
+if (noWorld) {
+  world = undefined;
+} else if (typeof wanted === "string") {
   world = worlds.find((w) => w.name === wanted || w.id === wanted);
   if (world === undefined) {
     console.error(`ワールドが見つからない: ${wanted}`);
@@ -120,10 +137,11 @@ if (typeof wanted === "string") {
   process.exit(1);
 }
 
-console.log(`ワールド: ${world.name}  [${world.id}]`);
+console.log(world === undefined ? "ワールド: 触らない（--no-world）" : `ワールド: ${world.name}  [${world.id}]`);
 
 // ---- 置く
-const applied = { behavior_packs: [], resource_packs: [] };
+/** 置いた先ごとに、uuid と版を溜める（棚の名前は `--formal` で変わる） */
+const applied = {};
 for (const p of packs) {
   const manifest = JSON.parse(readFileSync(path.join(p.from, "manifest.json"), "utf8"));
   const to = path.join(MOJANG, p.dest, p.name);
@@ -139,18 +157,33 @@ for (const p of packs) {
     else console.log("  （dist/scripts が無い。先に npm run build）");
   }
 
-  applied[p.dest].push({ pack_id: manifest.header.uuid, version: manifest.header.version });
+  (applied[p.dest] ??= []).push({ pack_id: manifest.header.uuid, version: manifest.header.version });
   console.log(`  置いた: ${p.dest}/${p.name}  v${manifest.header.version.join(".")}`);
 }
 
+// ---- **もう一方の棚に残っていたら消す**（同じ uuid が 2 か所にあると、どちらが読まれるか分からない）
+for (const p of packs) {
+  const other = path.join(MOJANG, p.dest.startsWith("development_") ? p.dest.slice(12) : `development_${p.dest}`, p.name);
+  if (existsSync(other)) {
+    rmSync(other, { recursive: true, force: true });
+    console.log(`  消した: ${path.relative(MOJANG, other)}  （二重置きを避ける）`);
+  }
+}
+
 // ---- ワールドに当てる
+//
+// > ### `--no-world` なら触らない
+// >
+// > **開発用の棚に置いたパックは、ゲーム内の「パックを選ぶ」画面から当てる。**
+// > その使い方のときは、`world_*_packs.json` を書き換えない。
+if (!noWorld)
 for (const [dest, file] of [
-  ["behavior_packs", "world_behavior_packs.json"],
-  ["resource_packs", "world_resource_packs.json"],
+  [DEV ? "development_behavior_packs" : "behavior_packs", "world_behavior_packs.json"],
+  [DEV ? "development_resource_packs" : "resource_packs", "world_resource_packs.json"],
 ]) {
-  const list = applied[dest];
+  const list = applied[dest] ?? [];
   if (list.length === 0) continue;
-  const p = path.join(world.dir, file);
+  const p = path.join(world?.dir ?? "", file);
   let current = [];
   if (existsSync(p)) {
     try {

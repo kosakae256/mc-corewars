@@ -71,6 +71,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const PACKS = [
   { dir: "worlds/core-wars/packs/game", name: "game" },
   { dir: "worlds/core-wars/packs/kit", name: "kit" },
+  { dir: "worlds/pve-v3/packs/pve_v3", name: "pve_v3" },
 ];
 
 const DRY = process.argv.includes("--dry-run");

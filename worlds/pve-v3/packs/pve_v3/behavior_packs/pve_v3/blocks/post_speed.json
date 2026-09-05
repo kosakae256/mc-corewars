@@ -1,0 +1,33 @@
+{
+  "format_version": "1.26.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "pve_v3:post_speed",
+      "menu_category": {
+        "category": "construction"
+      }
+    },
+    "components": {
+      "minecraft:display_name": "§b速さの台",
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "lodestone_side",
+          "render_method": "opaque"
+        },
+        "up": {
+          "texture": "lodestone_top",
+          "render_method": "opaque"
+        },
+        "down": {
+          "texture": "lodestone_top",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:light_emission": 7
+    }
+  }
+}

@@ -30,10 +30,25 @@ import { execSync } from "node:child_process";
 const WORLD_NAME = argOf("--world") ?? "コアPVPを作る会";
 const WRITE = process.argv.includes("--write");
 
+/**
+ * **入れるパックを絞る。** 名前を並べると、そのパックだけを対象にする。
+ *
+ *   node tools/attach-packs.mjs --world "pve企画" pve_v3 --write
+ *
+ * 絞らないと、`PACKS` に並んだもの**全部**が入る——
+ * **別のワールドのパックまで入ってしまう。**
+ */
+const ONLY = process.argv.slice(2).filter((a, i, all) => {
+  if (a.startsWith("--")) return false;
+  const prev = all[i - 1];
+  return prev !== "--world"; // `--world` の次は名前なので外す
+});
+
 /** 入れるパック。**ここに書いたものだけが入る** */
 const PACKS = [
   { dir: "worlds/core-wars/packs/game", name: "game" },
   { dir: "worlds/core-wars/packs/kit", name: "kit" },
+  { dir: "worlds/pve-v3/packs/pve_v3", name: "pve_v3" },
 ];
 
 function argOf(flag) {
@@ -103,7 +118,7 @@ console.log(`ワールド: ${WORLD_NAME}`);
 console.log(`  ${world}\n`);
 
 const bp = [], rp = [];
-for (const p of PACKS) {
+for (const p of PACKS.filter((x) => ONLY.length === 0 || ONLY.includes(x.name))) {
   const m = manifestsOf(p.dir, p.name);
   for (const [key, list] of [["bp", bp], ["rp", rp]]) {
     if (!m[key]) { console.log(`  ${p.name} ${key.toUpperCase()}  （manifest なし・飛ばす）`); continue; }

@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v3:ballot",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "s1": "textures/blocks/pve3_portal_1",
+        "s2": "textures/blocks/pve3_portal_2",
+        "s3": "textures/blocks/pve3_portal_3",
+        "s4": "textures/blocks/pve3_portal_4",
+        "s5": "textures/blocks/pve3_portal_5",
+        "s6": "textures/blocks/pve3_portal_6"
+      },
+      "geometry": {
+        "default": "geometry.pve3_post"
+      },
+      "animations": {
+        "idle": "animation.pve3_post.idle"
+      },
+      "scripts": {
+        "animate": [
+          "idle"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.pve3_ballot"
+      ]
+    }
+  }
+}
