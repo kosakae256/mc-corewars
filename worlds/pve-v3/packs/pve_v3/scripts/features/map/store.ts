@@ -25,7 +25,8 @@ import {
 } from "@minecraft/server";
 
 import type { CommandDef } from "../../types.js";
-import { list, place, remove, save, setOn } from "../../services/mapstore.js";
+import { list, place, setOn } from "../../services/mapstore.js";
+import { remove, save } from "../../services/mapbake.js";
 import { phase, toPhase } from "../../services/match.js";
 
 /** プレイヤーから来たか */
@@ -75,8 +76,12 @@ function listCommand(registry: CustomCommandRegistry): void {
         }
         player.sendMessage("§7──── §f倉庫のマップ §7────");
         for (const m of all) {
-          const mark = !m.ready ? "§c欠けている" : m.meta.on ? "§a出る" : "§8出さない";
-          player.sendMessage(`§f${m.name} §7${m.meta.label}  ${mark}`);
+          // **出る／出ないと、バックアップの有無は別の話**（2026-09-07）
+          const mark = m.meta.on ? "§a出る" : "§8出さない";
+          const back = m.ready ? "§7ﾊﾞｯｸｱｯﾌﾟ有" : "§8ﾊﾞｯｸｱｯﾌﾟ無";
+          // **並べた場所も出す**（`19-map-store.md` 0-1）。**番号が無いものは試合に出ない**
+          const slot = m.meta.slot === undefined ? "§c未配置" : `§8x ${m.meta.slot * 1000}`;
+          player.sendMessage(`§f${m.name} §7${m.meta.label}  ${mark} §8/ ${back} §8/ ${slot}`);
         }
       });
       return { status: CustomCommandStatus.Success };

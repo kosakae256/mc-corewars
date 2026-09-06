@@ -20,7 +20,8 @@
 
 import type { Player } from "@minecraft/server";
 
-import { center, FACING, PLACES } from "../core/places.js";
+import { center, FACING } from "../core/places.js";
+import { spawnSpot } from "./arena.js";
 import * as match from "../state/match.js";
 import { hit, hpOf } from "./combat.js";
 import { members } from "./presence.js";
@@ -41,7 +42,7 @@ export const VOID_SAFE = 3;
  */
 function rescue(player: Player): number {
   try {
-    player.teleport(center(PLACES.field), { rotation: { x: 0, y: FACING.field ?? 0 } });
+    player.teleport(center(spawnSpot()), { rotation: { x: 0, y: FACING.field ?? 0 } });
   } catch {
     /* 消えている */
     return 0;

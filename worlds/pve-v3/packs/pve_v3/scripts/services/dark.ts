@@ -28,7 +28,7 @@
  * > **こちらで同じ時計を持つ**——掛けた時刻さえ合っていれば、画面と一致する。
  */
 
-import { system, world, type Player } from "@minecraft/server";
+import { InputPermissionCategory, system, world, type Player } from "@minecraft/server";
 
 /** 暗転の色。**真っ黒** */
 const BLACK = { red: 0, green: 0, blue: 0 };
@@ -122,8 +122,37 @@ export function forgetAll(): void {
   started.clear();
 }
 
-/** 毎 tick。**終わった人を落とすだけ**（掛け直しはしない） */
+/**
+ * **暗転の間は歩けなくする**（2026-09-07 決定）。
+ *
+ * > ### 運ぶのに、飛ばして押さえつけない
+ * >
+ * > **暗転中に歩かれると、運んだ先からずれる。**
+ * > **押さえるのに TP を使うと、暗転が外れて画面が一瞬明るくなる**
+ * > （`13-flow.md` 2 章の失敗）。
+ * >
+ * > **入力そのものを切る**——`InputPermissionCategory.Movement`。
+ * > **視点は動かせる**ので、固まった感じにはならない。
+ *
+ * **毎 tick、あるべき姿へ寄せる**（`docs/imp.md` 10-7）——
+ * `/reload` や入り直しで取りこぼしても、次の tick で戻る。
+ */
+function holdStill(player: Player, lock: boolean): void {
+  try {
+    const now = player.inputPermissions.isPermissionCategoryEnabled(InputPermissionCategory.Movement);
+    if (now === !lock) return;
+    player.inputPermissions.setPermissionCategory(InputPermissionCategory.Movement, !lock);
+  } catch {
+    /* 消えている */
+  }
+}
+
+/** 毎 tick。**終わった人を落とし、暗転中は歩けなくする** */
 export function tick(): void {
-  if (started.size === 0) return;
-  for (const p of world.getAllPlayers()) if (isClear(p)) started.delete(p.id);
+  for (const p of world.getAllPlayers()) {
+    const clear = isClear(p);
+    if (clear) started.delete(p.id);
+    // **暗くなっている間だけ止める**（入りも、保ちも、抜けも）
+    holdStill(p, !clear);
+  }
 }

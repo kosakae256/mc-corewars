@@ -14,7 +14,8 @@
 
 import type { Player } from "@minecraft/server";
 
-import { GATE, REST_GATE, touchesGate, type GateBox } from "../../core/places.js";
+import { REST_GATE, touchesGate, type GateBox } from "../../core/places.js";
+import { gateBox } from "../../services/arena.js";
 import { alive, members } from "../../services/presence.js";
 
 /** **誰かがその箱に触れているか** */
@@ -38,7 +39,7 @@ function someoneAt(box: GateBox, who: readonly Player[]): boolean {
  * > **自分で歩いて行った先で切り替わる**ほうが、区切りが分かる。
  */
 export function someoneAtPortal(): boolean {
-  return someoneAt(GATE, alive());
+  return someoneAt(gateBox(), alive());
 }
 
 /** 休憩所のゲートに触れた人。**その休憩の間だけ覚える** */

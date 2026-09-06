@@ -15,7 +15,9 @@
 import { system, type Player } from "@minecraft/server";
 import { ActionFormData, MessageFormData, ModalFormData } from "@minecraft/server-ui";
 
-import { list, place, remove, save, setBigJump, setLabel, setOn } from "../../services/mapstore.js";
+import { assignSlot, list, place, setBigJump, setLabel, setOn } from "../../services/mapstore.js";
+import { dropStructures, remove, save } from "../../services/mapbake.js";
+import { slotOrigin } from "../../core/map-store.js";
 import { phase, toPhase, wave } from "../../services/match.js";
 import { endWave, killEnemies } from "../../services/force.js";
 import { openSummon } from "./summon.js";
@@ -37,21 +39,22 @@ async function openMap(player: Player, name: string): Promise<void> {
   const form = new ActionFormData()
     .title(`§l${m.meta.label}`)
     .body(
-      `§7名前 §f${m.name}\n§7出るか §f${m.meta.on ? "出る" : "出さない"}\n§7構造物 §f${m.ready ? "4 枚そろっている" : "§c欠けている"}`
+      `§8名前 §0${m.name}\n§8場所 ${m.meta.slot === undefined ? "§4まだ並べていない" : `§0${m.meta.slot} 番（x ${m.meta.slot * 1000}）`}` +
+        `\n§7出るか §f${m.meta.on ? "出る" : "出さない"}\n§7構造物 §f${m.ready ? "そろっている" : "§c欠けている"}`
     )
-    .button("戦場に置く")
+    .button(m.meta.slot === undefined ? "§2並べる（次の場所へ）" : `${m.meta.slot} 番へ置き直す`)
     .button(m.meta.on ? "出さないようにする" : "出すようにする")
     .button(m.meta.bigJump ? "大ジャンプを切る" : "大ジャンプを入れる")
     .button("表示名を変える")
-    .button("§c消す");
+    .button("§2バックアップを取る" + String.fromCharCode(10) + "§8いまの姿を焼き直す")
+    .button(m.ready ? "§6バックアップを消す" + String.fromCharCode(10) + "§8世界が軽くなる" : "§8バックアップは無い")
+    .button("§c倉庫から消す");
   const res = await form.show(player);
   if (res.canceled === true || res.selection === undefined) return;
 
   switch (res.selection) {
     case 0:
-      if (await confirm(player, "戦場に置く", `§7${m.meta.label} を置く。\n**いま 0,0 にあるものは全部消える。**`)) {
-        say(player, place(name));
-      }
+      await putIntoSlot(player, name);
       return;
     case 1:
       say(player, setOn(name, !m.meta.on));
@@ -69,11 +72,87 @@ async function openMap(player: Player, name: string): Promise<void> {
       if (r.canceled !== true && typeof v === "string" && v.trim() !== "") say(player, setLabel(name, v.trim()));
       return;
     }
+    case 4: {
+      // **いまの姿を焼き直す**（`19-map-store.md` 0-6）。**そのマップの場所から取る**
+      if (m.meta.slot !== undefined) {
+        try {
+          player.teleport({ x: m.meta.slot * 1000, y: 8, z: 0 });
+        } catch {
+          /* 消えている */
+        }
+      }
+      const label = m.meta.label;
+      system.runTimeout(() => say(player, save(name, label)), 40);
+      player.sendMessage("§7その場所へ飛んだ。§8焼き終わるまで動かないこと");
+      return;
+    }
+    case 5:
+      if (!m.ready) return;
+      if (
+        await confirm(
+          player,
+          "バックアップを消す",
+          `§7${m.meta.label} の構造物を消す。\n**世界が軽くなるが、直せなくなる。**` +
+            `\n§8マップそのものは残り、試合にも出る`
+        )
+      ) {
+        say(player, dropStructures(name));
+      }
+      return;
     default:
-      if (await confirm(player, "消す", `§7${m.meta.label} を消す。\n**構造物 4 枚と覚え書きが消える。**`)) {
+      if (
+        await confirm(
+          player,
+          "倉庫から消す",
+          `§7${m.meta.label} を倉庫から消す。\n**構造物と覚え書きが消える。**` +
+            `\n§8置いてある地形は残る（試合には出なくなる）`
+        )
+      ) {
         say(player, remove(name));
       }
   }
+}
+
+/**
+ * **そのマップを、自分の場所へ置く**（`19-map-store.md` 0-5）。
+ *
+ * > ### 置くには、そこに居ないといけない
+ * >
+ * > **読み込まれていない所へは置けない。**
+ * > **運営をその場所へ飛ばしてから置く。**
+ */
+async function putIntoSlot(player: Player, name: string): Promise<void> {
+  const a = assignSlot(name);
+  if (!a.ok) {
+    player.sendMessage(`§c${a.message}`);
+    return;
+  }
+  const at = slotOrigin(a.slot);
+  const ok = await confirm(
+    player,
+    `${a.slot} 番へ置く`,
+    `§7x ${at.x} へ置く。\n**そこにあるものは全部消える。**\n§8置き終わるまで、その場から動かないこと`
+  );
+  if (!ok) return;
+  try {
+    player.teleport({ x: at.x, y: 8, z: 0 });
+  } catch {
+    /* 消えている */
+  }
+  // **飛んでから置く**——読み込みが追いつくよう、少し待つ
+  system.runTimeout(() => {
+    // **置き終わったら知らせる**——**次の 1 枚は、それを見てから**
+    // （置いている途中でもう 1 枚始めると、前のものが止まる）
+    const r = place(name, () => {
+      player.sendMessage(`§a${a.slot} 番（x ${at.x}）に置き終わった §8次の 1 枚へ`);
+      try {
+        player.playSound("random.levelup", { volume: 0.6, pitch: 1.4 });
+      } catch {
+        /* 消えている */
+      }
+    });
+    player.sendMessage(r.ok ? `§7${a.slot} 番（x ${at.x}）に置き始めた… §8動かないこと` : `§c${r.message}`);
+  }, 40);
 }
 
 /** マップ一覧 */
@@ -82,8 +161,14 @@ async function openMaps(player: Player): Promise<void> {
   const form = new ActionFormData().title("§lマップ倉庫");
   if (all.length === 0) form.body("§7倉庫は空。§8下の「いまの戦場を保存」から入れる");
   for (const m of all) {
-    const mark = !m.ready ? "§c欠けている" : m.meta.on ? "§a出る" : "§8出さない";
-    form.button(`${m.meta.label}\n§8${m.name}  ${mark}`);
+    // > ### 明るい色は、画面に溶ける（2026-09-07）
+    // >
+    // > **フォームの下地は白っぽい。** **§7 や §f はほとんど読めない。**
+    // > **濃い色を使う**——緑・赤・青・橙。
+    const out = m.meta.on ? "§2出る" : "§4出さない";
+    const back = m.ready ? "§1バックアップ有り" : "§6バックアップ無し";
+    const where = m.meta.slot === undefined ? "§4未配置" : `§8x ${m.meta.slot * 1000}`;
+    form.button(`${m.meta.label}\n§8${m.name}  ${out} §8/ ${back} §8/ ${where}`);
   }
   form.button("§2いまの戦場を保存");
   const res = await form.show(player);

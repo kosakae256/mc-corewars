@@ -21,6 +21,8 @@ import type { Feature } from "../../types.js";
 import { addBox, clearMarks, count, showMarks, toggle } from "../../services/spawnmark.js";
 import { editing, setEditing } from "../../state/spawnmark.js";
 import { currentMap } from "../../services/stage.js";
+import { originXOf } from "../../services/mapstore.js";
+import { FIELD } from "../../core/places.js";
 import { isAdmin } from "../../services/presence.js";
 import { commands } from "./command.js";
 import { openWand } from "./ui.js";
@@ -41,7 +43,19 @@ const first = new Map<string, Vector3>();
  */
 function target(player: Player): string | undefined {
   const map = editing();
-  if (map !== undefined) return map;
+  if (map !== undefined) {
+    // > ### **そのマップの上に立っているか**（2026-09-07・`19-map-store.md` 0-1）
+    // >
+    // > **点はマップの原点からの相対で持つ。**
+    // > **別のマップの上で打っても、範囲の外として弾かれるだけ**——
+    // > **黙って弾かれると、理由が分からない。**
+    const ox = originXOf(map);
+    if (Math.abs(player.location.x - ox) > FIELD.half + 20) {
+      player.sendMessage(`§c${map} はここではない §8x ${ox} 付近へ行くこと（/pve:marks で選び直す）`);
+      return undefined;
+    }
+    return map;
+  }
   const now = currentMap();
   if (now !== undefined) {
     setEditing(now);

@@ -29,7 +29,12 @@ import { blackout, forgetAll as forgetDark } from "./dark.js";
 import { center, FACING, isOutside, PLACES } from "../core/places.js";
 import { stopSpawning } from "./spawn.js";
 import { awardClear, forgetAll } from "./reward.js";
-import { resetCurse } from "./curse.js";
+import { resetCurse, rollCurse } from "./curse.js";
+import { releaseArea } from "./area.js";
+import { spawnSpot } from "./arena.js";
+import { closeGate } from "./gate.js";
+import { spawnPosts } from "./post.js";
+import { tellAdmin } from "./stage.js";
 import { alive, members, unfreezeAll } from "./presence.js";
 
 /** いまの状態 */
@@ -73,6 +78,15 @@ function exit(from: WorldPhase, to: WorldPhase): void {
     case "wave":
       // **クリアで抜けるときだけ、越えた褒美を配る**
       if (to === "rest") awardClear(alive(), match.wave());
+      // > ### **呪いは「ゲートをくぐって移動するとき」に積む**（2026-09-07 決定）
+      // >
+      // > 前は**倒し切った瞬間**に引いていた。**まだ戦場に居るのに強くなっていた。**
+      // > **次の戦場へ移るときに引き、そのとき見せる**（`16-enemy.md` 4 章）。
+      // >
+      // > **全滅で終わったときは引かない**——試合が終わるので、次が無い。
+      if (to === "interlude") rollCurse(match.wave());
+      // **通ったゲートを消す**（`20-portal.md` 0-3）——**常設なので、置いたままだと次に来たとき光っている**
+      closeGate();
       // **残った敵を片付ける**（クリアでも全滅でも）
       clearEnemies();
       break;
@@ -107,6 +121,8 @@ function entry(to: WorldPhase, from: WorldPhase, now: number): void {
       clearEnemies();
       closeGates();
       forgetPrepared();
+      // **張った区画を外す**（`19-map-store.md` 0-3）
+      releaseArea();
       forgetAll();
       break;
 
@@ -149,12 +165,33 @@ function entry(to: WorldPhase, from: WorldPhase, now: number): void {
         // > **飛ばすと暗転が外れる**ので、**まだ選んでいる人の画面が一瞬明るくなっていた**
         // > （「チェスト UI が出る 3 tick 前に見える」の正体。`13-flow.md` 2 章）。
         try {
-          if (isOutside(p.location, PLACES.field)) {
-            p.teleport(center(PLACES.field), { rotation: { x: 0, y: FACING.field ?? 0 } });
+          // **戦場はマップごとに動く**（`19-map-store.md` 0-1）——
+          // **`PLACES.field`（作業台）を見ていたので、毎ウェーブ 0,0 へ飛ばしていた**
+          const spot = spawnSpot();
+          if (isOutside(p.location, spot)) {
+            p.teleport(center(spot), { rotation: { x: 0, y: FACING.field ?? 0 } });
           }
         } catch {
           /* 抜けた */
         }
+      }
+      // > ### **強化の台は、着いてから出す**（2026-09-07 に直した）
+      // >
+      // > **マップを切り替えた瞬間に探していたが、そこはまだ読み込まれていない**
+      // > （`19-map-store.md` 0-3）。**ブロックが見えないので、印が 1 つも見つからなかった。**
+      // >
+      // > **人が着いていれば、そこは必ず読み込まれている。**
+      {
+        // > ### **着いてからやる**（2026-09-07 に直した）
+        // >
+        // > **マップを切り替えた瞬間は、そこがまだ読み込まれていない**
+        // > （`19-map-store.md` 0-3）。**ブロックを読めず、書けない。**
+        // > **人が着いていれば、そこは必ず読み込まれている。**
+        //
+        // **前に来たときのゲートを消す**（`20-portal.md` 0-3 の二重チェック）
+        closeGate();
+        const posts = spawnPosts();
+        if (posts === 0) tellAdmin("§8このマップに強化の印が無い。建築で pve_v3:growth_post を置くと出る");
       }
       // **敵は 10 秒後から**（`13-flow.md` 2-2）。積むのは `features/match` が待ってからやる
       announce(`§cwave ${match.wave()} §7— 開始 §8(10 秒後に湧く)`);

@@ -16,8 +16,10 @@ import { CommandPermissionLevel, world } from "@minecraft/server";
 import { LEGIONS } from "../core/enemy.js";
 import { clampStar } from "../core/portal.js";
 import { FIELD } from "../core/places.js";
-import { clearEnemies } from "./field.js";
-import { place, playable } from "./mapstore.js";
+import { clearEnemies, strays } from "./field.js";
+import { originXOf, playable } from "./mapstore.js";
+import { holdArea } from "./area.js";
+import { originX } from "./arena.js";
 import { spawnPosts } from "./post.js";
 import { VENDOR } from "./vendor.js";
 import { legion, legionFor, setFieldMap } from "../state/match.js";
@@ -53,8 +55,10 @@ export function sweepField(): { enemies: number; items: number; posts: number } 
   try {
     const dim = world.getDimension("overworld");
     const r = FIELD.half + 10;
+    // **いまのマップの真ん中**（`19-map-store.md` 0-1）
+    const mid = { x: originX(), y: 0, z: 0 };
     for (const type of ["minecraft:item", "minecraft:arrow", "minecraft:xp_orb"]) {
-      for (const e of dim.getEntities({ type, location: { x: 0, y: 0, z: 0 }, maxDistance: r })) {
+      for (const e of dim.getEntities({ type, location: mid, maxDistance: r })) {
         try {
           e.remove();
           gone.items++;
@@ -70,7 +74,7 @@ export function sweepField(): { enemies: number; items: number; posts: number } 
     // > **置き直すたびに増えて、重なっていた。**
     // >
     // > **印のブロックから出し直す**（`services/post.ts`）ので、消してよい。
-    for (const e of dim.getEntities({ type: VENDOR, location: { x: 0, y: 0, z: 0 }, maxDistance: r })) {
+    for (const e of dim.getEntities({ type: VENDOR, location: mid, maxDistance: r })) {
       try {
         e.remove();
         gone.posts++;
@@ -119,38 +123,55 @@ export function starAt(wave: number): number {
 }
 
 /**
- * 戦場を作り直す。**片付けてから置く。**
+ * **箱の外に残った敵を消す**（`19-map-store.md` 0-7）。
  *
- * @returns 置けたマップの名前
+ * > ### 迷子は必ず消す
+ * >
+ * > **数えるのは戦場の箱の中だけ。** **外に残ると、次のマップへ持ち越す。**
+ * > **倒すのではなく消す**——**報酬は出ない。** 片付けであって、戦果ではない。
+ *
+ * @returns 消した数
+ */
+export function sweepStrays(): number {
+  let n = 0;
+  for (const e of strays()) {
+    try {
+      e.remove();
+      n++;
+    } catch {
+      /* もう居ない */
+    }
+  }
+  if (n > 0) tellAdmin(`§8戦場の外に居た敵を ${n} 体消した`);
+  return n;
+}
+
+/**
+ * 戦場を切り替える。**片付けて、次のマップへ向ける。**
+ *
+ * > ### **もう置かない**（2026-09-07 変更・`19-map-store.md` 0 章）
+ * >
+ * > **マップは 1000 マスずつ離して常設してある。**
+ * > **構造物を置く代わりに、「どのマップに居るか」を差し替えるだけ。**
+ * > 運ぶのは `services/presence.ts` の `moveAll`。
+ *
+ * @returns 向けたマップの名前
  */
 export function rebuildField(): string | undefined {
+  // **片付けるのは「前のマップ」**——向きを変える前にやる
   const swept = sweepField();
   const name = pickMap();
   if (name === undefined) {
     tellAdmin("§cマップが倉庫に無い。§7/pve:mapsave で保存して /pve:mapon で出すようにする");
     return undefined;
   }
-  // > ### **置き終わってから台を探す**（2026-09-05 に直した）
-  // >
-  // > 置くのは `system.runJob`（`14-map-build.md` 2-1）なので、
-  // > **すぐ探すと、前のマップの印を拾ってしまう。**
-  //
-  // **ゲートは置かない**——**倒し切ったときに置く**（`20-portal.md` 0-2）
-  const r = place(name, () => {
-    // **印のブロックを探して、強化の実体を出す**（`13-flow.md` 3-3）
-    const posts = spawnPosts();
-    tellAdmin(
-      `マップ §f${name}§7 を置いた（片付け 敵 ${swept.enemies} ／ 物 ${swept.items} ／ 台 ${swept.posts} ／ 強化の印 ${posts}）`
-    );
-    if (posts === 0) tellAdmin("§8このマップに強化の印が無い。建築で pve_v3:growth_post を置くと出る");
-  });
-  if (!r.ok) {
-    tellAdmin(`§cマップを置けなかった §8${r.message}`);
-    return undefined;
-  }
   lastMap = name;
-  // **湧き点を引くのに要る**（`services/spawn.ts`）
+  // **湧き点も、ゲートも、湧く所も、ここから先は新しいマップの座標**
   setFieldMap(name);
+  // **着く前に読み込ませる**（`19-map-store.md` 0-3）
+  holdArea(originXOf(name));
+  // **強化の台はここでは出さない**——**まだ読み込まれていない**（`services/match.ts` の wave 入口で出す）
+  tellAdmin(`戦場を §f${name}§7 に切り替えた（片付け 敵 ${swept.enemies} ／ 物 ${swept.items} ／ 台 ${swept.posts}）`);
   return name;
 }
 

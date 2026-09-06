@@ -19,6 +19,7 @@ import { world, type Vector3 } from "@minecraft/server";
 import type { VendorKind } from "../core/shop.js";
 import { FIELD, PLACES } from "../core/places.js";
 import { spawnVendor } from "./vendor.js";
+import { originX } from "./arena.js";
 
 /** ブロック → 何を売るか */
 export const POSTS: Readonly<Record<string, VendorKind>> = {
@@ -73,7 +74,8 @@ export function findPosts(center: Vector3, radius: number, low: number, high: nu
  */
 export function spawnPosts(): number {
   let n = 0;
-  const found = findPosts({ x: 0, y: 0, z: 0 }, FIELD.half, FIELD.groundY - 4, FIELD.groundY + 12);
+  // **いまのマップの真ん中から探す**（`19-map-store.md` 0-1）
+  const found = findPosts({ x: originX(), y: 0, z: 0 }, FIELD.half, FIELD.groundY - 4, FIELD.groundY + 12);
   for (const spot of found) {
     try {
       spawnVendor(spot.kind, spot.at);

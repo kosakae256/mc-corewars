@@ -13,6 +13,7 @@ import { system, world, type Dimension, type Player, type Vector3 } from "@minec
 
 import { isFullBlock, same, type Mark } from "../core/spawnmark.js";
 import { FIELD } from "../core/places.js";
+import { originXOf } from "./mapstore.js";
 import { marksOf, setMarks } from "../state/spawnmark.js";
 
 /** 敵が立つのに要る頭上の高さ */
@@ -104,8 +105,13 @@ function* scanJob(
   b: Vector3,
   done: (added: number, cells: number) => void
 ): Generator<void, void, void> {
-  const x1 = Math.max(-FIELD.half, Math.min(a.x, b.x));
-  const x2 = Math.min(FIELD.half, Math.max(a.x, b.x));
+  // > ### 点は**マップの原点からの相対**で持つ（`19-map-store.md` 0-2）
+  // >
+  // > **マップは 1000 マスずつ離して常設してある。**
+  // > **入ってくるのは世界の座標**なので、**引いてから詰める。**
+  const ox = originXOf(map);
+  const x1 = Math.max(-FIELD.half, Math.min(a.x, b.x) - ox);
+  const x2 = Math.min(FIELD.half, Math.max(a.x, b.x) - ox);
   const y1 = Math.max(Y_LOW, Math.min(a.y, b.y));
   const y2 = Math.min(Y_HIGH, Math.max(a.y, b.y));
   const z1 = Math.max(-FIELD.half, Math.min(a.z, b.z));
@@ -121,7 +127,7 @@ function* scanJob(
         cells++;
         const key = `${x},${y},${z}`;
         if (seen.has(key)) continue;
-        if (!standable({ x, y, z })) continue;
+        if (!standable({ x: x + ox, y, z })) continue;
         have.push({ x, y, z });
         seen.add(key);
         added++;
@@ -148,7 +154,8 @@ function* scanJob(
  * @returns `"added"` 足した ／ `"removed"` 外した ／ `"refused"` 立てないので足さなかった
  */
 export function toggle(map: string, at: Vector3): "added" | "removed" | "refused" {
-  const spot: Mark = { x: at.x, y: at.y, z: at.z };
+  // **世界の座標 → そのマップの相対**
+  const spot: Mark = { x: at.x - originXOf(map), y: at.y, z: at.z };
   const have = marksOf(map);
   const i = have.findIndex((m) => same(m, spot));
   if (i >= 0) {
@@ -174,23 +181,30 @@ export function toggle(map: string, at: Vector3): "added" | "removed" | "refused
  */
 export function pruneMarks(map: string): { dropped: number; left: number } {
   const have = marksOf(map);
-  const keep = have.filter((m) => inField(m.x, m.z) && standable(m));
+  const ox = originXOf(map);
+  const keep = have.filter((m) => inField(m.x, m.z) && standable({ x: m.x + ox, y: m.y, z: m.z }));
   const dropped = have.length - keep.length;
   if (dropped > 0) setMarks(map, keep);
   return { dropped, left: keep.length };
 }
+
+/** 粒を出す距離（マス）。**それより遠い点は見えない** */
+const SHOW_RANGE = 48;
 
 /** 近くの点に粒を出す。**見て確かめるため** */
 export function showMarks(player: Player, map: string, limit = 200): number {
   let n = 0;
   try {
     const at = player.location;
+    const ox = originXOf(map);
+    // **見える所だけ**——遠くに粒を出しても見えない（`19-map-store.md` 0-1）
     const near = marksOf(map)
-      .map((m) => ({ m, d: Math.hypot(m.x - at.x, m.y - at.y, m.z - at.z) }))
+      .map((m) => ({ m, d: Math.hypot(m.x + ox - at.x, m.y - at.y, m.z - at.z) }))
+      .filter((p) => p.d <= SHOW_RANGE)
       .sort((p, q) => p.d - q.d)
       .slice(0, limit);
     for (const { m } of near) {
-      player.spawnParticle("minecraft:villager_happy", { x: m.x + 0.5, y: m.y + 1.2, z: m.z + 0.5 });
+      player.spawnParticle("minecraft:villager_happy", { x: m.x + ox + 0.5, y: m.y + 1.2, z: m.z + 0.5 });
       n++;
     }
   } catch {

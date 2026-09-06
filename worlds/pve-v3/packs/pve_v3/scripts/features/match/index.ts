@@ -41,12 +41,12 @@ import { clearedCue, departCue } from "../../services/interlude.js";
 import { isClear, isDark, untilOut } from "../../services/dark.js";
 import { moveAll } from "../../services/presence.js";
 import { enemyCount } from "../../services/field.js";
+import { sweepStrays } from "../../services/stage.js";
 import { end, phase, phaseAge, toPhase, wave } from "../../services/match.js";
 import { interFrom } from "../../state/match.js";
 import { tick as fallTick } from "../../services/fall.js";
 import { alive, members, reconcile } from "../../services/presence.js";
 import { commands } from "./command.js";
-import { rollCurse } from "../../services/curse.js";
 import { everyoneTouchedRestGate, resetTouched, someoneAtPortal } from "./gate.js";
 
 /**
@@ -197,13 +197,15 @@ function tick(now: number): void {
       // **殲滅した合図**（仮。音とチャットだけ）
       if (!cleared) {
         cleared = true;
+        // > ### **迷子を消してから終わりにする**（2026-09-07・`19-map-store.md` 0-7）
+        // >
+        // > **数えるのは戦場の箱の中だけ**（`services/field.ts`）。
+        // > **箱の外に残っていると、次のマップへ持ち越す。**
+        // > **倒すのではなく消す**——報酬は出ない。
+        sweepStrays();
         // **ゲートを「次の行き先」の色にする**（`20-portal.md` 0-2）
         openGate(nextTarget());
         clearedCue();
-        // **倒し切ったら呪いを引く**（`16-enemy.md` 4 章）。**引いたものは全員に見せる**
-        //
-        // **殲滅の知らせより後に出す**——先に出すと、何の話か分からない
-        rollCurse(wave());
       }
       // **敵 0 のうえで、誰かがポータルに着いたら全員が次へ**
       if (!someoneAtPortal()) break;
@@ -215,14 +217,17 @@ function tick(now: number): void {
       // **何をするかは 1 つの関数で決まる**（`core/flow.ts`。テストで固めてある）
       const plan = interludePlan(interFrom(), wave());
 
-      // ---- **本当に真っ暗になってから**差し替える（時刻で当てずっぽうにしない）
+      // ---- **本当に真っ暗になってから**切り替える（時刻で当てずっぽうにしない）
+      //
+      // > ### **もう置かない**（2026-09-07・`19-map-store.md` 0 章）
+      // >
+      // > **マップは常設。** ここでやるのは**「どのマップに居るか」の差し替え**だけ。
       if (!swapped && members().every((p) => isDark(p))) {
         swapped = true;
         stopSpawning();
-        // **休憩所で作ってあれば、ここは何もしない**（`13-flow.md` 2 章）
         if (plan.rebuild) prepareField(wave() + 1);
       }
-      // ---- **置き終わってから運ぶ。** 間に合わなければ締め切りで運ぶ
+      // ---- **切り替えたら運ぶ**
       const late = members().some((p) => untilOut(p) <= LAST_CALL);
       if (swapped && !moved && (!placing() || late)) {
         moved = true;

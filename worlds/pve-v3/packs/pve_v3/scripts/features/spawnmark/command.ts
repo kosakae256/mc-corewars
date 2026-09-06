@@ -20,7 +20,7 @@ import {
 
 import type { CommandDef } from "../../types.js";
 import { count, pruneMarks, showMarks } from "../../services/spawnmark.js";
-import { list } from "../../services/mapstore.js";
+import { list, originXOf } from "../../services/mapstore.js";
 import { isAdmin } from "../../services/presence.js";
 import { editing, setEditing } from "../../state/spawnmark.js";
 
@@ -48,8 +48,19 @@ function marksCommand(registry: CustomCommandRegistry): void {
           player.sendMessage(
             map === undefined ? "§7まだ選んでいない §8/pve:marks <名前>" : `§7いま §f${map}§7 ／ §f${count(map)}§7 点`
           );
-          for (const m of list()) player.sendMessage(`§8  ${m.name}  ${count(m.name)} 点`);
-          if (map !== undefined) showMarks(player, map);
+          // **どこにあるかも出す**（`19-map-store.md` 0-1。マップは 1000 マスずつ離れている）
+          for (const m of list()) {
+            const where = m.meta.slot === undefined ? "§c未配置" : `§8x ${m.meta.slot * 1000}`;
+            player.sendMessage(`§8  ${m.name}  ${count(m.name)} 点  ${where}`);
+          }
+          if (map !== undefined) {
+            const shown = showMarks(player, map);
+            player.sendMessage(
+              shown > 0
+                ? `§7近くの §f${shown}§7 点を出した`
+                : `§7ここには点が無い §8${map} は x ${originXOf(map)} にある`
+            );
+          }
           return;
         }
         // **掃除**——地形を直したあとに、埋まった点を落とす

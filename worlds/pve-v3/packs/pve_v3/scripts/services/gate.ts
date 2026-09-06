@@ -13,7 +13,7 @@
 
 import { BlockPermutation, world, type Dimension } from "@minecraft/server";
 
-import { GATE } from "../core/places.js";
+import { gateBox } from "./arena.js";
 import { ACROSS, portalOf, type PortalTarget } from "../core/portal.js";
 
 function dim(): Dimension {
@@ -31,13 +31,46 @@ function dim(): Dimension {
 export function openGate(target: PortalTarget): number {
   const want = BlockPermutation.resolve(portalOf(target), { [ACROSS]: false });
   const d = dim();
+  // **いまのマップのゲート**（`19-map-store.md` 0-1）
+  const box = gateBox();
   let n = 0;
-  for (let x = GATE.x1; x <= GATE.x2; x++) {
-    for (let y = GATE.y1; y <= GATE.y2; y++) {
+  for (let x = box.x1; x <= box.x2; x++) {
+    for (let y = box.y1; y <= box.y2; y++) {
       try {
-        const block = d.getBlock({ x, y, z: GATE.z });
+        const block = d.getBlock({ x, y, z: box.z });
         if (block === undefined || block.typeId === want.type.id) continue;
         block.setPermutation(want);
+        n++;
+      } catch {
+        /* 読み込まれていない */
+      }
+    }
+  }
+  return n;
+}
+
+/**
+ * **ゲートを消す**（2026-09-07 追加）。
+ *
+ * > ### マップは常設なので、置いたものは残る
+ * >
+ * > **倒し切ったときに塗ったポータルが、次に来たときも光っている。**
+ * > **「まだ倒していないのに次へ行ける」ように見える。**
+ *
+ * **二重に消す**——**出るときに、いま居るマップのぶん。着いたときに、そのマップのぶん。**
+ *
+ * @returns 消した数
+ */
+export function closeGate(): number {
+  const d = dim();
+  const box = gateBox();
+  let n = 0;
+  for (let x = box.x1; x <= box.x2; x++) {
+    for (let y = box.y1; y <= box.y2; y++) {
+      try {
+        const block = d.getBlock({ x, y, z: box.z });
+        if (block === undefined || block.isAir) continue;
+        block.setPermutation(BlockPermutation.resolve("air"));
         n++;
       } catch {
         /* 読み込まれていない */

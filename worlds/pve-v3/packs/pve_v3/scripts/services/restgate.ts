@@ -38,6 +38,9 @@ export const BALLOT = "pve_v3:ballot";
  */
 const BOARD_UP = 3.3;
 
+/** 投票用のモブを浮かせる高さ（印から）。**0.5 → 1.0**（2026-09-07） */
+const BALLOT_UP = 1;
+
 /** 板が見える距離（マス） */
 const RENDER_DISTANCE = 64;
 
@@ -163,7 +166,8 @@ function spawnAll(): number {
     const offer = offers[i];
     if (offer === undefined) break;
     try {
-      const e = dim().spawnEntity(BALLOT, { x: at.x + 0.5, y: at.y + 0.5, z: at.z + 0.5 });
+      // **印より 1 マス上に置く**（2026-09-07 に 0.5 マス上げた）
+      const e = dim().spawnEntity(BALLOT, { x: at.x + 0.5, y: at.y + BALLOT_UP, z: at.z + 0.5 });
       // **★の平均で色を選ぶ**（0〜5 ＝ ★1〜6）
       e.setProperty("pve_v3:kind", clampStar(Math.round(averageStar(offer))) - 1);
       n++;

@@ -8,8 +8,14 @@ import type { Player } from "@minecraft/server";
 import { ActionFormData, MessageFormData } from "@minecraft/server-ui";
 
 import { clearMarks, count, pruneMarks, showMarks } from "../../services/spawnmark.js";
-import { list } from "../../services/mapstore.js";
+import { list, originXOf } from "../../services/mapstore.js";
 import { editing, setEditing } from "../../state/spawnmark.js";
+
+/** そのマップがどこにあるか。**点が見えないときの手掛かり** */
+function whereIs(map: string): string {
+  const x = originXOf(map);
+  return `${map} は x ${x} にある（いまそこに居るか確かめる）`;
+}
 
 /** どのマップの点を編集するか選ぶ */
 async function pickMap(player: Player): Promise<void> {
@@ -51,7 +57,7 @@ export async function openWand(player: Player): Promise<void> {
   }
   if (res.selection === 1) {
     const shown = showMarks(player, map);
-    player.sendMessage(`§7近くの §f${shown}§7 点を出した`);
+    player.sendMessage(shown > 0 ? `§7近くの §f${shown}§7 点を出した` : `§7ここには点が無い §8${whereIs(map)}`);
     return;
   }
   if (res.selection === 2) {

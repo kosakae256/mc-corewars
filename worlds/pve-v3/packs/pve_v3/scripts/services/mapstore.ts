@@ -18,11 +18,12 @@ import { BlockVolume, StructureSaveMode, system, world, type Dimension } from "@
 
 import { GRID, idsOf, nameOk, OLD_GRID, parseBook, piecesOf, type MapBook, type MapMeta } from "../core/map-store.js";
 import { FIELD } from "../core/places.js";
+import { nextSlot, slotOrigin } from "../core/map-store.js";
 
 /** 覚え書きの置き場 */
 const BOOK = "pve_v3:maps";
 
-function dim(): Dimension {
+export function dim(): Dimension {
   return world.getDimension("overworld");
 }
 
@@ -32,7 +33,7 @@ export function book(): MapBook {
   return parseBook(typeof raw === "string" ? raw : undefined);
 }
 
-function writeBook(next: MapBook): void {
+export function writeBook(next: MapBook): void {
   world.setDynamicProperty(BOOK, JSON.stringify(next));
 }
 
@@ -57,46 +58,39 @@ export function list(): readonly { name: string; meta: MapMeta; ready: boolean }
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/** 試合に出せるもの */
-export function playable(): readonly string[] {
-  return list()
-    .filter((m) => m.meta.on && m.ready)
-    .map((m) => m.name);
+/**
+ * **そのマップの原点の x**（`19-map-store.md` 0-1）。
+ *
+ * **番号が無ければ 0**——**作業台**。そこで作り、直し、焼く。
+ */
+export function originXOf(name: string): number {
+  return slotOrigin(book()[name]?.slot ?? 0).x;
 }
 
 /**
- * **いまの ±50 を、いまの割り方（16 枚）に分けて保存する。**
+ * **番号を振って、その場所へ置く**（2026-09-07 追加）。
  *
- * 同じ名前があれば**上書き**——直したものをそのまま焼き直せる。
- * **焼き直した時点で、そのマップの割り方も新しくなる。**
+ * **すでに番号があれば、そこへ置き直すだけ。**
  */
-export function save(name: string, label?: string): { ok: boolean; message: string } {
-  if (!nameOk(name)) return { ok: false, message: "名前は英小文字・数字・_ だけ（24 字まで）" };
-  const d = dim();
-  const ids = idsOf(name, GRID);
-  try {
-    for (const [i, p] of piecesOf(GRID).entries()) {
-      const id = ids[i];
-      if (id === undefined) continue;
-      // **上書きするので、先に消す**
-      world.structureManager.delete(id);
-      world.structureManager.createFromWorld(id, d, p.from, p.to, {
-        includeBlocks: true,
-        // **敵や落ちている物まで焼かない**
-        includeEntities: false,
-        saveMode: StructureSaveMode.World,
-      });
-    }
-  } catch (err) {
-    return { ok: false, message: `保存できなかった §8${String(err)}` };
-  }
-  const now = book();
-  const was = now[name];
-  writeBook({
-    ...now,
-    [name]: { label: label ?? was?.label ?? name, on: was?.on ?? false, grid: GRID, bigJump: was?.bigJump ?? false },
-  });
-  return { ok: true, message: `${name} を保存した（${ids.length} 枚）` };
+export function assignSlot(name: string): { ok: boolean; slot: number; message: string } {
+  const b = book();
+  const meta = b[name];
+  if (meta === undefined) return { ok: false, slot: 0, message: `${name} は倉庫に無い` };
+  if (meta.slot !== undefined) return { ok: true, slot: meta.slot, message: `${name} は ${meta.slot} 番` };
+  const slot = nextSlot(b);
+  writeBook({ ...b, [name]: { ...meta, slot } });
+  return { ok: true, slot, message: `${name} を ${slot} 番にした` };
+}
+
+/** 試合に出せるもの */
+export function playable(): readonly string[] {
+  // > ### **場所があれば遊べる**（2026-09-07・`19-map-store.md` 0-6）
+  // >
+  // > **マップは常設**なので、**構造物は要らない。**
+  // > 構造物は**バックアップ**——**消しても、試合には出続ける。**
+  return list()
+    .filter((m) => m.meta.on && m.meta.slot !== undefined)
+    .map((m) => m.name);
 }
 
 /** いま置いている仕事。**`system.runJob` が進める** */
@@ -137,14 +131,14 @@ const WIPE_HIGH = 40;
 const MAX_FILL = 32768;
 
 /** 範囲をまるごと空気にする。**上から下へ、厚さを上限に収めて少しずつ** */
-function* wipeAll(d: Dimension): Generator<void, void, void> {
+function* wipeAll(d: Dimension, ox: number): Generator<void, void, void> {
   const h = FIELD.half;
   const wide = (h * 2 + 1) * (h * 2 + 1);
   const step = Math.max(1, Math.floor(MAX_FILL / wide));
   for (let top = WIPE_HIGH; top >= WIPE_LOW; top -= step) {
     const y = Math.max(WIPE_LOW, top - step + 1);
     try {
-      d.fillBlocks(new BlockVolume({ x: -h, y, z: -h }, { x: h, y: top, z: h }), "air");
+      d.fillBlocks(new BlockVolume({ x: ox - h, y, z: -h }, { x: ox + h, y: top, z: h }), "air");
     } catch {
       /* 読み込まれていない */
     }
@@ -154,8 +148,10 @@ function* wipeAll(d: Dimension): Generator<void, void, void> {
 
 function* placeJob(name: string, then?: () => void): Generator<void, void, void> {
   const d = dim();
+  // **そのマップの原点へ置く**（`19-map-store.md` 0-1）。**番号が無ければ作業台（0）**
+  const ox = originXOf(name);
   // **まず範囲をまるごと空気にする**（水を残すと無限水源になる。下も消える）
-  yield* wipeAll(d);
+  yield* wipeAll(d, ox);
   const grid = gridOf(name);
   const ids = idsOf(name, grid);
   for (const [i, p] of piecesOf(grid).entries()) {
@@ -166,7 +162,7 @@ function* placeJob(name: string, then?: () => void): Generator<void, void, void>
     // > **暗転は 2 秒ぶん先に掛けてある**（`services/dark.ts`）ので、
     // > 止まっても黒は切れない。**2 秒に収まる大きさに割る**（`14-map-build.md` 2-2）。
     try {
-      world.structureManager.place(id, d, p.from);
+      world.structureManager.place(id, d, { x: p.from.x + ox, y: p.from.y, z: p.from.z });
     } catch {
       /* 読み込まれていない */
     }
@@ -197,26 +193,6 @@ export function place(name: string, then?: () => void): { ok: boolean; message: 
   job = system.runJob(placeJob(name, then));
   const n = gridOf(name) ** 2;
   return { ok: true, message: `${name} を置き始めた（${n} 枚）` };
-}
-
-/**
- * 消す。**構造物と覚え書き。**
- *
- * **割り方を変える前に焼いた枚も落とす**ので、いちばん多い枚数で回す。
- */
-export function remove(name: string): { ok: boolean; message: string } {
-  let gone = 0;
-  for (const id of idsOf(name, Math.max(GRID, gridOf(name)))) {
-    try {
-      if (world.structureManager.delete(id)) gone++;
-    } catch {
-      /* パック同梱のものは消せない */
-    }
-  }
-  const now = { ...book() };
-  delete now[name];
-  writeBook(now);
-  return { ok: true, message: `${name} を消した（構造物 ${gone} 枚）` };
 }
 
 /** 出るかどうかを切り替える */

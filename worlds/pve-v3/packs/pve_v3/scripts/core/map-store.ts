@@ -96,6 +96,31 @@ export interface MapMeta {
    * 入れると、そのマップに居る間だけ**跳べる高さが 20 マスになる。**
    */
   readonly bigJump: boolean;
+  /**
+   * **並べる場所**（`19-map-store.md` 0-1・2026-09-07 追加）。
+   *
+   * > ### マップは 1000 マスずつ離して常設する
+   * >
+   * > **原点は `x ＝ 1000 × slot`。** **`0` は作業台**なので、**試合に出るのは 1 から。**
+   * > **無ければ、まだ並べていない。**
+   */
+  readonly slot?: number;
+}
+
+/** マップ 1 枚ぶんの間隔（マス） */
+export const SLOT_SPAN = 1000;
+
+/** その番号のマップの原点 */
+export function slotOrigin(slot: number): { readonly x: number; readonly y: number; readonly z: number } {
+  return { x: SLOT_SPAN * Math.max(0, Math.floor(slot)), y: 0, z: 0 };
+}
+
+/** **まだ使っていない、いちばん小さい番号**（1 から） */
+export function nextSlot(book: MapBook): number {
+  const used = new Set<number>();
+  for (const m of Object.values(book)) if (typeof m.slot === "number") used.add(m.slot);
+  for (let i = 1; i < 1000; i++) if (!used.has(i)) return i;
+  return 1;
 }
 
 /** 覚え書き全部 */
@@ -119,6 +144,8 @@ export function parseBook(raw: string | undefined): MapBook {
         grid: typeof grid === "number" && grid >= 1 && grid <= 8 ? Math.floor(grid) : OLD_GRID,
         // **書いていなければ、ふつうのジャンプ**
         bigJump: rec["bigJump"] === true,
+        // **書いていなければ、まだ並べていない**
+        ...(typeof rec["slot"] === "number" && rec["slot"] >= 1 ? { slot: Math.floor(rec["slot"]) } : {}),
       };
     }
     return out;

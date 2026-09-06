@@ -23,6 +23,7 @@ import { CommandPermissionLevel, world, type Entity, type Vector3 } from "@minec
 import { emeraldOf, ENEMIES, hasteTier, LEGIONS, planOf, statsOf, type EnemyDef } from "../core/enemy.js";
 import { multsOf } from "../core/curse.js";
 import { curseCount } from "../state/curse.js";
+import { originX } from "./arena.js";
 import { wave } from "../state/match.js";
 import { FIELD, PLACES } from "../core/places.js";
 import { setup, setMax } from "../state/hp.js";
@@ -121,8 +122,10 @@ function openSpots(): Vector3[] {
     }
   }
   const out: Vector3[] = [];
+  // **湧き点は相対で持っている**（`21-spawn-mark.md`）——**そのマップの座標へ直す**
+  const ox = originX();
   for (const m of marks(map)) {
-    const at = { x: m.x + 0.5, y: m.y + 1, z: m.z + 0.5 };
+    const at = { x: m.x + ox + 0.5, y: m.y + 1, z: m.z + 0.5 };
     if (people.some((q) => Math.hypot(q.x - at.x, q.y - at.y, q.z - at.z) <= KEEP_AWAY)) continue;
     out.push(at);
   }
@@ -198,7 +201,18 @@ export function stepSpawn(now: number): void {
     // **同じ点を何度使ってもよい**（`21-spawn-mark.md` 3 章）
     const at = spots[Math.floor(Math.random() * spots.length)];
     if (at === undefined) break;
-    spawnOne(p, at);
+    if (spawnOne(p, at) === undefined) {
+      // > ### 出せなかったぶんは、捨てずに戻す（2026-09-07）
+      // >
+      // > **読み込まれていない所には出せない。**
+      // > **捨てると、その分の敵が丸ごと消える**——**次の回に出し直す。**
+      queue.unshift(p);
+      if (!warned) {
+        warned = true;
+        tellSpawnProblem("§c湧かせられなかった §7— その辺りが読み込まれていない（区画を張り直す）");
+      }
+      break;
+    }
   }
 }
 
@@ -215,7 +229,8 @@ function tellSpawnProblem(text: string): void {
 
 /** 湧く所の中心（確かめ用） */
 export function spawnCenter(): { x: number; y: number; z: number } {
-  return { x: PLACES.field.x, y: FIELD.groundY + 1, z: Math.round(FIELD.portalZ * 0.55) };
+  // **いまのマップの真ん中寄り**（`19-map-store.md` 0-1）
+  return { x: originX(), y: FIELD.groundY + 1, z: Math.round(FIELD.portalZ * 0.55) };
 }
 
 /**

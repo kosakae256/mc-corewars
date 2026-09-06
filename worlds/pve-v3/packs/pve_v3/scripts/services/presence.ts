@@ -21,6 +21,7 @@ import { CommandPermissionLevel, GameMode, world, type Player, type Vector3 } fr
 
 import { homeOf, mustFreeze, mustSpectate, playerPhase, type PlayerPhase, type Home } from "../core/state.js";
 import { center, FACING, isOutside, PLACES } from "../core/places.js";
+import { spawnSpot } from "./arena.js";
 import { isFullBlock } from "../core/spawnmark.js";
 import * as match from "../state/match.js";
 import { isDead, membership, setDead, setMembership } from "../state/member.js";
@@ -146,7 +147,8 @@ function digOut(player: Player, now: number): boolean {
   buried.delete(player.id);
   try {
     // **黙って戻す**（`17-state.md` 3-4）——戦っている最中に読ませるものではない
-    player.teleport(center(PLACES.field), { rotation: { x: 0, y: FACING.field ?? 0 } });
+    // **戻す先はいまのマップの湧く所**（`19-map-store.md` 0-1）
+    player.teleport(center(spawnSpot()), { rotation: { x: 0, y: FACING.field ?? 0 } });
   } catch {
     /* 消えている */
   }
@@ -214,7 +216,8 @@ export function reconcile(player: Player, now: number): void {
   if (worldPhase === "interlude") return;
 
   const where = homeOf(worldPhase, membership(player));
-  const home = PLACES[where];
+  // **戦場は動く**（`19-map-store.md` 0-1。マップごとに 1000 マスずつ離れている）
+  const home = where === "field" ? spawnSpot() : PLACES[where];
   if (!isOutside(player.location, home)) return;
   try {
     const yaw = FACING[where];
@@ -255,7 +258,7 @@ export function unfreezeAll(): void {
  * マップの差し替え前に運んでも足元が抜けない。
  */
 export function moveAll(where: Home): void {
-  const home = PLACES[where];
+  const home = where === "field" ? spawnSpot() : PLACES[where];
   const yaw = FACING[where];
   for (const p of members()) {
     try {
