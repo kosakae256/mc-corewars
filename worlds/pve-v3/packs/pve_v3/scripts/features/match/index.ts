@@ -29,7 +29,7 @@ import {
   SPAWN_DELAY,
   type WorldPhase,
 } from "../../core/state.js";
-import { FIELD } from "../../core/places.js";
+
 import { legionAt, prepareField, readyEnemies, starAt } from "../../services/stage.js";
 import { openGate } from "../../services/gate.js";
 import { REST, type PortalTarget } from "../../core/portal.js";
@@ -43,11 +43,10 @@ import { moveAll } from "../../services/presence.js";
 import { enemyCount } from "../../services/field.js";
 import { end, phase, phaseAge, toPhase, wave } from "../../services/match.js";
 import { interFrom } from "../../state/match.js";
+import { tick as fallTick } from "../../services/fall.js";
 import { alive, members, reconcile } from "../../services/presence.js";
 import { commands } from "./command.js";
-
-/** ポータルに着いたと見なす距離（マス） */
-const PORTAL_REACH = 4;
+import { everyoneTouchedRestGate, resetTouched, someoneAtPortal } from "./gate.js";
 
 /**
  * > ### 幕間の順番
@@ -103,27 +102,6 @@ let moved = false;
 const LAST_CALL = 10;
 
 /**
- * **敵を全部倒したうえで、誰かがポータルに着いたか**（`13-flow.md` 2-1）。
- *
- * > ### 倒しただけでは終わらない
- * >
- * > 前は敵が 0 になった瞬間に飛ばしていた。**急に飛ぶ。**
- * > **自分で歩いて行った先で切り替わる**ほうが、区切りが分かる。
- */
-function someoneAtPortal(): boolean {
-  const gate = { x: 0, z: FIELD.portalZ };
-  for (const p of alive()) {
-    try {
-      const at = p.location;
-      if (Math.hypot(at.x - gate.x, at.z - gate.z) <= PORTAL_REACH) return true;
-    } catch {
-      /* 抜けた */
-    }
-  }
-  return false;
-}
-
-/**
  * **倒し切ったあと、次にどこへ行くか**（`20-portal.md` 0-2）。
  *
  * **3 の倍数を終えたら休憩所**、最終戦を終えたらリザルト——どちらも**水色**。
@@ -155,6 +133,9 @@ function tick(now: number): void {
   // ---- まず全員をあるべき姿へ寄せる
   for (const player of world.getAllPlayers()) reconcile(player, now);
 
+  // ---- **奈落に落ちた人を引き上げる**（`17-state.md` 3-5）
+  fallTick();
+
   const age = phaseAge(now);
   const at = phase();
 
@@ -169,6 +150,8 @@ function tick(now: number): void {
     // 休憩所を出るときも暗転するが、そこでは選ばない
     // **状態を落とすのは `services/match.ts` の入口。**
     // ここは出した 3 つの覚え書きを捨てるだけ
+    // **触れた覚えは、休憩所に入るたびに捨てる**
+    if (at === "rest") resetTouched();
     if (at === "interlude") {
       resetPicks();
       swapped = false;
@@ -188,7 +171,9 @@ function tick(now: number): void {
     case "rest":
       pickStep(age);
       // **出発も幕間を挟む**——暗転してから運ぶ（`13-flow.md` 2 章）
-      if (age >= REST_TICKS) toPhase("interlude", now);
+      //
+      // **全員がゲートに触れたら、待たずに出発する**（2026-09-06 追加）
+      if (age >= REST_TICKS || everyoneTouchedRestGate()) toPhase("interlude", now);
       break;
 
     case "wave": {

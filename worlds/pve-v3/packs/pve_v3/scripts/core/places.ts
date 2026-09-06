@@ -60,6 +60,47 @@ export const FIELD = {
 export const GATE = { x1: -1, x2: 1, y1: 1, y2: 5, z: 39 } as const;
 
 /**
+ * **休憩所のゲートの箱**（`13-flow.md` 3 章）。
+ *
+ * **ここに触れたら、待たずに出発する。**
+ */
+export const REST_GATE = { x1: -2002, x2: -1998, y1: 2, y2: 7, z: -1941 } as const;
+
+/** ゲートの箱。**z は 1 枚**（門は薄い） */
+export interface GateBox {
+  readonly x1: number;
+  readonly x2: number;
+  readonly y1: number;
+  readonly y2: number;
+  readonly z: number;
+}
+
+/** 人の体の半分の幅 */
+const BODY_HALF = 0.3;
+
+/** 人の背 */
+const BODY_TALL = 1.8;
+
+/**
+ * **その箱に触れているか**（`13-flow.md` 2-1・3 章）。
+ *
+ * > ### 「付近」ではなく「触れた」で見る（2026-09-06 変更）
+ * >
+ * > **半径で見ていたので、近づいただけで飛んでいた。**
+ * > **ゲートの座標は決まっている**ので、**体が重なったとき**だけにする。
+ *
+ * **箱はブロックの座標**なので、`x1` から `x2 + 1` までが実際の広さ。
+ */
+export function touchesGate(at: Place, box: GateBox): boolean {
+  const x1 = Math.min(box.x1, box.x2);
+  const x2 = Math.max(box.x1, box.x2) + 1;
+  if (at.x + BODY_HALF <= x1 || at.x - BODY_HALF >= x2) return false;
+  if (at.z + BODY_HALF <= box.z || at.z - BODY_HALF >= box.z + 1) return false;
+  // **足元から背まで**のどこかが、箱の高さと重なっていればよい
+  return at.y < box.y2 + 1 && at.y + BODY_TALL > box.y1;
+}
+
+/**
  * **休憩所の 3 択の立ち位置**（`13-flow.md` 3-2）。**左から順**（x の小さい順）。
  *
  * > ### 印のブロックをやめた（2026-09-05）

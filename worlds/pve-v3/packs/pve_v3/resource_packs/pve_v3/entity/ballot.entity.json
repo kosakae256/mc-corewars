@@ -17,14 +17,6 @@
       "geometry": {
         "default": "geometry.pve3_post"
       },
-      "animations": {
-        "idle": "animation.pve3_post.idle"
-      },
-      "scripts": {
-        "animate": [
-          "idle"
-        ]
-      },
       "render_controllers": [
         "controller.render.pve3_ballot"
       ]

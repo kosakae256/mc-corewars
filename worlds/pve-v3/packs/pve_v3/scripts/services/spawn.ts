@@ -8,21 +8,32 @@
  * 1 体の値     ＝ 固有値 × 人数倍率 × ウェーブ倍率 × 呪い倍率 × 丸め係数
  * ```
  *
- * > ### 一度に全部出さない
+ * > ### 一度に全部出さない（`16-enemy.md` 3-4-1）
  * >
- * > **50 体を 1 tick で出すと固まる。** 待ち行列に積んで、少しずつ出す。
+ * > **2 秒に 10 体。** 100 体なら 20 秒かけて出る。
+ *
+ * > ### **湧く場所は、マップごとに登録した点だけ**（`21-spawn-mark.md`）
+ * >
+ * > 地形から judgement しない。**壁や天井に埋まって出てくる**のを無くすため。
+ * > **プレイヤーの半径 3 マス以内には出さない。**
  */
 
-import { world, type Entity } from "@minecraft/server";
+import { CommandPermissionLevel, world, type Entity, type Vector3 } from "@minecraft/server";
 
 import { attackOf, hpOf, LEGIONS, planOf, type EnemyDef } from "../core/enemy.js";
 import { FIELD, PLACES } from "../core/places.js";
 import { setup, setMax } from "../state/hp.js";
 import { setLabel } from "../state/label.js";
 import { KEYS } from "../state/keys.js";
+import { fieldMap } from "../state/match.js";
+import { marks } from "./spawnmark.js";
 
-/** 1 tick に出す数。**多いと固まる** */
-const PER_TICK = 3;
+/** 出す間隔（tick）と、1 回に出す数。**2 秒に 10 体** */
+const EVERY = 40;
+const PER_BURST = 10;
+
+/** この距離より近くには出さない（マス） */
+const KEEP_AWAY = 3;
 
 /** これから出すもの */
 interface Pending {
@@ -66,22 +77,40 @@ export function queueLegion(legionId: string, players: number, wave: number, cur
   return next.length;
 }
 
-/** 湧く場所。**戦場の中に散らす。奥（ポータル側）から出す** */
-function spotFor(i: number): { x: number; y: number; z: number } {
-  const a = (i * 2.399963) % (Math.PI * 2); // 黄金角。**固まらずに散る**
-  const r = 8 + ((i * 7) % 22);
-  return {
-    x: Math.round(Math.cos(a) * r),
-    y: FIELD.groundY + 3,
-    z: Math.round(FIELD.portalZ * 0.55 + Math.sin(a) * r),
-  };
+/** 出せなかったことを、運営に 1 度だけ言う */
+let warned = false;
+
+/**
+ * **いま出してよい点。**
+ *
+ * **登録された点から、プレイヤーの近くを除いたもの**（`16-enemy.md` 3-4-1）。
+ * **同じ点を何度使ってもよい。**
+ */
+function openSpots(): Vector3[] {
+  const map = fieldMap();
+  if (map === undefined) return [];
+  const people: Vector3[] = [];
+  for (const p of world.getAllPlayers()) {
+    try {
+      people.push(p.location);
+    } catch {
+      /* 抜けた */
+    }
+  }
+  const out: Vector3[] = [];
+  for (const m of marks(map)) {
+    const at = { x: m.x + 0.5, y: m.y + 1, z: m.z + 0.5 };
+    if (people.some((q) => Math.hypot(q.x - at.x, q.y - at.y, q.z - at.z) <= KEEP_AWAY)) continue;
+    out.push(at);
+  }
+  return out;
 }
 
 /** 1 体出す */
-function spawnOne(p: Pending, i: number): Entity | undefined {
+function spawnOne(p: Pending, at: Vector3): Entity | undefined {
   try {
     const dim = world.getDimension("overworld");
-    const e = dim.spawnEntity(`pve_v3:${p.def.id}`, spotFor(i));
+    const e = dim.spawnEntity(`pve_v3:${p.def.id}`, at);
     setup(e, p.hp);
     setMax(e, p.hp);
     setLabel(e, `§c${p.def.name}`);
@@ -94,13 +123,50 @@ function spawnOne(p: Pending, i: number): Entity | undefined {
   }
 }
 
-/** 待ち行列を少し進める */
+/**
+ * 待ち行列を進める。**2 秒に 10 体**（`16-enemy.md` 3-4-1）。
+ *
+ * **点が 1 つも無いマップでは出せない**——運営に 1 度だけ伝える。
+ */
 export function stepSpawn(now: number): void {
-  if (queue.length === 0) return;
-  for (let n = 0; n < PER_TICK && queue.length > 0; n++) {
+  if (queue.length === 0) {
+    warned = false;
+    return;
+  }
+  if (now % EVERY !== 0) return;
+
+  const spots = openSpots();
+  if (spots.length === 0) {
+    if (!warned) {
+      warned = true;
+      const map = fieldMap();
+      tellSpawnProblem(
+        map === undefined
+          ? "§cどのマップか分からないので敵を出せない"
+          : `§c${map} に湧き点が無い（または全部プレイヤーの近く）§7— 杖で点を打つ`
+      );
+    }
+    return;
+  }
+
+  for (let n = 0; n < PER_BURST && queue.length > 0; n++) {
     const p = queue.shift();
     if (p === undefined) break;
-    spawnOne(p, now + n);
+    // **同じ点を何度使ってもよい**（`21-spawn-mark.md` 3 章）
+    const at = spots[Math.floor(Math.random() * spots.length)];
+    if (at === undefined) break;
+    spawnOne(p, at);
+  }
+}
+
+/** 運営にだけ伝える。**黙って何も起きないのが、いちばん困る** */
+function tellSpawnProblem(text: string): void {
+  for (const p of world.getAllPlayers()) {
+    try {
+      if (p.commandPermissionLevel !== CommandPermissionLevel.Any) p.sendMessage(`§8[運営] ${text}`);
+    } catch {
+      /* 抜けた */
+    }
   }
 }
 

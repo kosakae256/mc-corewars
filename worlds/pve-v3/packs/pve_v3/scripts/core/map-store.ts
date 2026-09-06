@@ -89,6 +89,13 @@ export interface MapMeta {
    * **無ければ 2**——4 × 4 にする前のマップも、そのまま置けるようにする。
    */
   readonly grid: number;
+  /**
+   * **大ジャンプができるマップか**（2026-09-06 追加）。
+   *
+   * **雲海のように、足場が離れているマップで使う。**
+   * 入れると、そのマップに居る間だけ**跳べる高さが 20 マスになる。**
+   */
+  readonly bigJump: boolean;
 }
 
 /** 覚え書き全部 */
@@ -110,6 +117,8 @@ export function parseBook(raw: string | undefined): MapBook {
         on: rec["on"] !== false,
         // **書いていないものは、割り方を変える前に焼いたもの**
         grid: typeof grid === "number" && grid >= 1 && grid <= 8 ? Math.floor(grid) : OLD_GRID,
+        // **書いていなければ、ふつうのジャンプ**
+        bigJump: rec["bigJump"] === true,
       };
     }
     return out;

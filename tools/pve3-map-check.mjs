@@ -1,7 +1,7 @@
 /**
  * 戦場が**決まりを守っているか**を、組む前に確かめる。
  *
- *     node tools/pve3-map-check.mjs
+ *     node tools/pve3-map-check.mjs <id>
  *
  * 決まりは `worlds/pve-v3/docs/spec/14-map-build.md` 0 章。
  *
@@ -35,22 +35,84 @@ execFileSync(
   process.execPath,
   [
     path.join(PACK, "node_modules", "esbuild", "bin", "esbuild"),
-    path.join(PACK, "scripts/core/map-basin.ts"),
+    path.join(PACK, "scripts/core/maps.ts"),
     "--bundle",
     "--format=esm",
     `--outfile=${out}`,
   ],
   { cwd: PACK, stdio: "pipe" }
 );
-const { basinOps } = await import(pathToFileURL(out).href);
+const { MAPS } = await import(pathToFileURL(out).href);
 rmSync(dir, { recursive: true, force: true });
 
-const ops = basinOps();
+// **どのマップを見るか。** 書かなければ番号順の 1 枚目
+const id = process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "basin";
+const def = MAPS[id];
+if (def === undefined) {
+  console.error(`知らないマップ: ${id}
+あるのは ${Object.keys(MAPS).join(" / ")}`);
+  process.exit(1);
+}
+console.log(`${id}（${def.name}）`);
+const ops = def.ops();
+
+/**
+ * **満たさないことにした決まり**（`14-map-build.md` 0-10）。
+ *
+ * **企画に書いてあるものだけ**（`core/maps.ts` の `waive`）。
+ */
+const waived = new Set(def.waive ?? []);
+if (waived.size > 0) console.log(`  免除: ${[...waived].join(" / ")}`);
 let bad = 0;
-const ng = (m) => {
+/** @param rule `14-map-build.md` の番号。**免除していれば落とさない** */
+const ng = (m, rule) => {
+  if (rule !== undefined && waived.has(rule)) {
+    console.log("  免除", m);
+    return;
+  }
   console.log("  NG", m);
   bad++;
 };
+
+// ---- 0-0. **ブロックの名前が実在するか**（2026-09-06 追加）
+//
+// > ### 名前を間違えると、組んでいる途中で止まる
+// >
+// > ```
+// > block type terracotta not found
+// > ```
+// >
+// > **Bedrock の ID は Java と違う**——`terracotta` は `hardened_clay`、
+// > `grass` は `grass_block`、`chain` は `iron_chain`。
+// > **`@minecraft/vanilla-data` の表と突き合わせる。**
+const { MinecraftBlockTypes } = await import(
+  pathToFileURL(path.join(PACK, "node_modules/@minecraft/vanilla-data/lib/index.js")).href
+);
+const known = new Set(Object.values(MinecraftBlockTypes).map((v) => String(v).replace(/^minecraft:/, "")));
+{
+  const unknown = new Set();
+  for (const op of ops) {
+    // **自前のブロック**（`pve_v3:` など）は表に無い
+    if (op.block === "air" || op.block.includes(":") || known.has(op.block)) continue;
+    unknown.add(op.block);
+  }
+  console.log(`0-0 実在しないブロック名  ${unknown.size} 種`);
+  if (unknown.size > 0) ng(`知らないブロック名: ${[...unknown].join(" / ")}`, "0-0");
+}
+
+// ---- 0-11. **落ちるブロックを使わない**（2026-09-06 追加）
+//
+// > ### 置いた先が空なら、その場で落ちる
+// >
+// > **飾りで縁や張り出しに置くと、組んだ端から崩れていく。**
+const FALLING =
+  /^(gravel|sand|red_sand|suspicious_sand|suspicious_gravel|[a-z_]*concrete_powder|[a-z_]*anvil|dragon_egg|scaffolding|pointed_dripstone)$/;
+{
+  const fall = new Set();
+  for (const op of ops) if (FALLING.test(op.block)) fall.add(op.block);
+  console.log(`0-11 落ちるブロック  ${fall.size} 種`);
+  if (fall.size > 0) ng(`落ちるブロックを使っている: ${[...fall].join(" / ")}`, "0-11");
+}
 
 // ---- 置いたものを数え上げる
 const key = (x, y, z) => `${x},${y},${z}`;
@@ -101,7 +163,7 @@ for (const k of solid) {
   mz = Math.max(mz, Math.abs(z));
 }
 console.log(`0-1 置いた端  x ±${mx} / z ±${mz}  （上限 ${HALF}）`);
-if (mx > HALF || mz > HALF) ng("±50 より外に置いている");
+if (mx > HALF || mz > HALF) ng("±50 より外に置いている", "0-1");
 
 // ---- 0-3. 湧く所からポータルが見える
 //
@@ -123,7 +185,7 @@ for (let i = 1; i < steps; i++) {
 }
 console.log(`0-3 湧く所からポータルまでの線を遮るブロック  ${hits.length} 個`);
 for (const k of hits.slice(0, 8)) console.log(`      (${k})  ${named.get(k)}`);
-if (hits.length > 0) ng("湧いた所からポータルが見えない");
+if (hits.length > 0) ng("湧いた所からポータルが見えない", "0-3");
 
 // ---- 0-4. 外へ出られない
 //
@@ -152,7 +214,7 @@ for (let deg = 0; deg < 360; deg += 2) {
   }
 }
 console.log(`0-4 外へ出られる向き  ${openDirs} 方向`);
-if (openDirs > 0) ng(`登れる／歩いて出られる向きがある（例 ${worstDeg}°）`);
+if (openDirs > 0) ng(`登れる／歩いて出られる向きがある（例 ${worstDeg}°）`, "0-4");
 
 // ---- 0-8. 島の上は、どこでも登れる
 //
@@ -230,7 +292,7 @@ for (const c of missed) {
   }
 }
 console.log(`0-8 湧く所から歩いて行けない面  ${missed.length} マス（いちばん大きいまとまり ${worst} マス @ ${worstAt}）`);
-if (worst >= 4) ng("登れない面がまとまって残っている");
+if (worst >= 4) ng("登れない面がまとまって残っている", "0-8");
 
 // ---- 0-5. **ひと繋がりか**
 //
@@ -270,7 +332,7 @@ for (const startK of solid) {
 const loose = orphans.filter((g) => g.length !== best).flat();
 console.log(`0-5 塊の数 ${orphans.length}（いちばん大きいものが ${best} ブロック）／離れている ${loose.length} 個`);
 for (const k of loose.slice(0, 10)) console.log(`      (${k})  ${named.get(k)}`);
-if (loose.length > 0) ng("島から切り離された塊がある");
+if (loose.length > 0) ng("島から切り離された塊がある", "0-5");
 
 console.log(bad === 0 ? "\n決まりを満たしている" : `\n**${bad} 件、決まりを満たしていない**`);
 process.exit(bad === 0 ? 0 : 1);

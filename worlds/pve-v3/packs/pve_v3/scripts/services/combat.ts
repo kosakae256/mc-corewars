@@ -23,8 +23,8 @@
 import { Player, system, type Entity } from "@minecraft/server";
 
 import { finalDamage } from "../core/damage.js";
-import { current, damage as cutHp, has, heal, max } from "../state/hp.js";
-import { feedback } from "./feedback.js";
+import { current, damage as cutHp, has, heal, max as maxHp } from "../state/hp.js";
+import { BIG_CUT, bigHurt, feedback } from "./feedback.js";
 import { markDead } from "./presence.js";
 import { awardKill } from "./reward.js";
 import { popNumber } from "./number.js";
@@ -127,6 +127,13 @@ export function hit(o: HitOptions): void {
   // **毎秒・毎発ぶんの音が本人の耳元で重なる。**
   feedback(target, o.by, now, kind === "base");
 
+  // ---- **大ダメージの演出**（画面が揺れて、周りが赤くなる）
+  //
+  // **最大 HP に対する割合で見る**（2026-09-06 変更）——
+  // いまの HP で見ると、**瀕死のときに擦り傷でも「大ダメージ」になる。**
+  const cap = maxHp(target) ?? 0;
+  if (target instanceof Player && cap > 0 && dealt / cap >= BIG_CUT) bigHurt(target, now);
+
   // ---- ダメージの数字（**敵だけ**）
   if (!(target instanceof Player)) {
     try {
@@ -169,11 +176,14 @@ function down(target: Entity, by: Player | undefined): void {
     }
     // **試合の外**（ロビーでの確認など）は立て直す——
     // **0 のまま置くと、殴られるたびに倒れた合図が鳴り続ける。**
-    const cap = max(target) ?? 0;
+    const cap = maxHp(target) ?? 0;
     if (cap > 0) heal(target, cap);
     try {
+      // > ### 立て直しに音は鳴らさない（2026-09-06 決定）
+      // >
+      // > **試合の外でしか起きない**のに、**トーテムの音がうるさく、
+      // > 大ダメージの音が聞こえなかった。**
       target.sendMessage("§c倒れた §8— 立て直した（試合の外）");
-      target.playSound("random.totem", { volume: 0.4, pitch: 0.8 });
     } catch {
       /* 消えている */
     }
@@ -195,7 +205,7 @@ function down(target: Entity, by: Player | undefined): void {
 /** いまの HP。**表示用** */
 export function hpOf(entity: Entity): { now: number; max: number } | undefined {
   const now = current(entity);
-  const cap = max(entity);
+  const cap = maxHp(entity);
   if (now === undefined || cap === undefined) return undefined;
   return { now, max: cap };
 }

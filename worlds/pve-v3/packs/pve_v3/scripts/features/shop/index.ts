@@ -41,6 +41,7 @@ import { onVendor, onVendorHit, spawnVendor, subscribeVendors, VENDOR, vendors }
 import { forgetRestPosts, restPosts, type PostSpot } from "../../services/post.js";
 import { phaseOf } from "../../services/presence.js";
 import { openVendor } from "./ui.js";
+import { updateSigns } from "./sign.js";
 
 /**
  * 休憩所の台の並び（**ブロックが 1 つも置かれていないとき**の代わり）。
@@ -215,8 +216,13 @@ export const shop: Feature = {
   commands: [vendorCommand],
   subscribe,
   tick: {
-    // **2 秒に 1 回で足りる**
-    every: 40,
-    run: reconcile,
+    // **札は毎 tick**（2026-09-06。0.5 秒ごとだと数字が遅れて見えた）。
+    // **中身が変わったときしか触らない**ので、そう重くない。
+    // **売り子の立て直しは 2 秒に 1 回で足りる**
+    every: 1,
+    run: (now) => {
+      updateSigns();
+      if (now % 40 === 0) reconcile();
+    },
   },
 };

@@ -7,11 +7,10 @@
  * /pve:buildmap basin ok    0, 0, 0 に組む（**そこにあったものは消える**）
  * ```
  *
- * > ### 20 枚は、まだ 1 枚
+ * > ### 一覧は `core/maps.ts`
  * >
- * > **残りは構造物にして持つ**（`14-map-build.md`）。
- * > **この 1 枚は「どんな形になるか」を見るための手順**——
- * > 気に入ったら `/structure save` で焼ける。
+ * > **足すのはあちら。** ここは打ち方だけ。
+ * > 気に入ったら `/pve:mapsave <名前>` で焼く（`19-map-store.md`）。
  */
 
 import {
@@ -26,16 +25,10 @@ import {
 } from "@minecraft/server";
 
 import type { Feature } from "../../types.js";
-import type { BuildOp } from "../../core/build.js";
 import { center, PLACES } from "../../core/places.js";
-import { basinOps } from "../../core/map-basin.js";
+import { MAPS, mapIds } from "../../core/maps.js";
 import { busy, start, step } from "../../services/builder.js";
 import { storeCommands } from "./store.js";
-
-/** 組めるマップ */
-const MAPS: Readonly<Record<string, { readonly name: string; readonly ops: () => BuildOp[] }>> = {
-  basin: { name: "岩山の窪地", ops: basinOps },
-};
 
 function buildCommand(registry: CustomCommandRegistry): void {
   registry.registerCommand(
@@ -55,7 +48,7 @@ function buildCommand(registry: CustomCommandRegistry): void {
       }
       const def = MAPS[id.trim().toLowerCase()];
       if (def === undefined) {
-        return { status: CustomCommandStatus.Failure, message: `いまあるのは ${Object.keys(MAPS).join(" / ")}` };
+        return { status: CustomCommandStatus.Failure, message: `いまあるのは ${mapIds().join(" / ")}` };
       }
       if (confirm.trim().toLowerCase() !== "ok") {
         return { status: CustomCommandStatus.Failure, message: "0,0,0 の周りを全部消して建て直す。よければ ok" };

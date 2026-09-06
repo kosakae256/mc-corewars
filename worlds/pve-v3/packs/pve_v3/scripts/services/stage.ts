@@ -20,7 +20,7 @@ import { clearEnemies } from "./field.js";
 import { place, playable } from "./mapstore.js";
 import { spawnPosts } from "./post.js";
 import { VENDOR } from "./vendor.js";
-import { legion, legionFor } from "../state/match.js";
+import { legion, legionFor, setFieldMap } from "../state/match.js";
 import { queueLegion } from "./spawn.js";
 
 /**
@@ -85,6 +85,11 @@ export function sweepField(): { enemies: number; items: number; posts: number } 
 /** 直前に出したマップ。**同じものを続けて出さない**（`14-map-build.md` 4 章） */
 let lastMap: string | undefined;
 
+/** **いま戦場に置いてあるマップ。** 湧き点の杖が、既定の相手として使う */
+export function currentMap(): string | undefined {
+  return lastMap;
+}
+
 /**
  * 次のマップを選ぶ。
  *
@@ -142,6 +147,8 @@ export function rebuildField(): string | undefined {
     return undefined;
   }
   lastMap = name;
+  // **湧き点を引くのに要る**（`services/spawn.ts`）
+  setFieldMap(name);
   return name;
 }
 

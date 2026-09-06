@@ -99,6 +99,38 @@ export function legionFor(wave: number): string | undefined {
   return ids[(wave - 1) % ids.length];
 }
 
+/**
+ * **いま戦場に置いてあるマップ。**
+ *
+ * > ### なぜ state に置くのか
+ * >
+ * > **湧かせる側（`services/spawn.ts`）が、湧き点を引くのに要る。**
+ * > 置いた側（`services/stage.ts`）から直に読むと**サービスどうしが輪になる**
+ * > （`map-basin` で `DAIS` が NaN になった事故と同じ形）。
+ */
+/**
+ * **大ジャンプの強さ**（跳躍力上昇の段）。
+ *
+ * **何段でどれだけ跳ぶかが読めない**ので、`/pve:jump <強さ>` で当てる。
+ */
+export function jumpAmp(): number {
+  const v = world.getDynamicProperty(KEYS.jumpAmp);
+  return typeof v === "number" && v >= 0 && v <= 255 ? Math.floor(v) : 12;
+}
+
+export function setJumpAmp(v: number): void {
+  world.setDynamicProperty(KEYS.jumpAmp, Math.max(0, Math.min(255, Math.floor(v))));
+}
+
+export function fieldMap(): string | undefined {
+  const v = str(KEYS.fieldMap);
+  return v === undefined || v === "" ? undefined : v;
+}
+
+export function setFieldMap(name: string | undefined): void {
+  put(KEYS.fieldMap, name ?? "");
+}
+
 export function legion(): string | undefined {
   const v = str(KEYS.legion);
   return v === undefined || v === "" ? undefined : v;

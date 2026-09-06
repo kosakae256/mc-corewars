@@ -17,10 +17,11 @@
  * **状態を変えるのは `services/match.ts`。ここは変えない。**
  */
 
-import { GameMode, world, type Player, type Vector3 } from "@minecraft/server";
+import { CommandPermissionLevel, GameMode, world, type Player, type Vector3 } from "@minecraft/server";
 
 import { homeOf, mustFreeze, mustSpectate, playerPhase, type PlayerPhase, type Home } from "../core/state.js";
 import { center, FACING, isOutside, PLACES } from "../core/places.js";
+import { isFullBlock } from "../core/spawnmark.js";
 import * as match from "../state/match.js";
 import { isDead, membership, setDead, setMembership } from "../state/member.js";
 import { isPicked } from "../state/pick.js";
@@ -74,6 +75,7 @@ export function leave(player: Player): void {
   setMembership(player, "out");
   setDead(player, false);
   anchors.delete(player.id);
+  buried.delete(player.id);
 }
 
 /**
@@ -95,6 +97,62 @@ function isCreative(player: Player): boolean {
   }
 }
 
+/** 埋まっていると認めるまで（tick）。**1 秒**（`17-state.md` 3-4） */
+const BURIED_HOLD = 20;
+
+/** 埋まり始めた時刻。**メモリだけ**（`/reload` で消えてよい） */
+const buried = new Map<string, number>();
+
+/** そこが**実体のあるブロックで塞がっている**か */
+function blocked(player: Player, dy: number): boolean {
+  try {
+    const at = player.location;
+    const b = player.dimension.getBlock({
+      x: Math.floor(at.x),
+      y: Math.floor(at.y + dy),
+      z: Math.floor(at.z),
+    });
+    // **読み込まれていない所は「埋まっていない」扱い**——見えないものを根拠にしない
+    if (b === undefined || b.isAir || b.isLiquid) return false;
+    return isFullBlock(b.typeId);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * **埋まっていたら、湧く所へ戻す**（`17-state.md` 3-4）。
+ *
+ * > ### マップの差し替えに追いつかれることがある
+ * >
+ * > 差し替えは少しずつ進むので、**置かれた地形の中に入ってしまう。**
+ * > 埋まると**動けず、抜け出せない。**
+ *
+ * **1 秒続いたときだけ**戻す——地形が置かれる途中の一瞬を拾わないため。
+ *
+ * @returns 戻したか
+ */
+function digOut(player: Player, now: number): boolean {
+  if (!blocked(player, 0.2) || !blocked(player, 1.2)) {
+    buried.delete(player.id);
+    return false;
+  }
+  const from = buried.get(player.id);
+  if (from === undefined) {
+    buried.set(player.id, now);
+    return false;
+  }
+  if (now - from < BURIED_HOLD) return false;
+  buried.delete(player.id);
+  try {
+    // **黙って戻す**（`17-state.md` 3-4）——戦っている最中に読ませるものではない
+    player.teleport(center(PLACES.field), { rotation: { x: 0, y: FACING.field ?? 0 } });
+  } catch {
+    /* 消えている */
+  }
+  return true;
+}
+
 function fixGameMode(player: Player, want: GameMode): void {
   try {
     if (player.getGameMode() !== want) player.setGameMode(want);
@@ -113,9 +171,10 @@ function fixGameMode(player: Player, want: GameMode): void {
  * | **居場所** | **圏外に居るときだけ**引き戻す（ぴったりへは戻さない） |
  * | **固定** | 止まっている間は、覚えた立ち位置から離れさせない |
  */
-export function reconcile(player: Player, _now: number): void {
+export function reconcile(player: Player, now: number): void {
   if (isCreative(player)) {
     anchors.delete(player.id);
+    buried.delete(player.id);
     return;
   }
 
@@ -126,6 +185,13 @@ export function reconcile(player: Player, _now: number): void {
 
   const ph = phaseOf(player);
   fixGameMode(player, mustSpectate(ph) ? GameMode.Spectator : GameMode.Adventure);
+
+  // ---- **埋まった人を掘り出す。** 戦っている間だけ（見ている人はすり抜けられる）
+  if (worldPhase === "wave" && !mustSpectate(ph)) {
+    if (digOut(player, now)) return;
+  } else {
+    buried.delete(player.id);
+  }
 
   if (mustFreeze(ph)) {
     const at = anchors.get(player.id) ?? player.location;
@@ -156,6 +222,20 @@ export function reconcile(player: Player, _now: number): void {
     player.teleport(center(home), yaw === undefined ? undefined : { rotation: { x: 0, y: yaw } });
   } catch {
     /* 消えている */
+  }
+}
+
+/**
+ * **運営か**（OP を持っているか）。
+ *
+ * **運営の道具は、これで守る**——`19-map-store.md` 7 章のコンパス、
+ * `21-spawn-mark.md` の杖。
+ */
+export function isAdmin(player: Player): boolean {
+  try {
+    return player.commandPermissionLevel !== CommandPermissionLevel.Any;
+  } catch {
+    return false;
   }
 }
 

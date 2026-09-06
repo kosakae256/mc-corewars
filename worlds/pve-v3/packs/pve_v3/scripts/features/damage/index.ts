@@ -10,10 +10,10 @@
 
 import type { Feature } from "../../types.js";
 import { stepFeedback } from "../../services/feedback.js";
-import { dmgTestCommand } from "./command.js";
+import { dmgTestCommand, hurtTestCommand } from "./command.js";
 
 export const damageSystem: Feature = {
   name: "damage",
   tick: { every: 1, run: stepFeedback },
-  commands: [dmgTestCommand],
+  commands: [dmgTestCommand, hurtTestCommand],
 };

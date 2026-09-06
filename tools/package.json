@@ -1,0 +1,11 @@
+{
+  "name": "minecraft-app-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "開発・運営用の道具。ワールドの db を読むなど、ネイティブの部品が要るものを置く",
+  "type": "module",
+  "dependencies": {
+    "leveldb-zlib": "^1.2.0",
+    "prismarine-nbt": "^2.7.0"
+  }
+}

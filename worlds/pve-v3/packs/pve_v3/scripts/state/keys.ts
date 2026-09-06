@@ -52,6 +52,10 @@ export const KEYS = {
   wave: `${PREFIX}wave`,
   /** 選ばれている敵グループ */
   legion: `${PREFIX}legion`,
+  /** 大ジャンプの強さ（跳躍力上昇の段）。**その場で当てる** */
+  jumpAmp: `${PREFIX}jumpamp`,
+  /** いま戦場に置いてあるマップの名前。**湧き点を引くのに使う** */
+  fieldMap: `${PREFIX}fieldmap`,
   /** 次の 3 戦の相手（`,` 区切り）。休憩所の 3 択で決まる */
   run: `${PREFIX}run`,
   /** その人が入れた門（0〜2）。**休憩所の 3 択** */

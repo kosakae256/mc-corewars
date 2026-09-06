@@ -1,0 +1,9 @@
+{
+  "name": "crater",
+  "namespace": "pve3",
+  "pieces": 16,
+  "grid": 4,
+  "savedAt": "2026-09-06T08:03:28.220Z",
+  "world": "pve企画_開発用",
+  "note": "戻し方は worlds/pve-v3/docs/spec/19-map-store.md 8 章"
+}

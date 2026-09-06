@@ -20,6 +20,7 @@ import {
 } from "@minecraft/server";
 
 import { DMG, LIFE } from "../../services/number.js";
+import { bigHurt } from "../../services/feedback.js";
 
 export function dmgTestCommand(registry: CustomCommandRegistry): void {
   registry.registerCommand(
@@ -51,6 +52,38 @@ export function dmgTestCommand(registry: CustomCommandRegistry): void {
         } catch (err) {
           player.sendMessage(`§c出せなかった §8${String(err)}`);
         }
+      });
+      return { status: CustomCommandStatus.Success };
+    }
+  );
+}
+
+/**
+ * **画面の揺れ**を出してみる（確認用・`22-feedback.md` 2 章）。
+ *
+ * ```
+ * /pve:hurttest
+ * ```
+ *
+ * **出なければ、端末の映像設定「カメラの揺れ」を疑う。**
+ * **content log に `[feedback] …` が出ている**（コマンドが弾かれた）。
+ */
+export function hurtTestCommand(registry: CustomCommandRegistry): void {
+  registry.registerCommand(
+    {
+      name: "pve:hurttest",
+      description: "画面の揺れを出してみる（確認用）",
+      permissionLevel: CommandPermissionLevel.Any,
+    },
+    (origin: CustomCommandOrigin): CustomCommandResult => {
+      const e = origin.sourceEntity;
+      if (!(e instanceof Player)) {
+        return { status: CustomCommandStatus.Failure, message: "プレイヤーから実行すること" };
+      }
+      const player = e;
+      system.run(() => {
+        bigHurt(player, system.currentTick);
+        player.sendMessage("§7揺れを出した §8（バニラの被弾の揺れ＋camerashake）");
       });
       return { status: CustomCommandStatus.Success };
     }

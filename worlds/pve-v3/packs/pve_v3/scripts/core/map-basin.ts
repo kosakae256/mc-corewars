@@ -101,12 +101,12 @@ function surfaceAt(x: number, z: number): string {
   const lean = (fbm(x, z, 29, SEED + 31, 2) - 0.5) * 0.44;
   const t = Math.min(1, dist(x, z) / edgeAt(x, z));
 
-  if (inRiverAt(x, z)) return r > 0.72 ? "clay" : r > 0.5 ? "gravel" : r > 0.24 ? "coarse_dirt" : "andesite";
+  if (inRiverAt(x, z)) return r > 0.72 ? "clay" : r > 0.5 ? "cobblestone" : r > 0.24 ? "coarse_dirt" : "andesite";
 
   // **縁は崩れて石が出る**
   if (t > 0.84) {
     const p = r + lean;
-    return p > 0.74 ? "gravel" : p > 0.52 ? "cobblestone" : p > 0.3 ? "stone" : p > 0.12 ? "andesite" : "tuff";
+    return p > 0.74 ? "cobblestone" : p > 0.52 ? "cobblestone" : p > 0.3 ? "stone" : p > 0.12 ? "andesite" : "tuff";
   }
 
   const p = r + lean;
@@ -115,7 +115,7 @@ function surfaceAt(x: number, z: number): string {
   if (p > 0.7) return "podzol";
   if (p > 0.55) return "coarse_dirt";
   if (p > 0.4) return "dirt";
-  if (p > 0.27) return "gravel";
+  if (p > 0.27) return "cobblestone";
   if (p > 0.14) return "andesite";
   return "cobblestone";
 }

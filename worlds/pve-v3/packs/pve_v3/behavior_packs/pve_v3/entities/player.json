@@ -58,6 +58,10 @@
       "minecraft:experience_reward": {
         "on_death": "Math.Min(query.player_level * 7, 100)"
       },
+      "minecraft:health": {
+        "max": 1000,
+        "value": 1000
+      },
       "minecraft:hurt_on_condition": {
         "damage_conditions": [
           {
@@ -1163,6 +1167,22 @@
       "pve_v3:spd_5000": {
         "minecraft:movement": {
           "value": 0.5
+        }
+      },
+      "pve_v3:jump_off": {},
+      "pve_v3:jump_big": {
+        "minecraft:damage_sensor": {
+          "triggers": [
+            {
+              "on_damage": {
+                "filters": {
+                  "test": "has_damage",
+                  "value": "fall"
+                }
+              },
+              "deals_damage": "no"
+            }
+          ]
         }
       }
     },
@@ -28889,6 +28909,30 @@
         "add": {
           "component_groups": [
             "pve_v3:spd_5000"
+          ]
+        }
+      },
+      "pve_v3:jump_off": {
+        "add": {
+          "component_groups": [
+            "pve_v3:jump_off"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "pve_v3:jump_big"
+          ]
+        }
+      },
+      "pve_v3:jump_big": {
+        "add": {
+          "component_groups": [
+            "pve_v3:jump_big"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "pve_v3:jump_off"
           ]
         }
       }

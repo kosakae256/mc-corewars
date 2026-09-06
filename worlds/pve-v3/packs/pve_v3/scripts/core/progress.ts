@@ -27,7 +27,7 @@ export const WIDTH = 20;
  * **直したらドキュメントも直すこと。**
  */
 export const AREAS: readonly Area[] = [
-  { name: "マップ", percent: 5, note: "20 マップ中 1（下地のみ）" },
+  { name: "マップ", percent: 100, note: "17 枚。目標は 20 枚程度だった" },
   { name: "職業", percent: 5, note: "弓 6 ロール／左クリック未実装" },
   { name: "エンチャント", percent: 15, note: "モーション強化。仕組みだけ／中身 0" },
   { name: "敵", percent: 25, note: "6 種／★2・4・5・6 が仮置き" },

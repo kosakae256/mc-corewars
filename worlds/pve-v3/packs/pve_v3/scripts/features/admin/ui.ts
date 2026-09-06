@@ -13,7 +13,7 @@
 import { system, type Player } from "@minecraft/server";
 import { ActionFormData, MessageFormData, ModalFormData } from "@minecraft/server-ui";
 
-import { list, place, remove, save, setLabel, setOn } from "../../services/mapstore.js";
+import { list, place, remove, save, setBigJump, setLabel, setOn } from "../../services/mapstore.js";
 import { phase, toPhase, wave } from "../../services/match.js";
 import { endWave, killEnemies } from "../../services/force.js";
 
@@ -38,6 +38,7 @@ async function openMap(player: Player, name: string): Promise<void> {
     )
     .button("戦場に置く")
     .button(m.meta.on ? "出さないようにする" : "出すようにする")
+    .button(m.meta.bigJump ? "大ジャンプを切る" : "大ジャンプを入れる")
     .button("表示名を変える")
     .button("§c消す");
   const res = await form.show(player);
@@ -52,7 +53,11 @@ async function openMap(player: Player, name: string): Promise<void> {
     case 1:
       say(player, setOn(name, !m.meta.on));
       return;
-    case 2: {
+    case 2:
+      // **大ジャンプ**（`02-map.md` 5-0-4）。**足場が離れているマップで入れる**
+      say(player, setBigJump(name, !m.meta.bigJump));
+      return;
+    case 3: {
       const modal = new ModalFormData().title("表示名を変える").textField("表示名", m.meta.label, {
         defaultValue: m.meta.label,
       });

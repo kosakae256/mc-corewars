@@ -153,7 +153,7 @@ export function path(ops: BuildOp[], tops: Map<string, number>): void {
       const x = bend + dx;
       const h = topOf(x, z);
       if (inRiverAt(x, z)) continue;
-      ops.push(set(x, h, z, Math.abs(dx) === 2 ? "coarse_dirt" : "gravel"));
+      ops.push(set(x, h, z, Math.abs(dx) === 2 ? "coarse_dirt" : "cobblestone"));
     }
   }
 }

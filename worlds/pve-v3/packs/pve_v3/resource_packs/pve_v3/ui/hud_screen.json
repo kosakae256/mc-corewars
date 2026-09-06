@@ -1,0 +1,9 @@
+{
+  "namespace": "hud",
+  "mob_effects_renderer": {
+    "type": "custom",
+    "renderer": "mob_effects_renderer",
+    "layer": 1,
+    "visible": false
+  }
+}

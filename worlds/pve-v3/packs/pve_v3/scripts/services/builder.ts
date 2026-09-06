@@ -65,16 +65,65 @@ function overworld(): Dimension | undefined {
   }
 }
 
+/**
+ * 一度に置ける上限。
+ *
+ * > ### **`fillBlocks` は 1 回 32768 マスまで**（2026-09-06 に踏んだ）
+ * >
+ * > ```
+ * > cannot perform a single fill greater than 32768 … requested fill was 3411405
+ * > ```
+ * >
+ * > **`clearBox` が範囲をまるごと消そうとして落ちた**（129 × 205 × 129）。
+ * > **書く側に数えさせない**——ここで割る。
+ */
+const MAX_FILL = 32768;
+
+/** 端から端まで、上限に収まる厚さで切って置く */
+function fillBig(
+  dim: Dimension,
+  x1: number,
+  y1: number,
+  z1: number,
+  x2: number,
+  y2: number,
+  z2: number,
+  block: string
+): void {
+  const sx = x2 - x1 + 1;
+  const sz = z2 - z1 + 1;
+  // **まず y で切る。** 1 枚が上限を超えるなら、z でも切る
+  const layer = sx * sz;
+  if (layer <= MAX_FILL) {
+    const stepY = Math.max(1, Math.floor(MAX_FILL / layer));
+    for (let y = y1; y <= y2; y += stepY) {
+      const yy = Math.min(y2, y + stepY - 1);
+      dim.fillBlocks(new BlockVolume({ x: x1, y, z: z1 }, { x: x2, y: yy, z: z2 }), block);
+    }
+    return;
+  }
+  const stepZ = Math.max(1, Math.floor(MAX_FILL / Math.max(1, sx)));
+  for (let z = z1; z <= z2; z += stepZ) {
+    const zz = Math.min(z2, z + stepZ - 1);
+    fillBig(dim, x1, y1, z, x2, y2, zz, block);
+  }
+}
+
 function apply(dim: Dimension, o: Vector3, op: BuildOp): void {
   if (op.kind === "set") {
     dim.setBlockType({ x: o.x + op.at.x, y: o.y + op.at.y, z: o.z + op.at.z }, op.block);
     return;
   }
-  const volume = new BlockVolume(
-    { x: o.x + op.from.x, y: o.y + op.from.y, z: o.z + op.from.z },
-    { x: o.x + op.to.x, y: o.y + op.to.y, z: o.z + op.to.z }
+  fillBig(
+    dim,
+    o.x + Math.min(op.from.x, op.to.x),
+    o.y + Math.min(op.from.y, op.to.y),
+    o.z + Math.min(op.from.z, op.to.z),
+    o.x + Math.max(op.from.x, op.to.x),
+    o.y + Math.max(op.from.y, op.to.y),
+    o.z + Math.max(op.from.z, op.to.z),
+    op.block
   );
-  dim.fillBlocks(volume, op.block);
 }
 
 /** 1 tick ぶん進める */

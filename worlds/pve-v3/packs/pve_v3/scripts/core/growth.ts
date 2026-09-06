@@ -42,6 +42,12 @@ export interface StatDef {
    * **この桁で丸めないと、上限が上限にならない。**
    */
   readonly digits: number;
+  /**
+   * 札に出すときの色。**台の鉱石ブロックに合わせる**（`13-flow.md` 3-4）。
+   *
+   * HP はレッドストーン、足の速さはダイヤ、攻撃速度はエメラルド、攻撃力は金。
+   */
+  readonly color: string;
 }
 
 /** 買える回数。**4 本とも同じ** */
@@ -51,10 +57,10 @@ const MAX_LEVEL = 40;
 const COST_UNIT = 50;
 
 export const STATS: Readonly<Record<StatKey, StatDef>> = {
-  hp: { label: "HP", base: 100, step: 50, maxLevel: MAX_LEVEL, digits: 0 },
-  speed: { label: "足の速さ", base: 1, step: 0.025, maxLevel: MAX_LEVEL, digits: 3 },
-  haste: { label: "攻撃速度", base: 1, step: 0.05, maxLevel: MAX_LEVEL, digits: 2 },
-  power: { label: "攻撃力", base: 1, step: 0.1, maxLevel: MAX_LEVEL, digits: 1 },
+  hp: { label: "HP", base: 100, step: 50, maxLevel: MAX_LEVEL, digits: 0, color: "§c" },
+  speed: { label: "足の速さ", base: 1, step: 0.025, maxLevel: MAX_LEVEL, digits: 3, color: "§b" },
+  haste: { label: "攻撃速度", base: 1, step: 0.05, maxLevel: MAX_LEVEL, digits: 2, color: "§a" },
+  power: { label: "攻撃力", base: 1, step: 0.1, maxLevel: MAX_LEVEL, digits: 1, color: "§6" },
 };
 
 function round(value: number, digits: number): number {
@@ -125,4 +131,34 @@ export function toStatKey(name: string): StatKey | undefined {
   if (s === "haste" || s === "攻速" || s === "攻撃速度") return "haste";
   if (s === "power" || s === "攻撃力" || s === "火力") return "power";
   return undefined;
+}
+
+/** 割合を出す。**端数が無ければ整数で**（2.5% は 2.5%、50% は 50%） */
+function pct(v: number): string {
+  const r = Math.round(v * 10) / 10;
+  return Number.isInteger(r) ? String(r) : r.toFixed(1);
+}
+
+/**
+ * 台に浮かべる札の中身（`13-flow.md` 3-4）。
+ *
+ * ```
+ * §6攻撃力 §7+10%          ← 名前は鉱石ブロックの色。右は 1 段の上げ幅
+ * §f0§7/40 §7現在 §f100%   ← いまの段と、いまの倍率（0 段で 100%）
+ * §a§l必要エメラルド 50     ← 足りれば緑、足りなければ赤。上限なら「上限」
+ * ```
+ */
+export function postText(key: StatKey, level: number, emerald: number): string {
+  const def = STATS[key];
+  const price = nextCost(key, level);
+  const step = (def.step / def.base) * 100;
+  const now = ((def.base + def.step * level) / def.base) * 100;
+  const lines = [
+    `${def.color}§l${def.label} §r§7+${pct(step)}%`,
+    `§f${level}§7/${def.maxLevel}  §7現在 §f${pct(now)}%`,
+  ];
+  // **足りるかどうかは、数字の色で出す**（言葉では言わない）
+  lines.push(price === undefined ? "§8§l上限" : `${emerald >= price ? "§a" : "§c"}§l必要エメラルド ${price}`);
+  // **改行で 1 行ずつ**（`DebugText` は改行を段として扱う）
+  return lines.join("\n");
 }

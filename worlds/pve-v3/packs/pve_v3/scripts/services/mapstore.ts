@@ -14,9 +14,10 @@
  * > ワールド保存なら、**追加・削除・書き換えが全部スクリプトからできる。**
  */
 
-import { StructureSaveMode, system, world, type Dimension } from "@minecraft/server";
+import { BlockVolume, StructureSaveMode, system, world, type Dimension } from "@minecraft/server";
 
 import { GRID, idsOf, nameOk, OLD_GRID, parseBook, piecesOf, type MapBook, type MapMeta } from "../core/map-store.js";
+import { FIELD } from "../core/places.js";
 
 /** 覚え書きの置き場 */
 const BOOK = "pve_v3:maps";
@@ -91,7 +92,10 @@ export function save(name: string, label?: string): { ok: boolean; message: stri
   }
   const now = book();
   const was = now[name];
-  writeBook({ ...now, [name]: { label: label ?? was?.label ?? name, on: was?.on ?? false, grid: GRID } });
+  writeBook({
+    ...now,
+    [name]: { label: label ?? was?.label ?? name, on: was?.on ?? false, grid: GRID, bigJump: was?.bigJump ?? false },
+  });
   return { ok: true, message: `${name} を保存した（${ids.length} 枚）` };
 }
 
@@ -111,8 +115,47 @@ export function placing(): boolean {
  * > `system.runJob` は**ジェネレータに毎 tick の時間枠を配ってくれる。**
  * > **`yield` するまで進めて、そこで返す**——刻み幅をこちらで決めなくてよい。
  */
+/**
+ * **置く前に、まるごと消す高さ**（`19-map-store.md` 3 章）。
+ *
+ * > ### 構造物は y −34〜+29 しか持っていない（2026-09-06）
+ * >
+ * > **その下に前のマップの残りがある**と、新しい島の下にぶら下がって見える。
+ *
+ * > ### **水・溶岩は、半端に消すと湧き直す**
+ * >
+ * > 途中まで消すと、**残りが流れ込んで無限水源になる。**
+ * > **範囲を丸ごと空気で埋めてから置く**——半端に消さない。
+ * >
+ * > **上から下へ消す。** 下から消すと、
+ * > **上に残した水が、消したばかりの所へ落ちてくる。**
+ */
+const WIPE_LOW = -64;
+const WIPE_HIGH = 40;
+
+/** 一度に置ける上限（`services/builder.ts` と同じ理由） */
+const MAX_FILL = 32768;
+
+/** 範囲をまるごと空気にする。**上から下へ、厚さを上限に収めて少しずつ** */
+function* wipeAll(d: Dimension): Generator<void, void, void> {
+  const h = FIELD.half;
+  const wide = (h * 2 + 1) * (h * 2 + 1);
+  const step = Math.max(1, Math.floor(MAX_FILL / wide));
+  for (let top = WIPE_HIGH; top >= WIPE_LOW; top -= step) {
+    const y = Math.max(WIPE_LOW, top - step + 1);
+    try {
+      d.fillBlocks(new BlockVolume({ x: -h, y, z: -h }, { x: h, y: top, z: h }), "air");
+    } catch {
+      /* 読み込まれていない */
+    }
+    yield;
+  }
+}
+
 function* placeJob(name: string, then?: () => void): Generator<void, void, void> {
   const d = dim();
+  // **まず範囲をまるごと空気にする**（水を残すと無限水源になる。下も消える）
+  yield* wipeAll(d);
   const grid = gridOf(name);
   const ids = idsOf(name, grid);
   for (const [i, p] of piecesOf(grid).entries()) {
@@ -183,6 +226,24 @@ export function setOn(name: string, on: boolean): { ok: boolean; message: string
   if (meta === undefined) return { ok: false, message: `${name} は倉庫に無い` };
   writeBook({ ...now, [name]: { ...meta, on } });
   return { ok: true, message: `${name} を${on ? "出す" : "出さない"}ようにした` };
+}
+
+/**
+ * **大ジャンプの入切**（`02-map.md` 5-0-4）。
+ *
+ * **足場が離れているマップ**（雲海など）で入れる。
+ */
+export function setBigJump(name: string, on: boolean): { ok: boolean; message: string } {
+  const now = book();
+  const meta = now[name];
+  if (meta === undefined) return { ok: false, message: `${name} は倉庫に無い` };
+  writeBook({ ...now, [name]: { ...meta, bigJump: on } });
+  return { ok: true, message: `${name} の大ジャンプを${on ? "入れた" : "切った"}` };
+}
+
+/** そのマップは大ジャンプか */
+export function bigJumpOf(name: string | undefined): boolean {
+  return name === undefined ? false : (book()[name]?.bigJump ?? false);
 }
 
 /** 表示名を変える */

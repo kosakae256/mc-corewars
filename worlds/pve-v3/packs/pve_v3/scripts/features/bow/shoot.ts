@@ -212,8 +212,10 @@ function land(b: Bullet, target: Entity, distance: number, now: number, at: Vect
   //
   // **音を場所から鳴らすと、遠くの敵に当てたとき聞こえない**（弓は 48 マス届く）。
   try {
+    // **音は `services/feedback.ts` が鳴らす**（2026-09-06）——
+    // **通常ヒットもクリティカルも、同じ金床の音**。
+    // ここで鳴らすと**クリだけ 2 重に鳴る。**
     critFx(b.dim, at);
-    if (shot.crit) b.by.playSound(CRIT_SOUND, { volume: 0.35, pitch: 1.9 });
   } catch {
     /* 消えている */
   }

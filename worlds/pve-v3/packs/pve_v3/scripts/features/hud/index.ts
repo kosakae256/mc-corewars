@@ -15,6 +15,7 @@ import { world } from "@minecraft/server";
 
 import type { Feature } from "../../types.js";
 import { has } from "../../state/hp.js";
+import { phase } from "../../services/match.js";
 import { updateNameplates } from "./nameplate.js";
 import { hideHearts, showOwn } from "./own.js";
 
@@ -36,9 +37,15 @@ export const hud: Feature = {
   tick: {
     every: 1,
     run: (now) => {
+      // > ### **試合の間だけ出す**（2026-09-06）
+      // >
+      // > **アクションバーを毎周期握っている**ので、
+      // > **道具からの知らせが全部上書きされる**（湧き点の杖で踏んだ）。
+      // > **非開始・建築モードでは出さない。**
+      const playing = phase() !== "idle" && phase() !== "build";
       if (now % WRITE === 0) {
         for (const p of world.getAllPlayers()) {
-          if (has(p)) showOwn(p, now);
+          if (playing && has(p)) showOwn(p, now);
         }
         updateNameplates();
       }

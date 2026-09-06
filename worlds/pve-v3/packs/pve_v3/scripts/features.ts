@@ -21,22 +21,28 @@ import { damageSystem } from "./features/damage/index.js";
 import { devTools } from "./features/devtools/index.js";
 import { mob } from "./features/mob/index.js";
 import { hud } from "./features/hud/index.js";
+import { bigJump } from "./features/jump/index.js";
 import { matchFlow } from "./features/match/index.js";
 import { portal } from "./features/portal/index.js";
 import { progress } from "./features/progress/index.js";
 import { rest } from "./features/rest/index.js";
 import { role } from "./features/role/index.js";
 import { shop } from "./features/shop/index.js";
+import { spawnMark } from "./features/spawnmark/index.js";
 
 /** 動かすもの。**並びが tick の順番になる**（`loop.ts`） */
 export const FEATURES: readonly Feature[] = [
   matchFlow,
   // **運営の道具**（`spec/19-map-store.md` 7 章）
   admin,
+  // **湧き点の杖**（`spec/21-spawn-mark.md`）
+  spawnMark,
   // **ロビーの進捗ボード**（`docs/05-progress.md`）
   progress,
   // **暗転**（`services/dark.ts`）。掛け直すだけ
   darkness,
+  // **大ジャンプ**（`02-map.md` 5-0-4）。**跳び始めを取り逃がさないよう毎 tick**
+  bigJump,
   damageSystem,
   growth,
   bow,
