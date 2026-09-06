@@ -97,6 +97,7 @@ function landed(b: Bullet): boolean {
     const at = p.location;
     const d = Math.hypot(at.x - b.at.x, at.y + 1 - b.at.y, at.z - b.at.z);
     if (d > BULLET.radius) continue;
+    // **押すのはこの下**（弾の位置から）。**ここでは向きを渡さない**
     hit({ target: p, attack: b.damage, via: "wyvern:fireball" });
     // **弾いた元は弾の位置。** 竜からではなく、当たった方向へ飛ぶ
     knockFrom(p, b.at, BULLET.knock, 0.45);

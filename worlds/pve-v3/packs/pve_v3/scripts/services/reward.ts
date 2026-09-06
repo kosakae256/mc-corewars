@@ -9,21 +9,33 @@
  * ウェーブ   ＋CLEAR ＋ CLEAR_PER_WAVE × wave（生きている人だけ）
  * ```
  *
- * > ### 値は**仮**（2026-09-04）
+ * > ### とどめとアシストは**ウェーブと個体で決まる**（2026-09-06）
  * >
- * > **★ごとの倍率も、配分も、まだ決まっていない**（`15-growth.md` 6 章）。
- * > **仕組みだけ先に通しておく。**
+ * > **`20 × wave × 倍率` ／ `4 × wave × 倍率`**（`23-enemy-unit.md` 5 章）。
+ * > **ウェーブ突破のぶんは、まだ仮の値。**
  */
 
 import { world, type Entity, type Player } from "@minecraft/server";
 
 import { addEmerald } from "../state/growth.js";
+import { KEYS } from "../state/keys.js";
+import { wave } from "../state/match.js";
 
-/** 倒した人 */
-const KILL = 12;
-
-/** 削った人（倒した人を除く） */
-const ASSIST = 6;
+/**
+ * 倒した人・削った人の取り分（**ウェーブごと**・`23-enemy-unit.md` 5 章）。
+ *
+ * ```
+ * とどめ    20 × wave × その敵のエメラルド倍率
+ * アシスト   4 × wave × その敵のエメラルド倍率
+ * ```
+ *
+ * > ### **★ごとの倍率は置かない**（2026-09-06 決定）
+ * >
+ * > **強い個体はエメラルド倍率が高く、強い個体が多い群れは★が高い。**
+ * > **だから★が高いほど、自然に多く入る。**
+ */
+const KILL_PER_WAVE = 20;
+const ASSIST_PER_WAVE = 4;
 
 /** ウェーブを越えたとき */
 const CLEAR = 40;
@@ -61,13 +73,28 @@ function give(player: Player, amount: number, why: string): void {
 export function awardKill(target: Entity, killer: Player | undefined): void {
   const set = damagers.get(target.id);
   damagers.delete(target.id);
-  if (killer !== undefined) give(killer, KILL, "撃破");
+  // **wave 0（休憩所の前）でも 0 にしない**——1 として数える
+  const w = Math.max(1, wave());
+  const mult = multOf(target);
+  const kill = Math.max(1, Math.round(KILL_PER_WAVE * w * mult));
+  const assist = Math.max(1, Math.round(ASSIST_PER_WAVE * w * mult));
+  if (killer !== undefined) give(killer, kill, "撃破");
   if (set === undefined) return;
   for (const id of set) {
     if (killer !== undefined && id === killer.id) continue;
     const player = world.getAllPlayers().find((p) => p.id === id);
     if (player === undefined) continue;
-    give(player, ASSIST, "アシスト");
+    give(player, assist, "アシスト");
+  }
+}
+
+/** その敵のエメラルド倍率。**湧かせたときに入れてある**（`services/spawn.ts`） */
+function multOf(target: Entity): number {
+  try {
+    const v = target.getDynamicProperty(KEYS.emeraldMult);
+    return typeof v === "number" && v >= 0 ? v : 1;
+  } catch {
+    return 1;
   }
 }
 

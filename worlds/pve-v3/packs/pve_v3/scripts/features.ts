@@ -19,6 +19,7 @@ import { bow } from "./features/bow/index.js";
 import { growth } from "./features/growth/index.js";
 import { damageSystem } from "./features/damage/index.js";
 import { devTools } from "./features/devtools/index.js";
+import { dummy } from "./features/dummy/index.js";
 import { mob } from "./features/mob/index.js";
 import { hud } from "./features/hud/index.js";
 import { bigJump } from "./features/jump/index.js";
@@ -54,5 +55,7 @@ export const FEATURES: readonly Feature[] = [
   battlefield,
   shop,
   devTools,
+  // **訓練用のカカシ**（`spec/23-enemy-unit.md` 1-1）
+  dummy,
   hud,
 ];

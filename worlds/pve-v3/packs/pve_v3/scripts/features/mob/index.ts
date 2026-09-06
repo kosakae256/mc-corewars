@@ -46,7 +46,7 @@ export const ALLY_LABEL = "味方（確認用）";
 export const ALLY_HP = 100;
 
 /** モブの表示名。**名札に出る** */
-export const MOB_LABEL = "グラント";
+export const MOB_LABEL = "ゾンビ";
 
 /** モブの HP */
 export const MOB_HP = 500;
@@ -113,13 +113,21 @@ function tick(now: number): void {
       const def = typeof kind === "string" ? ENEMIES[kind] : undefined;
       const atk = mob.getDynamicProperty(KEYS.atk);
       const power = typeof atk === "number" && atk > 0 ? atk : (def?.attack ?? MOB_ATTACK);
-      const swing = def?.interval ?? SWING;
+      // **その個体に入っている間隔を使う**（攻撃速度で縮んだ後の値。`services/spawn.ts`）
+      const own = mob.getDynamicProperty(KEYS.swing);
+      const swing = typeof own === "number" && own > 0 ? own : (def?.interval ?? SWING);
       const reach = def?.reach ?? REACH;
 
       if (!has(mob)) {
         setup(mob, def?.hp ?? MOB_HP);
         setLabel(mob, def === undefined ? MOB_LABEL : `§c${def.name}`);
       }
+
+      // > ### 殴りは**バニラに任せた**（2026-09-07）
+      // >
+      // > **振る動きと当たる瞬間がずれる**ので、`services/melee.ts` へ移した。
+      // > **ここで見るのは「撃つ」と「自爆」だけ。**
+      if (def === undefined || def.kind === "melee") continue;
 
       const last = swungAt.get(mob.id) ?? 0;
       if (now - last < swing) continue;
@@ -131,7 +139,7 @@ function tick(now: number): void {
         if (range > reach) continue;
         swungAt.set(mob.id, now);
         // **殴りも撃つのも、同じ 1 本道を通る**
-        hit({ target: p, attack: power });
+        hit({ target: p, attack: power, source: mob });
         // **自爆は当てたら消える**
         if (def?.kind === "boom") {
           boom(mob, power);
@@ -155,7 +163,7 @@ function boom(mob: Entity, power: number): void {
       if (!has(p)) continue;
       const d = Math.hypot(p.location.x - at.x, p.location.y - at.y, p.location.z - at.z);
       if (d > 4) continue;
-      if (d > 2) hit({ target: p, attack: Math.round(power * 0.5) });
+      if (d > 2) hit({ target: p, attack: Math.round(power * 0.5), source: mob });
     }
     mob.remove();
   } catch {
@@ -163,9 +171,31 @@ function boom(mob: Entity, power: number): void {
   }
 }
 
+/**
+ * 満腹度を満タンに戻す。
+ *
+ * > ### **常に満タン**（2026-09-07 決定）
+ * >
+ * > **消耗は `entities/player.json` でゼロにした**が、**減った状態からは戻らない。**
+ * > **入り直した人・設定を変える前から居た人**のために、ここで戻す。
+ */
+function fillFood(player: Player): void {
+  try {
+    const hunger = player.getComponent("minecraft:player.hunger");
+    if (hunger !== undefined && hunger.currentValue < hunger.effectiveMax) {
+      hunger.setCurrentValue(hunger.effectiveMax);
+    }
+    const sat = player.getComponent("minecraft:player.saturation");
+    if (sat !== undefined && sat.currentValue < sat.effectiveMax) sat.setCurrentValue(sat.effectiveMax);
+  } catch {
+    /* 消えている */
+  }
+}
+
 /** プレイヤーにも HP を持たせる。**まだ湧かせ方が無いので、ここで面倒を見る。** */
 function tickPlayers(): void {
   for (const p of world.getAllPlayers()) {
+    fillFood(p);
     try {
       // **上限が変わったら付け直す**（値を変えて `/reload` しても効くように）
       const cap = baseHp(p);

@@ -29,6 +29,7 @@ import { blackout, forgetAll as forgetDark } from "./dark.js";
 import { center, FACING, isOutside, PLACES } from "../core/places.js";
 import { stopSpawning } from "./spawn.js";
 import { awardClear, forgetAll } from "./reward.js";
+import { resetCurse } from "./curse.js";
 import { alive, members, unfreezeAll } from "./presence.js";
 
 /** いまの状態 */
@@ -116,6 +117,8 @@ function entry(to: WorldPhase, from: WorldPhase, now: number): void {
         setDead(p, false);
       }
       match.setWave(0);
+      // **呪いは試合ごとに落とす**（`16-enemy.md` 4 章）
+      resetCurse();
       announce("§7試合の準備をしている…");
       break;
 

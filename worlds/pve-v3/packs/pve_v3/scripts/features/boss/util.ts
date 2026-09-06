@@ -243,7 +243,7 @@ export function splash(boss: Entity, radius: number, damage: number, knock: numb
   for (const p of victims(boss, radius + 2)) {
     const d = distTo(boss, p);
     if (d > radius) continue;
-    hit({ target: p, attack: damage, via });
+    hit({ target: p, attack: damage, via, source: boss });
     if (knock <= 0) continue;
     try {
       const dx = p.location.x - at.x;

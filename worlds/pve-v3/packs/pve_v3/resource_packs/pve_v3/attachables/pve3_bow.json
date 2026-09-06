@@ -20,6 +20,8 @@
         "run": "animation.pve3_bow.run"
       },
       "scripts": {
+        "should_update_bones_and_effects_offscreen": true,
+        "should_update_effects_offscreen": true,
         "animate": [
           "wield",
           "sway",

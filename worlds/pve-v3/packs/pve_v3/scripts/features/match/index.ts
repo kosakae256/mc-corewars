@@ -46,6 +46,7 @@ import { interFrom } from "../../state/match.js";
 import { tick as fallTick } from "../../services/fall.js";
 import { alive, members, reconcile } from "../../services/presence.js";
 import { commands } from "./command.js";
+import { rollCurse } from "../../services/curse.js";
 import { everyoneTouchedRestGate, resetTouched, someoneAtPortal } from "./gate.js";
 
 /**
@@ -186,7 +187,7 @@ function tick(now: number): void {
       // **着いてから 10 秒は湧かない**（`13-flow.md` 2-2）
       if (!isQueued() && age >= SPAWN_DELAY) {
         setQueued(true);
-        readyEnemies(legionAt(wave()), members().length, wave(), 1);
+        readyEnemies(legionAt(wave()), members().length, wave());
         break;
       }
       if (!isQueued() || spawning() || enemyCount() > 0) {
@@ -199,6 +200,10 @@ function tick(now: number): void {
         // **ゲートを「次の行き先」の色にする**（`20-portal.md` 0-2）
         openGate(nextTarget());
         clearedCue();
+        // **倒し切ったら呪いを引く**（`16-enemy.md` 4 章）。**引いたものは全員に見せる**
+        //
+        // **殲滅の知らせより後に出す**——先に出すと、何の話か分からない
+        rollCurse(wave());
       }
       // **敵 0 のうえで、誰かがポータルに着いたら全員が次へ**
       if (!someoneAtPortal()) break;

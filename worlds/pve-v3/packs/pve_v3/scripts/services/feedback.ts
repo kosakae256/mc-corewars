@@ -6,43 +6,25 @@
  * ## バニラの点滅は借りない
  *
  * `applyDamage` でバニラに赤くさせる手は使わない——**無敵時間に飲まれる。**
- * 10 tick 以内の 2 発目は何も起きず、
- * **「1 tick に 3 発ぜんぶ入る」（`docs/spec/11-damage.md` 1-1）と噛み合わない。**
- *
- * > 前のワールドで同じ穴に落ちた。
- * > **「+50% が乗らない」の原因が、無敵時間に飲まれた `applyDamage` だった。**
- *
  * **実体の property を script が立てて、script が下ろす。**
  *
- * ## 揺れているのは `camerashake` ではない（2026-09-06）
+ * ## 揺れと赤み（2026-09-06）
  *
- * **`camerashake` は「成功」を返すのに、何も起きなかった。**
+ * **`camerashake` は「成功」を返すのに何も起きなかった。**
  * **バニラの被弾の揺れを借りている**（`tilt`）。
- *
- * ## 画面を赤くするのは諦めた（2026-09-06）
- *
- * | 試したもの | 駄目だった理由 |
- * | --- | --- |
- * | 自前の霧（`fog push`） | **コマンドは通るのに、何も見えない** |
- * | `camera.fade` | **一度必ず塗り潰す。** 合計 0.5 秒より短くできない |
- * | バニラの被弾表示 | **Bedrock にそんな表示は無かった**（Java の話だった） |
- * | 自前の板を HUD に重ねる | **HUD が壊れた。** 赤い枠が出っぱなしになった |
- *
- * **残したのは揺れだけ。**
- */
+ * **画面を赤くするのは諦めた**——理由は `22-feedback.md` 2-1。 */
 
 import { EntityDamageCause, Player, system, world, type Entity } from "@minecraft/server";
 
-import { run } from "./cmd.js";
+import { damageFlash, run } from "./cmd.js";
 
 /**
  * 「いま赤い」を持つ property（`entities/grunt.json`）。
  *
- * > ### 赤い点滅はやめた（2026-08-31 決定）
+ * > ### 描画側は見ていない（2026-08-31 決定）
  * >
- * > **当てるたびに全身が赤くなるとうるさい**——弓は毎秒 2 発当たる。
+ * > **property は立て続ける**が、赤い点滅そのものは出していない。
  * > 当たったことは**火花と数字**で分かる。
- * > **property は立て続ける**（描画側が見ていないだけ。戻すのは 1 行）。
  */
 const HURT = "pve_v3:hurt";
 
@@ -129,10 +111,16 @@ function setHurt(entity: Entity, on: boolean): void {
   }
 }
 
-/** 赤くする */
+/**
+ * 赤くする。**property ＋ バニラの被弾演出**（2026-09-07 追加）。
+ *
+ * **0 ダメージの `/damage`**——**光るだけで、体力は動かない。**
+ */
 function flash(entity: Entity, now: number): void {
   setHurt(entity, true);
   flashing.set(entity.id, now + FLASH);
+  // **プレイヤーは別の出し方**（`tilt`。画面が揺れる）
+  if (!(entity instanceof Player)) damageFlash(entity);
 }
 
 /**
@@ -221,12 +209,19 @@ function burst(player: Player): void {
 }
 
 /**
- * 押す。**プレイヤーが受けたときだけ**（`22-feedback.md` 4 章）。
+ * 押す。**既定はプレイヤーだけ**（2026-09-07 に戻した）。
  *
- * モブを押すと、**多段ヒットの武器が当てるたびに遠ざける。**
+ * > ### **敵は押されないのが普通**
+ * >
+ * > **押すと、多段ヒットの武器が当てるたびに遠ざける。**
+ * > **押したい攻撃だけが、そう言う**（`hit()` の `knock`）。
+ *
+ * **軽減はこれから**——エンチャントで弱める作りを足す予定。
  */
-function knock(target: Entity, from: Entity | undefined): void {
-  if (!(target instanceof Player) || from === undefined) return;
+function knock(target: Entity, from: Entity | undefined, alsoMobs: boolean): void {
+  if (from === undefined) return;
+  // **モブは、押すと言われたときだけ押す**
+  if (!(target instanceof Player) && !alsoMobs) return;
   try {
     const a = target.location;
     const b = from.location;
@@ -247,7 +242,13 @@ function knock(target: Entity, from: Entity | undefined): void {
  * @param withSound **通常攻撃のときだけ鳴らす**（2026-08-31 決定）。
  *   延焼のような**毎秒刻むもので鳴らすと、音が鳴りっぱなし**になる
  */
-export function feedback(target: Entity, from: Entity | undefined, now: number, withSound = true): void {
+export function feedback(
+  target: Entity,
+  from: Entity | undefined,
+  now: number,
+  withSound = true,
+  knockMobs = false
+): void {
   try {
     flash(target, now);
 
@@ -266,7 +267,7 @@ export function feedback(target: Entity, from: Entity | undefined, now: number, 
     }
     // **音量は控えめに**（2026-08-31）——毎発鳴るので、大きいと耳に刺さる
     if (withSound) sound(from, SOUND, SOUND_VOLUME, SOUND_PITCH);
-    knock(target, from);
+    knock(target, from, knockMobs);
   } catch {
     /* もう居ない */
   }

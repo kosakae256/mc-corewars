@@ -20,7 +20,10 @@
 
 import { CommandPermissionLevel, world, type Entity, type Vector3 } from "@minecraft/server";
 
-import { attackOf, hpOf, LEGIONS, planOf, type EnemyDef } from "../core/enemy.js";
+import { emeraldOf, ENEMIES, hasteTier, LEGIONS, planOf, statsOf, type EnemyDef } from "../core/enemy.js";
+import { multsOf } from "../core/curse.js";
+import { curseCount } from "../state/curse.js";
+import { wave } from "../state/match.js";
 import { FIELD, PLACES } from "../core/places.js";
 import { setup, setMax } from "../state/hp.js";
 import { setLabel } from "../state/label.js";
@@ -40,6 +43,14 @@ interface Pending {
   readonly def: EnemyDef;
   readonly hp: number;
   readonly attack: number;
+  /** バニラの移動速度（`minecraft:movement` に入れる） */
+  readonly move: number;
+  /** 殴る間隔（tick） */
+  readonly swing: number;
+  /** エメラルド倍率 */
+  readonly emerald: number;
+  /** 攻撃速度の段（**100 倍**） */
+  readonly haste: number;
 }
 
 let queue: Pending[] = [];
@@ -59,17 +70,29 @@ export function stopSpawning(): void {
  *
  * @returns 出す予定の数
  */
-export function queueLegion(legionId: string, players: number, wave: number, curse: number): number {
+export function queueLegion(legionId: string, players: number, wave: number): number {
   const legion = LEGIONS[legionId];
   if (legion === undefined) return 0;
   const plan = planOf(legion, Math.max(1, players), wave);
+  // **呪いは種類ごとに別の倍率**（`16-enemy.md` 4 章）
+  const curse = multsOf(curseCount());
   const next: Pending[] = [];
   for (const pick of plan.picks) {
     for (let i = 0; i < pick.count; i++) {
+      const def = pick.enemy;
+      const v = statsOf(def, { wave, players: Math.max(1, players), pack: plan.pack, curse });
       next.push({
-        def: pick.enemy,
-        hp: hpOf(pick.enemy, wave, curse, plan.pack),
-        attack: attackOf(pick.enemy, players, curse),
+        def,
+        hp: v.hp,
+        attack: v.attack,
+        move: v.move,
+        swing: v.swing,
+        // > ### **丸め係数はエメラルドにも掛ける**（2026-09-07）
+        // >
+        // > **上限で数を削ったぶん、1 体あたりの取り分を増やす。**
+        // > **削らなければ 1.0**——**もらえる総量を、数で変えない。**
+        emerald: emeraldOf(def) * plan.pack,
+        haste: hasteTier(def.interval / v.swing),
       });
     }
   }
@@ -117,6 +140,26 @@ function spawnOne(p: Pending, at: Vector3): Entity | undefined {
     // **攻撃力はその個体に持たせる**（`services/attack.ts` が読む）
     e.setDynamicProperty(KEYS.atk, p.attack);
     e.setDynamicProperty(KEYS.kind, p.def.id);
+    e.setDynamicProperty(KEYS.swing, p.swing);
+    e.setDynamicProperty(KEYS.emeraldMult, p.emerald);
+    // > ### 速さは**その個体に入れる**
+    // >
+    // > **`minecraft:movement` はビヘイビアに書いた値が既定**だが、
+    // > **呪いと人数で変わる**ので、湧いた瞬間に入れ替える。
+    try {
+      e.getComponent("minecraft:movement")?.setCurrentValue(p.move);
+    } catch {
+      /* その部品を持たない実体 */
+    }
+    // > ### 攻撃速度は**部品の差し替え**（`23-enemy-unit.md` 3-3）
+    // >
+    // > **`cooldown_time` は実行中に書き換えられない。**
+    // > **振る速さと当たる速さを揃える**には、こうするしかない。
+    try {
+      e.triggerEvent(`pve_v3:set_haste_${p.haste}`);
+    } catch {
+      /* その段を持たない実体。**既定のまま** */
+    }
     return e;
   } catch {
     return undefined;
@@ -173,4 +216,32 @@ function tellSpawnProblem(text: string): void {
 /** 湧く所の中心（確かめ用） */
 export function spawnCenter(): { x: number; y: number; z: number } {
   return { x: PLACES.field.x, y: FIELD.groundY + 1, z: Math.round(FIELD.portalZ * 0.55) };
+}
+
+/**
+ * **1 体を、その場に呼ぶ**（運営メニューの確認用・`19-map-store.md` 7-1）。
+ *
+ * **湧き点も待ち行列も通さない。** **値の付け方だけ、湧かせるときと同じ。**
+ *
+ * @param withWave **いまのウェーブと呪いを乗せるか。** 外すと固有値そのまま
+ */
+export function summon(id: string, at: Vector3, withWave: boolean): Entity | undefined {
+  const def = ENEMIES[id];
+  if (def === undefined) return undefined;
+  const players = Math.max(1, world.getAllPlayers().length);
+  const v = withWave
+    ? statsOf(def, { wave: Math.max(1, wave()), players, pack: 1, curse: multsOf(curseCount()) })
+    : statsOf(def, { wave: 1, players: 1, pack: 1, curse: { hp: 1, power: 1, speed: 1, haste: 1 } });
+  return spawnOne(
+    {
+      def,
+      hp: v.hp,
+      attack: v.attack,
+      move: v.move,
+      swing: v.swing,
+      emerald: emeraldOf(def),
+      haste: hasteTier((def.interval || 1) / v.swing),
+    },
+    at
+  );
 }

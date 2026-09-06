@@ -46,7 +46,7 @@ import {
 function applyHit(boss: Entity, def: ActDef): void {
   for (const p of victims(boss, def.reach + 2)) {
     if (!inRange(def, distTo(boss, p), angleTo(boss, p))) continue;
-    hit({ target: p, attack: def.damage, via: `wyvern:${def.id}` });
+    hit({ target: p, attack: def.damage, via: `wyvern:${def.id}`, source: boss });
     knockFrom(p, boss.location, def.knock);
   }
 }
@@ -183,7 +183,7 @@ function stepRush(boss: Entity, brain: Brain, def: ActDef, now: number): void {
     if (rush.done.has(p.id)) continue;
     if (distTo(boss, p) > def.rush.touchReach) continue;
     rush.done.add(p.id);
-    hit({ target: p, attack: def.rush.touch, via: `wyvern:${def.id}` });
+    hit({ target: p, attack: def.rush.touch, via: `wyvern:${def.id}`, source: boss });
     // **触れた人だけを弾く。** 周りごと弾くと、当たっていない人まで飛ぶ
     knockFrom(p, boss.location, def.rush.knock, 0.5);
   }

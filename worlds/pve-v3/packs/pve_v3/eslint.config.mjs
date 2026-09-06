@@ -78,7 +78,7 @@ export default [
 
   // ---- feature どうしは import しない（`docs/imp.md` 10-4）
   forbid(
-    ["scripts/features/**/*.ts", "scripts/events/**/*.ts"],
+    ["scripts/features/**/*.ts"],
     [
       {
         // `../<よその機能>/…`。**`../../` で上へ抜けるものは対象外**（services・state・core）
@@ -88,7 +88,31 @@ export default [
     ]
   ),
 
+  // ---- events も feature を呼ばない
+  //
+  // > ### 深さが 1 段違う（2026-09-07 に分けた）
+  // >
+  // > **`scripts/events/*.ts` から services は `../services/`**——正しい呼び方。
+  // > 上の正規表現はそれも塞いでいたので、**events は「features を呼ばない」だけにする。**
+  forbid(
+    ["scripts/events/**/*.ts"],
+    [
+      {
+        regex: "^\\.\\./features/",
+        message: "events から feature は呼ばない。共有したい振る舞いは services へ（docs/imp.md 10-4）",
+      },
+    ]
+  ),
+
   // ---- 例外は、理由を書いてここに置く
+  {
+    // **0 ダメージの被弾演出**（`22-feedback.md` 7 章）。
+    // **`applyDamage(0)` では何も起きない**——コマンドでないと光らない
+    files: ["scripts/services/cmd.ts"],
+    // **切る側にも plugin の宣言が要る**（flat config は entry ごとに解決する）
+    plugins: { "minecraft-linting": minecraftLinting },
+    rules: { "minecraft-linting/avoid-unnecessary-command": "off" },
+  },
   {
     // **輪そのもの**
     files: ["scripts/loop.ts"],

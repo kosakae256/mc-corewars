@@ -5,7 +5,7 @@
  * **1 ファイル 300 行の決まり**（`11-code-rules.md`）。
  */
 
-import type { Player } from "@minecraft/server";
+import { system, type Entity, type Player } from "@minecraft/server";
 
 /**
  * その人にコマンドを流す。
@@ -35,4 +35,34 @@ export function run(player: Player, cmd: string): string | undefined {
     console.warn(`[feedback] ${why}`);
     return why;
   }
+}
+
+/**
+ * **バニラの被弾演出を出す**（`22-feedback.md` 7 章）。
+ *
+ * ```
+ * /damage @s 0 self_destruct
+ * ```
+ *
+ * > ### 0 ダメージで「当たった」だけを見せる
+ * >
+ * > **HP はこちらが持っている**（`state/hp.ts`）。**バニラの体力は触らせない。**
+ * > **`self_destruct` は `events/hurt.ts` が打ち消さない原因**——
+ * > だから**演出だけが通る。**
+ *
+ * > ### `applyDamage` では代わりにならない
+ * >
+ * > **0 を渡しても何も起きない。** **コマンドでないと演出が出ない**ので、
+ * > `avoid-unnecessary-command` はここだけ切る。
+ *
+ * **読み取り専用の文脈から呼ばれることがある**ので、次の tick に回す。
+ */
+export function damageFlash(entity: Entity): void {
+  system.run(() => {
+    try {
+      entity.runCommand("damage @s 0 self_destruct");
+    } catch {
+      /* 消えている・コマンドが通らない */
+    }
+  });
 }

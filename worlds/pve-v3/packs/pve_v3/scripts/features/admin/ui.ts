@@ -4,7 +4,9 @@
  * ```
  * 運営メニュー
  *  ├ 建築モード（入る / 出る）
- *  └ マップ一覧 ─ 選ぶ ─ 置く / 出す・出さない / 消す
+ *  ├ マップ一覧 ─ 選ぶ ─ 置く / 出す・出さない / 消す
+ *  ├ 試合の手当て（敵を消す / ウェーブを終わらせる）
+ *  └ 敵を呼ぶ（確認用）
  * ```
  *
  * 仕様は `worlds/pve-v3/docs/spec/19-map-store.md` 7 章。
@@ -16,6 +18,7 @@ import { ActionFormData, MessageFormData, ModalFormData } from "@minecraft/serve
 import { list, place, remove, save, setBigJump, setLabel, setOn } from "../../services/mapstore.js";
 import { phase, toPhase, wave } from "../../services/match.js";
 import { endWave, killEnemies } from "../../services/force.js";
+import { openSummon } from "./summon.js";
 
 function say(player: Player, r: { ok: boolean; message: string }): void {
   player.sendMessage(r.ok ? `§7${r.message}` : `§c${r.message}`);
@@ -144,7 +147,8 @@ export async function openAdmin(player: Player): Promise<void> {
     .body(`§7いまの状態 §f${building ? "建築中" : phase()}`)
     .button(building ? "建築モードを出る" : "建築モードに入る")
     .button("マップ倉庫")
-    .button("試合の手当て\n§8敵を消す／ウェーブを終わらせる");
+    .button("試合の手当て\n§8敵を消す／ウェーブを終わらせる")
+    .button("敵を呼ぶ\n§8見ている所に出す（確認用）");
   const res = await form.show(player);
   if (res.canceled === true || res.selection === undefined) return;
 
@@ -158,5 +162,9 @@ export async function openAdmin(player: Player): Promise<void> {
     await openMaps(player);
     return;
   }
-  await openForce(player);
+  if (res.selection === 2) {
+    await openForce(player);
+    return;
+  }
+  await openSummon(player);
 }

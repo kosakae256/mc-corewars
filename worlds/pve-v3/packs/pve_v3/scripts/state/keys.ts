@@ -30,6 +30,10 @@ export const KEYS = {
   atk: `${PREFIX}atk`,
   /** **その敵の種類**（`core/enemy.ts` の id） */
   kind: `${PREFIX}kind`,
+  /** **その敵 1 体の殴る間隔**（tick）。**攻撃速度で縮んだ後の値** */
+  swing: `${PREFIX}swing`,
+  /** **その敵 1 体のエメラルド倍率**（`services/reward.ts` が読む） */
+  emeraldMult: `${PREFIX}emerald_mult`,
   /** 実体の表示名（`state/label.ts`） */
   label: `${PREFIX}label`,
   /** **強化を買った回数**（`state/growth.ts`）。HP */
@@ -46,6 +50,8 @@ export const KEYS = {
   // ---- 試合。**ワールドに持つ**（`state/match.ts`）
   /** いまの状態（`core/state.ts` の `WorldPhase`） */
   phase: `${PREFIX}phase`,
+  /** **呪いの積み上がり**（`state/curse.ts`）。`hp,power,speed,haste` */
+  curse: `${PREFIX}curse`,
   /** その状態に入った時刻（tick）。**砂時計** */
   phaseAt: `${PREFIX}phase_at`,
   /** いま何戦目か */

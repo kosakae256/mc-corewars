@@ -22,6 +22,8 @@ import { spawnPosts } from "./post.js";
 import { VENDOR } from "./vendor.js";
 import { legion, legionFor, setFieldMap } from "../state/match.js";
 import { queueLegion } from "./spawn.js";
+import { multsOf } from "../core/curse.js";
+import { curseCount } from "../state/curse.js";
 
 /**
  * 運営にだけ見せる。
@@ -177,9 +179,13 @@ export function forgetPrepared(): void {
 }
 
 /** そのウェーブの敵を積む */
-export function readyEnemies(legionId: string, players: number, wave: number, curse: number): number {
-  const n = queueLegion(legionId, players, wave, curse);
+export function readyEnemies(legionId: string, players: number, wave: number): number {
+  const n = queueLegion(legionId, players, wave);
   const label = LEGIONS[legionId]?.name ?? legionId;
-  tellAdmin(`§f${label}§7 を ${n} 体 積んだ（wave ${wave} ／ ${players} 人 ／ 呪い ×${curse.toFixed(2)}）`);
+  const c = multsOf(curseCount());
+  tellAdmin(
+    `§f${label}§7 を ${n} 体 積んだ（wave ${wave} ／ ${players} 人 ／ ` +
+      `呪い HP ×${c.hp.toFixed(2)} 力 ×${c.power.toFixed(2)} 速 ×${c.speed.toFixed(2)} 攻速 ×${c.haste.toFixed(2)}）`
+  );
   return n;
 }

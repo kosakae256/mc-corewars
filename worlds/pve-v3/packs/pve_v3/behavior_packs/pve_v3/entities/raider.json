@@ -26,7 +26,6 @@
       "minecraft:type_family": {
         "family": [
           "pve_mob",
-          "monster",
           "mob"
         ]
       },
@@ -40,8 +39,9 @@
       },
       "minecraft:movement.basic": {},
       "minecraft:navigation.walk": {
-        "can_path_over_water": true,
-        "avoid_water": true
+        "is_amphibious": true,
+        "can_pass_doors": true,
+        "can_walk": true
       },
       "minecraft:jump.static": {},
       "minecraft:can_climb": {},
@@ -100,7 +100,9 @@
       "minecraft:nameable": {
         "always_show": true,
         "allow_name_tag_renaming": false
-      }
+      },
+      "minecraft:pushable_by_entity": {},
+      "minecraft:pushable_by_block": {}
     }
   }
 }

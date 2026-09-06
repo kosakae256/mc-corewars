@@ -80,7 +80,6 @@
         "family": [
           "pve_mob",
           "pve_boss",
-          "monster",
           "mob"
         ]
       },
@@ -141,9 +140,9 @@
       },
       "minecraft:movement.basic": {},
       "minecraft:navigation.walk": {
-        "can_path_over_water": true,
-        "avoid_water": true,
-        "avoid_damage_blocks": true
+        "is_amphibious": true,
+        "can_pass_doors": true,
+        "can_walk": true
       },
       "minecraft:movement": {
         "value": 0.32
@@ -155,7 +154,9 @@
         "base_value": 2.0625,
         "controlled_value": 2.0625,
         "jump_prevented_value": 0.5625
-      }
+      },
+      "minecraft:pushable_by_entity": {},
+      "minecraft:pushable_by_block": {}
     },
     "events": {
       "pve_v3:takeoff": {

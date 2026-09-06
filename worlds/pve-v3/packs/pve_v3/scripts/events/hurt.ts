@@ -14,7 +14,9 @@
  * `/kill` が効かなくなると、**運営がモブを消せなくなる。**
  */
 
-import { EntityDamageCause, world, type EntityHurtAfterEvent } from "@minecraft/server";
+import { EntityDamageCause, Player, system, world, type EntityHurtAfterEvent } from "@minecraft/server";
+
+import { enemyMelee } from "../services/melee.js";
 
 /**
  * **通す原因。** ここに無いものは全部打ち消す。
@@ -60,6 +62,22 @@ function refill(ev: EntityHurtAfterEvent): void {
 export function subscribeHurt(): void {
   world.beforeEvents.entityHurt.subscribe((ev) => {
     const cause = ev.damageSource.cause;
+
+    // ---- **敵がこちらを殴った瞬間**（`23-enemy-unit.md` 3-3）
+    //
+    // > ### バニラの当たりに乗せる
+    // >
+    // > **ここまで来ているということは、バニラが「当たった」と認めている。**
+    // > **クリエイティブ・スペクテイター・無敵時間は、そもそもここへ来ない。**
+    // >
+    // > **打ち消すのは下の規則。削るのはこちらの HP。**
+    if (cause === EntityDamageCause.entityAttack && ev.hurtEntity instanceof Player) {
+      const mob = ev.damageSource.damagingEntity;
+      const target = ev.hurtEntity;
+      // **before の中では実体を触れない**ので、次の tick に回す
+      system.run(() => enemyMelee(target, mob));
+    }
+
     for (const rule of RULES) {
       if (ev.cancel) return;
       if (rule.deny(cause)) ev.cancel = true;

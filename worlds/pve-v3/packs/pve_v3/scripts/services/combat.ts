@@ -36,6 +36,23 @@ const KILL = "pve_v3:kill_burst";
 export interface HitOptions {
   /** 撃った人。**居ないこともある**（モブの殴りなど） */
   readonly by?: Player;
+  /**
+   * **殴ってきた実体。**
+   *
+   * > ### ノックバックの向きを出すためだけのもの（2026-09-06 追加）
+   * >
+   * > **`by` はプレイヤーしか入らない**（報酬を配る相手）。
+   * > **モブがプレイヤーを殴ったとき**は、こちらにそのモブを入れる。
+   */
+  readonly source?: Entity;
+  /**
+   * **モブも押すか。** **既定は押さない**（2026-09-07 決定）。
+   *
+   * > ### 敵は押されないのが普通
+   * >
+   * > **押したい攻撃だけが、そう言う。**
+   */
+  readonly knock?: boolean;
   readonly target: Entity;
   /** **最終攻撃力**（`services/attack.ts` で組み立て終えた値） */
   readonly attack: number;
@@ -125,7 +142,7 @@ export function hit(o: HitOptions): void {
   //
   // **音は通常攻撃だけ**——特殊攻撃でも鳴らすと、
   // **毎秒・毎発ぶんの音が本人の耳元で重なる。**
-  feedback(target, o.by, now, kind === "base");
+  feedback(target, o.by ?? o.source, now, kind === "base", o.knock === true);
 
   // ---- **大ダメージの演出**（画面が揺れて、周りが赤くなる）
   //

@@ -23,7 +23,7 @@
  * **残したのは「飛ぶ・当たる・壁で止まる・軌跡を出す」だけ。**
  */
 
-import { Player, type Dimension, type Entity, type Vector3 } from "@minecraft/server";
+import { Player, type Dimension, type Entity, type Vector3, LiquidType } from "@minecraft/server";
 
 import { distanceAlong, norm, pointAt, type HitShape } from "../../core/geometry.js";
 import { BOW_HIT, buildShot } from "../../services/attack.js";
@@ -91,10 +91,14 @@ function wallWithin(dim: Dimension, from: Vector3, dir: Vector3, length: number)
   try {
     // **少し先まで見て、面までの距離で切る。**
     //
-    // > `maxDistance` は**ブロック単位で切られる**ので、
-    // > **面はこの区間の中なのに、見つからない壁**がある。
-    // > 見落とすと弾はそのまま進み、**壁に埋まって次の tick で消える。**
-    const shot = dim.getBlockFromRay(from, dir, { maxDistance: length + 2 });
+    // > `maxDistance` は**ブロック単位で切られる**ので、**見つからない壁**がある。
+    // **通り抜けられるブロックは見ない**（はしご・松明・草）——
+    // **見てしまうと、そこで弾が消える**（2026-09-07）
+    const shot = dim.getBlockFromRay(from, dir, {
+      maxDistance: length + 2,
+      includePassableBlocks: false,
+      includeLiquidBlocks: false,
+    });
     if (shot === undefined) return undefined;
     // **当たった面の点**まで測る。中心までだと**半マスぶん行き過ぎる**
     const b = shot.block.location;
@@ -106,11 +110,18 @@ function wallWithin(dim: Dimension, from: Vector3, dir: Vector3, length: number)
   }
 }
 
+/**
+ * そこは**弾を止める壁**か。**空気でないだけでは壁ではない**（2026-09-07）。
+ *
+ * **はしご・松明・草**で弾が消え、**その中の敵を撃てなかった。**
+ * **「水で流されるものは、弾も通る」**——`isSolid` が無いので、これで代える。
+ */
 function insideWall(dim: Dimension, at: Vector3): boolean {
   try {
     const block = dim.getBlock(at);
     if (block === undefined) return false;
-    return !block.isAir && !block.isLiquid;
+    if (block.isAir || block.isLiquid) return false;
+    return !block.canBeDestroyedByLiquidSpread(LiquidType.Water);
   } catch {
     // 読み込まれていない所は「壁ではない」——消してしまうより飛ばす
     return false;
