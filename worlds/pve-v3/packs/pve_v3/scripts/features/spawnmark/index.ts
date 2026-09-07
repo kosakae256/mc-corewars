@@ -18,7 +18,7 @@
 import { Player, system, world, type Vector3 } from "@minecraft/server";
 
 import type { Feature } from "../../types.js";
-import { addBox, clearMarks, count, showMarks, toggle } from "../../services/spawnmark.js";
+import { addBox, clearMarks, count, removeBox, showMarks, toggle } from "../../services/spawnmark.js";
 import { editing, setEditing } from "../../state/spawnmark.js";
 import { currentMap } from "../../services/stage.js";
 import { originXOf } from "../../services/mapstore.js";
@@ -29,6 +29,14 @@ import { openWand } from "./ui.js";
 
 /** 杖 */
 export const WAND = "pve_v3:spawnwand";
+
+/** **消し杖**（`21-spawn-mark.md` 1-3）。**持ち方は同じ。向きだけ違う** */
+export const ERASER = "pve_v3:erasewand";
+
+/** その持ち物は、点を触る棒か */
+function isWand(id: string | undefined): boolean {
+  return id === WAND || id === ERASER;
+}
 
 /** 1 点目。**人ごとに覚える** */
 const first = new Map<string, Vector3>();
@@ -96,6 +104,32 @@ function looking(player: Player): Vector3 | undefined {
   }
 }
 
+/**
+ * 範囲の中の点を、全部外す（`21-spawn-mark.md` 1-3）。
+ *
+ * **地形は見ない**——**覚えている点だけを落とす**ので、待たされない。
+ */
+function erase(player: Player, map: string, a: Vector3, b: Vector3): void {
+  const r = removeBox(map, a, b);
+  player.playSound(r.removed > 0 ? "random.click" : "note.bass", { volume: 0.4, pitch: 0.8 });
+  player.sendMessage(
+    r.removed > 0
+      ? `§c${map} から §f${r.removed}§c 点を外した §8（いま ${r.left} 点）`
+      : `§7その範囲に点は無かった §8（いま ${r.left} 点）`
+  );
+}
+
+/** 1 マスだけ外す */
+function eraseOne(player: Player, map: string, at: Vector3): void {
+  const r = removeBox(map, at, at);
+  player.playSound(r.removed > 0 ? "random.click" : "note.bass", { volume: 0.4, pitch: 0.8 });
+  player.sendMessage(
+    r.removed > 0
+      ? `§c外した §f${at.x}, ${at.y}, ${at.z} §8（いま ${r.left} 点）`
+      : `§7そこに点は無い §8（いま ${r.left} 点）`
+  );
+}
+
 /** 1 マスだけ足す／外す */
 function single(player: Player, map: string, at: Vector3): void {
   const r = toggle(map, at);
@@ -113,7 +147,7 @@ function single(player: Player, map: string, at: Vector3): void {
 function subscribe(): void {
   // ---- 殴る＝1 点目。**壊させない**
   world.beforeEvents.playerBreakBlock.subscribe((ev) => {
-    if (ev.itemStack?.typeId !== WAND) return;
+    if (!isWand(ev.itemStack?.typeId)) return;
     // **運営だけが使える**（`21-spawn-mark.md` 1 章）。**壊させはしない**
     ev.cancel = true;
     if (!isAdmin(ev.player)) return;
@@ -133,7 +167,9 @@ function subscribe(): void {
   // > **素のブロックを普通のアイテムで右クリックしても飛んでこない。**
   // > **`itemUse` は必ず飛んでくる**ので、**視線の先を自分で見る。**
   world.afterEvents.itemUse.subscribe((ev) => {
-    if (ev.itemStack.typeId !== WAND) return;
+    if (!isWand(ev.itemStack.typeId)) return;
+    // **どちらの棒か**——外す側なら、同じ操作が「外す」になる
+    const erasing = ev.itemStack.typeId === ERASER;
     const player = ev.source;
     if (!isAdmin(player)) {
       player.sendMessage("§cこの杖は運営だけが使える");
@@ -149,7 +185,8 @@ function subscribe(): void {
       const map = target(player);
       if (map === undefined) return;
       if (player.isSneaking) {
-        single(player, map, at);
+        if (erasing) eraseOne(player, map, at);
+        else single(player, map, at);
         return;
       }
       const a = first.get(player.id);
@@ -158,7 +195,8 @@ function subscribe(): void {
         return;
       }
       first.delete(player.id);
-      commit(player, map, a, at);
+      if (erasing) erase(player, map, a, at);
+      else commit(player, map, a, at);
     });
   });
 }

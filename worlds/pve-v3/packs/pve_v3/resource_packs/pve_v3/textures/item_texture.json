@@ -10,6 +10,9 @@
     },
     "pve3_spawnwand": {
       "textures": "textures/items/blaze_rod"
+    },
+    "pve3_erasewand": {
+      "textures": "textures/items/bone"
     }
   }
 }

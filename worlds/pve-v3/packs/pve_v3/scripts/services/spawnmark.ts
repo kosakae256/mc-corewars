@@ -170,6 +170,32 @@ export function toggle(map: string, at: Vector3): "added" | "removed" | "refused
 }
 
 /**
+ * **範囲の中の点を、全部外す**（`21-spawn-mark.md` 1-3・2026-09-07 追加）。
+ *
+ * > ### 地形を見ない
+ * >
+ * > 足すときは**ブロックを 1 マスずつ見る**（重いので `runJob`）。
+ * > **消すときは、覚えている点のうち箱に入るものを落とすだけ**——**一瞬で終わる。**
+ *
+ * @returns 外した数と、残った数
+ */
+export function removeBox(map: string, a: Vector3, b: Vector3): { removed: number; left: number } {
+  // **世界の座標 → そのマップの相対**（`19-map-store.md` 0-2）
+  const ox = originXOf(map);
+  const x1 = Math.min(a.x, b.x) - ox;
+  const x2 = Math.max(a.x, b.x) - ox;
+  const y1 = Math.min(a.y, b.y);
+  const y2 = Math.max(a.y, b.y);
+  const z1 = Math.min(a.z, b.z);
+  const z2 = Math.max(a.z, b.z);
+  const have = marksOf(map);
+  const keep = have.filter((m) => m.x < x1 || m.x > x2 || m.y < y1 || m.y > y2 || m.z < z1 || m.z > z2);
+  const removed = have.length - keep.length;
+  if (removed > 0) setMarks(map, keep);
+  return { removed, left: keep.length };
+}
+
+/**
  * **いま立てない点を捨てる。**
  *
  * > ### 地形を直すと、登録済みの点が埋まる（2026-09-06）

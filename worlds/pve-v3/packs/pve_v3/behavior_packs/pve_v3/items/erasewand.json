@@ -1,0 +1,19 @@
+{
+  "format_version": "1.26.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "pve_v3:erasewand",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "湧き点の消し杖（運営）"
+      },
+      "minecraft:icon": "pve3_erasewand",
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true
+    }
+  }
+}
