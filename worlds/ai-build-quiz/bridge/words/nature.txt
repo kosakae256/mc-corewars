@@ -1,0 +1,122 @@
+# 自然（nature）。風景（森・海・川・空）は入れない。1 体で形が決まるものだけ。列: ja	reading	en	aliases	level	seed	hint（ジャンル。10 秒のヒント）	english（英語の答え。必須。en は裏プロンプトで答えには使わない）
+# 木	き	round green leafy tree with a brown trunk	樹,樹木,松,もみじ,楓,pine,maple	1	# 落とした: 生成テスト 60³(2026-09-21): 色が抜ける
+#   ↑ en を「tree」から書き換え（60³ テスト: 葉が黒くなる）
+# 松	まつ	pine tree	松の木,pinetree	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# もみじ	もみじ	maple tree	紅葉,かえで,カエデ,maple	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+#   ↑ en を「palm tree」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+#   ↑ en を「bamboo」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# サボテン	さぼてん	saguaro cactus	仙人掌,cactus,cacti	1	# 落とした: 生成テスト 60³(2026-09-21): 細い
+#   ↑ en を「cactus」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 花	はな	single red flower with green leaves in a small pot		1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+#   ↑ en を「flower」から書き換え（60³ テスト: 茎が消える）
+#   ↑ en を「sunflower」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+#   ↑ en を「rose」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+#   ↑ en を「tulip」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# たんぽぽ	たんぽぽ	dandelion	蒲公英	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 蓮	はす	lotus flower	ハス,lotus	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 紫陽花	あじさい	hydrangea	アジサイ	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 菊	きく	chrysanthemum		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 四つ葉のクローバー	よつばのくろーばー	four-leaf clover	クローバー,clover,fourleafclover	2	# 落とした: 語が長すぎて打ちにくい
+#   ↑ en を「red toadstool mushroom」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 松ぼっくり	まつぼっくり	single pine cone	pine cone,pinecone	2	# 落とした: 生成テスト 60³(2026-09-21): 球
+#   ↑ en を「pine cone」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# どんぐり	どんぐり	single acorn	団栗,acorn	2	# 落とした: 生成テスト 60³(2026-09-21): 球
+#   ↑ en を「acorn」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+岩	いわ	large rock	岩石,大きな石,ストーン	2		鉱物	large rock,rock,boulder
+#   ↑ en を「boulder」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 山	やま	mountain	富士山	1	# 落とした: 富士山だけ残す
+# 富士山	ふじさん	Mount Fuji	mt fuji,fuji	1	# 落とした: 生成テスト 60³(2026-09-21): 薄い（seed 2 でも）
+#   ↑ en を「Mount Fuji」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+火山	かざん	erupting volcano	噴火,ふんか,やま,山	1		地形・自然現象	erupting volcano,volcano
+#   ↑ en を「volcano」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+氷山	ひょうざん	iceberg	氷の山,アイスバーグ	2		冬・寒いところのもの	iceberg
+#   ↑ en を「iceberg」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+雪だるま	ゆきだるま	snowman with a scarf	スノーマン,雪達磨	1		冬・寒いところのもの	snowman
+#   ↑ en を「snowman」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 雲	くも	cloud		2	# 落とした: 読み くも がクモ（蜘蛛）と衝突
+# 太陽	たいよう	sun with rays	sun,お日様,おひさま	2	# 落とした: 生成テスト 60³(2026-09-21): 平たい
+#   ↑ en を「sun」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+月	つき	crescent moon	お月様,おつきさま,三日月,みかづき,ムーン	1		空・宇宙	crescent moon,moon,crescent
+#   ↑ en を「crescent moon」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+星	ほし	five pointed star	お星様,おほしさま,スター,星型	2		空・宇宙	five pointed star,star
+#   ↑ en を「star」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+地球	ちきゅう	planet Earth	アース,地球儀	1		空・宇宙	planet Earth,earth
+#   ↑ en を「planet Earth」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 土星	どせい	planet Saturn	saturn	1	# 落とした: 生成テスト 60³(2026-09-21): 輪が消える
+#   ↑ en を「planet Saturn」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 隕石	いんせき	meteorite	meteor	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+島	しま	tropical island	アイランド,無人島,南の島	2		地形・自然現象	tropical island,island
+#   ↑ en を「small island」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 竜巻	たつまき	tornado	トルネード,twister	2	# 落とした: 生成テスト 60³(2026-09-21): 白い塊
+#   ↑ en を「tornado」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 稲妻	いなずま	lightning bolt	lightning,thunder,雷,かみなり	2	# 落とした: 生成テスト 60³(2026-09-21): 板
+#   ↑ en を「lightning bolt」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+氷	こおり	ice cube	氷の塊,氷のブロック	2		冬・寒いところのもの	ice cube,ice,icecube
+# 水滴	すいてき	water drop	雫,しずく,droplet,drop	3	# 落とした: 生成テスト 60³(2026-09-21): 筒
+#   ↑ en を「water drop」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+貝殻	かいがら	conch seashell	巻貝,まきがい,シェル,ほら貝	1		生き物の一部	conch seashell,seashell,shell,conch
+#   ↑ en を「seashell」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# サンゴ	さんご	piece of coral	coral,珊瑚	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+#   ↑ en を「coral」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 巣	す	bird nest with eggs	鳥の巣,とりのす,nest	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 蜂の巣	はちのす	honeycomb beehive	ハチの巣,beehive,honeycomb,hive	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+#   ↑ en を「beehive」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+骨	ほね	dog bone	ボーン,犬の骨,骨のおもちゃ,ほねのおもちゃ	2		生き物の一部	dog bone,bone,chew toy
+#   ↑ en を「bone」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+頭蓋骨	ずがいこつ	human skull	髑髏,どくろ,ドクロ,スカル	1		生き物の一部	human skull,skull
+#   ↑ en を「skull」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 恐竜の骨	きょうりゅうのほね	dinosaur fossil skeleton	恐竜の化石,fossil skeleton	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 化石	かせき	fossil		3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+#   ↑ en を「tree stump」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+#   ↑ en を「log」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 焚き火	たきび	campfire	キャンプファイヤー,bonfire	1	# 落とした: 生成テスト 60³(2026-09-21): 平たい
+炎	ほのお	campfire flame	火,ひ,ファイア,ファイヤー,焚き火,たきび	2		地形・自然現象	campfire flame,flame,fire
+# 茂み	しげみ	bush	shrub	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# かかし	かかし	scarecrow	案山子	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 水晶	すいしょう	quartz crystal	crystal,クリスタル,クォーツ	2	# 落とした: 生成テスト 60³(2026-09-21): 白い球
+#   ↑ en を「crystal cluster」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+# 真珠	しんじゅ	pearl	パール	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 多肉植物	たにくしょくぶつ	succulent plant	succulent	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# アロエ	あろえ	aloe plant	aloe	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# --- 2026-09-21 追加（1,000 語へ。体積があり輪郭で分かる物に寄せた）
+# クリスマスツリー	くりすますつりー	decorated christmas tree	christmas tree,xmas tree	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# バオバブ	ばおばぶ	baobab tree	baobab	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 柳	やなぎ	weeping willow tree	willow,ウィロー	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 薪	まき	stack of firewood	firewood,薪の山	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 朝顔	あさがお	morning glory flower	morning glory,アサガオ	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# あじさい	あじさい	hydrangea flower	hydrangea,紫陽花	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 梅	うめ	plum blossom branch	plum blossom,ウメ	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 花冠	はなかんむり	flower crown	flower wreath,花輪	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 四つ葉のクローバー	よつばのくろーばー	four leaf clover	clover,クローバー	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+石ころ	いしころ	smooth pebble	石,いし,小石,こいし	3		鉱物	smooth pebble,pebble,stone
+# 砂山	すなやま	pile of sand	sand pile,sand	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# 土の山	つちのやま	pile of dirt	dirt pile,soil	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+石炭	せきたん	lump of coal	炭,すみ	3		鉱物	coal
+金塊	きんかい	gold nugget	金,きん,ゴールド,金の塊	2		鉱物	gold nugget,gold,nugget
+# ダイヤモンド	だいやもんど	diamond gemstone	diamond,ダイヤ	2	# 落とした: 生成テスト 60³(2026-09-21): 白い球
+ルビー	るびー	red ruby gemstone	赤い宝石	3		鉱物	ruby
+エメラルド	えめらるど	green emerald gemstone	緑の宝石	3		鉱物	emerald
+サファイア	さふぁいあ	blue sapphire gemstone	青い宝石	3		鉱物	sapphire
+# アメジスト	あめじすと	amethyst crystal	amethyst	3	# 落とした: 生成テスト 60³(2026-09-21): 白い球
+# 琥珀	こはく	amber with an insect	アンバー	3		鉱物	amber	# 2026-09-21 誰でも知っているものだけにする（本人）
+# 真珠	しんじゅ	pearl in an oyster shell	pearl,パール	3	# 落とした: 生成テスト 60³(2026-09-21): 白い球
+隕石	いんせき	meteorite rock	流れ星,ながれぼし	3		鉱物	meteorite rock,meteorite,meteor
+# つらら	つらら	icicles	icicle	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+雪の結晶	ゆきのけっしょう	snowflake	雪,ゆき,結晶,けっしょう	2		冬・寒いところのもの	snowflake,snow crystal
+# 虹	にじ	rainbow		1	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+火星	かせい	planet Mars	惑星,わくせい,赤い星	2		空・宇宙	planet Mars,mars,planet
+山	やま	snowy mountain peak	富士山,ふじさん,マウンテン,雪山	1		地形・自然現象	snowy mountain peak,mountain,mount
+# 滝	たき	waterfall		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 砂漠	さばく	sand dune	dune,desert	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 洞窟	どうくつ	cave entrance	cave	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+波	なみ	ocean wave	ウェーブ,津波,つなみ,海,うみ	2		地形・自然現象	ocean wave,wave
+# 渦潮	うずしお	whirlpool		3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 泡	あわ	soap bubble	bubble	3	# 落とした: 生成テスト 60³(2026-09-21): 球
+# 海藻	かいそう	seaweed	kelp,昆布,こんぶ,わかめ	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# クモの巣	くものす	spider web	cobweb,web	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 繭	まゆ	silk cocoon	cocoon	3	# 落とした: 生成テスト 60³(2026-09-21): 白い球
+恐竜の卵	きょうりゅうのたまご	dinosaur egg		2		生き物の一部	dinosaur egg
+# アンモナイト	あんもないと	ammonite fossil	ammonite	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+角	つの	deer antlers	鹿の角,ツノ,しかのつの	3		生き物の一部	deer antlers,antlers,antler,horn
+# 羽根	はね	feather		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 鳥の卵	とりのたまご	blue bird egg	卵,たまご,タマゴ,エッグ	3		生き物の一部	bird egg,egg	# 2026-09-21 甘さの見直し: 「卵」に統合（spec 12 の 2-5）

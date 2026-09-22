@@ -1,0 +1,100 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.crit.idle": {
+      "loop": true,
+      "animation_length": 1,
+      "bones": {
+        "rightArm": {
+          "rotation": [
+            "-48 - this",
+            "0 - this",
+            "8 - this"
+          ],
+          "position": [
+            "-5.0 - this",
+            "-2.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "leftArm": {
+          "rotation": [
+            "-10 - this",
+            "0 - this",
+            "-8 - this"
+          ],
+          "position": [
+            "5.0 - this",
+            "-2.0 - this",
+            "0.0 - this"
+          ]
+        }
+      }
+    },
+    "animation.pve3.crit.attack": {
+      "loop": false,
+      "animation_length": 0.5,
+      "anim_time_update": "math.clamp((10 - q.property('pve_v3:swing')) / 20, 0, 0.5)",
+      "bones": {
+        "rightArm": {
+          "rotation": {
+            "0": [
+              "-78 - this",
+              "0 - this",
+              "8 - this"
+            ],
+            "0.12": [
+              "12 - this",
+              "-15 - this",
+              "8 - this"
+            ],
+            "0.25": [
+              "8 - this",
+              "-12 - this",
+              "8 - this"
+            ],
+            "0.5": [
+              "-48 - this",
+              "0 - this",
+              "8 - this"
+            ]
+          },
+          "position": [
+            "-5.0 - this",
+            "-2.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "waist": {
+          "rotation": {
+            "0": [
+              "-6 - this",
+              "10 - this",
+              "0 - this"
+            ],
+            "0.12": [
+              "12 - this",
+              "-12 - this",
+              "0 - this"
+            ],
+            "0.25": [
+              "10 - this",
+              "-10 - this",
+              "0 - this"
+            ],
+            "0.5": [
+              "0 - this",
+              "0 - this",
+              "0 - this"
+            ]
+          },
+          "position": [
+            "0.0 - this",
+            "12.0 - this",
+            "0.0 - this"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "format_version": "1.20.20",
+  "sound_definitions": {
+    "game.player.hurt": {
+      "category": "player",
+      "min_distance": 0.0,
+      "max_distance": 128.0,
+      "sounds": [
+        {
+          "name": "sounds/damage/hit1",
+          "volume": 0.0,
+          "is3D": false,
+          "stream": false
+        },
+        {
+          "name": "sounds/damage/hit2",
+          "volume": 0.0,
+          "is3D": false,
+          "stream": false
+        },
+        {
+          "name": "sounds/damage/hit3",
+          "volume": 0.0,
+          "is3D": false,
+          "stream": false
+        }
+      ]
+    },
+    "pve_v3:chamber.call": {
+      "category": "hostile",
+      "min_distance": 0.0,
+      "max_distance": 256.0,
+      "sounds": [
+        {
+          "name": "sounds/pve3/chamber_call_quiet",
+          "volume": 1.0,
+          "is3D": true,
+          "stream": false
+        }
+      ]
+    },
+    "pve_v3:chamber.shot": {
+      "category": "hostile",
+      "min_distance": 0.0,
+      "max_distance": 128.0,
+      "sounds": [
+        {
+          "name": "sounds/pve3/chamber_shot",
+          "volume": 1.0,
+          "is3D": true,
+          "stream": false
+        }
+      ]
+    },
+    "pve_v3:damaged": {
+      "category": "player",
+      "min_distance": 0.0,
+      "max_distance": 128.0,
+      "sounds": [
+        {
+          "name": "sounds/damage/hit1",
+          "volume": 1.0,
+          "is3D": false,
+          "stream": false
+        },
+        {
+          "name": "sounds/damage/hit2",
+          "volume": 1.0,
+          "is3D": false,
+          "stream": false
+        },
+        {
+          "name": "sounds/damage/hit3",
+          "volume": 1.0,
+          "is3D": false,
+          "stream": false
+        }
+      ]
+    },
+    "pve_v3:foxfire.blast": {
+      "category": "hostile",
+      "min_distance": 64.0,
+      "max_distance": 96.0,
+      "sounds": [
+        {
+          "name": "sounds/mob/ghast/fireball4",
+          "volume": 1.0,
+          "is3D": true,
+          "stream": false
+        }
+      ]
+    },
+    "pve_v3:foxfire.ignite": {
+      "category": "hostile",
+      "min_distance": 64.0,
+      "max_distance": 96.0,
+      "sounds": [
+        {
+          "name": "sounds/fire/ignite",
+          "volume": 1.0,
+          "is3D": true,
+          "stream": false
+        }
+      ]
+    },
+    "random.anvil_land": {
+      "category": "player",
+      "min_distance": 0.0,
+      "max_distance": 128.0,
+      "sounds": [
+        {
+          "name": "sounds/random/anvil_land",
+          "volume": 1.0,
+          "is3D": false,
+          "stream": false
+        }
+      ]
+    },
+    "random.bow": {
+      "category": "player",
+      "min_distance": 0.0,
+      "max_distance": 128.0,
+      "sounds": [
+        {
+          "name": "sounds/random/bow",
+          "volume": 1.0,
+          "is3D": false,
+          "stream": false
+        }
+      ]
+    }
+  }
+}

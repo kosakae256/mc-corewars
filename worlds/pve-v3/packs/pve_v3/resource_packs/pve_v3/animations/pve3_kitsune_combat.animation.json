@@ -1,0 +1,199 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.kitsune.charge": {
+      "loop": true,
+      "animation_length": 1,
+      "anim_time_update": "math.min(0.999, q.property('pve_v3:fox_charge') * 0.01)",
+      "bones": {
+        "rightArm": {
+          "rotation": {
+            "0.0": [
+              "-25 - this",
+              "-12 - this",
+              "-12 - this"
+            ],
+            "0.18": [
+              "-140 - this",
+              "-5 - this",
+              "-28 - this"
+            ],
+            "0.65": [
+              "-170 - this",
+              "-5 - this",
+              "-28 - this"
+            ],
+            "0.85": [
+              "-170 - this",
+              "-5 - this",
+              "-28 - this"
+            ],
+            "0.999": [
+              "-90 - this",
+              "-12 - this",
+              "0 - this"
+            ]
+          },
+          "position": [
+            "-4.25 - this",
+            "-2.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "leftArm": {
+          "rotation": {
+            "0.0": [
+              "-25 - this",
+              "12 - this",
+              "12 - this"
+            ],
+            "0.18": [
+              "-140 - this",
+              "5 - this",
+              "28 - this"
+            ],
+            "0.65": [
+              "-170 - this",
+              "5 - this",
+              "28 - this"
+            ],
+            "0.85": [
+              "-170 - this",
+              "5 - this",
+              "28 - this"
+            ],
+            "0.999": [
+              "-90 - this",
+              "12 - this",
+              "0 - this"
+            ]
+          },
+          "position": [
+            "4.25 - this",
+            "-2.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "body": {
+          "rotation": {
+            "0.0": [
+              "4 - this",
+              "0 - this",
+              "0 - this"
+            ],
+            "0.25": [
+              "-6 - this",
+              "0 - this",
+              "0 - this"
+            ],
+            "0.85": [
+              "-6 - this",
+              "0 - this",
+              "0 - this"
+            ],
+            "0.999": [
+              "8 - this",
+              "0 - this",
+              "0 - this"
+            ]
+          },
+          "position": [
+            "0.0 - this",
+            "12.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "leftLeg": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "1.54375 - this",
+            "12.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "rightLeg": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "-1.54375 - this",
+            "12.0 - this",
+            "0.0 - this"
+          ]
+        }
+      }
+    },
+    "animation.pve3.kitsune.release": {
+      "loop": true,
+      "animation_length": 0.5,
+      "bones": {
+        "rightArm": {
+          "rotation": [
+            "-90 - this",
+            "-12 - this",
+            "0 - this"
+          ],
+          "position": [
+            "-4.25 - this",
+            "-2.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "leftArm": {
+          "rotation": [
+            "-90 - this",
+            "12 - this",
+            "0 - this"
+          ],
+          "position": [
+            "4.25 - this",
+            "-2.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "body": {
+          "rotation": [
+            "8 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "0.0 - this",
+            "12.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "leftLeg": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "1.54375 - this",
+            "12.0 - this",
+            "0.0 - this"
+          ]
+        },
+        "rightLeg": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "-1.54375 - this",
+            "12.0 - this",
+            "0.0 - this"
+          ]
+        }
+      }
+    }
+  }
+}

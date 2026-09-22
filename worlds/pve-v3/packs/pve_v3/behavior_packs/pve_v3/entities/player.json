@@ -59,8 +59,8 @@
         "on_death": "Math.Min(query.player_level * 7, 100)"
       },
       "minecraft:health": {
-        "max": 1000,
-        "value": 1000
+        "max": 5000,
+        "value": 5000
       },
       "minecraft:hurt_on_condition": {
         "damage_conditions": [

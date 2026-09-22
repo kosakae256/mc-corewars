@@ -18,7 +18,7 @@ import { canEnter, isResumable, type EndReason, type WorldPhase } from "../core/
 import * as match from "../state/match.js";
 import { resetPicked, setPicked } from "../state/pick.js";
 import { membership, setDead, setMembership } from "../state/member.js";
-import { reset as resetGrowth } from "../state/growth.js";
+import { resetForLobby } from "./growth.js";
 import { heal, max as hpMax } from "../state/hp.js";
 import { clearEnemies } from "./field.js";
 import { forgetPrepared, prepareField, readyEnemies } from "./stage.js";
@@ -115,7 +115,7 @@ function entry(to: WorldPhase, from: WorldPhase, now: number): void {
       for (const p of world.getAllPlayers()) {
         setMembership(p, "out");
         setDead(p, false);
-        resetGrowth(p);
+        resetForLobby(p);
       }
       match.clear();
       clearEnemies();

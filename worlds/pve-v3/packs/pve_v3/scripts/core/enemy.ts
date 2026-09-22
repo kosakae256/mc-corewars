@@ -27,14 +27,44 @@
  */
 export const WALK = 0.2875;
 
+import type { EnemyTraits } from "./trait.js";
+
+/**
+ * **`minecraft:movement` の `max` に入れる倍率**（`24-mob-howto.md` 2 章）。
+ *
+ * > ### `max` を書かないと `value` が上限になる
+ * >
+ * > **上げても黙って止まる。** **呪いの上限（×3）より広く取っておく。**
+ */
+export const MOVE_TOP = 7;
+
+/**
+ * **飛ぶ敵の物差し**（`minecraft:flying_speed`）。
+ *
+ * > ### **歩く速さとは別の部品**（`25-enemy-kit.md` 11 章）
+ * >
+ * > **ミツバチは `movement: 0.3` ／ `flying_speed: 0.15`**——**歩く値の半分。**
+ * > **`minecraft:movement` は経路探索が使い、`flying_speed` が実際の飛ぶ速さ。**
+ * > **両方に同じ値を入れると、歩く側が遅すぎて経路が引けなくなる。**
+ */
+export const FLY_WALK = 0.15;
+
 /** 敵 1 種 */
-export interface EnemyDef {
+export interface EnemyDef extends EnemyTraits {
   readonly id: string;
   readonly name: string;
+  /**
+   * **★の数**（`07-enemy-plan.md` 6 章）。**名前の色になる**（`core/star.ts`）。
+   *
+   * **性能表の ★ と必ず合わせる。**
+   */
+  readonly star: number;
   /** 固有の HP */
   readonly hp: number;
   /** 固有の攻撃力 */
   readonly attack: number;
+  /** 通常攻撃だけ別の基本威力にする。死に際などのattackは維持（spec/42）。 */
+  readonly meleeAttack?: number;
   /** 固有の移動速度。**1 ＝ プレイヤーの歩き**（`WALK` で換算） */
   readonly speed: number;
   /** 殴る間隔（tick） */
@@ -43,6 +73,54 @@ export interface EnemyDef {
   readonly reach: number;
   /** 動き方 */
   readonly kind: "melee" | "shoot" | "boom";
+  /**
+   * **押す強さ**（`22-feedback.md` 4 章）。**書かなければ既定**（`core/knockback.ts`）。
+   *
+   * **重い敵は強く、素早い敵は弱く。** **0 で押さない。**
+   */
+  readonly knockback?: number;
+  /**
+   * **上へ飛ばす強さ**（`22-feedback.md` 6-2）。**書かなければ浮かせない。**
+   *
+   * > ### **殴りで浮かせるのはゴーレムだけ**
+   * >
+   * > **浮くと着地するまで動けない**ので、**普通の攻撃では 0。**
+   * > **爆発は別の道**（`services/boom.ts` の `up`）。
+   */
+  readonly knockUp?: number;
+  /**
+   * **湧いた瞬間に鳴らす音**（`25-enemy-kit.md` 8-A）。**書かなければ鳴らない。**
+   *
+   * **湧いた場所から鳴る**（64 マス）。**2 体湧けば 2 回鳴る**——**重なりは止めない。**
+   */
+  readonly call?: string;
+  /**
+   * **弾の速さ**（マス／tick）。**撃つ敵だけ**（`24-mob-howto.md` 10-2）。
+   *
+   * **書かなければ既定。** **`reach` がそのまま届く距離になる。**
+   */
+  readonly shot?: number;
+  /**
+   * **手に持たせるもの**（`24-mob-howto.md` 10-3）。**見た目だけ。**
+   *
+   * **装備表（`minecraft:equipment`）は script で湧かせた個体に効かない**ので、
+   * **湧かせた瞬間に script が持たせる。**
+   */
+  readonly hand?: string;
+  /**
+   * **頭に被せるもの**（`24-mob-howto.md` 10-3）。**見た目だけ。**
+   *
+   * **★の違いを、被り物で見せる**（革 → 金 → 鉄 → ダイヤ）。
+   */
+  readonly head?: string;
+  /**
+   * **★5 の固有色**（`core/star.ts`）。`§` の色記号 1 つ。
+   *
+   * > **★1〜★4 は格の色で揃える。** **★5 だけ 1 体ずつ違う色を持つ。**
+   *
+   * **★5 以外では使わない。** 書き忘れると金になる。
+   */
+  readonly color?: string;
   /** **エメラルド倍率**（`23-enemy-unit.md` 5 章）。**書かなければ 1** */
   readonly emerald?: number;
   /** **ボスか**（`23-enemy-unit.md` 7 章）。**書かなければ雑魚** */
@@ -54,74 +132,9 @@ export function emeraldOf(def: EnemyDef): number {
   return def.emerald === undefined ? 1 : def.emerald;
 }
 
-/** **値は全部仮**（`16-enemy.md` 5 章） */
-export const ENEMIES: Readonly<Record<string, EnemyDef>> = {
-  grunt: { id: "grunt", name: "ゾンビ", hp: 40, attack: 20, speed: 0.8, interval: 20, reach: 2.5, kind: "melee" },
-  bones: { id: "bones", name: "ボーンズ", hp: 30, attack: 12, speed: 1.0, interval: 30, reach: 16, kind: "shoot" },
-  bomber: { id: "bomber", name: "ボマー", hp: 25, attack: 45, speed: 1.1, interval: 40, reach: 2.0, kind: "boom" },
-  raider: { id: "raider", name: "レイダー", hp: 45, attack: 15, speed: 1.0, interval: 35, reach: 18, kind: "shoot" },
-  brute: { id: "brute", name: "ブルート", hp: 70, attack: 30, speed: 1.2, interval: 16, reach: 2.8, kind: "melee" },
-  beast: { id: "beast", name: "ビースト", hp: 200, attack: 50, speed: 1.2, interval: 30, reach: 3.5, kind: "melee" },
-};
-
-/** 敵グループ（★） */
-export interface LegionDef {
-  readonly id: string;
-  readonly name: string;
-  readonly star: number;
-  /** 基礎の数 */
-  readonly base: number;
-  /** 中身。**足して 1 になる比率** */
-  readonly mix: readonly { readonly enemy: string; readonly ratio: number }[];
-}
-
-/** **★1 の 3 つは 1 種類だけの群れ。★3 だけが 3 種類混ざる** */
-export const LEGIONS: Readonly<Record<string, LegionDef>> = {
-  zombie: { id: "zombie", name: "ゾンビ軍団", star: 1, base: 15, mix: [{ enemy: "grunt", ratio: 1 }] },
-  skeleton: { id: "skeleton", name: "スケルトン軍団", star: 1, base: 12, mix: [{ enemy: "bones", ratio: 1 }] },
-  creeper: { id: "creeper", name: "クリーパー軍団", star: 1, base: 10, mix: [{ enemy: "bomber", ratio: 1 }] },
-  raider: {
-    id: "raider",
-    name: "略奪者集団",
-    star: 3,
-    base: 18,
-    mix: [
-      { enemy: "raider", ratio: 0.6 },
-      { enemy: "brute", ratio: 0.3 },
-      { enemy: "beast", ratio: 0.1 },
-    ],
-  },
-  // > ### 仮置き 11 個（2026-09-05 追加）
-  // >
-  // > **中身はゾンビ軍団と同じ。★と数だけ違う。**
-  // > **3 択とゲートの色を確かめるのに、★が散っていないと分からない**
-  // > （`16-enemy.md` 2 章）。**本物ができたら置き換える。**
-  mock1: { id: "mock1", name: "(仮)ゾンビ軍団1", star: 2, base: 18, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock2: { id: "mock2", name: "(仮)ゾンビ軍団2", star: 2, base: 18, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock3: { id: "mock3", name: "(仮)ゾンビ軍団3", star: 3, base: 22, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock4: { id: "mock4", name: "(仮)ゾンビ軍団4", star: 4, base: 26, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock5: { id: "mock5", name: "(仮)ゾンビ軍団5", star: 4, base: 26, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock6: { id: "mock6", name: "(仮)ゾンビ軍団6", star: 5, base: 30, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock7: { id: "mock7", name: "(仮)ゾンビ軍団7", star: 5, base: 30, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock8: { id: "mock8", name: "(仮)ゾンビ軍団8", star: 6, base: 34, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock9: { id: "mock9", name: "(仮)ゾンビ軍団9", star: 6, base: 34, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock10: { id: "mock10", name: "(仮)ゾンビ軍団10", star: 3, base: 22, mix: [{ enemy: "grunt", ratio: 1 }] },
-  mock11: { id: "mock11", name: "(仮)ゾンビ軍団11", star: 2, base: 18, mix: [{ enemy: "grunt", ratio: 1 }] },
-};
-
-/** 数の人数倍率。**1 ＋ 0.5 ×(人数 − 1)** */
-export function countScale(players: number): number {
-  return 1 + 0.5 * Math.max(0, players - 1);
-}
-
 /** 攻撃力・速度の人数倍率。**1 ＋ 0.05 ×(人数 − 1)** */
 export function powerScale(players: number): number {
   return 1 + 0.05 * Math.max(0, players - 1);
-}
-
-/** そのウェーブで出せる上限。**min(100, 40 ＋ 10 × wave)** */
-export function capOf(wave: number): number {
-  return Math.min(100, 40 + 10 * wave);
 }
 
 /**
@@ -140,39 +153,29 @@ export function waveScale(wave: number): number {
   return Math.pow(1.1, Math.max(1, wave) - 1);
 }
 
-/** そのウェーブで出す中身 */
-export interface Plan {
-  /** 出す数（実際に出る数） */
-  readonly count: number;
-  /** **上限に当たったぶんを HP に詰め替える係数** */
-  readonly pack: number;
-  /** 何をいくつ出すか */
-  readonly picks: readonly { readonly enemy: EnemyDef; readonly count: number }[];
-}
-
-/**
- * 出す中身を決める。
- *
- * @param players 参加人数
- * @param wave いまのウェーブ
- */
-export function planOf(legion: LegionDef, players: number, wave: number): Plan {
-  const want = Math.ceil(legion.base * countScale(players));
-  const cap = capOf(wave);
-  const count = Math.min(want, cap);
-  const pack = count > 0 ? want / count : 1;
-
-  // **比率で割り振り、端数は最初の種類へ寄せる**
-  const picks: { enemy: EnemyDef; count: number }[] = [];
-  let left = count;
-  for (const [i, m] of legion.mix.entries()) {
-    const def = ENEMIES[m.enemy];
-    if (def === undefined) continue;
-    const n = i === legion.mix.length - 1 ? left : Math.min(left, Math.round(count * m.ratio));
-    if (n > 0) picks.push({ enemy: def, count: n });
-    left -= n;
-  }
-  return { count, pack, picks };
+/** 敵グループ（★）。**組み方の決まりは `16-enemy.md` 2-1** */
+export interface LegionDef {
+  readonly id: string;
+  readonly name: string;
+  /** **★N の軍団には、★N 以下の敵しか入れない** */
+  readonly star: number;
+  /**
+   * **この軍団の狙い**（一言）。
+   *
+   * **「何を要求する戦いか」が言えないものは作らない。**
+   */
+  readonly concept: string;
+  /** **初期数**。**1 人・wave 1 のときの数**（そこに wave と人数が掛かる・`16-enemy.md` 3-1） */
+  readonly fixed: number;
+  /** **wave が 1 進むごとに増える数**。**いまは全部 3**（軍団ごとに書ける） */
+  readonly perWave: number;
+  /**
+   * **中身**（**最大 6 種類**）。
+   *
+   * **`weight` は出る確率**——**合計が 100 でなくてよい。比で見る。**
+   * **比率で割り切るのではなく、1 体ずつ引く**（`planOf`）。
+   */
+  readonly mix: readonly { readonly enemy: string; readonly weight: number }[];
 }
 
 /** その 1 体の HP */
@@ -260,22 +263,4 @@ export function swingOf(def: EnemyDef, players: number, curse: number): number {
   return Math.max(1, Math.round(def.interval / addMult(powerScale(players), curse)));
 }
 
-/**
- * **攻撃速度の段**（`23-enemy-unit.md` 3-3）。
- *
- * > ### `cooldown_time` は実行中に書き換えられない
- * >
- * > **段ごとの部品を実体に持たせ、湧いた瞬間に切り替える**
- * > （`entities/*.json` の `pve_v3:haste_*`）。
- * > **一番近い段に丸める。**
- */
-export const HASTE_TIERS: readonly number[] = [1, 1.25, 1.5, 2, 2.5, 3];
-
-/** その倍率に一番近い段（**100 倍した整数**。実体の合図に使う） */
-export function hasteTier(mult: number): number {
-  let best = HASTE_TIERS[0] ?? 1;
-  for (const t of HASTE_TIERS) {
-    if (Math.abs(t - mult) < Math.abs(best - mult)) best = t;
-  }
-  return Math.round(best * 100);
-}
+/** **攻撃速度の段**は `core/haste.ts`（`24-mob-howto.md` 3 章）。**ここからは出さない** */

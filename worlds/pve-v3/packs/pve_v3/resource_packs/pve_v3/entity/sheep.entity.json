@@ -1,0 +1,48 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v3:sheep",
+      "materials": {
+        "default": "sheep"
+      },
+      "textures": {
+        "default": "textures/entity/sheep/sheep",
+        "baby": "textures/entity/sheep/sheep_baby"
+      },
+      "geometry": {
+        "default": "geometry.sheep.v1.8",
+        "sheared": "geometry.sheep.sheared.v1.8",
+        "baby": "geometry.sheep.baby"
+      },
+      "enable_attachables": true,
+      "animations": {
+        "setup": "animation.sheep.setup.v2",
+        "grazing": "animation.sheep.grazing.v2",
+        "walk": "animation.quadruped.walk",
+        "look_at_target": "animation.common.look_at_target",
+        "baby_transform": "animation.sheep.baby_transform",
+        "move": "controller.animation.sheep.move",
+        "roused_controller": "controller.animation.pve3.roused"
+      },
+      "scripts": {
+        "animate": [
+          "setup",
+          "look_at_target",
+          "move",
+          "roused_controller"
+        ],
+        "scale": "query.is_baby ? 2.0 : 1.0",
+        "pre_animation": [
+          "variable.attack_animation_tick = q.property('pve_v3:swing');"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.pve3.sheep.v2"
+      ],
+      "particle_effects": {
+        "roused": "pve_v3:rouse_mark"
+      }
+    }
+  }
+}

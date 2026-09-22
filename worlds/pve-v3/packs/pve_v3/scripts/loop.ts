@@ -20,6 +20,7 @@
 import { system } from "@minecraft/server";
 
 import type { Feature } from "./types.js";
+import { tellOps } from "./services/tell.js";
 
 /** 動かす機能。**`main.ts` から渡される** */
 export function startLoop(features: readonly Feature[]): void {
@@ -37,6 +38,10 @@ export function startLoop(features: readonly Feature[]): void {
         // **1 つこけても、残りは回す。**
         // 止まると「何も動かない」になり、原因が分からなくなる
         console.warn(`[loop] ${job.name}: ${String(err)}`);
+        // > ### **content log は既定で切れている**（`24-mob-howto.md` 12 章）
+        // >
+        // > **`console.warn` は誰にも見えない。** **こけたことは運営に見せる。**
+        tellOps(`こけた: ${job.name} — ${String(err)}`);
       }
     }
   }, 1);

@@ -26,12 +26,24 @@ export const KEYS = {
   hpMax: `${PREFIX}hp_max`,
   /** **その人の最大 HP**（既定 100） */
   hpBase: `${PREFIX}hp_base`,
+  /** HPコマンドを実行した時点の購入由来HP（spec/15）。 */
+  hpBaseGrowth: `${PREFIX}hp_base_growth`,
   /** **その敵 1 体の攻撃力**（`services/spawn.ts` が置き、`features/mob` が読む） */
   atk: `${PREFIX}atk`,
   /** **その敵の種類**（`core/enemy.ts` の id） */
   kind: `${PREFIX}kind`,
   /** **その敵 1 体の殴る間隔**（tick）。**攻撃速度で縮んだ後の値** */
   swing: `${PREFIX}swing`,
+  /** spec/38の速度・射撃間隔の既存個体移行。 */
+  enemyAiRevision: `${PREFIX}enemy_ai_revision`,
+  /**
+   * **ノックバックの軽減**（0〜1）。**受け手に持たせる**
+   *
+   * **プレイヤーにも実体にも付く**——モーション強化でも、モブの性質でも使える。
+   */
+  kbResist: `${PREFIX}kb_resist`,
+  /** **その敵 1 体が与えるノックバックの強さ**（`core/enemy.ts` の値） */
+  kbPower: `${PREFIX}kb_power`,
   /** **その敵 1 体のエメラルド倍率**（`services/reward.ts` が読む） */
   emeraldMult: `${PREFIX}emerald_mult`,
   /** 実体の表示名（`state/label.ts`） */

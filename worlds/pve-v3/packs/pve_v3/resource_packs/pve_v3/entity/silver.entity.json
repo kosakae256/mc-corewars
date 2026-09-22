@@ -1,0 +1,36 @@
+{
+  "format_version": "1.8.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v3:silver",
+      "materials": {
+        "default": "silverfish",
+        "body_layer": "silverfish_layers"
+      },
+      "textures": {
+        "default": "textures/entity/silverfish"
+      },
+      "geometry": {
+        "default": "geometry.silverfish"
+      },
+      "enable_attachables": true,
+      "animations": {
+        "move": "animation.silverfish.move"
+      },
+      "animation_controllers": [
+        {
+          "move": "controller.animation.silverfish.move"
+        },
+        {
+          "roused_controller": "controller.animation.pve3.roused"
+        }
+      ],
+      "render_controllers": [
+        "controller.render.pve3.silver.silverfish"
+      ],
+      "particle_effects": {
+        "roused": "pve_v3:rouse_mark"
+      }
+    }
+  }
+}

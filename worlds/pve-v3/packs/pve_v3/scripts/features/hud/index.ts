@@ -16,8 +16,9 @@ import { world } from "@minecraft/server";
 import type { Feature } from "../../types.js";
 import { has } from "../../state/hp.js";
 import { phase } from "../../services/match.js";
+import { updateFoePlates } from "./foeplate.js";
 import { updateNameplates } from "./nameplate.js";
-import { hideHearts, showOwn } from "./own.js";
+import { forgetOwn, hideHearts, showFocus, showOwn } from "./own.js";
 
 /** 何 tick ごとに書き直すか。**毎 tick 書くと文字が点滅する** */
 const WRITE = 2;
@@ -27,8 +28,10 @@ const HIDE = 100;
 
 function subscribe(): void {
   world.afterEvents.playerSpawn.subscribe((ev) => {
+    forgetOwn(ev.player.id);
     hideHearts(ev.player);
   });
+  world.afterEvents.playerLeave.subscribe((ev) => forgetOwn(ev.playerId));
 }
 
 export const hud: Feature = {
@@ -37,17 +40,16 @@ export const hud: Feature = {
   tick: {
     every: 1,
     run: (now) => {
-      // > ### **試合の間だけ出す**（2026-09-06）
-      // >
-      // > **アクションバーを毎周期握っている**ので、
-      // > **道具からの知らせが全部上書きされる**（湧き点の杖で踏んだ）。
-      // > **非開始・建築モードでは出さない。**
+      // HP・通貨は常時表示。建築道具の通知を妨げないよう、狙った敵の欄だけ試合中にする。
       const playing = phase() !== "idle" && phase() !== "build";
       if (now % WRITE === 0) {
         for (const p of world.getAllPlayers()) {
-          if (playing && has(p)) showOwn(p, now);
+          if (has(p)) showOwn(p, now);
+          if (playing && has(p)) showFocus(p, now);
         }
         updateNameplates();
+        // **敵は人ごとに見せ先を選ぶ**（`10-implementation.md` 8-1）
+        updateFoePlates();
       }
       if (now % HIDE === 0) {
         for (const p of world.getAllPlayers()) hideHearts(p);

@@ -1,0 +1,67 @@
+{
+  "format_version": "1.26.20",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "pve_v3:seed",
+      "is_summonable": true,
+      "is_spawnable": false,
+      "properties": {
+        "pve_v3:swing": {
+          "type": "float",
+          "range": [
+            0.0,
+            10.0
+          ],
+          "default": 0.0,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:collision_box": {
+        "width": 0.05,
+        "height": 0.05
+      },
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": false
+      },
+      "minecraft:projectile": {
+        "anchor": 1,
+        "offset": [
+          0,
+          -0.1,
+          0
+        ],
+        "gravity": 0.0,
+        "power": 1.1,
+        "uncertainty_base": 0.0,
+        "uncertainty_multiplier": 0.0,
+        "on_hit": {
+          "remove_on_hit": {}
+        }
+      },
+      "minecraft:timer": {
+        "time": 1,
+        "looping": false,
+        "time_down_event": {
+          "event": "pve_v3:gone"
+        }
+      }
+    },
+    "component_groups": {
+      "pve_v3:gone": {
+        "minecraft:instant_despawn": {}
+      }
+    },
+    "events": {
+      "pve_v3:gone": {
+        "add": {
+          "component_groups": [
+            "pve_v3:gone"
+          ]
+        }
+      }
+    }
+  }
+}

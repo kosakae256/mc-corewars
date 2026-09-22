@@ -1,0 +1,9 @@
+# 人（person）。列: ja	reading	en	aliases	level	seed	hint（ジャンル）	english（英語の答え。必須）
+# 仕様: docs/spec/12-words.md（2026-09-21 追加。本人「キャラクターで消防士は無理ある」）。# 行は無視
+サンタクロース	さんたくろーす	Santa Claus	サンタ,さんた,サンタさん	1		いろんな人	Santa Claus,santa,father christmas
+ピエロ	ぴえろ	clown	クラウン,道化師,どうけし	1		いろんな人	clown,pierrot
+消防士	しょうぼうし	firefighter	消防隊員,レスキュー	2		はたらく人	firefighter,fireman
+コック	こっく	chef	シェフ,料理人,りょうりにん,コックさん	2		はたらく人	chef,cook
+宇宙飛行士	うちゅうひこうし	astronaut	宇宙服,うちゅうふく	1		はたらく人	astronaut,spaceman
+力士	りきし	sumo wrestler	相撲取り,お相撲さん,すもうとり,おすもうさん,相撲,すもう	1		はたらく人	sumo wrestler,sumo
+赤ちゃん	あかちゃん	baby	赤ん坊,ベビー,あかんぼう,ベイビー	2		いろんな人	baby,infant

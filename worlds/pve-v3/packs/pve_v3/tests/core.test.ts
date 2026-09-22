@@ -32,6 +32,20 @@ import {
 } from "../scripts/core/state.ts";
 import { affordable, isMaxed, nextCost, STATS, statValue, toStatKey, totalCost } from "../scripts/core/growth.ts";
 import { distanceAlong, norm, pointAt } from "../scripts/core/geometry.ts";
+import { pierced } from "../scripts/core/beam.ts";
+// > ### **`roster.ts` は読めない**（2026-09-10）
+// >
+// > **`./roster/star1.js` を値として読むので、Node が `.ts` を見つけられない。**
+// > **★ごとの表を直に読んで、同じ形に束ねる**（`roster.ts` と同じ並び）。
+import { LEGIONS } from "../scripts/core/roster/legion.ts";
+import { STAR1 } from "../scripts/core/roster/star1.ts";
+import { STAR2 } from "../scripts/core/roster/star2.ts";
+import { STAR3 } from "../scripts/core/roster/star3.ts";
+import { STAR4 } from "../scripts/core/roster/star4.ts";
+import { STAR5 } from "../scripts/core/roster/star5.ts";
+
+const ENEMIES = { ...STAR1, ...STAR2, ...STAR3, ...STAR4, ...STAR5 };
+import { planOf } from "../scripts/core/plan.ts";
 
 describe("core/damage", () => {
   it("防御率 0 なら素通り", () => {
@@ -333,5 +347,117 @@ describe("core/state — 人の状態", () => {
     assert.equal(homeOf("rest", "member"), "rest");
     assert.equal(homeOf("prepare", "member"), "rest");
     assert.equal(homeOf("wave", "member"), "field");
+  });
+});
+
+describe("core/beam — 貫通", () => {
+  const line = [{ at: 12 }, { at: 3 }, { at: 40 }];
+
+  it("**貫通するなら、線の上の全員に当たる**（チェンバー）", () => {
+    assert.deepEqual(pierced(line, true), [{ at: 3 }, { at: 12 }, { at: 40 }]);
+  });
+
+  it("**貫通しないなら、いちばん手前の 1 人だけ**（カウボーイ）", () => {
+    assert.deepEqual(pierced(line, false), [{ at: 3 }]);
+  });
+
+  it("**誰も居なければ、誰にも当たらない**", () => {
+    assert.deepEqual(pierced([], true), []);
+  });
+
+  it("**元の並びは壊さない**", () => {
+    const src = [{ at: 12 }, { at: 3 }];
+    pierced(src, true);
+    assert.deepEqual(src, [{ at: 12 }, { at: 3 }]);
+  });
+});
+
+describe("core/roster — 軍団の決まり（16-enemy.md 2-1）", () => {
+  const all = Object.values(LEGIONS);
+
+  it("**50 個ある**（仮）", () => {
+    assert.equal(all.length, 50);
+  });
+
+  it("**★N の軍団には、★N 以下の敵しか入らない**", () => {
+    for (const l of all) {
+      for (const m of l.mix) {
+        const e = ENEMIES[m.enemy];
+        assert.ok(e !== undefined, `${l.id}: ${m.enemy} という敵は居ない`);
+        assert.ok(e.star <= l.star, `${l.id}（★${l.star}）に ★${e.star} の ${m.enemy} が入っている`);
+      }
+    }
+  });
+
+  it("**1 軍団は最大 6 種類まで**", () => {
+    for (const l of all) assert.ok(l.mix.length <= 6 && l.mix.length > 0, `${l.id}: ${l.mix.length} 種類`);
+  });
+
+  it("**同じ敵を 2 回書かない**", () => {
+    for (const l of all) {
+      const ids = new Set(l.mix.map((m) => m.enemy));
+      assert.equal(ids.size, l.mix.length, `${l.id}: 同じ敵が重なっている`);
+    }
+  });
+
+  it("**確率は 0 より大きい。数と狙いも書いてある**", () => {
+    for (const l of all) {
+      for (const m of l.mix) assert.ok(m.weight > 0, `${l.id}: ${m.enemy} の重みが 0`);
+      assert.ok(l.fixed > 0, `${l.id}: 初期数が 0`);
+      assert.ok(l.perWave >= 0, `${l.id}: wave で増える数が負`);
+      assert.ok(l.concept.length > 0, `${l.id}: 狙いが空`);
+    }
+  });
+});
+
+describe("core/enemy — 出す中身（16-enemy.md 3-1）", () => {
+  const legion = {
+    id: "t",
+    name: "て",
+    star: 1,
+    concept: "て",
+    fixed: 10,
+    perWave: 2,
+    mix: [
+      { enemy: "grunt", weight: 3 },
+      { enemy: "archer", weight: 1 },
+    ],
+  } as const;
+
+  it("**1 人・wave 1 なら、初期数そのまま**", () => {
+    assert.equal(planOf(legion, 1, 1, ENEMIES, () => 0).count, 10);
+  });
+
+  it("**人数倍率は 人数 × 0.5 ＋ 0.5**", () => {
+    assert.equal(planOf(legion, 4, 1, ENEMIES, () => 0).count, 25);
+  });
+
+  it("**上限に当たったぶんは、HP に詰め替える**（3-2）", () => {
+    // **10 人・wave 1**: 出したい 55 体だが、上限は 50 体
+    const plan = planOf(legion, 10, 1, ENEMIES, () => 0);
+    assert.equal(plan.count, 50);
+    assert.equal(plan.pack, 55 / 50);
+  });
+
+  it("**wave が進むと増える**——(10 ＋ 2 ×(wave − 1)) × 倍率", () => {
+    assert.equal(planOf(legion, 1, 5, ENEMIES, () => 0).count, 18);
+    assert.equal(planOf(legion, 2, 5, ENEMIES, () => 0).count, 27);
+  });
+
+  it("**確率どおりに引く**——**低いほうを引く目なら、そちらだけが出る**", () => {
+    const plan = planOf(legion, 1, 1, ENEMIES, () => 0.99);
+    assert.deepEqual(
+      plan.picks.map((p) => [p.enemy.id, p.count]),
+      [["archer", 10]]
+    );
+  });
+
+  it("**出した数の合計は、出す数と同じ**", () => {
+    let seed = 0;
+    const plan = planOf(legion, 6, 1, ENEMIES, () => (seed = (seed * 9301 + 49297) % 233280) / 233280);
+    assert.equal(
+      plan.picks.reduce((sum, p) => sum + p.count, 0),
+      plan.count
+    );
   });
 });

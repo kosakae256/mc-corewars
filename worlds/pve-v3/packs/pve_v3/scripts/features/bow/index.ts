@@ -40,7 +40,9 @@ import { system, world, type ItemStack, type Player } from "@minecraft/server";
 
 import type { Feature } from "../../types.js";
 import { hasteOf } from "../../services/growth.js";
-import { shoot, stepBullets } from "./shoot.js";
+import { shoot } from "./shoot.js";
+import { stepBullets } from "../../services/bullet.js";
+import { stepTraits } from "../../services/traits.js";
 
 /** 弓の識別子 */
 export const BOW = "pve_v3:bow";
@@ -110,8 +112,12 @@ function subscribe(): void {
  * `/reload` や持ち替えで記録がずれても、次の周期で戻る。
  */
 function tick(now: number): void {
-  // **飛んでいる弾を進める**（撃っていない間も動く）
+  // **飛んでいる弾を進める**（撃っていない間も動く）。
+  // **敵の矢もここで進む**——弾は 1 か所でまとめて動かす（`services/bullet.ts`）
   stepBullets(now);
+  // **敵の共通部品も、ここで進める**（`25-enemy-kit.md`）——
+  // **弾・爆弾・円・毒は、どれも毎 tick 動く。** **動かす場所は 1 か所にまとめる**
+  stepTraits(now);
 
   // **溜めは全員ぶん進める**——押していない間も溜まる
   for (const p of world.getAllPlayers()) fill(p);

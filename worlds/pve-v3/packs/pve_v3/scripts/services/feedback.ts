@@ -14,9 +14,12 @@
  * **バニラの被弾の揺れを借りている**（`tilt`）。
  * **画面を赤くするのは諦めた**——理由は `22-feedback.md` 2-1。 */
 
-import { EntityDamageCause, Player, system, world, type Entity } from "@minecraft/server";
+import { EntityDamageCause, Player, system, world, type Entity, type Vector3 } from "@minecraft/server";
 
 import { damageFlash, run } from "./cmd.js";
+import { nextAmount } from "./iframe.js";
+import { knockback } from "./knockback.js";
+import { hurtSound } from "./hurtsound.js";
 
 /**
  * 「いま赤い」を持つ property（`entities/grunt.json`）。
@@ -47,58 +50,26 @@ const SOUND = "random.anvil_land";
 const SOUND_VOLUME = 0.35;
 const SOUND_PITCH = 1.9;
 
-/** 受けた音。**受けた本人にだけ鳴る** */
-const HURT_SOUND = "game.player.hurt";
-
-/**
- * 受けた音の大きさ。
- *
- * > ### **受けた音は必ず鳴る**（2026-09-06 決定・`22-feedback.md` 1 章）
- * >
- * > **奈落でも、毒でも、爆風でも鳴らす。**
- * > **鳴らない削られ方があると、HP が減った理由が分からない。**
- */
-const HURT_VOLUME = 0.7;
-
 /** 大ダメージと認める割合。**最大 HP に対して**（`22-feedback.md` 2 章） */
 export const BIG_CUT = 0.24;
-
-/**
- * 大ダメージの音。**ゴシャッという鈍い音**（2026-09-06 決定）。
- *
- * > ### **2 つ重ねる**
- * >
- * > 鉄ゴーレムの当たり音だけでは**軽くて、鳴っているか分からなかった。**
- * > **金床を低く落としたもの**を重ねて、**厚みを出す。**
- * >
- * > **当てた音も金床**（高さ 1.9）だが、**0.5 まで落とすと別物に聞こえる。**
- */
-const BIG_SOUNDS: readonly { readonly id: string; readonly volume: number; readonly pitch: number }[] = [
-  { id: "random.anvil_land", volume: 1, pitch: 0.5 },
-  { id: "mob.irongolem.hit", volume: 1, pitch: 0.7 },
-];
 
 /** 大ダメージで体から噴き出す赤い粒（`resource_packs/pve_v3/particles/hurt_burst.json`） */
 const BIG_BURST = "pve_v3:hurt_burst";
 
 /**
- * 画面の揺れ。**強さと長さ（秒）**
- *
- * | | いつ |
- * | --- | --- |
- * | **小** | **受けるたび** |
- * | **大** | **最大 HP の 24% 以上**を持って行かれたとき |
+ * 画面の揺れ。**強さと長さ（秒）。受けるたびに小さく**
  *
  * > ### 端末で「カメラの揺れ」を切っていると出ない
  * >
  * > **こちらから直せるものではない。**
  */
-const SMALL_SHAKE = { power: 0.06, time: 0.12 } as const;
-const BIG_SHAKE = { power: 0.28, time: 0.35 } as const;
-
-/** ノックバックの強さ（`22-feedback.md` 4 章） */
-const KNOCK_H = 0.9;
-const KNOCK_V = 0.35;
+/**
+ * > ### **`camerashake` は使わない**（2026-09-08 に外した）
+ * >
+ * > **「成功」を返すのに何も起きなかった**（2026-09-06 に判明していた）。
+ * > **揺れは `damage` コマンドが出している**——**バニラの被弾の揺れ。**
+ * > **二重に流す意味が無いので、処理から外した。**
+ */
 
 /** 赤くしたもの。**id → 下ろす時刻（tick）** */
 const flashing = new Map<string, number>();
@@ -119,8 +90,12 @@ function setHurt(entity: Entity, on: boolean): void {
 function flash(entity: Entity, now: number): void {
   setHurt(entity, true);
   flashing.set(entity.id, now + FLASH);
-  // **プレイヤーは別の出し方**（`tilt`。画面が揺れる）
-  if (!(entity instanceof Player)) damageFlash(entity);
+  // > ### **`damage` コマンドは、相手が誰でも必ず通す**（2026-09-08 決定）
+  // >
+  // > **前はプレイヤーだけ `applyDamage` に分けていた。**
+  // > **同じ「削られた」なのに出方が二通りある**のは、追いにくいだけだった。
+  // > **赤く光るのも、画面が揺れるのも、これ 1 本から出る。**
+  damageFlash(entity);
 }
 
 /**
@@ -131,7 +106,7 @@ function flash(entity: Entity, now: number): void {
  * > **遠くの敵に当てると聞こえない**——弓は 48 マス先まで届く。
  * > **他人のヒット音も要らない**（人数が増えると音が埋まる）。
  */
-function sound(from: Entity | undefined, id: string, volume: number, pitch = 1): void {
+function sound(from: Entity | Vector3 | undefined, id: string, volume: number, pitch = 1): void {
   if (!(from instanceof Player)) return;
   try {
     // **少しだけ散らす**——同じ音が続くと機械的に聞こえる
@@ -142,59 +117,14 @@ function sound(from: Entity | undefined, id: string, volume: number, pitch = 1):
 }
 
 /**
- * **画面を揺らす。**
- *
- * > ### 揺れているのは `camerashake` ではない（2026-09-06 に突き止めた）
- * >
- * > **`camerashake` は「成功」を返すのに、何も起きない。**
- * > **実際に揺れていたのは、バニラの被弾の揺れだった。**
- * >
- * > **1 だけ本物のダメージを入れて、同じ tick で体力を戻す。**
- * > **`override` で入れる**——`events/hurt.ts` が打ち消さない唯一の原因。
- * > **バニラの体力は 1000**（`entities/player.json`）なので、
- * > **1 tick に何発入っても、戻す処理が間に合う。**
- *
- * **強さは選べない。** バニラの揺れは 1 種類しかない。
- * **`camerashake` も一応流す**——効く端末なら、そのぶん強く揺れる。
- */
-function shake(player: Player, power: number, time: number): void {
-  system.run(() => {
-    tilt(player);
-    run(player, `camerashake add @s ${power} ${time} rotational`);
-  });
-}
-
-/** バニラの被弾の揺れ。**体力は同じ tick で戻す** */
-function tilt(player: Player): void {
-  try {
-    const hp = player.getComponent("minecraft:health");
-    if (hp === undefined) return;
-    const before = hp.currentValue;
-    // **死なせない。** 戻す前に落ちてしまう（上限 1000 なので、まず起きない）
-    if (before <= 2) return;
-    player.applyDamage(1, { cause: EntityDamageCause.override });
-    hp.setCurrentValue(before);
-  } catch {
-    /* 消えている */
-  }
-}
-
-/**
  * **大ダメージの手応え**（`22-feedback.md` 2 章）。
  *
- * ```
- * 画面が揺れる ＋ ゴシャッと鳴る ＋ 体から赤い粒が噴き出す
- * ```
+ * > ### 音と揺れはやめた（2026-09-07）
+ * >
+ * > **雰囲気に合わなかった。** **残したのは赤い粒だけ。**
+ * > **受けるたびの揺れ**（`SMALL_SHAKE`）**と、バニラの被弾音はそのまま。**
  */
 export function bigHurt(player: Player, _now: number): void {
-  shake(player, BIG_SHAKE.power, BIG_SHAKE.time);
-  for (const one of BIG_SOUNDS) {
-    try {
-      player.playSound(one.id, { volume: one.volume, pitch: one.pitch });
-    } catch {
-      /* その音が無い端末。**残りは鳴る** */
-    }
-  }
   burst(player);
 }
 
@@ -209,45 +139,21 @@ function burst(player: Player): void {
 }
 
 /**
- * 押す。**既定はプレイヤーだけ**（2026-09-07 に戻した）。
- *
- * > ### **敵は押されないのが普通**
- * >
- * > **押すと、多段ヒットの武器が当てるたびに遠ざける。**
- * > **押したい攻撃だけが、そう言う**（`hit()` の `knock`）。
- *
- * **軽減はこれから**——エンチャントで弱める作りを足す予定。
- */
-function knock(target: Entity, from: Entity | undefined, alsoMobs: boolean): void {
-  if (from === undefined) return;
-  // **モブは、押すと言われたときだけ押す**
-  if (!(target instanceof Player) && !alsoMobs) return;
-  try {
-    const a = target.location;
-    const b = from.location;
-    const dx = a.x - b.x;
-    const dz = a.z - b.z;
-    const len = Math.hypot(dx, dz);
-    if (len < 1e-4) return;
-    target.applyKnockback({ x: (dx / len) * KNOCK_H, z: (dz / len) * KNOCK_H }, KNOCK_V);
-  } catch {
-    /* 消えている */
-  }
-}
-
-/**
  * 当たった手応えを出す。
  *
  * @param from 殴った相手（**居なければ押さない**）
  * @param withSound **通常攻撃のときだけ鳴らす**（2026-08-31 決定）。
  *   延焼のような**毎秒刻むもので鳴らすと、音が鳴りっぱなし**になる
+ * @param knockPower **押す強さ。** 省略なら既定（`core/knockback.ts`）
  */
 export function feedback(
   target: Entity,
-  from: Entity | undefined,
+  from: Entity | Vector3 | undefined,
   now: number,
   withSound = true,
-  knockMobs = false
+  knockMobs = false,
+  knockPower?: number,
+  knockUp?: number
 ): void {
   try {
     flash(target, now);
@@ -256,18 +162,12 @@ export function feedback(
     //
     // 殴ってきたのがモブだと `from` はプレイヤーではないので、
     // **当てた側の音（下の `sound`）は誰にも鳴らない。**
+    hurtSound(target, from instanceof Player ? from : undefined);
     if (target instanceof Player) {
-      try {
-        target.playSound(HURT_SOUND, { volume: HURT_VOLUME, pitch: 0.9 + Math.random() * 0.2 });
-      } catch {
-        /* 消えている */
-      }
-      // **受けるたびに、少しだけ揺らす**（2026-09-06 追加）
-      shake(target, SMALL_SHAKE.power, SMALL_SHAKE.time);
     }
     // **音量は控えめに**（2026-08-31）——毎発鳴るので、大きいと耳に刺さる
     if (withSound) sound(from, SOUND, SOUND_VOLUME, SOUND_PITCH);
-    knock(target, from, knockMobs);
+    knockback(target, from, { power: knockPower, up: knockUp, mobs: knockMobs });
   } catch {
     /* もう居ない */
   }

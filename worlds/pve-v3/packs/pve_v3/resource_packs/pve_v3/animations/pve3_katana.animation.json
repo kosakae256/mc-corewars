@@ -1,0 +1,67 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.katana.charge": {
+      "loop": true,
+      "animation_length": 1.2,
+      "bones": {
+        "waist": {
+          "rotation": ["-9 - this", "0 - this", "0 - this"],
+          "position": [0, "-1.2 + math.sin(q.anim_time * 620) * 0.25", 0]
+        },
+        "rightArm": {
+          "rotation": ["-162 + math.sin(q.anim_time * 900) * 3.5 - this", "0 - this", "0 - this"]
+        },
+        "leftArm": {
+          "rotation": ["-150 + math.sin(q.anim_time * 900 + 40) * 3.5 - this", "0 - this", "0 - this"]
+        },
+        "head": {
+          "rotation": [10, 0, 0]
+        },
+        "rightLeg": {
+          "rotation": ["18 - this", "0 - this", "0 - this"]
+        },
+        "leftLeg": {
+          "rotation": ["-18 - this", "0 - this", "0 - this"]
+        }
+      }
+    },
+    "animation.pve3.katana.slash": {
+      "loop": true,
+      "animation_length": 0.5,
+      "bones": {
+        "root": {
+          "rotation": [0, "-1440 * q.anim_time", 0]
+        },
+        "waist": {
+          "rotation": ["-4 - this", "0 - this", "0 - this"],
+          "position": [0, "math.sin(q.anim_time * 360) * 1.6", 0]
+        },
+        "rightArm": {
+          "rotation": ["math.lerp(-150, -88, math.clamp(q.anim_time * 10, 0, 1)) - this", "0 - this", "0 - this"]
+        },
+        "leftArm": {
+          "rotation": ["math.lerp(-140, -88, math.clamp(q.anim_time * 10, 0, 1)) - this", "0 - this", "0 - this"]
+        },
+        "rightLeg": {
+          "rotation": ["-10 - this", "0 - this", "0 - this"]
+        },
+        "leftLeg": {
+          "rotation": ["10 - this", "0 - this", "0 - this"]
+        }
+      }
+    },
+    "animation.pve3.katana.recover": {
+      "loop": false,
+      "animation_length": 0.45,
+      "bones": {
+        "rightArm": {
+          "rotation": ["math.lerp(-84, -34, math.clamp(q.anim_time * 2.6, 0, 1)) - this", "0 - this", "0 - this"]
+        },
+        "leftArm": {
+          "rotation": ["math.lerp(-84, -20, math.clamp(q.anim_time * 2.6, 0, 1)) - this", "0 - this", "0 - this"]
+        }
+      }
+    }
+  }
+}

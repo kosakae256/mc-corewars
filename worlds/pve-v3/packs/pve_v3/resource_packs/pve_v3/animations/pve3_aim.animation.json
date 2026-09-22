@@ -1,0 +1,24 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.aim.hold": {
+      "loop": true,
+      "bones": {
+        "rightArm": {
+          "rotation": [
+            "query.target_x_rotation - 90.0 - this",
+            "query.target_y_rotation - 5.73",
+            0.0
+          ]
+        },
+        "leftArm": {
+          "rotation": [
+            "query.target_x_rotation - 90.0 - this",
+            "query.target_y_rotation + 28.65",
+            0.0
+          ]
+        }
+      }
+    }
+  }
+}

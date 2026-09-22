@@ -11,13 +11,63 @@
           "default": false,
           "client_sync": true
         },
+        "pve_v3:roused": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "pve_v3:swing": {
+          "type": "float",
+          "range": [
+            0.00,
+            10.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
         "pve_v3:chill": {
           "type": "float",
           "range": [
-            0.0,
-            1.0
+            0.00,
+            1.00
           ],
-          "default": 0.0,
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_r": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_g": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_b": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_a": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
           "client_sync": true
         }
       }
@@ -31,12 +81,9 @@
       },
       "minecraft:collision_box": {
         "width": 0.6,
-        "height": 1.7
+        "height": 1.9
       },
       "minecraft:physics": {},
-      "minecraft:movement": {
-        "value": 0.28
-      },
       "minecraft:movement.basic": {},
       "minecraft:navigation.walk": {
         "is_amphibious": true,
@@ -47,8 +94,8 @@
       "minecraft:can_climb": {},
       "minecraft:persistent": {},
       "minecraft:health": {
-        "value": 1000,
-        "max": 1000
+        "value": 5000,
+        "max": 5000
       },
       "minecraft:breathable": {
         "total_supply": 15,
@@ -60,39 +107,39 @@
       "minecraft:knockback_resistance": {
         "value": 1
       },
-      "minecraft:damage_sensor": {
-        "triggers": {
-          "deals_damage": "no"
-        }
-      },
-      "minecraft:attack": {
-        "damage": 1
-      },
-      "minecraft:behavior.melee_box_attack": {
-        "priority": 3
-      },
       "minecraft:behavior.nearest_attackable_target": {
-        "priority": 2,
-        "must_see": false,
+        "priority": 1,
         "reselect_targets": true,
+        "must_see": false,
+        "within_radius": 100,
         "entity_types": [
           {
             "filters": {
-              "test": "is_family",
-              "subject": "other",
-              "value": "player"
+              "all_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "none_of": [
+                    {
+                      "test": "has_ability",
+                      "subject": "other",
+                      "value": "instabuild"
+                    }
+                  ]
+                }
+              ]
             },
-            "max_dist": 48
+            "max_dist": 100,
+            "must_see": false
           }
         ]
       },
-      "minecraft:behavior.random_stroll": {
-        "priority": 6,
-        "speed_multiplier": 0.8
-      },
       "minecraft:behavior.look_at_player": {
-        "priority": 7,
-        "look_distance": 8
+        "priority": 8,
+        "look_distance": 6
       },
       "minecraft:loot": {
         "table": "loot_tables/empty.json"
@@ -101,8 +148,440 @@
         "always_show": true,
         "allow_name_tag_renaming": false
       },
+      "minecraft:follow_range": {
+        "value": 100,
+        "max": 100
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 9
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 2
+      },
       "minecraft:pushable_by_entity": {},
-      "minecraft:pushable_by_block": {}
+      "minecraft:pushable_by_block": {},
+      "minecraft:attack": {
+        "damage": 0
+      },
+      "minecraft:movement": {
+        "value": 0.2875,
+        "max": 2.0125
+      }
+    },
+    "component_groups": {
+      "pve_v3:haste_100": {},
+      "pve_v3:haste_105": {},
+      "pve_v3:haste_110": {},
+      "pve_v3:haste_116": {},
+      "pve_v3:haste_122": {},
+      "pve_v3:haste_128": {},
+      "pve_v3:haste_134": {},
+      "pve_v3:haste_141": {},
+      "pve_v3:haste_148": {},
+      "pve_v3:haste_155": {},
+      "pve_v3:haste_163": {},
+      "pve_v3:haste_171": {},
+      "pve_v3:haste_180": {},
+      "pve_v3:haste_189": {},
+      "pve_v3:haste_198": {},
+      "pve_v3:haste_208": {},
+      "pve_v3:haste_218": {},
+      "pve_v3:haste_229": {},
+      "pve_v3:haste_241": {},
+      "pve_v3:haste_253": {},
+      "pve_v3:haste_265": {},
+      "pve_v3:haste_279": {},
+      "pve_v3:haste_293": {},
+      "pve_v3:haste_307": {},
+      "pve_v3:haste_323": {},
+      "pve_v3:haste_339": {},
+      "pve_v3:haste_356": {},
+      "pve_v3:haste_373": {},
+      "pve_v3:haste_392": {},
+      "pve_v3:haste_412": {},
+      "pve_v3:haste_432": {},
+      "pve_v3:haste_454": {},
+      "pve_v3:haste_476": {},
+      "pve_v3:haste_500": {},
+      "pve_v3:haste_525": {},
+      "pve_v3:haste_552": {},
+      "pve_v3:haste_579": {},
+      "pve_v3:haste_608": {},
+      "pve_v3:haste_639": {},
+      "pve_v3:haste_670": {},
+      "pve_v3:haste_704": {},
+      "pve_v3:ranged_seek": {
+        "minecraft:attack": {
+          "damage": 0
+        },
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 0,
+          "speed_multiplier": 1,
+          "track_target": true,
+          "require_complete_path": false,
+          "random_stop_interval": 0,
+          "horizontal_reach": 0,
+          "can_spread_on_fire": false
+        }
+      }
+    },
+    "events": {
+      "pve_v3:set_haste_100": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_100"
+          ]
+        }
+      },
+      "pve_v3:set_haste_105": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_105"
+          ]
+        }
+      },
+      "pve_v3:set_haste_110": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_110"
+          ]
+        }
+      },
+      "pve_v3:set_haste_116": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_116"
+          ]
+        }
+      },
+      "pve_v3:set_haste_122": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_122"
+          ]
+        }
+      },
+      "pve_v3:set_haste_128": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_128"
+          ]
+        }
+      },
+      "pve_v3:set_haste_134": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_134"
+          ]
+        }
+      },
+      "pve_v3:set_haste_141": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_141"
+          ]
+        }
+      },
+      "pve_v3:set_haste_148": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_148"
+          ]
+        }
+      },
+      "pve_v3:set_haste_155": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_155"
+          ]
+        }
+      },
+      "pve_v3:set_haste_163": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_163"
+          ]
+        }
+      },
+      "pve_v3:set_haste_171": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_171"
+          ]
+        }
+      },
+      "pve_v3:set_haste_180": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_180"
+          ]
+        }
+      },
+      "pve_v3:set_haste_189": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_189"
+          ]
+        }
+      },
+      "pve_v3:set_haste_198": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_198"
+          ]
+        }
+      },
+      "pve_v3:set_haste_208": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_208"
+          ]
+        }
+      },
+      "pve_v3:set_haste_218": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_218"
+          ]
+        }
+      },
+      "pve_v3:set_haste_229": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_229"
+          ]
+        }
+      },
+      "pve_v3:set_haste_241": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_241"
+          ]
+        }
+      },
+      "pve_v3:set_haste_253": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_253"
+          ]
+        }
+      },
+      "pve_v3:set_haste_265": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_265"
+          ]
+        }
+      },
+      "pve_v3:set_haste_279": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_279"
+          ]
+        }
+      },
+      "pve_v3:set_haste_293": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_293"
+          ]
+        }
+      },
+      "pve_v3:set_haste_307": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_307"
+          ]
+        }
+      },
+      "pve_v3:set_haste_323": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_323"
+          ]
+        }
+      },
+      "pve_v3:set_haste_339": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_339"
+          ]
+        }
+      },
+      "pve_v3:set_haste_356": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_356"
+          ]
+        }
+      },
+      "pve_v3:set_haste_373": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_373"
+          ]
+        }
+      },
+      "pve_v3:set_haste_392": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_392"
+          ]
+        }
+      },
+      "pve_v3:set_haste_412": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_412"
+          ]
+        }
+      },
+      "pve_v3:set_haste_432": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_432"
+          ]
+        }
+      },
+      "pve_v3:set_haste_454": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_454"
+          ]
+        }
+      },
+      "pve_v3:set_haste_476": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_476"
+          ]
+        }
+      },
+      "pve_v3:set_haste_500": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_500"
+          ]
+        }
+      },
+      "pve_v3:set_haste_525": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_525"
+          ]
+        }
+      },
+      "pve_v3:set_haste_552": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_552"
+          ]
+        }
+      },
+      "pve_v3:set_haste_579": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_579"
+          ]
+        }
+      },
+      "pve_v3:set_haste_608": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_608"
+          ]
+        }
+      },
+      "pve_v3:set_haste_639": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_639"
+          ]
+        }
+      },
+      "pve_v3:set_haste_670": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_670"
+          ]
+        }
+      },
+      "pve_v3:set_haste_704": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_704"
+          ]
+        }
+      },
+      "pve_v3:haste_clear": {
+        "remove": {
+          "component_groups": [
+            "pve_v3:haste_100",
+            "pve_v3:haste_105",
+            "pve_v3:haste_110",
+            "pve_v3:haste_116",
+            "pve_v3:haste_122",
+            "pve_v3:haste_128",
+            "pve_v3:haste_134",
+            "pve_v3:haste_141",
+            "pve_v3:haste_148",
+            "pve_v3:haste_155",
+            "pve_v3:haste_163",
+            "pve_v3:haste_171",
+            "pve_v3:haste_180",
+            "pve_v3:haste_189",
+            "pve_v3:haste_198",
+            "pve_v3:haste_208",
+            "pve_v3:haste_218",
+            "pve_v3:haste_229",
+            "pve_v3:haste_241",
+            "pve_v3:haste_253",
+            "pve_v3:haste_265",
+            "pve_v3:haste_279",
+            "pve_v3:haste_293",
+            "pve_v3:haste_307",
+            "pve_v3:haste_323",
+            "pve_v3:haste_339",
+            "pve_v3:haste_356",
+            "pve_v3:haste_373",
+            "pve_v3:haste_392",
+            "pve_v3:haste_412",
+            "pve_v3:haste_432",
+            "pve_v3:haste_454",
+            "pve_v3:haste_476",
+            "pve_v3:haste_500",
+            "pve_v3:haste_525",
+            "pve_v3:haste_552",
+            "pve_v3:haste_579",
+            "pve_v3:haste_608",
+            "pve_v3:haste_639",
+            "pve_v3:haste_670",
+            "pve_v3:haste_704"
+          ]
+        }
+      },
+      "pve_v3:ranged_seek": {
+        "remove": {
+          "component_groups": [
+            "pve_v3:ranged_seek"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "pve_v3:ranged_seek"
+          ]
+        }
+      },
+      "pve_v3:ranged_hold": {
+        "remove": {
+          "component_groups": [
+            "pve_v3:ranged_seek"
+          ]
+        }
+      }
     }
   }
 }

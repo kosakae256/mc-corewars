@@ -1,0 +1,27 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.pve3.bomber_throw": {
+      "initial_state": "ready",
+      "states": {
+        "ready": {
+          "transitions": [
+            {
+              "throwing": "q.property('pve_v3:swing') > 0"
+            }
+          ]
+        },
+        "throwing": {
+          "animations": [
+            "rpg_throw"
+          ],
+          "transitions": [
+            {
+              "ready": "q.property('pve_v3:swing') <= 0"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

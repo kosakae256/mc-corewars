@@ -15,6 +15,10 @@
 | [01-roles.md](01-roles.md) | **ロール。** 弓 6 種の構想。**モーション強化の中身は未定** |
 | [02-map.md](02-map.md) | **戦場。** 20 通り・100×100・毎ウェーブ変わる |
 
+| [06-map-ideas.md](06-map-ideas.md) | **マップの案。** たたき台 |
+| [07-enemy-plan.md](07-enemy-plan.md) | **敵をどう揃えるか。** 50 体・★ごと 10 体・中核 10 体 |
+| [draft/](draft/) | **使わないアイデア置き場**（2026-09-08 に棄却した敵の案） |
+
 ## 仕様（どう作るか）
 
 | | |
@@ -24,6 +28,17 @@
 | [spec/15-growth.md](spec/15-growth.md) | **強化とエメラルド。** 4 本の数値・値段・攻撃速度の作り |
 | [spec/16-enemy.md](spec/16-enemy.md) | **敵。** ★・呪い・カスタム実体 |
 | [spec/17-state.md](spec/17-state.md) | **状態。** ワールド 6 つ・プレイヤー 9 つ。**機能を足す前にここを見る** |
+| [spec/18-boss-wyvern.md](spec/18-boss-wyvern.md) | **ボス（飛竜）。** 行動と段階 |
+| [spec/19-map-store.md](spec/19-map-store.md) | **マップ倉庫。** スロット（x に 1000 ずつ）・区画・バックアップ |
+| [spec/20-portal.md](spec/20-portal.md) | **ゲートと移動。** 暗転・くぐる判定 |
+| [spec/21-spawn-mark.md](spec/21-spawn-mark.md) | **湧き点。** 杖で打つ・マップごとに持つ |
+| [spec/22-feedback.md](spec/22-feedback.md) | **手応え。** 音・揺れ・ノックバック・被弾演出 |
+| [spec/23-enemy-unit.md](spec/23-enemy-unit.md) | **敵 1 体のひな形。** 固有値・行動・報酬。**何を決めるか** |
+| [spec/24-mob-howto.md](spec/24-mob-howto.md) | **モブ作りの手引き。** 1 体目で引っかかった所。**どう作るか** |
+
+| [spec/38-ranged-ai-and-cover.md](spec/38-ranged-ai-and-cover.md) | 遠距離AI・遮蔽・索敵100・★表示の統一 |
+
+| [spec/39-player-hp-hud.md](spec/39-player-hp-hud.md) | 背景なしのHPとエメラルド、ハート・食料欄の置き換え |
 
 ## いま動いているもの
 

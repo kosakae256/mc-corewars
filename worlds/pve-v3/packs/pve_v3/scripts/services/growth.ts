@@ -17,7 +17,9 @@
 import type { Player } from "@minecraft/server";
 
 import { nextCost, statValue, type StatKey } from "../core/growth.js";
-import { emeraldOf, levelOf, setEmerald, setLevel } from "../state/growth.js";
+import { emeraldOf, levelOf, reset, setEmerald, setLevel } from "../state/growth.js";
+import { has, max, setMax, setup } from "../state/hp.js";
+import { KEYS } from "../state/keys.js";
 
 /**
  * 素の移動速度。
@@ -44,6 +46,44 @@ export function valueOf(player: Player, key: StatKey): number {
 /** その人の最大 HP */
 export function maxHpOf(player: Player): number {
   return valueOf(player, "hp");
+}
+
+/** 確認用HP指定にも、その後の購入分を加える。旧指定は初期HP基準で補正する。 */
+export function effectiveMaxHpOf(player: Player): number {
+  const growth = maxHpOf(player);
+  try {
+    const base = player.getDynamicProperty(KEYS.hpBase);
+    const saved = player.getDynamicProperty(KEYS.hpBaseGrowth);
+    if (typeof base === "number" && Number.isFinite(base) && base > 0) {
+      const before = typeof saved === "number" && Number.isFinite(saved) ? saved : statValue("hp", 0);
+      return Math.max(1, base + growth - before);
+    }
+  } catch {
+    /* 消えている */
+  }
+  return growth;
+}
+
+/** 購入時と周期処理で同じ最大HPを反映する。現在HPは回復させない。 */
+export function applyHp(player: Player): void {
+  const cap = effectiveMaxHpOf(player);
+  if (!has(player)) setup(player, cap);
+  else if (max(player) !== cap) setMax(player, cap);
+}
+
+/** コマンド指定時点の強化量を記録し、以後の買い増しを妨げない。 */
+export function setPlayerHp(player: Player, value: number): void {
+  player.setDynamicProperty(KEYS.hpBaseGrowth, maxHpOf(player));
+  player.setDynamicProperty(KEYS.hpBase, value);
+  applyHp(player);
+}
+
+/** 試合終了時の強化と確認用HPを消し、ロビーへ戻す前に初期HPで満タンにする。 */
+export function resetForLobby(player: Player): void {
+  reset(player);
+  player.setDynamicProperty(KEYS.hpBase, undefined);
+  player.setDynamicProperty(KEYS.hpBaseGrowth, undefined);
+  setup(player, maxHpOf(player));
 }
 
 /** 攻撃力の倍率。**1.0 が素** */
@@ -98,6 +138,7 @@ export function buy(player: Player, key: StatKey, times: number): BuyResult {
   if (bought > 0) {
     setLevel(player, key, level);
     setEmerald(player, wallet);
+    if (key === "hp") applyHp(player);
   }
   return { bought, spent, level, value: statValue(key, level), left: wallet };
 }

@@ -1,0 +1,16 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.pve3_bomb": {
+      "geometry": "Geometry.default",
+      "materials": [{ "*": "Material.default" }],
+      "textures": ["Texture.default"],
+      "overlay_color": {
+        "r": "variable.flash == 0.0 ? this : 1.0",
+        "g": "variable.flash == 0.0 ? this : 0.12",
+        "b": "variable.flash == 0.0 ? this : 0.08",
+        "a": "variable.flash == 0.0 ? this : 0.3"
+      }
+    }
+  }
+}

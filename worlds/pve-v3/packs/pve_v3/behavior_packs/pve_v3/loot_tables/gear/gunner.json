@@ -1,0 +1,14 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "pve_v3:pistol",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

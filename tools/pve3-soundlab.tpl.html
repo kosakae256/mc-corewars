@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>音の工房</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --bg: #f2eee7;
+    --panel: #fffdf9;
+    --line: #dcd3c6;
+    --ink: #1c1714;
+    --muted: #6b6157;
+    --accent: #1c6b62;
+    --hot: #b8431c;
+    --low: #a8722f;
+    --mid: #6f7350;
+    --high: #43708a;
+    --shadow: 0 1px 0 rgba(28, 23, 20, .05), 0 10px 26px -20px rgba(28, 23, 20, .55);
+    --jp: "Zen Kaku Gothic New", system-ui, sans-serif;
+    --num: "Chakra Petch", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #121311;
+      --panel: #1b1d1a;
+      --line: #2f332e;
+      --ink: #ecece6;
+      --muted: #9aa093;
+      --accent: #5fd3c2;
+      --hot: #ef8054;
+      --low: #d19a4e;
+      --mid: #b3b579;
+      --high: #7bb0c8;
+      --shadow: 0 1px 0 rgba(0, 0, 0, .35), 0 12px 30px -22px #000;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--jp); line-height: 1.65; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 18px 60px; }
+  header { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  h1 { font-size: 24px; margin: 0; letter-spacing: .02em; }
+  .sub { margin: 0; color: var(--muted); font-size: 13px; }
+
+  .bases { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 20px; align-items: center; }
+  .bases .tag { font-family: var(--num); font-size: 11px; letter-spacing: .16em; color: var(--muted); }
+  button {
+    font: inherit; color: inherit; cursor: pointer; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 6px; padding: 6px 13px;
+  }
+  button:hover { border-color: var(--accent); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+  @media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+  .col { display: flex; flex-direction: column; gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 15px 16px 17px; box-shadow: var(--shadow); }
+  h2 { font-family: var(--num); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 0 0 3px; }
+  .why { margin: 0 0 12px; font-size: 12.5px; color: var(--muted); }
+
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 0 10px; align-items: baseline; }
+  .row + .row { margin-top: 11px; }
+  .row label { font-size: 13.5px; }
+  .row output { font-family: var(--num); font-weight: 600; font-variant-numeric: tabular-nums; font-size: 13px; color: var(--accent); }
+  .hint { grid-column: 1 / -1; margin: 0; font-size: 11.5px; color: var(--muted); }
+  input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); margin: 4px 0 2px; }
+
+  .play { background: var(--hot); border-color: var(--hot); color: #fff; font-family: var(--num); font-weight: 700; letter-spacing: .12em; padding: 12px 20px; width: 100%; font-size: 15px; }
+  .play:hover { filter: brightness(1.08); border-color: var(--hot); }
+  .save { width: 100%; margin-top: 9px; padding: 10px; }
+
+  canvas { width: 100%; height: auto; display: block; border-radius: 6px; background: color-mix(in srgb, var(--ink) 5%, transparent); }
+  .bands { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 11px; }
+  .band { border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; }
+  .band b { display: block; font-family: var(--num); font-size: 19px; font-variant-numeric: tabular-nums; line-height: 1.3; }
+  .band span { font-size: 11px; color: var(--muted); }
+  .band.lo b { color: var(--low); } .band.mi b { color: var(--mid); } .band.hi b { color: var(--high); }
+  .meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 12.5px; color: var(--muted); }
+  .meta b { font-family: var(--num); color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  pre { font-family: var(--num); font-size: 12px; line-height: 1.7; background: color-mix(in srgb, var(--ink) 6%, transparent); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; margin: 0; overflow-x: auto; }
+  .foot { margin-top: 9px; font-size: 12.5px; color: var(--muted); }
+  code { font-family: var(--num); background: color-mix(in srgb, var(--ink) 8%, transparent); padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>音の工房</h1>
+    <p class="sub">種を選んで、いじって、WAV で保存 ─ 保存したものは <code>tools/pve3-sound.py</code> でパックに入る</p>
+  </header>
+
+  <div class="bases">
+    <span class="tag">たね</span>
+    <span id="baseButtons"></span>
+    <button id="reset">まっさら</button>
+  </div>
+
+  <div class="grid">
+    <div class="col">
+      <div class="card">
+        <h2>高さと速さ</h2>
+        <div class="row">
+          <label for="semi">高さ（半音）</label><output id="semiOut"></output>
+          <input type="range" id="semi" min="-24" max="24" step="1" value="0">
+          <p class="hint">下げると低く、長くなる。上げると高く、短くなる</p>
+        </div>
+        <div class="row">
+          <label for="bend">落ち（下がり方）</label><output id="bendOut"></output>
+          <input type="range" id="bend" min="-24" max="24" step="1" value="0">
+          <p class="hint">鳴っている間に高さが動く。マイナスで沈む</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>音色</h2>
+        <div class="row">
+          <label for="lp">こもり（この上を落とす）</label><output id="lpOut"></output>
+          <input type="range" id="lp" min="200" max="16000" step="100" value="16000">
+        </div>
+        <div class="row">
+          <label for="hp">芯（この下を落とす）</label><output id="hpOut"></output>
+          <input type="range" id="hp" min="0" max="2000" step="10" value="0">
+        </div>
+        <div class="row">
+          <label for="drive">歪み</label><output id="driveOut"></output>
+          <input type="range" id="drive" min="1" max="12" step="0.1" value="1">
+          <p class="hint">上げると潰れて、荒い当たりになる</p>
+        </div>
+        <div class="row">
+          <label for="noise">雑音を混ぜる</label><output id="noiseOut"></output>
+          <input type="range" id="noise" min="0" max="1" step="0.02" value="0">
+          <p class="hint">頭に「シャッ」を足す</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>形</h2>
+        <div class="row">
+          <label for="attack">立ち上がり</label><output id="attackOut"></output>
+          <input type="range" id="attack" min="0" max="120" step="1" value="0">
+          <p class="hint">ミリ秒。上げるとふわっと出る</p>
+        </div>
+        <div class="row">
+          <label for="decay">減り方</label><output id="decayOut"></output>
+          <input type="range" id="decay" min="0" max="300" step="1" value="0">
+          <p class="hint">上げるほど、ぱっと消える</p>
+        </div>
+        <div class="row">
+          <label for="len">長さ</label><output id="lenOut"></output>
+          <input type="range" id="len" min="0.02" max="1.2" step="0.01" value="1.2">
+          <p class="hint">ここで切る</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>繰り返し</h2>
+        <p class="why">同じ粒を並べる。「ピピピ」はここで作る。</p>
+        <div class="row">
+          <label for="times">回数</label><output id="timesOut"></output>
+          <input type="range" id="times" min="1" max="8" step="1" value="1">
+        </div>
+        <div class="row">
+          <label for="gap">間隔</label><output id="gapOut"></output>
+          <input type="range" id="gap" min="10" max="300" step="1" value="60">
+          <p class="hint">ミリ秒</p>
+        </div>
+        <div class="row">
+          <label for="fall">1 回ごとに下げる</label><output id="fallOut"></output>
+          <input type="range" id="fall" min="-6" max="6" step="0.5" value="0">
+          <p class="hint">半音。マイナスで沈んでいく</p>
+        </div>
+        <div class="row">
+          <label for="quiet">1 回ごとに小さく</label><output id="quietOut"></output>
+          <input type="range" id="quiet" min="0" max="0.6" step="0.02" value="0.15">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>余韻と音量</h2>
+        <div class="row">
+          <label for="echo">残響</label><output id="echoOut"></output>
+          <input type="range" id="echo" min="0" max="0.8" step="0.02" value="0">
+          <p class="hint">短い反射。広い所で鳴らした感じ</p>
+        </div>
+        <div class="row">
+          <label for="echoMs">反射までの間</label><output id="echoMsOut"></output>
+          <input type="range" id="echoMs" min="10" max="200" step="1" value="55">
+        </div>
+        <div class="row">
+          <label for="rms">太さ</label><output id="rmsOut"></output>
+          <input type="range" id="rms" min="0.04" max="0.4" step="0.01" value="0.16">
+          <p class="hint">平均の強さで揃える</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card">
+        <h2>鳴らす</h2>
+        <p class="why">つまみを離すたびに鳴る。space でも鳴る。</p>
+        <button class="play" id="play">▶ 鳴らす</button>
+        <button class="save" id="save">WAV で保存</button>
+        <div class="meta">
+          <span>長さ <b id="mLen">—</b></span>
+          <span>重心 <b id="mCent">—</b></span>
+          <span>太さ <b id="mRms">—</b></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>波形</h2>
+        <canvas id="wave" width="900" height="180"></canvas>
+        <div class="bands">
+          <div class="band lo"><b id="bLo">—</b><span>低 〜200Hz</span></div>
+          <div class="band mi"><b id="bMi">—</b><span>中 200〜1500Hz</span></div>
+          <div class="band hi"><b id="bHi">—</b><span>高 1500Hz〜</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>取り込み方</h2>
+        <p class="why">保存した WAV を <code>worlds/pve-v3/user/</code> に置いて、これを走らせる。</p>
+        <pre id="cmd"></pre>
+        <p class="foot">名前を変えれば、別の音として登録される。<code>--keep</code> で長さ、<code>--rms</code> で音量。</p>
+      </div>
+
+      <div class="card">
+        <h2>いまの設定</h2>
+        <pre id="dump"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const BASES = {
+__BASES__
+  };
+  const LABEL = {
+    blip: "ピッ", tick: "チッ", thud: "ドッ", snap: "パンッ",
+    metal: "キンッ", wood: "コッ", pop: "ポッ", noise: "シャッ",
+  };
+  const el = (id) => document.getElementById(id);
+  const IDS = ["semi", "bend", "lp", "hp", "drive", "noise", "attack", "decay", "len", "times", "gap", "fall", "quiet", "echo", "echoMs", "rms"];
+  const DEF = { semi: 0, bend: 0, lp: 16000, hp: 0, drive: 1, noise: 0, attack: 0, decay: 0, len: 1.2, times: 1, gap: 60, fall: 0, quiet: 0.15, echo: 0, echoMs: 55, rms: 0.16 };
+
+  let ac = null, name = "blip", built = null;
+  const raw = {};
+
+  const read = () => { const o = {}; for (const k of IDS) o[k] = parseFloat(el(k).value); return o; };
+  const apply = (v) => { for (const k of IDS) el(k).value = v[k]; };
+
+  async function load(key) {
+    if (raw[key]) return raw[key];
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    const res = await fetch(BASES[key]);
+    const buf = await ac.decodeAudioData(await res.arrayBuffer());
+    raw[key] = { mono: buf.getChannelData(0).slice(), rate: buf.sampleRate };
+    return raw[key];
+  }
+
+  // ---- 部品
+  const onePole = (x, hz, rate, high) => {
+    const a = 1 - Math.exp((-2 * Math.PI * hz) / rate);
+    const out = new Float32Array(x.length);
+    let y = 0;
+    for (let i = 0; i < x.length; i++) { y += a * (x[i] - y); out[i] = high ? x[i] - y : y; }
+    return out;
+  };
+  function resample(x, factor, rate, bendSemi) {
+    // factor < 1 で遅く（低く）。bend は鳴っている間に高さを動かす
+    const n = Math.max(4, Math.floor(x.length / factor));
+    const out = new Float32Array(n);
+    let pos = 0;
+    for (let i = 0; i < n; i++) {
+      const k = i / n;
+      const step = factor * Math.pow(2, (bendSemi * k) / 12);
+      const i0 = Math.floor(pos), f = pos - i0;
+      out[i] = i0 + 1 < x.length ? x[i0] * (1 - f) + x[i0 + 1] * f : 0;
+      pos += step;
+      if (pos >= x.length - 1) { out.fill(0, i + 1); break; }
+    }
+    return out;
+  }
+
+  function build(src, p) {
+    const rate = src.rate;
+    let x = resample(src.mono, Math.pow(2, p.semi / 12), rate, p.bend);
+
+    if (p.hp > 0) x = onePole(x, p.hp, rate, true);
+    if (p.lp < 15900) x = onePole(x, p.lp, rate, false);
+
+    if (p.noise > 0) {
+      const n = Math.min(x.length, Math.round(rate * 0.03));
+      for (let i = 0; i < n; i++) x[i] += (Math.random() * 2 - 1) * Math.exp((-i / rate) * 500) * p.noise * 0.7;
+    }
+    if (p.decay > 0) for (let i = 0; i < x.length; i++) x[i] *= Math.exp((-i / rate) * p.decay);
+    if (p.attack > 0) {
+      const n = Math.min(x.length, Math.round((rate * p.attack) / 1000));
+      for (let i = 0; i < n; i++) x[i] *= i / n;
+    }
+    if (p.drive > 1) for (let i = 0; i < x.length; i++) x[i] = Math.tanh(x[i] * p.drive) / Math.tanh(p.drive);
+
+    // ---- 繰り返し
+    const times = Math.round(p.times);
+    if (times > 1) {
+      const gap = Math.round((rate * p.gap) / 1000);
+      const total = gap * (times - 1) + x.length;
+      const rep = new Float32Array(total);
+      for (let k = 0; k < times; k++) {
+        const one = p.fall === 0 ? x : resample(x, Math.pow(2, (-p.fall * k) / 12), rate, 0);
+        const vol = Math.pow(1 - p.quiet, k);
+        for (let i = 0; i < one.length; i++) {
+          const at = gap * k + i;
+          if (at < total) rep[at] += one[i] * vol;
+        }
+      }
+      x = rep;
+    }
+
+    // ---- 残響（短い反射を 3 回）
+    if (p.echo > 0) {
+      const d = Math.round((rate * p.echoMs) / 1000);
+      const out = new Float32Array(x.length + d * 3);
+      out.set(x);
+      for (let k = 1; k <= 3; k++) {
+        const g = Math.pow(p.echo, k);
+        for (let i = 0; i < x.length; i++) out[i + d * k] += x[i] * g;
+      }
+      x = out;
+    }
+
+    // ---- 切る
+    const cap = Math.round(rate * p.len);
+    if (x.length > cap) x = x.slice(0, cap);
+
+    // ---- 丸める
+    const head = Math.min(48, x.length >> 4);
+    for (let i = 0; i < head; i++) x[i] *= i / head;
+    const tail = Math.min(Math.floor(x.length / 3), Math.round(rate * 0.008));
+    for (let i = 0; i < tail; i++) { const k = 1 - i / tail; x[x.length - tail + i] *= k * k; }
+
+    // ---- 音量
+    let s = 0;
+    for (let i = 0; i < x.length; i++) s += x[i] * x[i];
+    const cur = Math.sqrt(s / x.length) || 1;
+    let peak = 0;
+    for (let i = 0; i < x.length; i++) { x[i] *= p.rms / cur; peak = Math.max(peak, Math.abs(x[i])); }
+    if (peak > 0.97) for (let i = 0; i < x.length; i++) x[i] = (x[i] / peak) * 0.97;
+    return { out: x, rate };
+  }
+
+  function bands(x, rate) {
+    const N = Math.min(4096, x.length);
+    const win = new Float64Array(N);
+    for (let i = 0; i < N; i++) win[i] = x[i] * (0.5 - 0.5 * Math.cos((2 * Math.PI * i) / N));
+    const power = (f) => {
+      const w = (2 * Math.PI * f) / rate, c = 2 * Math.cos(w);
+      let s1 = 0, s2 = 0;
+      for (let i = 0; i < N; i++) { const t = win[i] + c * s1 - s2; s2 = s1; s1 = t; }
+      return Math.max(0, s1 * s1 + s2 * s2 - c * s1 * s2);
+    };
+    const sweep = (lo, hi, steps) => {
+      let s = 0;
+      for (let i = 0; i < steps; i++) s += power(lo * Math.pow(hi / lo, i / (steps - 1)));
+      return s / steps;
+    };
+    const lo = sweep(40, 200, 10), mi = sweep(200, 1500, 14), hi = sweep(1500, 12000, 16);
+    const t = lo + mi + hi || 1;
+    return { lo: (lo / t) * 100, mi: (mi / t) * 100, hi: (hi / t) * 100, cent: (110 * lo + 620 * mi + 4200 * hi) / t };
+  }
+
+  function draw(x) {
+    const c = el("wave"), g = c.getContext("2d");
+    const w = c.width, h = c.height, mid = h / 2;
+    const css = getComputedStyle(document.documentElement);
+    g.clearRect(0, 0, w, h);
+    g.strokeStyle = css.getPropertyValue("--line").trim();
+    g.beginPath(); g.moveTo(0, mid + .5); g.lineTo(w, mid + .5); g.stroke();
+    g.fillStyle = css.getPropertyValue("--hot").trim();
+    const step = Math.max(1, Math.floor(x.length / w));
+    for (let px = 0; px < w; px++) {
+      const i0 = Math.floor((px / w) * x.length);
+      let top = 0;
+      for (let i = i0; i < i0 + step && i < x.length; i++) top = Math.max(top, Math.abs(x[i]));
+      const bar = top * (h / 2 - 5);
+      g.fillRect(px, mid - bar, 1, Math.max(1, bar * 2));
+    }
+  }
+
+  function refresh() {
+    const p = read();
+    el("semiOut").textContent = (p.semi > 0 ? "+" : "") + p.semi;
+    el("bendOut").textContent = (p.bend > 0 ? "+" : "") + p.bend;
+    el("lpOut").textContent = p.lp >= 15900 ? "そのまま" : Math.round(p.lp) + " Hz";
+    el("hpOut").textContent = p.hp <= 0 ? "そのまま" : Math.round(p.hp) + " Hz";
+    el("driveOut").textContent = p.drive.toFixed(1) + " 倍";
+    el("noiseOut").textContent = p.noise.toFixed(2);
+    el("attackOut").textContent = Math.round(p.attack) + " ms";
+    el("decayOut").textContent = p.decay === 0 ? "そのまま" : Math.round(p.decay);
+    el("lenOut").textContent = p.len.toFixed(2) + " 秒";
+    el("timesOut").textContent = Math.round(p.times) + " 回";
+    el("gapOut").textContent = Math.round(p.gap) + " ms";
+    el("fallOut").textContent = (p.fall > 0 ? "+" : "") + p.fall;
+    el("quietOut").textContent = p.quiet.toFixed(2);
+    el("echoOut").textContent = p.echo === 0 ? "無し" : p.echo.toFixed(2);
+    el("echoMsOut").textContent = Math.round(p.echoMs) + " ms";
+    el("rmsOut").textContent = p.rms.toFixed(2);
+
+    const src = raw[name];
+    if (!src) return;
+    built = build(src, p);
+    draw(built.out);
+    const b = bands(built.out, built.rate);
+    el("bLo").textContent = Math.round(b.lo) + "%";
+    el("bMi").textContent = Math.round(b.mi) + "%";
+    el("bHi").textContent = Math.round(b.hi) + "%";
+    let s = 0;
+    for (let i = 0; i < built.out.length; i++) s += built.out[i] * built.out[i];
+    el("mLen").textContent = Math.round((built.out.length / built.rate) * 1000) + " ms";
+    el("mCent").textContent = Math.round(b.cent) + " Hz";
+    el("mRms").textContent = Math.sqrt(s / built.out.length).toFixed(3);
+    el("cmd").textContent =
+      "python tools/pve3-sound.py worlds/pve-v3/user/" + name + ".wav " + name + " --keep " +
+      (built.out.length / built.rate + 0.05).toFixed(2) + " --rms " + p.rms.toFixed(2) + " --denoise 0";
+    el("dump").textContent = "たね " + name + "（" + LABEL[name] + "）\n" +
+      IDS.map((k) => k + " = " + p[k]).join("\n");
+  }
+
+  function play() {
+    if (!built || !ac) return;
+    if (ac.state === "suspended") ac.resume();
+    const b = ac.createBuffer(1, built.out.length, built.rate);
+    b.getChannelData(0).set(built.out);
+    const s = ac.createBufferSource();
+    s.buffer = b; s.connect(ac.destination); s.start();
+  }
+
+  function saveWav() {
+    if (!built) return;
+    const x = built.out, rate = built.rate;
+    const buf = new ArrayBuffer(44 + x.length * 2);
+    const v = new DataView(buf);
+    const put = (o, t) => { for (let i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); };
+    put(0, "RIFF"); v.setUint32(4, 36 + x.length * 2, true); put(8, "WAVEfmt ");
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+    put(36, "data"); v.setUint32(40, x.length * 2, true);
+    for (let i = 0; i < x.length; i++) v.setInt16(44 + i * 2, Math.max(-1, Math.min(1, x[i])) * 32767, true);
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
+    a.download = name + ".wav";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+
+  const box = el("baseButtons");
+  for (const key of Object.keys(BASES)) {
+    const b = document.createElement("button");
+    b.textContent = LABEL[key] + " " + key;
+    b.dataset.key = key;
+    b.setAttribute("aria-pressed", String(key === name));
+    b.addEventListener("click", async () => {
+      name = key;
+      for (const other of box.querySelectorAll("button")) other.setAttribute("aria-pressed", String(other.dataset.key === key));
+      await load(key);
+      refresh();
+      play();
+    });
+    box.appendChild(b);
+    box.appendChild(document.createTextNode(" "));
+  }
+
+  for (const k of IDS) {
+    el(k).addEventListener("input", refresh);
+    el(k).addEventListener("change", play);
+  }
+  el("play").addEventListener("click", play);
+  el("save").addEventListener("click", saveWav);
+  el("reset").addEventListener("click", () => { apply(DEF); refresh(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space" && e.target === document.body) { e.preventDefault(); play(); }
+  });
+
+  apply(DEF);
+  load(name).then(refresh);
+</script>
+</body>
+</html>

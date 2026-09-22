@@ -26,6 +26,8 @@ import { isFullBlock } from "../core/spawnmark.js";
 import * as match from "../state/match.js";
 import { isDead, membership, setDead, setMembership } from "../state/member.js";
 import { isPicked } from "../state/pick.js";
+import { current } from "../state/hp.js";
+import { resetForLobby } from "./growth.js";
 
 /** 固定しているときの立ち位置。**メモリだけ**（`/reload` で消えてよい） */
 const anchors = new Map<string, Vector3>();
@@ -174,16 +176,18 @@ function fixGameMode(player: Player, want: GameMode): void {
  * | **固定** | 止まっている間は、覚えた立ち位置から離れさせない |
  */
 export function reconcile(player: Player, now: number): void {
+  const worldPhase = match.phase();
+  // 終了処理を取りこぼした人も、移動・ゲームモード補正の前に100/100へ戻す。
+  if (worldPhase === "idle" && (membership(player) !== "out" || isDead(player) || current(player) === 0)) {
+    resetForLobby(player);
+    setDead(player, false);
+    setMembership(player, "out");
+  }
   if (isCreative(player)) {
     anchors.delete(player.id);
     buried.delete(player.id);
     return;
   }
-
-  const worldPhase = match.phase();
-
-  // **非開始に参加者は居ない**
-  if (worldPhase === "idle" && membership(player) !== "out") setMembership(player, "out");
 
   const ph = phaseOf(player);
   fixGameMode(player, mustSpectate(ph) ? GameMode.Spectator : GameMode.Adventure);

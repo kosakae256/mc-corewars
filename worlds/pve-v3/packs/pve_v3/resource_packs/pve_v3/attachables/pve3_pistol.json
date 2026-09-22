@@ -1,0 +1,45 @@
+{
+  "format_version": "1.20.30",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "pve_v3:pistol",
+      "item": {
+        "pve_v3:pistol": "1.0"
+      },
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/pve3_pistol",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.pve3.pistol"
+      },
+      "animations": {
+        "shotgun": "animation.pve3.gun_item.shotgun",
+        "held": "animation.pve3.gun_item.held",
+        "first_person": "animation.pve3.gun_item.first_person"
+      },
+      "scripts": {
+        "should_update_bones_and_effects_offscreen": true,
+        "should_update_effects_offscreen": true,
+        "animate": [
+          {
+            "shotgun": "q.is_owner_identifier_any('pve_v3:gunner')"
+          },
+          {
+            "held": "!q.is_owner_identifier_any('pve_v3:gunner') && !context.is_first_person"
+          },
+          {
+            "first_person": "context.is_first_person"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.item_default"
+      ]
+    }
+  }
+}

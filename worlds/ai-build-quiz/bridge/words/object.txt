@@ -1,0 +1,638 @@
+# 道具・家具・楽器・服・日用品（object）。薄い物（紙・カード・定規）は入れない。列: ja	reading	en	aliases	level	seed	hint（ジャンル。10 秒のヒント）	english（英語の答え。必須。en は裏プロンプトで答えには使わない）
+椅子	いす	chair	イス,チェア,チェアー	1		家具	chair
+# 机	つくえ	desk		1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# テーブル	てーぶる	table		1	# 落とした: 細かすぎて 60³ では見分けがつかない
+ソファ	そふぁ	sofa	ソファー,長椅子	1		家具	sofa,couch
+ベッド	べっど	bed	寝床	1		家具	bed
+二段ベッド	にだんべっど	bunk bed	2段ベッド	2		家具	bunk bed,bunkbed
+# 本棚	ほんだな	bookshelf		1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+タンス	たんす	chest of drawers	箪笥,引き出し,ひきだし,衣装ケース	1		家具	chest of drawers,dresser,drawers
+# クローゼット	くろーぜっと	wardrobe	closet	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 鏡	かがみ	mirror	ミラー	2	# 落とした: 生成テスト 60³(2026-09-21): 輪
+ランプ	らんぷ	lamp	電気スタンド,スタンド	1	2	火・明かり	lamp
+# シャンデリア	しゃんでりあ	chandelier		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+電球	でんきゅう	light bulb	電気	1		火・明かり	light bulb,bulb,lightbulb
+ろうそく	ろうそく	candle	蝋燭,キャンドル,ロウソク	1		火・明かり	candle
+ランタン	らんたん	lantern	カンテラ,ランプ	1		火・明かり	lantern
+提灯	ちょうちん	red japanese chochin paper lantern hanging, whole lantern visible	チョウチン,赤提灯,あかちょうちん,行灯,あんどん,提灯行灯,ちょうちんあんどん	1		火・明かり	paper lantern,chochin,andon,paperlantern
+#   ↑ en を「red Japanese paper lantern」から書き換え（60³ テスト: 絵が接写）
+# 暖炉	だんろ	fireplace		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が部屋
+# ストーブ	すとーぶ	stove heater	ヒーター,heater,stove	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+扇風機	せんぷうき	electric fan	ファン	1		家電	electric fan,fan
+# エアコン	えあこん	air conditioner	クーラー,airconditioner	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+テレビ	てれび	television	ティーヴィー,テレビジョン	1		通信・音楽の機械	television,tv
+# パソコン	ぱそこん	desktop computer	PC,computer,デスクトップ	2	# 落とした: 生成テスト 60³(2026-09-21): 白い箱
+# ノートパソコン	のーとぱそこん	laptop	ノートPC	1	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# マウス	まうす	computer mouse	computermouse	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+電話	でんわ	rotary telephone	黒電話,くろでんわ,固定電話,受話器	2		通信・音楽の機械	rotary telephone,telephone,phone
+# ラジオ	らじお	radio		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# スピーカー	すぴーかー	speaker	loudspeaker	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ヘッドホン	へっどほん	headphones	ヘッドフォン,ヘッドセット,イヤホン	1		通信・音楽の機械	headphones,headphone,headset
+マイク	まいく	microphone	マイクロフォン	1		通信・音楽の機械	microphone,mic
+# カメラ	かめら	camera		1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+望遠鏡	ぼうえんきょう	telescope	天体望遠鏡,双眼鏡	2		見る・調べる道具	telescope
+顕微鏡	けんびきょう	microscope		2		見る・調べる道具	microscope
+# 双眼鏡	そうがんきょう	binoculars		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+時計	とけい	wall clock	壁掛け時計,掛け時計,ウォッチ,クロック	1		時間をはかるもの	wall clock,clock
+目覚まし時計	めざましどけい	alarm clock	目覚まし,めざまし	1		時間をはかるもの	alarm clock,alarmclock
+# 腕時計	うでどけい	wristwatch	watch	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+砂時計	すなどけい	hourglass	サンドグラス	1		時間をはかるもの	hourglass,sandglass
+柱時計	はしらどけい	grandfather clock	振り子時計,ふりこどけい,古時計	2		時間をはかるもの	grandfather clock,grandfatherclock
+# 冷蔵庫	れいぞうこ	refrigerator	fridge	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 電子レンジ	でんしれんじ	microwave oven	レンジ,microwave	2	# 落とした: 生成テスト 60³(2026-09-21): 枠だけ
+# 炊飯器	すいはんき	rice cooker	ricecooker	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+トースター	とーすたー	toaster		2		キッチン家電	toaster
+# ミキサー	みきさー	blender		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# やかん	やかん	kettle	薬缶	1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+ティーポット	てぃーぽっと	teapot	きゅうす,急須	1		お茶・コーヒーの道具	teapot,tea pot
+# 鍋	なべ	cooking pot	pot	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# フライパン	ふらいぱん	frying pan	fryingpan,pan	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ボウル	ぼうる	bowl	お椀	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+マグカップ	まぐかっぷ	mug	マグ	1		テーブルに並ぶもの	mug,mug cup
+コップ	こっぷ	drinking glass	カップ	2		テーブルに並ぶもの	glass,cup,drinking glass,tumbler
+# ワイングラス	わいんぐらす	wine glass		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# ティーカップ	てぃーかっぷ	teacup	tea cup	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+花瓶	かびん	vase	花びん,フラワーベース	1		ガーデニング	vase
+植木鉢	うえきばち	flower pot	鉢,プランター	1		ガーデニング	flower pot,plant pot,flowerpot
+じょうろ	じょうろ	watering can	如雨露,ジョウロ,ジョーロ	1		ガーデニング	watering can,wateringcan
+バケツ	ばけつ	bucket	バケット	1		ガーデニング	bucket,pail
+# ほうき	ほうき	broom	箒	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+掃除機	そうじき	vacuum cleaner	ルンバ,クリーナー	2		家電	vacuum cleaner,vacuum,hoover
+# 洗濯機	せんたくき	washing machine	washingmachine,washer	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+アイロン	あいろん	clothes iron		2		家電	clothes iron,iron
+ゴミ箱	ごみばこ	trash can	ごみ箱,ゴミ入れ,くずかご,ゴミ収集箱,ダストボックス	1		入れ物	trash can,garbage can,dustbin,wastebasket,trashcan,wheelie bin,dumpster,bin
+# 傘	かさ	umbrella		1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+帽子	ぼうし	hat	野球帽,キャップ	1		頭にかぶるもの	hat,cap,baseballcap
+麦わら帽子	むぎわらぼうし	straw hat	麦わら,ストローハット	1		頭にかぶるもの	straw hat,strawhat
+# 王冠	おうかん	crown	冠	1	# 落とした: 生成テスト 60³(2026-09-21): 輪
+ヘルメット	へるめっと	helmet	メット	1		頭にかぶるもの	helmet
+兜	かぶと	samurai kabuto helmet	かぶと,カブト,ヘルメット	2		頭にかぶるもの	samurai kabuto helmet,kabuto,samurai helmet
+# 野球帽	やきゅうぼう	baseball cap	キャップ,baseballcap	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+靴	くつ	shoe	シューズ,クツ,革靴	1		はきもの	shoe,shoes,footwear
+ブーツ	ぶーつ	boots		1		はきもの	boots,boot
+# スニーカー	すにーかー	sneaker	sneakers	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ハイヒール	はいひーる	high heel	ヒール,パンプス	2		はきもの	high heel,high heels,heels,highheels
+手袋	てぶくろ	glove	グローブ	2		身につけるもの	glove,gloves
+# Tシャツ	てぃーしゃつ	t-shirt	シャツ,tshirt	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+ドレス	どれす	dress	ウェディングドレス	2		身につけるもの	dress,gown
+# 着物	きもの	kimono		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+ランドセル	らんどせる	Japanese red school backpack (randoseru)	リュック	1		持ち歩くもの	randoseru,school bag,school backpack
+リュック	りゅっく	backpack	リュックサック,バックパック	1		持ち歩くもの	backpack,rucksack,knapsack
+# 鞄	かばん	handbag	バッグ,bag	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# スーツケース	すーつけーす	suitcase	キャリーケース	1	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+宝箱	たからばこ	treasure chest	チェスト,宝の箱	1		入れ物	treasure chest,chest,treasurechest
+# 金庫	きんこ	safe	vault	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+樽	たる	barrel	タル,ワイン樽,酒樽,わいんだる,バレル	1		入れ物	barrel,cask,keg
+# 木箱	きばこ	wooden crate	crate	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+段ボール	だんぼーる	cardboard box	ダンボール,段ボール箱	1		入れ物	cardboard box,box,carton,cardboardbox
+プレゼント	ぷれぜんと	gift box	贈り物,おくりもの,ギフト,プレゼント箱	1		入れ物	gift,present,gift box,giftbox
+風船	ふうせん	balloon	バルーン	1		おもちゃ	balloon
+地球儀	ちきゅうぎ	globe	地球	1		見る・調べる道具	globe
+ギター	ぎたー	guitar	アコースティックギター,エレキギター,エレキ,アコギ	1		楽器	guitar,electricguitar
+# エレキギター	えれきぎたー	electric guitar	エレキ,electricguitar	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+バイオリン	ばいおりん	violin	ヴァイオリン,ビオラ	1		楽器	violin,fiddle
+# チェロ	ちぇろ	cello		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ピアノ	ぴあの	grand piano	piano	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ドラム	どらむ	drum set	ドラムセット,drumset	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+太鼓	たいこ	taiko Japanese drum	和太鼓,ドラム	1		楽器	taiko Japanese drum,drum,taiko
+# トランペット	とらんぺっと	trumpet		1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# サックス	さっくす	saxophone	サキソフォン	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# アコーディオン	あこーでぃおん	accordion		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ウクレレ	うくれれ	ukulele		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ハープ	はーぷ	harp	竪琴,たてごと	2		楽器	harp
+# マラカス	まらかす	maracas		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+タンバリン	たんばりん	tambourine		2		楽器	tambourine
+木琴	もっきん	xylophone	シロフォン,鉄琴,マリンバ	2		楽器	xylophone,marimba
+ハンマー	はんまー	hammer	かなづち,金槌,トンカチ,とんかち	1		工具	hammer,mallet
+# のこぎり	のこぎり	saw	鋸	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# レンチ	れんち	wrench		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 斧	おの	axe	ax	1	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ツルハシ	つるはし	pickaxe	つるはし,ピッケル,ピッケ	1		工具	pickaxe,pick
+# シャベル	しゃべる	shovel	スコップ	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+ドリル	どりる	power drill	電動ドリル	2		工具	power drill,drill
+# チェーンソー	ちぇーんそー	chainsaw		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+はしご	はしご	ladder	梯子,ハシゴ,脚立,きゃたつ,はしごしゃ,ラダー	2		工具	ladder,stepladder
+# 工具箱	こうぐばこ	toolbox		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+手押し車	ておしぐるま	wheelbarrow	猫車,ねこ車,一輪車,いちりんしゃ	2		ガーデニング	wheelbarrow,cart
+消火器	しょうかき	fire extinguisher		1		街の機械	fire extinguisher,extinguisher,fireextinguisher
+サッカーボール	さっかーぼーる	soccer ball	サッカー	1		スポーツ用品	soccer ball,football,soccerball
+バスケットボール	ばすけっとぼーる	basketball	バスケ	1		スポーツ用品	basketball
+野球ボール	やきゅうぼーる	baseball	硬球,野球	2		スポーツ用品	baseball
+バット	ばっと	baseball bat	野球のバット	2		スポーツ用品	baseball bat,baseballbat
+# テニスラケット	てにすらけっと	tennis racket	racket	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ラグビーボール	らぐびーぼーる	rugby ball	rugbyball	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# ボウリングのピン	ぼうりんぐのぴん	bowling pin	ピン,bowlingpin,ボウリング,bowling	1	# 落とした: 語が長すぎて打ちにくい
+# ボウリングの球	ぼうりんぐのたま	bowling ball	bowlingball	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ダンベル	だんべる	dumbbell		1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# バーベル	ばーべる	barbell		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+トロフィー	とろふぃー	trophy	優勝カップ,優勝トロフィー	1		スポーツ用品	trophy
+サーフボード	さーふぼーど	surfboard	サーフィン	2		海・プールのもの	surfboard
+ボクシンググローブ	ぼくしんぐぐろーぶ	boxing glove	ボクシング	2		スポーツ用品	boxing glove,boxing gloves,boxingglove
+# サイコロ	さいころ	dice	ダイス,die	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ルービックキューブ	るーびっくきゅーぶ	Rubik's cube	rubiks cube,rubikscube	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+チェスの駒	ちぇすのこま	chess king	チェス,駒,キング	2		おもちゃ	chess king,chess piece,chess,king
+こま	こま	spinning top	独楽,コマ	2		おもちゃ	spinning top,top,spinningtop
+# けん玉	けんだま	kendama wooden cup-and-ball toy		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+ヨーヨー	よーよー	yo-yo		2		おもちゃ	yo-yo,yoyo
+折り鶴	おりづる	paper crane	折鶴,折り紙,おりがみ	2		和のもの	paper crane,origami crane,origami,papercrane
+だるま	だるま	single red daruma doll on a table	達磨,ダルマ	1		和のもの	daruma,daruma doll
+こけし	こけし	kokeshi wooden doll	小芥子,にんぎょう,人形	2		和のもの	kokeshi wooden doll,kokeshi,kokeshi doll
+# トイレ	といれ	toilet	便所	1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# バスタブ	ばすたぶ	bathtub		1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# 洗面台	せんめんだい	bathroom sink	sink	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+トイレットペーパー	といれっとぺーぱー	toilet paper	トイレの紙	1		洗面所・お風呂のもの	toilet paper,toilet roll,toiletpaper
+# ティッシュ	てぃっしゅ	tissue box	ティッシュ箱	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# はさみ	はさみ	scissors	鋏	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ホッチキス	ほっちきす	stapler		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# ドラム缶	どらむかん	oil drum		1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+タイヤ	たいや	tire	車輪,タイヤの山,たいやのやま	1		身の回りのもの	tire,tyre
+# 車輪	しゃりん	wheel		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 歯車	はぐるま	gear	ギア,cog	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 錨	いかり	anchor	アンカー	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+舵	かじ	ship's wheel	舵輪,だりん,ハンドル,船のハンドル	2		身の回りのもの	ship's wheel,helm,shipswheel
+南京錠	なんきんじょう	padlock	錠前,じょうまえ,鍵,かぎ,カギ	1		身の回りのもの	padlock,lock
+# 鐘	かね	bell		1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+盾	たて	shield	シールド	2		武器・防具	shield
+大砲	たいほう	cannon	砲,キャノン	1		武器・防具	cannon
+爆弾	ばくだん	bomb	ボム	1		武器・防具	bomb
+# 鎧	よろい	suit of armor	甲冑,armour	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+松明	たいまつ	torch	トーチ	2		火・明かり	torch
+# 水晶玉	すいしょうだま	crystal ball	crystalball	2	# 落とした: 生成テスト 60³(2026-09-21): 球
+# 宝石	ほうせき	gemstone	gem,jewel	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 金塊	きんかい	gold bar	goldbar	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# コイン	こいん	coin	硬貨,お金	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+指輪	ゆびわ	ring	リング,結婚指輪,ダイヤの指輪	3		身につけるもの	ring
+# ゲームコントローラー	げーむこんとろーらー	game controller	コントローラー,gamepad,controller	2	# 落とした: 語が長すぎて打ちにくい
+# 鳥かご	とりかご	birdcage	鳥籠,bird cage	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 水槽	すいそう	aquarium	fish tank	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ベビーベッド	べびーべっど	crib		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+揺り椅子	ゆりいす	rocking chair	ロッキングチェア	2		家具	rocking chair,rockingchair
+# ハンモック	はんもっく	hammock		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# イーゼル	いーぜる	easel	画架,がか	2	2	工具	easel	# 2026-09-21 誰でも知っているものだけにする（本人）
+懐中電灯	かいちゅうでんとう	flashlight	ハンドライト	2		火・明かり	flashlight,torchlight
+# 電池	でんち	battery		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# プリンター	ぷりんたー	printer		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# コピー機	こぴーき	photocopier	copier	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+金魚鉢	きんぎょばち	fishbowl	水槽,すいそう	1		ペットのもの	fishbowl,fish bowl,goldfish bowl
+# 土鍋	どなべ	Japanese earthenware cooking pot with lid	donabe,claypot	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ちゃぶ台	ちゃぶだい	low round Japanese wooden table	chabudai	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 枕	まくら	pillow		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+貯金箱	ちょきんばこ	piggy bank	豚の貯金箱,ぶたの貯金箱	1		入れ物	piggy bank,piggybank
+# オルゴール	おるごーる	music box	musicbox	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ガチャガチャ	がちゃがちゃ	capsule toy machine	ガチャポン,ガシャポン,ガチャ	2		ゲームの機械	capsule toy machine,gacha,gachapon
+# クレーンゲーム	くれーんげーむ	claw machine	UFOキャッチャー,clawmachine	2	# 落とした: 語が長すぎて打ちにくい
+# ピンボール	ぴんぼーる	pinball machine	pinball	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 積み木	つみき	building blocks		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ビリヤード台	びりやーどだい	billiard table	ビリヤード,pool table,billiards	2	# 落とした: 語が長すぎて打ちにくい
+卓球台	たっきゅうだい	ping pong table		2		スポーツ用品	ping pong table,table tennis table,pingpong,table tennis
+# サッカーゴール	さっかーごーる	soccer goal	ゴール,goal	2	# 落とした: 語が長すぎて打ちにくい
+# バスケットゴール	ばすけっとごーる	basketball hoop	ゴールリング,hoop	2	# 落とした: 語が長すぎて打ちにくい
+跳び箱	とびばこ	gymnastics vaulting box	とびばこ	1		スポーツ用品	vaulting box,vaultingbox
+# トランポリン	とらんぽりん	trampoline		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+テニスボール	てにすぼーる	tennis ball	テニス	2		スポーツ用品	tennis ball
+バレーボール	ばれーぼーる	volleyball	バレー	2		スポーツ用品	volleyball
+# バドミントンのシャトル	ばどみんとんのしゃとる	shuttlecock	シャトル,バドミントン	2	# 落とした: 語が長すぎて打ちにくい
+# アイススケート靴	あいすすけーとぐつ	ice skate	スケート靴,スケート,iceskate	2	# 落とした: 語が長すぎて打ちにくい
+# ローラースケート	ろーらーすけーと	roller skate	ローラーブレード,rollerskate	2	# 落とした: 語が長すぎて打ちにくい
+ビーチボール	びーちぼーる	beach ball		1		海・プールのもの	beach ball,beachball
+# 浮き輪	うきわ	swim ring	浮輪,swimring	1	# 落とした: 生成テスト 60³(2026-09-21): 球になる
+# パラソル	ぱらそる	beach umbrella	ビーチパラソル,parasol	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+眼鏡	めがね	glasses	メガネ,伊達眼鏡,サングラス	3		身につけるもの	glasses,eyeglasses,spectacles
+# サングラス	さんぐらす	sunglasses		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 蝶ネクタイ	ちょうねくたい	bow tie	bowtie	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 靴下	くつした	sock	socks,ソックス	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# ジャケット	じゃけっと	jacket		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# コート	こーと	coat		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# パーカー	ぱーかー	hoodie	フーディ	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# セーター	せーたー	sweater	ニット	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# スカート	すかーと	skirt		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ズボン	ずぼん	pants	trousers,パンツ	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+茶碗	ちゃわん	rice bowl	ご飯茶碗,お茶碗,おちゃわん,器,うつわ	2		テーブルに並ぶもの	rice bowl,bowl
+# 湯呑み	ゆのみ	Japanese ceramic tea cup without handle	湯飲み,yunomi	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 徳利	とっくり	ceramic sake bottle		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# 缶詰	かんづめ	canned food	缶,can,tin	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+ペットボトル	ぺっとぼとる	plastic bottle	PETボトル,水	2		入れ物	plastic bottle,pet bottle,plasticbottle
+瓶	びん	glass bottle	ビン,ガラス瓶	2	2	入れ物	bottle,glass bottle
+# 水筒	すいとう	water bottle		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+壺	つぼ	clay jar	甕,ツボ,壷	1		入れ物	jar,urn
+# すり鉢	すりばち	mortar	擂り鉢	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 七輪	しちりん	shichirin clay charcoal grill	shichirin	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バーベキューグリル	ばーべきゅーぐりる	barbecue grill	BBQ,バーベキュー,grill	2	# 落とした: 語が長すぎて打ちにくい
+# クーラーボックス	くーらーぼっくす	cooler box	クーラー箱,cooler	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ざる	ざる	colander	笊,strainer	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# おたま	おたま	ladle	お玉	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+泡立て器	あわだてき	whisk	ホイッパー	3		調理器具	whisk
+# コーヒーメーカー	こーひーめーかー	coffee maker	coffeemaker	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 圧力鍋	あつりょくなべ	pressure cooker	pressurecooker	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ガスコンロ	がすこんろ	gas stove		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 食器棚	しょっきだな	cupboard	食器戸棚	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 食洗機	しょくせんき	dishwasher	食器洗い機	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+スツール	すつーる	stool	丸椅子,まるいす	2		家具	stool
+# 洗濯かご	せんたくかご	laundry basket	laundrybasket	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 布団	ふとん	futon		3	# 落とした: 生成テスト 60³(2026-09-21): 絵がソファ
+こたつ	こたつ	kotatsu heated table with blanket	炬燵,コタツ	2		家具	kotatsu
+風鈴	ふうりん	wind chime	鈴	2		和のもの	wind chime,furin,windchime
+# 鯉のぼり	こいのぼり	koinobori carp streamer on a pole	こいのぼり,carp streamer	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+門松	かどまつ	kadomatsu new year pine and bamboo decoration	正月飾り,しょうがつかざり	2		和のもの	kadomatsu,new year decoration
+神輿	みこし	mikoshi portable shrine	御神輿,お神輿,おみこし	2		和のもの	mikoshi portable shrine,mikoshi,portable shrine
+# 賽銭箱	さいせんばこ	wooden offering box of a Japanese shrine	お賽銭箱,offeringbox	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 木魚	もくぎょ	mokugyo wooden fish drum	wooden fish	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 香炉	こうろ	incense burner	incenseburner	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ロボット掃除機	ろぼっとそうじき	robot vacuum	ルンバ,robotvacuum	3	# 落とした: 語が長すぎて打ちにくい
+# ゲーム機	げーむき	game console	ゲームコンソール,console	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# スマートスピーカー	すまーとすぴーかー	smart speaker	smartspeaker	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+ドライヤー	どらいやー	hair dryer	ヘアドライヤー	2		家電	hair dryer,dryer,hairdryer
+# 電気シェーバー	でんきしぇーばー	electric shaver	シェーバー,shaver	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+ミシン	みしん	sewing machine		2		家電	sewing machine
+# 加湿器	かしつき	humidifier		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 空気清浄機	くうきせいじょうき	air purifier	airpurifier	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ウォーターサーバー	うぉーたーさーばー	water dispenser	waterdispenser	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 芝刈り機	しばかりき	lawn mower	lawnmower	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+# 寝袋	ねぶくろ	sleeping bag	sleepingbag	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 虫かご	むしかご	bug cage	虫籠,insect cage	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ハンドル	はんどる	steering wheel	steeringwheel	2	# 落とした: 語が長すぎて打ちにくい
+# 給油機	きゅうゆき	gas pump	ガソリンポンプ,gaspump	2	# 落とした: 語が長すぎて打ちにくい
+# ロッカー	ろっかー	locker		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# レジ	れじ	cash register	レジスター,cashregister	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# フラスコ	ふらすこ	flask		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# ビーカー	びーかー	beaker		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+救急箱	きゅうきゅうばこ	first aid kit	薬箱,くすりばこ	2		入れ物	first aid kit,first aid box
+# ティンパニ	てぃんぱに	timpani		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# コントラバス	こんとらばす	double bass	ウッドベース,doublebass	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# トロンボーン	とろんぼーん	trombone		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ホルン	ほるん	french horn	frenchhorn,horn	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# チューバ	ちゅーば	tuba		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# オカリナ	おかりな	ocarina	笛,ふえ	2		楽器	ocarina	# 2026-09-21 誰でも知っているものだけにする（本人）
+# 三味線	しゃみせん	shamisen Japanese three-string lute		2	# 落とした: 生成テスト 60³(2026-09-21): ギターと紛らわしい
+# メトロノーム	めとろのーむ	metronome		2		楽器	metronome	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ジュークボックス	じゅーくぼっくす	jukebox		2	# 落とした: 語が長すぎて打ちにくい
+# レコードプレーヤー	れこーどぷれーやー	turntable	レコード,recordplayer	2	# 落とした: 語が長すぎて打ちにくい
+ラジカセ	らじかせ	boombox	カセット,ラジオ	2		通信・音楽の機械	boombox,radio cassette
+# シンバル	しんばる	cymbal	cymbals	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# カスタネット	かすたねっと	castanets		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+ゴルフバッグ	ごるふばっぐ	golf bag	ゴルフクラブ,キャディバッグ	3		持ち歩くもの	golf bag,golf clubs,golfbag
+# ゴルフボール	ごるふぼーる	golf ball	golfball	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 電子ピアノ	でんしぴあの	digital piano	キーボード,電子キーボード,keyboard	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ハンドベル	はんどべる	handbell		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+拡声器	かくせいき	megaphone	メガホン,メガフォン,スピーカー	2		通信・音楽の機械	megaphone,bullhorn
+# 懐中時計	かいちゅうどけい	pocket watch	pocketwatch	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 万華鏡	まんげきょう	kaleidoscope		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 虫眼鏡	むしめがね	magnifying glass		2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# そろばん	そろばん	abacus	算盤	3	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# --- 2026-09-21 追加（1,000 語へ。体積があり輪郭で分かる物に寄せた）
+肘掛け椅子	ひじかけいす	armchair	アームチェア	2		家具	armchair,arm chair
+# オフィスチェア	おふぃすちぇあ	office chair	desk chair,ゲーミングチェア	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ビーズクッション	びーずくっしょん	bean bag chair	ビーズソファ,人をダメにするソファ,クッション	3		家具	bean bag,bean bag chair,beanbag
+# ハンモックチェア	はんもっくちぇあ	hanging egg chair	ハンモック,吊り椅子,椅子,いす	3		家具	hanging chair,egg chair,hammock chair	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+テーブル	てーぶる	round wooden table	丸テーブル,食卓,机,つくえ,ツクエ,デスク,学習机,勉強机,しょくたく,教卓	1		家具	table,desk
+ちゃぶ台	ちゃぶだい	chabudai low table	低いテーブル,座卓,ざたく	2		家具	chabudai,low table
+本	ほん	thick hardcover book	ブック,辞書,じしょ,図鑑,ずかん,ノート	1		文房具	thick hardcover book,book,books,hardcover
+# 本の山	ほんのやま	stack of books	積んだ本	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ノート	のーと	spiral notebook	notebook	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+ランドリーバスケット	らんどりーばすけっと	laundry basket	洗濯かご,せんたくかご,かご,カゴ,籠	3		入れ物	laundry basket,basket
+# かご	かご	wicker basket	basket,バスケット,籠	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ピクニックバスケット	ぴくにっくばすけっと	picnic basket		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ゆりかご	ゆりかご	baby cradle	cradle	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 枕	まくら	pillow	まくら,マクラ	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+クッション	くっしょん	square cushion	座布団,ざぶとん,枕,まくら	2		家具	square cushion,cushion,pillow
+# 毛布	もうふ	folded blanket	blanket	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 本棚	ほんだな	bookcase with books	bookcase,bookshelf,本箱,ほんばこ	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+金庫	きんこ	steel safe box	セーフ,セイフ	2		入れ物	safe,strongbox
+# 食器棚	しょっきだな	kitchen cabinet	cabinet,cupboard,戸棚	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 洗面台	せんめんだい	bathroom sink	sink,流し	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 浴槽	よくそう	bathtub	bath,お風呂,風呂,ふろ,バスタブ	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が部屋
+便器	べんき	toilet bowl	トイレ,便座,といれ,べんざ,洋式トイレ	1		洗面所・お風呂のもの	toilet,toilet bowl
+# シャワー	しゃわー	shower head	shower	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+蛇口	じゃぐち	water faucet	水道,すいどう,水道の蛇口	2		洗面所・お風呂のもの	water faucet,faucet,tap
+ドア	どあ	wooden door	扉,とびら,戸,と,玄関	1		家具	wooden door,door
+# 窓	まど	window frame	window,ウィンドウ	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# 階段	かいだん	wooden staircase	staircase,stairs,ステップ	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# はしご車	はしごしゃ	step ladder	stepladder,脚立,きゃたつ	2		工具		# まとめた: はしご と同じ物（spec 12 の 2-5）
+# 柵	さく	wooden fence	fence,フェンス,塀	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# 門扉	もんぴ	iron gate		3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 看板	かんばん	wooden signboard	sign,signboard,立て看板	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# 道路標識	どうろひょうしき	stop sign	road sign,traffic sign,標識,一時停止	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+コーン	こーん	traffic cone	三角コーン,パイロン,カラーコーン	1		街の機械	traffic cone,cone,pylon
+# 消火栓	しょうかせん	red fire hydrant	fire hydrant,hydrant	1	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# マンホール	まんほーる	manhole cover	manhole	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# タイヤの山	たいやのやま	stack of tires		3		箱・入れ物		# まとめた: タイヤ と同じ物（spec 12 の 2-5）
+# バリケード	ばりけーど	barricade	road barrier	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+炊飯器	すいはんき	rice cooker	ジャー	2		キッチン家電	rice cooker,ricecooker
+ミキサー	みきさー	blender	ジューサー,ブレンダー	2		キッチン家電	blender,mixer,juicer
+コーヒーメーカー	こーひーめーかー	coffee maker	コーヒーマシン	2		お茶・コーヒーの道具	coffee maker,coffee machine,coffeemaker
+# エスプレッソマシン	えすぷれっそましん	espresso machine		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 食洗機	しょくせんき	dishwasher	食器洗い機	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# オーブン	おーぶん	kitchen oven	oven	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# 電気ポット	でんきぽっと	electric kettle	ポット,electric pot	2		台所の道具		# まとめた: ケトル と同じ物（spec 12 の 2-5）
+魔法瓶	まほうびん	thermos flask	サーモス,すいとう,水筒	2		お茶・コーヒーの道具	thermos flask,thermos,flask,vacuum flask
+土鍋	どなべ	donabe clay pot		3		調理器具	donabe,clay pot
+# 中華鍋	ちゅうかなべ	wok		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+圧力鍋	あつりょくなべ	pressure cooker		3		調理器具	pressure cooker
+# まな板	まないた	cutting board	chopping board	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+包丁	ほうちょう	kitchen knife	ナイフ,刃物	2		調理器具	kitchen knife,knife
+すり鉢	すりばち	mortar and pestle	乳鉢,にゅうばち	3		調理器具	mortar and pestle,mortar,pestle
+# どんぶり	どんぶり	donburi bowl	bowl,丼,ボウル	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+皿	さら	ceramic plate	お皿,おさら,プレート,食器	1		テーブルに並ぶもの	plate,dish
+湯呑み	ゆのみ	yunomi teacup	湯のみ,湯飲み	2		テーブルに並ぶもの	yunomi teacup,yunomi,teacup
+急須	きゅうす	kyusu teapot	ティーポット	2		お茶・コーヒーの道具	kyusu teapot,kyusu
+とっくり	とっくり	tokkuri sake bottle	徳利,トックリ,日本酒	2		テーブルに並ぶもの	tokkuri,sake bottle
+おちょこ	おちょこ	ochoko sake cup	お猪口,オチョコ,ぐい呑み,盃,さかずき	3		テーブルに並ぶもの	ochoko,sake cup
+スプーン	すぷーん	spoon		2		テーブルに並ぶもの	spoon
+# フォーク	ふぉーく	fork		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 水筒	すいとう	water bottle	bottle,thermos	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# ワイングラス	わいんぐらす	wine glass	wineglass	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# ティーカップ	てぃーかっぷ	teacup with saucer	teacup,tea cup	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ケトル	けとる	whistling kettle	やかん,ヤカン,薬缶,電気ケトル,電気ポット,でんきぽっと	2		お茶・コーヒーの道具	whistling kettle,kettle,tea kettle,electric kettle,electric pot
+シャンプー	しゃんぷー	shampoo bottle	リンス,ボディソープ	2		洗面所・お風呂のもの	shampoo,shampoo bottle
+# 歯ブラシ	はぶらし	toothbrush		2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+歯磨き粉	はみがきこ	toothpaste tube	歯磨き,はみがき	2		洗面所・お風呂のもの	toothpaste tube,toothpaste
+# 石鹸	せっけん	bar of soap	soap,ソープ	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# タオル	たおる	folded towel	towel	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+洗面器	せんめんき	wash basin	桶,おけ,たらい,風呂桶	3		洗面所・お風呂のもの	wash basin,basin
+# バスタブ玩具	ばすたぶがんぐ	rubber duck	アヒルのおもちゃ,ゴムのアヒル,アヒル,あひる,お風呂のアヒル,ラバーダック	1		おもちゃ	rubber duck,duck toy	# 2026-09-21 甘さの見直し: 「アヒル」に統合（spec 12 の 2-5）
+# ハンガー	はんがー	clothes hanger	hanger	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ベビーカー玩具	べびーかーがんぐ	toy pram	pram	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ぬいぐるみ	ぬいぐるみ	stuffed animal plush toy	うさぎのぬいぐるみ,ウサギのぬいぐるみ,ヌイグルミ	2		おもちゃ	stuffed animal,plush,plush toy,plushie,stuffed toy,bunny plush,stuffed rabbit
+# うさぎのぬいぐるみ	うさぎのぬいぐるみ	plush bunny	bunny plush,stuffed rabbit	2		おもちゃ		# まとめた: ぬいぐるみ と同じ物（spec 12 の 2-5）
+# レゴ	れご	LEGO brick	lego,レゴブロック	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ロボット玩具	ろぼっとがんぐ	toy robot	robot toy,おもちゃのロボット	2		おもちゃ		# まとめた: ロボット と同じ物（spec 12 の 2-5）
+# ミニカー	みにかー	toy car	die-cast car	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# プラレール	ぷられーる	toy train	train toy,おもちゃの電車	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ボードゲーム	ぼーどげーむ	board game box	board game	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# トランプ	とらんぷ	deck of playing cards	playing cards,cards,カード	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# パズル	ぱずる	jigsaw puzzle	puzzle,ジグソーパズル	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# ボウリング	ぼうりんぐ	bowling ball and pins	bowling,ボウリングのピン,bowling pin	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+ゴルフボール	ごるふぼーる	golf ball		2		スポーツ用品	golf ball
+# ゴルフクラブ	ごるふくらぶ	golf club	golf,ゴルフ	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# バドミントン	ばどみんとん	shuttlecock	badminton,シャトル	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+卓球ラケット	たっきゅうらけっと	ping pong paddle	ラケット	2		スポーツ用品	ping pong paddle,paddle,racket,table tennis paddle
+# 野球のグローブ	やきゅうのぐろーぶ	baseball glove	mitt,ミット	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ホッケースティック	ほっけーすてぃっく	hockey stick	hockey	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# スキー板	すきーいた	pair of skis	skis,ski,スキー	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# スノーボード	すのーぼーど	snowboard		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+スケート靴	すけーとぐつ	ice skates	アイススケート	2		はきもの	ice skates
+ダーツ	だーつ	dartboard	ダーツボード,的,まと	2		スポーツ用品	dartboard,darts
+# ビリヤード	びりやーど	billiard balls	billiards,pool balls,玉突き	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 将棋	しょうぎ	shogi board	shogi,将棋盤	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# 囲碁	いご	go board	go,碁盤,碁	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# チェス盤	ちぇすばん	chess board	chess,チェス	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+メダル	めだる	gold medal	金メダル,きんめだる	2		身につけるもの	gold medal,medal
+# 宝石箱	ほうせきばこ	jewelry box	jewellery box	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ネックレス	ねっくれす	pearl necklace	necklace	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 腕時計	うでどけい	wristwatch	watch,ウォッチ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+懐中時計	かいちゅうどけい	pocket watch		3		時間をはかるもの	pocket watch,watch
+# サングラス	さんぐらす	sunglasses		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+シルクハット	しるくはっと	top hat	トップハット	2		頭にかぶるもの	top hat,tophat
+魔女の帽子	まじょのぼうし	witch hat	とんがり帽子,とんがりぼうし,魔法使いの帽子	2		頭にかぶるもの	witch hat,witches hat,witch's hat
+カウボーイハット	かうぼーいはっと	cowboy hat	テンガロンハット	2		頭にかぶるもの	cowboy hat
+# ニット帽	にっとぼう	knit beanie hat	beanie,knit cap,毛糸の帽子	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が人
+サンタ帽	さんたぼう	santa hat	クリスマス帽,サンタの帽子	2		頭にかぶるもの	santa hat
+# ネクタイ	ねくたい	necktie	tie	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# リボン	りぼん	ribbon bow	蝶結び	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# マフラー	まふらー	winter scarf	scarf,スカーフ	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+ミトン	みとん	mitten	ミトン手袋,てぶくろ,手袋	2		身につけるもの	mitten,mittens
+スニーカー	すにーかー	sneaker	運動靴,スポーツシューズ,うんどうぐつ	2		はきもの	sneaker,sneakers,trainers
+長靴	ながぐつ	rubber rain boots	雨靴,あまぐつ	2		はきもの	rubber rain boots,rain boots,rubber boots,wellies,rainboots
+サンダル	さんだる	sandal	ビーチサンダル,ビーサン	2		はきもの	sandal,sandals,flip flops
+# 下駄	げた	geta wooden sandals	geta	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# スリッパ	すりっぱ	slippers	slipper	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# ジャケット	じゃけっと	leather jacket	jacket	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# コート	こーと	winter coat	coat	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# パーカー	ぱーかー	hoodie	hooded sweatshirt	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# セーター	せーたー	knitted sweater	sweater,jumper	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# ズボン	ずぼん	pair of jeans	jeans,pants,trousers,ジーンズ,ジーパン	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# スカート	すかーと	skirt		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# 浴衣	ゆかた	yukata	ゆかた	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# エプロン	えぷろん	apron		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# 制服	せいふく	school uniform	uniform,セーラー服	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# レインコート	れいんこーと	raincoat	rain coat	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# 水着	みずぎ	swimsuit	swimwear,bikini	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が人
+# おむつ	おむつ	diaper	nappy	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# ベルト	べると	leather belt	belt	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 財布	さいふ	leather wallet	wallet,purse,ウォレット	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+がま口	がまぐち	coin purse	財布,さいふ,小銭入れ	3		持ち歩くもの	coin purse,purse,wallet
+ボストンバッグ	ぼすとんばっぐ	duffel bag	バッグ	2		持ち歩くもの	duffel bag,duffle bag,boston bag,bag
+# トートバッグ	とーとばっぐ	tote bag	tote	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+巾着	きんちゃく	drawstring pouch	巾着袋,袋,ふくろ,ポーチ	3		持ち歩くもの	drawstring pouch,drawstring bag,pouch,kinchaku
+# 封筒	ふうとう	envelope		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 手紙	てがみ	letter	レター	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が文字
+# 新聞	しんぶん	newspaper		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 雑誌	ざっし	magazine		3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# 黒板	こくばん	blackboard	chalkboard,chalk board	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# ホワイトボード	ほわいとぼーど	whiteboard		3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# 机	つくえ	school desk	desk,デスク,学習机,教卓,勉強机	2		家具		# まとめた: テーブル と同じ物（spec 12 の 2-5）
+# 筆箱	ふでばこ	pencil case	pencil box	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 鉛筆	えんぴつ	pencil		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# クレヨン	くれよん	box of crayons	crayons,crayon	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 消しゴム	けしごむ	eraser	rubber	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# 絵の具	えのぐ	paint tubes	paint,水彩絵の具	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+絵筆	えふで	paintbrush	筆,ふで,ブラシ	2		文房具	paintbrush,brush
+# パレット	ぱれっと	painter palette	palette	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 定規	じょうぎ	ruler		3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# ホッチキス	ほっちきす	stapler	staple	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+セロテープ	せろてーぷ	tape dispenser	テープ,セロハンテープ	3		文房具	tape dispenser,tape,scotch tape
+# 虫眼鏡	むしめがね	magnifying glass	magnifier,ルーペ	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# 電卓	でんたく	calculator		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# そろばん	そろばん	abacus	soroban	2	# 落とした: 生成テスト(2026-09-21): 言い回しを変えた新しい行に置き換え
+# スマホ	すまほ	smartphone	smart phone,スマートフォン,iphone,携帯,けいたい	1	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# タブレット	たぶれっと	tablet computer	tablet,ipad	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# ゲーム機	げーむき	game console	console,プレステ,switch,スイッチ	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ゲームコントローラー	げーむこんとろーらー	game controller	コントローラー,コントローラ,ゲームパッド	2		通信・音楽の機械	game controller,controller,gamepad
+# キーボード	きーぼーど	computer keyboard	keyboard	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# モニター	もにたー	computer monitor	monitor,display,ディスプレイ	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+プリンター	ぷりんたー	printer	印刷機	2		家電	printer
+# ルーター	るーたー	wifi router	router	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# USBメモリ	ゆーえすびーめもり	usb flash drive	usb,flash drive,USB	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 電池	でんち	AA battery	battery,batteries,乾電池,かんでんち	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# リモコン	りもこん	remote control	remote,リモート	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+スピーカー	すぴーかー	loudspeaker		2		通信・音楽の機械	loudspeaker,speaker
+ラジオ	らじお	vintage radio		2		通信・音楽の機械	vintage radio,radio
+# レコードプレーヤー	れこーどぷれーやー	record player	turntable,ターンテーブル,蓄音機	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# レコード	れこーど	vinyl record	record,LP,レコード盤	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# カセットテープ	かせっとてーぷ	cassette tape	cassette,テープ	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# CD	しーでぃー	compact disc	cd,disc,ディスク	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ビデオカメラ	びでおかめら	camcorder	video camera	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# プロジェクター	ぷろじぇくたー	projector		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+電気シェーバー	でんきしぇーばー	electric shaver	かみそり,シェーバー,ひげそり,髭剃り	3		家電	electric shaver,shaver,razor
+# 体重計	たいじゅうけい	bathroom scale	scale,はかり	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 温度計	おんどけい	thermometer		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 血圧計	けつあつけい	blood pressure monitor		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 聴診器	ちょうしんき	stethoscope		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 注射器	ちゅうしゃき	syringe	注射	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+薬瓶	くすりびん	pill bottle	薬,くすり,錠剤	2		入れ物	pill bottle,medicine bottle,medicine
+# カプセル	かぷせる	medicine capsule	capsule,pill	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 松葉杖	まつばづえ	crutches	crutch	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ベビーベッド	べびーべっど	baby crib	ゆりかご	2		赤ちゃんのもの	baby crib,crib,cot
+哺乳瓶	ほにゅうびん	baby bottle		2		赤ちゃんのもの	baby bottle,feeding bottle
+# おしゃぶり	おしゃぶり	pacifier	dummy	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ガラガラ	がらがら	baby rattle		3		赤ちゃんのもの	baby rattle,rattle
+ロッキングホース	ろっきんぐほーす	rocking horse	木馬,もくば,揺れる木馬	2		赤ちゃんのもの	rocking horse
+ドールハウス	どーるはうす	dollhouse	人形の家,ミニチュアハウス	2		おもちゃ	dollhouse,doll house
+# おもちゃ箱	おもちゃばこ	toy box	toy chest	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# シャボン玉	しゃぼんだま	bubble wand	bubble wand	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+水鉄砲	みずでっぽう	water gun	鉄砲,てっぽう	2		おもちゃ	water gun,water pistol
+# ビー玉	びーだま	glass marbles	marbles,marble	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# おはじき	おはじき	ohajiki		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 折り紙	おりがみ	origami paper	origami	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 羽子板	はごいた	hagoita paddle	hagoita	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 扇子	せんす	folding fan	fan,hand fan,うちわ	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 和傘	わがさ	japanese paper umbrella	wagasa,paper umbrella,番傘	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# 日本刀	にほんとう	katana sword	katana,sword,刀,剣	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 弓矢	ゆみや	bow and arrow	bow,弓	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 槍	やり	spear		3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ドライバー	どらいばー	screwdriver	ねじ回し	2		工具	screwdriver
+# ペンチ	ぺんち	pliers		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ネジ	ねじ	screw	screws	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# くぎ	くぎ	nail	nails,釘	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 釘抜き	くぎぬき	crowbar	bar,バール	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ゴーグル	ごーぐる	swim goggles	水中メガネ,水中眼鏡	3		身につけるもの	swim goggles,goggles
+双眼鏡	そうがんきょう	binoculars	望遠鏡	2		見る・調べる道具	binoculars
+コンパス	こんぱす	compass	方位磁針,方位磁石,磁石	2		見る・調べる道具	compass
+# 気圧計	きあつけい	barometer		3	# 落とした: 生成テスト 60³(2026-09-21): 方位磁針と紛らわしい
+マッチ	まっち	matchbox	マッチ箱	3		火・明かり	matchbox,match,matches
+ライター	らいたー	lighter	ジッポ	3		火・明かり	lighter
+灰皿	はいざら	ashtray		3		身の回りのもの	ashtray
+# 熊手	くまで	rake		3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ホース	ほーす	garden hose	hose	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# バードバス	ばーどばす	bird bath	birdbath	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 石像	せきぞう	stone statue	statue,像	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+ガソリンポンプ	がそりんぽんぷ	gas pump	給油機,ガソリンスタンド	2		街の機械	gas pump,petrol pump,fuel pump
+公衆電話	こうしゅうでんわ	payphone	緑の電話,でんわ	2		通信・音楽の機械	payphone,pay phone,public phone
+ドラム缶	どらむかん	oil drum barrel	缶,樽	2		入れ物	oil drum barrel,oil drum
+# ワイン樽	わいんだる	wine barrel	cask	1		箱・入れ物		# まとめた: 樽 と同じ物（spec 12 の 2-5）
+# 木箱	きばこ	wooden crate	crate,箱	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+棺	ひつぎ	coffin	棺桶,かんおけ	2		入れ物	coffin,casket
+# エアコン	えあこん	air conditioner	aircon,クーラー,cooler	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+ストーブ	すとーぶ	kerosene heater	石油ストーブ,暖房,だんぼう,ヒーター	2		家電	kerosene heater,heater,stove
+# 加湿器	かしつき	humidifier		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+空気清浄機	くうきせいじょうき	air purifier	清浄機,加湿器	3		家電	air purifier
+# モップ	もっぷ	mop		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# はたき	はたき	feather duster	duster	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ちりとり	ちりとり	dustpan	dust pan	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 物干し	ものほし	clothesline with clothes	clothesline	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 洗濯ばさみ	せんたくばさみ	clothespin	clothes peg,peg	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ティッシュ	てぃっしゅ	tissue box	tissue,tissues	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ゴム手袋	ごむてぶくろ	rubber gloves	rubber glove	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# ぞうきん	ぞうきん	dish cloth	rag,雑巾	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+# スポンジ	すぽんじ	kitchen sponge	sponge	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# たわし	たわし	scrubbing brush	tawashi	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+ウクレレ	うくれれ	ukulele	ギター	2		楽器	ukulele
+# バンジョー	ばんじょー	banjo	ギター	3		楽器	banjo	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+チェロ	ちぇろ	cello	バイオリン	2		楽器	cello
+# コントラバス	こんとらばす	double bass	ウッドベース,ベース	3		楽器	double bass,contrabass,upright bass	# 2026-09-21 誰でも知っているものだけにする（本人）
+# フルート	ふるーと	flute		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# クラリネット	くらりねっと	clarinet		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# オーボエ	おーぼえ	oboe		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# リコーダー	りこーだー	recorder	縦笛	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+ハーモニカ	はーもにか	harmonica		2		楽器	harmonica,mouth organ
+# カスタネット	かすたねっと	castanets	castanet	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# トライアングル	とらいあんぐる	triangle instrument	triangle	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# シンバル	しんばる	cymbals	cymbal	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ボンゴ	ぼんご	bongo drums	太鼓,たいこ,ドラム	3		楽器	bongo drums,bongo,bongos	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+鈴	すず	jingle bell		2		楽器	jingle bell,sleigh bell,jingle bells
+鐘	かね	temple bell	梵鐘,ぼんしょう,除夜の鐘	2		楽器	temple bell,bonsho
+# 指揮棒	しきぼう	conductor baton	baton	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 楽譜	がくふ	sheet music	music sheet,score	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# イヤホン	いやほん	earphones	earbuds,earphone,イヤフォン	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ジュークボックス	じゅーくぼっくす	jukebox		2		家電	jukebox	# 2026-09-21 誰でも知っているものだけにする（本人）
+# アンプ	あんぷ	guitar amplifier	アンプリファイア	3		家電	guitar amplifier,amp,amplifier,guitar amp	# 2026-09-21 誰でも知っているものだけにする（本人）
+水筒	すいとう	stainless steel water bottle	魔法瓶	2		お茶・コーヒーの道具	water bottle
+ワイングラス	わいんぐらす	wine glass filled with red wine		2		テーブルに並ぶもの	wine glass,wineglass
+虫眼鏡	むしめがね	magnifying glass with a wooden handle	ルーペ,拡大鏡	2		見る・調べる道具	magnifying glass,magnifier
+# そろばん	そろばん	japanese soroban abacus	abacus,soroban	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+ホッチキス	ほっちきす	red stapler	ステープラー	2		文房具	stapler,staple
+# アイスクリームメーカー	あいすくりーむめーかー	ice cream maker machine	ice cream machine	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ワッフルメーカー	わっふるめーかー	waffle maker	waffle iron	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# ホットプレート	ほっとぷれーと	electric hot plate griddle	hot plate	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# たこ焼き器	たこやきき	takoyaki pan	takoyaki maker	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 餅つき機	もちつきき	mochi machine	mochi maker	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ケーキスタンド	けーきすたんど	cake stand with cake		3		テーブルに並ぶもの	cake stand
+# 菓子の缶	かしのかん	round cookie tin	cookie tin,缶,かん	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ランチボックス	らんちぼっくす	red plastic lunch box	弁当箱,べんとうばこ,お弁当,弁当	3		入れ物	lunch box,lunchbox,bento box
+クーラーボックス	くーらーぼっくす	cooler box	クーラー	2		入れ物	cooler,cooler box,ice box
+# ピクニックのかご	ぴくにっくのかご	picnic hamper with lid	hamper	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ゴミ収集箱	ごみしゅうしゅうばこ	green wheelie bin	ゴミ箱,ごみ箱,ゴミ	2		箱・入れ物	wheelie bin,dumpster,garbage bin,trash can	# 2026-09-21 甘さの見直し: 「ゴミ箱」に統合（spec 12 の 2-5）
+# 郵便袋	ゆうびんぶくろ	mail sack	mailbag	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が布
+救命浮き輪	きゅうめいうきわ	red and white life ring	浮き輪,うきわ,浮輪	2		海・プールのもの	life ring,life buoy,lifebuoy,life preserver
+# 救命胴衣	きゅうめいどうい	orange life jacket	life jacket,life vest	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ブイ	ぶい	red sea buoy	浮き	3		海・プールのもの	buoy
+# 鳥かご	とりかご	birdcage with a bird	birdcage,bird cage	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ハムスターの回し車	はむすたーのまわしぐるま	hamster wheel	hamster wheel	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 犬のエサ皿	いぬのえさざら	dog bowl	dog bowl,pet bowl	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が犬
+猫タワー	ねこたわー	cat tree tower	キャットタワー,キャットツリー	2		ペットのもの	cat tree,cat tower
+# 犬の首輪	いぬのくびわ	dog collar	collar	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が犬
+# 骨のおもちゃ	ほねのおもちゃ	dog bone chew toy	chew toy	3		おもちゃ		# まとめた: 骨 と同じ物（spec 12 の 2-5）
+# 消防ホース	しょうぼうほーす	coiled fire hose	fire hose	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# スプリンクラー	すぷりんくらー	lawn sprinkler	sprinkler	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+バードハウス	ばーどはうす	wooden birdhouse	巣箱,すばこ,鳥小屋,とりごや	2		ペットのもの	wooden birdhouse,birdhouse,bird house
+ガーデンチェア	がーでんちぇあ	adirondack chair	木の椅子	3		家具	adirondack chair,garden chair
+# パラソル	ぱらそる	patio umbrella	parasol	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# バーベキューグリル	ばーべきゅーぐりる	barbecue grill	bbq grill,bbq	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 焚き火台	たきびだい	fire pit	fire pit	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+薪ストーブ	まきすとーぶ	wood burning stove	暖炉,だんろ,ストーブ	3		家電	wood burning stove,wood stove
+# ピザ窯	ぴざがま	pizza oven	pizza oven	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+井戸のポンプ	いどのぽんぷ	hand water pump	ポンプ,井戸,いど	3		街の機械	hand water pump,water pump,hand pump,pump
+風見鶏	かざみどり	weather vane rooster		3		街の機械	weather vane rooster,weathervane,weather vane
+# 日時計	ひどけい	sundial	sundial	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 石臼	いしうす	stone mill	millstone,石うす	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 金塊の山	きんかいのやま	pile of gold bars	gold bars	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# コインの山	こいんのやま	pile of gold coins	coins	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+王座	おうざ	golden throne	玉座,ぎょくざ,王様の椅子	2		家具	golden throne,throne
+鎧	よろい	suit of medieval armor standing	甲冑,かっちゅう,アーマー	2		武器・防具	armor,armour,suit of armor
+砲弾	ほうだん	cannonball	砲丸,ほうがん	3		武器・防具	cannonball,cannon ball
+ダイナマイト	だいなまいと	bundle of dynamite	ばくだん,爆弾	2		武器・防具	dynamite,tnt,explosive
+# ロケット花火	ろけっとはなび	firework rocket	fireworks	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ろうそく立て	ろうそくたて	candelabra with candles	燭台,しょくだい	3		火・明かり	candelabra,candlestick,candle holder
+# 提灯行灯	ちょうちんあんどん	andon paper lamp	andon	3		照明		# まとめた: 提灯 と同じ物（spec 12 の 2-5）
+# 座布団	ざぶとん	zabuton floor cushion	zabuton	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 布団	ふとん	folded futon	futon	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# テレビ台	てれびだい	tv stand with tv	tv stand	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 教壇	きょうだん	teacher podium	podium,lectern	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 本のカート	ほんのかーと	library book cart	book cart	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# 展示ケース	てんじけーす	glass display case	display case	3	# 落とした: 生成テスト 60³(2026-09-21): 枠だけ
+# ショーウィンドウ	しょーうぃんどう	shop window display	shop window	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# UFOキャッチャー	ゆーふぉーきゃっちゃー	claw crane machine	claw machine,crane game,クレーンゲーム	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ゲームセンターの筐体	げーむせんたーのきょうたい	arcade cabinet	アーケード,ゲーム機,ゲーセン,筐体,きょうたい	2		ゲームの機械	arcade cabinet,arcade machine,arcade
+# ピンボール	ぴんぼーる	pinball machine	pinball	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が画面
+スロットマシン	すろっとましん	slot machine	スロット,パチスロ	2		ゲームの機械	slot machine,slot
+ポップコーンマシン	ぽっぷこーんましん	popcorn machine cart	ポップコーン	2		お祭りの機械	popcorn machine cart,popcorn machine,popcorn maker
+綿菓子機	わたがしき	cotton candy machine	綿あめ機,わたあめ機	3		お祭りの機械	cotton candy machine,cotton candy maker
+かき氷機	かきごおりき	shaved ice machine	かき氷器	3		お祭りの機械	shaved ice machine,ice shaver
+# コインランドリー	こいんらんどりー	laundromat washing machine	laundromat	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+券売機	けんばいき	ticket vending machine	自動販売機	3		街の機械	ticket vending machine,ticket machine
+# 改札	かいさつ	train station ticket gate	ticket gate	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+# カーブミラー	かーぶみらー	convex traffic mirror on a pole	traffic mirror	3	# 落とした: 生成テスト 60³(2026-09-21): 輪
+# 花壇	かだん	raised flower bed	flower bed	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 植木	うえき	topiary tree in a pot	topiary	3	# 落とした: 生成テスト 60³(2026-09-21): 色が抜ける
+# 苔玉	こけだま	kokedama moss ball	苔,こけ	3		和のもの	kokedama moss ball,kokedama,moss ball	# 2026-09-21 誰でも知っているものだけにする（本人）
+# 金魚すくい	きんぎょすくい	goldfish scooping pool	kingyo sukui	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 射的	しゃてき	cork gun shooting gallery	shateki	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ヨーヨー釣り	よーよーつり	water balloon yoyo pool	yoyo tsuri	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# お面	おめん	festival fox mask	mask,kitsune mask	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# うちわ	うちわ	round paper fan uchiwa	uchiwa	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# すだれ	すだれ	bamboo blind sudare	sudare	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 畳	たたみ	tatami mat	tatami	3	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# 障子	しょうじ	shoji sliding door	shoji	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# ふすま	ふすま	fusuma sliding door	fusuma	3	# 落とした: 生成テスト 60³(2026-09-21): 枠だけ
+# のれん	のれん	noren shop curtain	noren	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 神棚	かみだな	kamidana household shrine	kamidana	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# 仏壇	ぶつだん	butsudan buddhist altar	butsudan	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+お地蔵さん	おじぞうさん	jizo stone statue with red bib	地蔵,じぞう,お地蔵様	2		和のもの	jizo,jizo statue
+狛犬	こまいぬ	komainu lion dog statue	獅子,しし	2		和のもの	komainu,lion dog,guardian dog
+狐の石像	きつねのせきぞう	inari fox statue	お稲荷さん,稲荷	3		和のもの	fox statue,inari fox,stone fox
+だるま落とし	だるまおとし	daruma otoshi toy		3		おもちゃ	daruma otoshi
+# 竹馬	たけうま	bamboo stilts takeuma	takeuma	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 竹とんぼ	たけとんぼ	bamboo dragonfly toy	taketombo	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 福笑い	ふくわらい	fukuwarai face game	fukuwarai	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# めんこ	めんこ	menko cards	menko	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+スーパーボール	すーぱーぼーる	bouncy rubber ball		3		スポーツ用品	bouncy rubber ball,bouncy ball,super ball,rubber ball
+# シュノーケル	しゅのーける	snorkel and mask	snorkel	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 足ひれ	あしひれ	swim fins	flippers,fins	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ボディボード	ぼでぃぼーど	bodyboard	サーフボード	3		海・プールのもの	bodyboard,body board,boogie board
+# 釣り竿	つりざお	fishing rod	fishing pole	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 釣り針	つりばり	fish hook	hook	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ルアー	るあー	fishing lure	lure	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 魚籠	びく	fishing creel basket	かご,カゴ,籠	3		箱・入れ物	fishing creel basket,creel,fishing basket,basket	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# 虫取り網	むしとりあみ	butterfly net	bug net,insect net	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+
+ローラースケート	ろーらーすけーと	roller skates	ローラーブレード,インラインスケート	2		スポーツ用品	roller skates,roller skate

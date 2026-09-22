@@ -12,7 +12,8 @@
  * **多数決。** 同数なら、その中からランダム（仮）。
  */
 
-import { LEGIONS, type LegionDef } from "./enemy.js";
+import type { LegionDef } from "./enemy.js";
+import { DEFAULT_LEGION, LEGIONS } from "./roster.js";
 import { RUN_LENGTH } from "./state.js";
 export { winner } from "./tally.js";
 
@@ -73,7 +74,7 @@ export function lineOf(id: string): string {
  */
 export function drawOffers(roll: () => number): readonly Offer[] {
   const ids = Object.keys(LEGIONS);
-  const pick = (): string => ids[Math.min(ids.length - 1, Math.floor(roll() * ids.length))] ?? "zombie";
+  const pick = (): string => ids[Math.min(ids.length - 1, Math.floor(roll() * ids.length))] ?? DEFAULT_LEGION;
   const out: Offer[] = [];
   for (let g = 0; g < GATES; g++) {
     const run: string[] = [];

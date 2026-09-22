@@ -1,0 +1,443 @@
+[
+ {
+  "id": "white_wool",
+  "texture": "textures/blocks/wool_colored_white",
+  "rgb": [
+   234,
+   236,
+   237
+  ]
+ },
+ {
+  "id": "light_gray_wool",
+  "texture": "textures/blocks/wool_colored_silver",
+  "rgb": [
+   142,
+   142,
+   135
+  ]
+ },
+ {
+  "id": "gray_wool",
+  "texture": "textures/blocks/wool_colored_gray",
+  "rgb": [
+   63,
+   68,
+   72
+  ]
+ },
+ {
+  "id": "black_wool",
+  "texture": "textures/blocks/wool_colored_black",
+  "rgb": [
+   21,
+   21,
+   26
+  ]
+ },
+ {
+  "id": "brown_wool",
+  "texture": "textures/blocks/wool_colored_brown",
+  "rgb": [
+   114,
+   72,
+   41
+  ]
+ },
+ {
+  "id": "red_wool",
+  "texture": "textures/blocks/wool_colored_red",
+  "rgb": [
+   161,
+   39,
+   35
+  ]
+ },
+ {
+  "id": "orange_wool",
+  "texture": "textures/blocks/wool_colored_orange",
+  "rgb": [
+   241,
+   118,
+   20
+  ]
+ },
+ {
+  "id": "yellow_wool",
+  "texture": "textures/blocks/wool_colored_yellow",
+  "rgb": [
+   249,
+   198,
+   40
+  ]
+ },
+ {
+  "id": "lime_wool",
+  "texture": "textures/blocks/wool_colored_lime",
+  "rgb": [
+   112,
+   185,
+   26
+  ]
+ },
+ {
+  "id": "green_wool",
+  "texture": "textures/blocks/wool_colored_green",
+  "rgb": [
+   85,
+   110,
+   28
+  ]
+ },
+ {
+  "id": "cyan_wool",
+  "texture": "textures/blocks/wool_colored_cyan",
+  "rgb": [
+   21,
+   138,
+   145
+  ]
+ },
+ {
+  "id": "light_blue_wool",
+  "texture": "textures/blocks/wool_colored_light_blue",
+  "rgb": [
+   58,
+   175,
+   217
+  ]
+ },
+ {
+  "id": "blue_wool",
+  "texture": "textures/blocks/wool_colored_blue",
+  "rgb": [
+   53,
+   57,
+   157
+  ]
+ },
+ {
+  "id": "purple_wool",
+  "texture": "textures/blocks/wool_colored_purple",
+  "rgb": [
+   122,
+   42,
+   173
+  ]
+ },
+ {
+  "id": "magenta_wool",
+  "texture": "textures/blocks/wool_colored_magenta",
+  "rgb": [
+   190,
+   69,
+   180
+  ]
+ },
+ {
+  "id": "pink_wool",
+  "texture": "textures/blocks/wool_colored_pink",
+  "rgb": [
+   238,
+   141,
+   172
+  ]
+ },
+ {
+  "id": "white_concrete",
+  "texture": "textures/blocks/concrete_white",
+  "rgb": [
+   207,
+   213,
+   214
+  ]
+ },
+ {
+  "id": "light_gray_concrete",
+  "texture": "textures/blocks/concrete_silver",
+  "rgb": [
+   125,
+   125,
+   115
+  ]
+ },
+ {
+  "id": "gray_concrete",
+  "texture": "textures/blocks/concrete_gray",
+  "rgb": [
+   55,
+   58,
+   62
+  ]
+ },
+ {
+  "id": "black_concrete",
+  "texture": "textures/blocks/concrete_black",
+  "rgb": [
+   8,
+   10,
+   15
+  ]
+ },
+ {
+  "id": "brown_concrete",
+  "texture": "textures/blocks/concrete_brown",
+  "rgb": [
+   96,
+   60,
+   32
+  ]
+ },
+ {
+  "id": "red_concrete",
+  "texture": "textures/blocks/concrete_red",
+  "rgb": [
+   142,
+   33,
+   33
+  ]
+ },
+ {
+  "id": "orange_concrete",
+  "texture": "textures/blocks/concrete_orange",
+  "rgb": [
+   224,
+   97,
+   1
+  ]
+ },
+ {
+  "id": "yellow_concrete",
+  "texture": "textures/blocks/concrete_yellow",
+  "rgb": [
+   241,
+   175,
+   21
+  ]
+ },
+ {
+  "id": "lime_concrete",
+  "texture": "textures/blocks/concrete_lime",
+  "rgb": [
+   94,
+   169,
+   24
+  ]
+ },
+ {
+  "id": "green_concrete",
+  "texture": "textures/blocks/concrete_green",
+  "rgb": [
+   73,
+   91,
+   36
+  ]
+ },
+ {
+  "id": "cyan_concrete",
+  "texture": "textures/blocks/concrete_cyan",
+  "rgb": [
+   21,
+   119,
+   136
+  ]
+ },
+ {
+  "id": "light_blue_concrete",
+  "texture": "textures/blocks/concrete_light_blue",
+  "rgb": [
+   36,
+   137,
+   199
+  ]
+ },
+ {
+  "id": "blue_concrete",
+  "texture": "textures/blocks/concrete_blue",
+  "rgb": [
+   45,
+   47,
+   143
+  ]
+ },
+ {
+  "id": "purple_concrete",
+  "texture": "textures/blocks/concrete_purple",
+  "rgb": [
+   100,
+   32,
+   156
+  ]
+ },
+ {
+  "id": "magenta_concrete",
+  "texture": "textures/blocks/concrete_magenta",
+  "rgb": [
+   169,
+   48,
+   159
+  ]
+ },
+ {
+  "id": "pink_concrete",
+  "texture": "textures/blocks/concrete_pink",
+  "rgb": [
+   214,
+   101,
+   143
+  ]
+ },
+ {
+  "id": "white_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_white",
+  "rgb": [
+   210,
+   178,
+   161
+  ]
+ },
+ {
+  "id": "light_gray_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_silver",
+  "rgb": [
+   135,
+   107,
+   98
+  ]
+ },
+ {
+  "id": "gray_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_gray",
+  "rgb": [
+   58,
+   42,
+   36
+  ]
+ },
+ {
+  "id": "black_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_black",
+  "rgb": [
+   37,
+   23,
+   16
+  ]
+ },
+ {
+  "id": "brown_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_brown",
+  "rgb": [
+   77,
+   51,
+   36
+  ]
+ },
+ {
+  "id": "red_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_red",
+  "rgb": [
+   143,
+   61,
+   47
+  ]
+ },
+ {
+  "id": "orange_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_orange",
+  "rgb": [
+   162,
+   84,
+   38
+  ]
+ },
+ {
+  "id": "yellow_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_yellow",
+  "rgb": [
+   186,
+   133,
+   35
+  ]
+ },
+ {
+  "id": "lime_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_lime",
+  "rgb": [
+   104,
+   118,
+   53
+  ]
+ },
+ {
+  "id": "green_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_green",
+  "rgb": [
+   76,
+   83,
+   42
+  ]
+ },
+ {
+  "id": "cyan_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_cyan",
+  "rgb": [
+   87,
+   91,
+   91
+  ]
+ },
+ {
+  "id": "light_blue_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_light_blue",
+  "rgb": [
+   113,
+   109,
+   138
+  ]
+ },
+ {
+  "id": "blue_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_blue",
+  "rgb": [
+   74,
+   60,
+   91
+  ]
+ },
+ {
+  "id": "purple_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_purple",
+  "rgb": [
+   118,
+   70,
+   86
+  ]
+ },
+ {
+  "id": "magenta_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_magenta",
+  "rgb": [
+   150,
+   88,
+   109
+  ]
+ },
+ {
+  "id": "pink_terracotta",
+  "texture": "textures/blocks/hardened_clay_stained_pink",
+  "rgb": [
+   162,
+   78,
+   79
+  ]
+ },
+ {
+  "id": "hardened_clay",
+  "texture": "textures/blocks/hardened_clay",
+  "rgb": [
+   152,
+   94,
+   68
+  ]
+ }
+]

@@ -1,0 +1,140 @@
+# 建物・構造物（building）。1 体で形が決まるものだけ。街・村・風景は入れない。列: ja	reading	en	aliases	level	seed	hint（ジャンル。10 秒のヒント）	english（英語の答え。必須。en は裏プロンプトで答えには使わない）
+家	いえ	house	一軒家,おうち,うち,お家,ハウス,マイホーム,民家	1		住む・泊まる建物	house,home,cottage
+# マンション	まんしょん	apartment building	アパート,apartment	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ビル	びる	office building	高層ビル,skyscraper,摩天楼,マンション,apartment,skyscraper	2	# 落とした: ローマ字 biru がビールと衝突。形も曖昧
+城	しろ	castle	お城,お城,おしろ,キャッスル,城郭,天守閣	1		住む・泊まる建物	castle
+# 塔	とう	tower	タワー	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+東京タワー	とうきょうたわー	Tokyo Tower		1		世界の名所	tokyo tower,tokyotower
+# スカイツリー	すかいつりー	Tokyo Skytree	東京スカイツリー,skytree	2	# 落とした: 生成テスト 60³(2026-09-21): 細い棒
+エッフェル塔	えっふぇるとう	Eiffel Tower souvenir model, whole tower visible	エッフェル,パリの塔	1		世界の名所	eiffel tower,eiffeltower
+#   ↑ en を「Eiffel Tower」から書き換え（60³ テスト: 崩れる）
+ピサの斜塔	ぴさのしゃとう	Leaning Tower of Pisa	斜塔,ピサ	2		世界の名所	leaning tower of pisa,tower of pisa,pisa
+自由の女神	じゆうのめがみ	Statue of Liberty	女神,女神像,リバティ	1		世界の名所	statue of liberty,liberty,statueofliberty
+ピラミッド	ぴらみっど	pyramid	エジプトのピラミッド	1		世界の名所	pyramid
+スフィンクス	すふぃんくす	great sphinx of giza statue, full body side view		2		世界の名所	sphinx
+#   ↑ en を「sphinx」から書き換え（60³ テスト: 塊）
+灯台	とうだい	lighthouse	ライトハウス	1	2	街の建物	lighthouse
+風車	ふうしゃ	dutch windmill with four wooden sails	風車小屋,かざぐるま,オランダの風車	1		街の建物	windmill
+#   ↑ en を「windmill」から書き換え（60³ テスト: 風力発電になる）
+# 水車	すいしゃ	water wheel	waterwheel	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+テント	てんと	tent	キャンプ,テント小屋	1		住む・泊まる建物	tent
+# 神社	じんじゃ	Japanese shinto shrine	お宮	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+鳥居	とりい	torii gate	神社の門,赤い門	1		日本の建物	torii gate,torii,shrine gate
+# お寺	おてら	Japanese buddhist temple	寺,寺院	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+五重塔	ごじゅうのとう	five-story pagoda	パゴダ,お寺の塔	2		日本の建物	five-story pagoda,pagoda
+教会	きょうかい	church	チャペル,礼拝堂,大聖堂,チャーチ	1		街の建物	church,chapel,cathedral
+# モスク	もすく	mosque		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 凱旋門	がいせんもん	Arc de Triomphe	arcdetriomphe	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# コロッセオ	ころっせお	Colosseum	コロシアム,colosseum	2	# 落とした: 生成テスト 60³(2026-09-21): 輪
+# パルテノン神殿	ぱるてのんしんでん	Parthenon	パルテノン	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+タージマハル	たーじまはる	Taj Mahal		2		世界の名所	Taj Mahal,tajmahal
+ビッグベン	びっぐべん	Big Ben clock tower model, whole tower visible	時計台,時計塔	2		世界の名所	big ben,clock tower,bigben
+#   ↑ en を「Big Ben」から書き換え（60³ テスト: 箱）
+# 金閣寺	きんかくじ	Kinkaku-ji golden pavilion	金閣,kinkakuji	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+イグルー	いぐるー	igloo	雪の家,かまくら	1		住む・泊まる建物	igloo
+# ログハウス	ろぐはうす	log cabin	丸太小屋,logcabin	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 小屋	こや	hut	shed,cabin	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 工場	こうじょう	factory		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 風力発電機	ふうりょくはつでんき	wind turbine	風力発電,windturbine	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 給水塔	きゅうすいとう	water tower	watertower	2	# 落とした: 生成テスト 60³(2026-09-21): 円柱
+郵便ポスト	ゆうびんぽすと	japanese red cylindrical post box	ポスト,ぽすと,郵便受け	1		道ばたにあるもの	post box,mailbox,postbox,letter box
+#   ↑ en を「mailbox」から書き換え（60³ テスト: 絵が壁）
+# 学校	がっこう	school building	校舎,school	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 病院	びょういん	hospital		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ホテル	ほてる	hotel		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 観覧車	かんらんしゃ	ferris wheel	ferriswheel	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# メリーゴーランド	めりーごーらんど	carousel	回転木馬,merry-go-round	2	# 落とした: 生成テスト 60³(2026-09-21): 円盤
+滑り台	すべりだい	playground slide	すべり台,スライダー	2		公園・グラウンドにあるもの	playground slide,slide
+# ブランコ	ぶらんこ	swing set	swing	2	# 落とした: 生成テスト 60³(2026-09-21): 枠だけ
+# 噴水	ふんすい	fountain		2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 井戸	いど	well	水井戸	2	# 落とした: 生成テスト 60³(2026-09-21): 筒
+墓	はか	gravestone	お墓,墓石,おはか,墓地,ぼち	2		街の建物	gravestone,grave,tombstone,tomb
+トーテムポール	とーてむぽーる	totem pole		2		街の建物	totem pole,totem,totempole
+# ストーンヘンジ	すとーんへんじ	Stonehenge		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+モアイ	もあい	moai stone statue	モアイ像	1		世界の名所	moai,moai statue,easter island statue
+# 温室	おんしつ	greenhouse		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 納屋	なや	barn		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# サイロ	さいろ	silo		2	# 落とした: 生成テスト 60³(2026-09-21): 円柱
+灯籠	とうろう	Japanese stone lantern	石灯籠,いしどうろう,灯篭	2		日本の建物	Japanese stone lantern,stone lantern,stonelantern
+# 時計台	とけいだい	clock tower	clocktower	2	# 落とした: 生成テスト 60³(2026-09-21): 箱
+# スタジアム	すたじあむ	stadium	競技場	3	# 落とした: 生成テスト 60³(2026-09-21): 輪
+# ツリーハウス	つりーはうす	treehouse	tree house	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+犬小屋	いぬごや	doghouse	犬の家,ドッグハウス	1		住む・泊まる建物	doghouse,dog house,kennel
+# 鳥小屋	とりごや	birdhouse	巣箱,bird house	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# オベリスク	おべりすく	obelisk		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 宮殿	きゅうでん	palace		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 要塞	ようさい	fortress	砦,fort	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# エンパイアステートビル	えんぱいあすてーとびる	Empire State Building	empirestatebuilding	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ホワイトハウス	ほわいとはうす	White House	whitehouse	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 風呂屋	ふろや	Japanese public bathhouse building	銭湯	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ガソリンスタンド	がそりんすたんど	gas station	給油所,gasstation	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+電話ボックス	でんわぼっくす	phone booth		2		道ばたにあるもの	phone booth,telephone booth,phone box,phonebooth
+# 信号機	しんごうき	vertical traffic light on a pole with red yellow green lights	信号,trafficlight	1	# 落とした: 生成テスト 60³(2026-09-21): 細い
+#   ↑ en を「traffic light」から書き換え（60³ テスト: 横向きの筒）
+# 街灯	がいとう	street lamp	街路灯,streetlamp,lamppost	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+消火栓	しょうかせん	fire hydrant		1		道ばたにあるもの	fire hydrant,hydrant
+# ベンチ	べんち	wooden park bench, whole bench visible		1	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+#   ↑ en を「bench」から書き換え（60³ テスト: 絵が接写）
+# 橋	はし	bridge		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 吊り橋	つりばし	suspension bridge	suspensionbridge	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ダム	だむ	dam		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 城門	じょうもん	castle gate	門,gate	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 天守閣	てんしゅかく	Japanese castle keep	日本の城,和城	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バス停	ばすてい	bus stop	busstop	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+自動販売機	じどうはんばいき	vending machine	自販機,じはんき,ジュースの自販機	1		道ばたにあるもの	vending machine,vendingmachine
+# ATM	えーてぃーえむ	ATM	現金自動預け払い機	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 公衆トイレ	こうしゅうといれ	public toilet	publictoilet	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# --- 2026-09-21 追加（1,000 語へ。体積があり輪郭で分かる物に寄せた）
+ログハウス	ろぐはうす	log cabin	やまごや,丸太小屋,こや,小屋	2		住む・泊まる建物	log cabin,log house
+# 納屋	なや	red barn	barn,牛舎	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 温室	おんしつ	greenhouse	glasshouse	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# 水車小屋	すいしゃごや	water mill	watermill,水車,すいしゃ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+神社	じんじゃ	Japanese shinto shrine	お宮,おみや,神宮,拝殿	2		日本の建物	Japanese shinto shrine,shrine,shinto shrine
+# お寺	おてら	Japanese buddhist temple	temple,寺,てら,仏閣	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 天守閣	てんしゅかく	Japanese castle keep	Japanese castle,日本の城,姫路城,大阪城	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+パルテノン神殿	ぱるてのんしんでん	Parthenon	神殿,しんでん,パルテノン,ギリシャの神殿	2		世界の名所	Parthenon,greek temple,temple,parthenon temple
+# 金閣寺	きんかくじ	Kinkaku-ji golden pavilion	kinkakuji,golden pavilion,金閣	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# ストーンヘンジ	すとーんへんじ	Stonehenge		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ダム	だむ	dam		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 橋	はし	stone arch bridge	bridge,ブリッジ,石橋	2	# 落とした: 生成テスト 60³(2026-09-21): 0 個
+# 吊り橋	つりばし	suspension bridge	吊橋	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+バス停	ばすてい	bus stop shelter	バス停留所,停留所,バスストップ	2		道ばたにあるもの	bus stop shelter,bus stop,bus shelter
+# ガソリンスタンド	がそりんすたんど	gas station	gas stand,給油所	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 公衆トイレ	こうしゅうといれ	public toilet building	public toilet	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+小屋	こや	wooden hut	物置,ものおき,掘っ立て小屋	2		住む・泊まる建物	wooden hut,hut,shed,shack
+# サーカステント	さーかすてんと	circus tent	circus,big top,サーカス	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# ティピー	てぃぴー	tipi tent	テント,インディアンのテント	3		住む・泊まる建物	tipi tent,tipi,teepee,tent	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ゲル	げる	mongolian yurt	yurt,ユルト,パオ	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# かまくら	かまくら	kamakura snow hut	雪の家,イグルー	2		日本の建物	kamakura snow hut,kamakura,snow hut,igloo	# 2026-09-21 甘さの見直し: 「イグルー」に統合（spec 12 の 2-5）
+# オベリスク	おべりすく	obelisk		3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# マンション	まんしょん	apartment building	apartment,condominium,団地,アパート	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 工場	こうじょう	factory	plant,製鉄所	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+# 学校	がっこう	school building	school,校舎	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+# 病院	びょういん	hospital		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+ホテル	ほてる	hotel	旅館,りょかん,宿	2		住む・泊まる建物	hotel,inn
+宮殿	きゅうでん	palace	パレス,しろ,城	2		住む・泊まる建物	palace
+# 要塞	ようさい	fortress	砦,とりで,城塞	2		住む・泊まる建物	fortress,fort	# 2026-09-21 誰でも知っているものだけにする（本人）
+# 城門	じょうもん	castle gate	gate,門,もん	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# エンパイアステートビル	えんぱいあすてーとびる	Empire State Building	empire state	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+ホワイトハウス	ほわいとはうす	White House	大統領の家	2		世界の名所	white house
+# サグラダファミリア	さぐらだふぁみりあ	Sagrada Familia		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+# ノートルダム	のーとるだむ	Notre Dame cathedral	notre dame,大聖堂	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# クレムリン	くれむりん	Kremlin	聖ワシリイ大聖堂,ロシアの教会	3		世界の名所	Kremlin,st basils cathedral	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# オペラハウス	おぺらはうす	Sydney Opera House	opera house,シドニーオペラハウス	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 万里の長城	ばんりのちょうじょう	Great Wall of China	great wall,長城	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が風景
+# 鐘楼	しょうろう	bell tower	belfry,鐘つき堂	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 展望台	てんぼうだい	observation tower	watchtower,見張り台,物見やぐら,やぐら	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ATM	えーてぃーえむ	ATM machine	現金自動預け払い機,銀行の機械	3		道ばたにあるもの	ATM machine,atm,cash machine
+# 電柱	でんちゅう	utility pole	telephone pole,power pole,電信柱	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ゴールポスト	ごーるぽすと	soccer goal	サッカーゴール,ゴール	2		公園・グラウンドにあるもの	soccer goal,goal,goalpost,goal post
+# バスケットゴール	ばすけっとごーる	basketball hoop	hoop,バスケゴール	2	# 落とした: 生成テスト 60³(2026-09-21): 輪
+ジャングルジム	じゃんぐるじむ	jungle gym		2		公園・グラウンドにあるもの	jungle gym,climbing frame
+# 砂場	すなば	sandbox	sand pit	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が砂漠
+# プール	ぷーる	swimming pool	pool	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# 祭壇	さいだん	altar		3	# 落とした: 生成テスト 60³(2026-09-21): 絵が壁
+# ガレージ	がれーじ	garage	車庫	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# 倉庫	そうこ	warehouse		2	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+# コンビニ	こんびに	convenience store	convenience store building	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が内部
+屋台	やたい	yatai food stall	出店,でみせ,露店,ろてん	2		日本の建物	yatai food stall,food stall,food cart,stall,yatai
+
+シーソー	しーそー	seesaw		2		公園・グラウンドにあるもの	seesaw

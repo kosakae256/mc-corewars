@@ -10,6 +10,7 @@ export { brake, faceAt, faceDir, push, turnTo, unit, wrap, yawOf } from "./geom.
 
 import type { ActDef, ActId, BossAct, Phase } from "../../core/boss.js";
 import { hit } from "../../services/combat.js";
+import { knockback } from "../../services/knockback.js";
 import { has } from "../../state/hp.js";
 
 /** 実体 */
@@ -217,24 +218,16 @@ export function sound(boss: Entity, id: string, volume = 1.0, pitch = 1.0): void
 }
 
 /**
- * **その場所から遠ざかる向きへ弾く。**
+ * **押す。** 中身は共通の口（`services/knockback.ts`）。
  *
- * > ### 当たった手応えは、数字より「動かされること」で出る
+ * > ### 飛竜も同じ道を通る（2026-09-08）
  * >
- * > 弾く元は**竜の位置**（弾なら**弾の位置**）。
- * > 少しだけ上へも押す——**地面に擦らずに飛ぶ。**
+ * > 前は**ここで自前に押していた**ので、
+ * > **軽減を足すたびに 2 か所直す**ことになっていた。
  */
-export function knockFrom(target: Player, from: Vector3, power: number, up = 0.4): void {
+export function knockFrom(target: Player, from: Vector3, power: number, up = 0): void {
   if (power <= 0) return;
-  try {
-    const at = target.location;
-    const dx = at.x - from.x;
-    const dz = at.z - from.z;
-    const n = Math.hypot(dx, dz) || 1;
-    target.applyKnockback({ x: (dx / n) * power, z: (dz / n) * power }, up);
-  } catch {
-    /* 消えている */
-  }
+  knockback(target, from, { power, up });
 }
 
 /** 範囲に当てる */
@@ -244,14 +237,7 @@ export function splash(boss: Entity, radius: number, damage: number, knock: numb
     const d = distTo(boss, p);
     if (d > radius) continue;
     hit({ target: p, attack: damage, via, source: boss });
-    if (knock <= 0) continue;
-    try {
-      const dx = p.location.x - at.x;
-      const dz = p.location.z - at.z;
-      const n = Math.hypot(dx, dz) || 1;
-      p.applyKnockback({ x: (dx / n) * knock, z: (dz / n) * knock }, 0.45);
-    } catch {
-      /* 消えている */
-    }
+    // **共通の口を通す**（`services/knockback.ts`）
+    knockback(p, at, { power: knock });
   }
 }

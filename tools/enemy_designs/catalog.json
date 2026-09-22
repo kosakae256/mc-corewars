@@ -1,0 +1,156 @@
+[
+  {
+    "id": "chiller",
+    "name": "冷気",
+    "design": "霜をまとった氷の格闘兵。白髪、青い肌、紺の防寒服、氷の拳と肩結晶。",
+    "prompt": "Ice-element martial adventurer, silver-blue layered hair, calm narrow blue eyes, deep blue fitted fantasy tunic with silver frost embroidery, white scarf, leather belt, pale ice gauntlets, dark blue boots",
+    "model": "ice"
+  },
+  {
+    "id": "crusher",
+    "name": "重撃",
+    "design": "鉄灰と暗赤の処刑人。重い肩当て、鉄仮面、既存の鉄斧。",
+    "prompt": "Heavy axe knight, steel-gray armor over burgundy quilted tunic, iron forehead guard leaving stern anime eyes and lower face visible, black hair, red sash, plate greaves",
+    "model": "armor"
+  },
+  {
+    "id": "sawman",
+    "name": "丸ノコ",
+    "design": "黄色の作業服と革エプロン、遮光面。右手の機械式丸ノコが常時回転。",
+    "prompt": "Mechanical artificer, tousled chestnut hair, restrained amber anime eyes, brass goggles above forehead, mustard gold tunic under leather smith apron, leather work gloves, dark brown boots",
+    "model": "saw"
+  },
+  {
+    "id": "spinner",
+    "name": "回転",
+    "design": "藍色と白の剣士。腰の重ね板と鉢巻、既存の刀。",
+    "prompt": "Wandering samurai, black layered hair, narrow gray anime eyes, white headband, navy blue and ivory crossed robe, tied obi sash, wrist wraps, gray leg wraps and sandals",
+    "model": "samurai"
+  },
+  {
+    "id": "bomblet",
+    "name": "爆弾",
+    "design": "黒い眼窩の骨兵。肋骨柄と胸に固定した球状爆弾、短い導火線。",
+    "prompt": "RPG undead skeleton, ivory skull with plain BLACK angular empty eye sockets, triangular nasal hole and simple straight teeth, no eye highlights or smile, bare ribs spine and bones, plain leather bomb harness, no clothes, no human skin or hair",
+    "model": "bomb"
+  },
+  {
+    "id": "gunner",
+    "name": "カウボーイ",
+    "design": "茶革のガンマン。立体のつば広帽とホルスター、右手のリボルバー。",
+    "prompt": "Frontier fantasy gunslinger, layered brown hair, restrained amber anime eyes, tan leather duster over cream shirt, red cravat, brass buckles, brown boots, no mustache or gritty face",
+    "model": "cowboy"
+  },
+  {
+    "id": "flyer",
+    "name": "飛行",
+    "design": "空色と白の飛行兵。背中の大きな羽毛翼が羽ばたく。",
+    "prompt": "Winged sky warrior, pale silver hair, calm aqua anime eyes, cream tunic with sky blue panels, silver and gold light armor, wing pattern harness, pale gray boots",
+    "model": "wings"
+  },
+  {
+    "id": "bomber",
+    "name": "ボマー",
+    "design": "橙の爆破作業員。腰の爆弾と背負い鞄、ゴーグル。",
+    "prompt": "Fantasy alchemist grenadier, auburn hair, dark orange hooded tunic, leather apron and belt pouches, brass goggles on forehead, brown gloves and boots, no modern military gear",
+    "model": "grenadier"
+  },
+  {
+    "id": "tank",
+    "name": "タンク",
+    "design": "濃紺と銀の重装兵。厚い胸甲、肩甲、面頬、既存の盾。",
+    "prompt": "Tower-shield guardian, silver armor over royal blue tabard, angular forehead guard with calm visible anime eyes, navy cape pattern on back, silver gauntlets and plate boots",
+    "model": "tank"
+  },
+  {
+    "id": "healer",
+    "name": "恵み",
+    "design": "白と緑の治療師。フード、腰の薬瓶、背中の救急鞄。",
+    "prompt": "Forest cleric woman, mint hair under cream hood, calm green anime eyes, white robes with emerald leaf embroidery and green sash, leather book belt, brown shoes",
+    "model": "medic"
+  },
+  {
+    "id": "rouser",
+    "name": "鼓舞",
+    "design": "赤と金の鼓舞役。金縁の軍装、背中で揺れる旗と肩章。",
+    "prompt": "Battle bard commander, auburn hair, focused brown anime eyes, crimson tunic with gold embroidered trim and shoulder braid, cream sash, brown leather boots, medieval outfit",
+    "model": "banner"
+  },
+  {
+    "id": "blinker",
+    "name": "テレポート",
+    "design": "黒紫の忍び。紫の目と幾何学模様、肩の転移結晶。",
+    "prompt": "Void rogue, violet-black layered hair, sharp violet anime eyes, charcoal indigo hooded tunic and purple scarf, silver angular runes, leather belts, fitted dark boots",
+    "model": "phase"
+  },
+  {
+    "id": "crit",
+    "name": "痛恨の一撃",
+    "design": "赤黒い賭博拳闘士。片腕の巨大な拳甲と鋲。",
+    "prompt": "Crimson pugilist, spiky russet hair, amber focused anime eyes, sleeveless red martial tunic, tan bare arms, white fist wraps, dark charcoal trousers and iron buckle",
+    "model": "gauntlet"
+  },
+  {
+    "id": "taint",
+    "name": "汚染",
+    "design": "黄緑の防護服。呼吸器と背中の漏出タンク。",
+    "prompt": "Plague alchemist, olive hood with amber lenses, ochre-green robe, leather respirator covering lower face, acid green potion stains and belt, dark brown gloves and boots, no modern hazmat suit",
+    "model": "hazmat"
+  },
+  {
+    "id": "charged",
+    "name": "帯電",
+    "design": "青黒い蓄電兵。背中のコイルと銅電極、青い結晶。",
+    "prompt": "Storm rune knight, spiky pale blue hair, narrow cyan anime eyes, dark teal tunic with copper trim and lightning rune embroidery, bronze cuffs, dark leather boots",
+    "model": "tesla"
+  },
+  {
+    "id": "chamber",
+    "name": "チェンバー",
+    "design": "白シャツ・紺ベスト・金の意匠の狙撃手。眼鏡と細身の長銃。",
+    "prompt": "Arcane sniper gentleman, neat dark brown hair, gold-rim spectacles, white shirt and navy waistcoat with gold embroidered pattern, gold cravat, dark leather belts and fitted black trousers",
+    "model": "rifle"
+  },
+  {
+    "id": "kitsune",
+    "name": "妖狐",
+    "design": "白髪と朱白の狐術師。狐耳、三本の尾が揺れる。",
+    "prompt": "Fox spirit shrine caster, elegant long white hair, restrained amber anime eyes, vermilion cheek markings, ivory kimono with red cuffs and obi, charcoal leggings and white tabi",
+    "model": "fox"
+  },
+  {
+    "id": "barrage",
+    "name": "弾幕",
+    "design": "青緑の幽霊術師。裂けた裾と浮遊する環状の発射器。",
+    "prompt": "Teal spectral sorcerer, empty dark hood with two small cyan eye slits, dark turquoise layered robes with silver circular rune embroidery, mist colored sleeves and tattered lower robe",
+    "model": "orbit"
+  },
+  {
+    "id": "titan",
+    "name": "パワー系",
+    "design": "暗赤の巨拳兵。分厚い肩甲と両拳、腰の重り。",
+    "prompt": "Crimson titan warrior, swept-back dark hair, stern amber anime eyes, massive burgundy plate over charcoal tunic, thick leather belts, iron cuffs and dark red greaves",
+    "model": "titan"
+  },
+  {
+    "id": "vital",
+    "name": "急所",
+    "design": "白黒の暗殺者。白い仮面、腕に沿った短い刃。",
+    "prompt": "White assassin, silver layered hair, narrow gray anime eyes, ivory hood and white-gray fitted light armor over black clothing, silver seams and charcoal scarf, black gloves and boots",
+    "model": "blades"
+  },
+  {
+    "id": "wraith",
+    "name": "ファントム",
+    "design": "白灰色の布をかぶった幽霊。黒い眼窩、裂けた裾が揺れる。",
+    "prompt": "RPG restless wraith, draped ivory linen hood with plain black eye holes, aged pale gray shroud and ragged flowing cloth, no human skin, no smile or cute eyes",
+    "model": "ghost"
+  },
+  {
+    "id": "shotgun",
+    "name": "散弾",
+    "design": "森緑と革の銃士。薬莢帯と短いマント。確認済みの銃と構えを引き継ぐ。",
+    "prompt": "Fantasy shotgun ranger, layered dark chestnut hair, narrow amber anime eyes, forest green short cloak and cream tunic, brown leather chest harness with red shotgun shells and brass buckles, leather bracers, charcoal trousers and brown boots, no camo or modern soldier helmet",
+    "model": "ranger"
+  }
+]

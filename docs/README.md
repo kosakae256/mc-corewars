@@ -49,6 +49,7 @@ worlds/<名>/docs/spec/ どう作るか
 ## 技術仕様 (spec)
 
 - [01-mc-tool.md](spec/01-mc-tool.md) — 統合管理ツール `tools/mc.mjs`。BDS の起動/停止/配置、ワールドの取り込み
+- [08-genlab.md](spec/08-genlab.md) — **`tools/genlab`。単語 → 画像 → 3D → 20³ ブロックをブラウザで試す。** AI 建築当てゲームの下調べ
 
 過去の実験の仕様（記録として保持）:
 
@@ -73,6 +74,7 @@ worlds/<名>/docs/spec/ どう作るか
 - [11-content-log.md](research/11-content-log.md) — **コンテンツログのどの行が自分のせいか。** `blocks.json` に独自ブロックの見た目を書かない
 - [12-item-hold.md](research/12-item-hold.md) — **アイテムの長押しを取る方法。** `use_modifiers` を付けると `itemStartUse` / `itemStopUse` が飛ぶ
 - [13-scripted-camera.md](research/13-scripted-camera.md) — **スクリプトから動かすカメラは滑らかにならない。** 実体に貼る手も無い
+- [29-text-to-blocks-feasibility.md](research/29-text-to-blocks-feasibility.md) — **単語 → AI が 3D → ブロックで建てる、はできるか。** できる。**実測 1 語 3 秒・Minecraft 込み 8.7 GB**（単語→画像→Hunyuan3D→20³）。BDS なしは `/wsserver` ＋ `/scriptevent`
 
 ## 決定記録
 

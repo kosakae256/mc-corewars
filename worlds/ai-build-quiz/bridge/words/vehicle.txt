@@ -1,0 +1,139 @@
+# 乗り物（vehicle）。列: ja	reading	en	aliases	level	seed	hint（ジャンル。10 秒のヒント）	english（英語の答え。必須。en は裏プロンプトで答えには使わない）
+車	くるま	car	自動車,乗用車,じどうしゃ,カー,ブーブー,ぶーぶー	1		道路を走る乗り物	car,automobile,auto
+# スポーツカー	すぽーつかー	sports car	sportscar	1	# 落とした: 生成テスト 60³(2026-09-21): 車と紛らわしい
+# レーシングカー	れーしんぐかー	racing car	racecar,race car,F1カー,F1	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# タクシー	たくしー	taxi	cab,taxicab	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# パトカー	ぱとかー	police car	警察車,policecar	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+消防車	しょうぼうしゃ	fire engine	ポンプ車,はしご車,赤い車	1		はたらく乗り物	fire engine,fire truck,firetruck
+救急車	きゅうきゅうしゃ	ambulance	アンビュランス	1		はたらく乗り物	ambulance
+バス	ばす	bus	路線バス	1		大勢を運ぶ乗り物	bus
+二階建てバス	にかいだてばす	double-decker bus	2階建てバス,ロンドンバス	2		大勢を運ぶ乗り物	double-decker bus,double decker,doubledecker
+トラック	とらっく	truck	運送トラック	1		はたらく乗り物	truck,lorry
+# ダンプカー	だんぷかー	dump truck	ダンプ,dumptruck	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ミキサー車	みきさーしゃ	concrete mixer truck	cement mixer	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ゴミ収集車	ごみしゅうしゅうしゃ	garbage truck	ゴミ収集車,清掃車,garbagetruck	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# キャンピングカー	きゃんぴんぐかー	camper van	キャンパー,RV,motorhome	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ジープ	じーぷ	jeep		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# トラクター	とらくたー	tractor		1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ショベルカー	しょべるかー	excavator	パワーショベル,ユンボ,digger	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ブルドーザー	ぶるどーざー	bulldozer		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# クレーン車	くれーんしゃ	crane truck	クレーン,cranetruck	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# フォークリフト	ふぉーくりふと	forklift		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ロードローラー	ろーどろーらー	road roller	roadroller,steamroller	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 自転車	じてんしゃ	bicycle	チャリ,チャリンコ,bike	1	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 三輪車	さんりんしゃ	tricycle		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バイク	ばいく	motorcycle	オートバイ,motorbike	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# スクーター	すくーたー	scooter	原付	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 一輪車	いちりんしゃ	unicycle		2	# 落とした: 生成テスト 60³(2026-09-21): 輪
+# キックボード	きっくぼーど	kick scooter	kickscooter	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# スケートボード	すけーとぼーど	skateboard	スケボー	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 蒸気機関車	じょうききかんしゃ	steam locomotive	機関車,SL,locomotive	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 新幹線	しんかんせん	shinkansen bullet train	shinkansen	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 路面電車	ろめんでんしゃ	tram	トラム,streetcar	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 飛行機	ひこうき	airplane	plane,aircraft	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ジェット機	じぇっとき	jet plane	jet	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 戦闘機	せんとうき	fighter jet	fighter	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 複葉機	ふくようき	biplane		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# プロペラ機	ぷろぺらき	propeller plane	セスナ	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ヘリコプター	へりこぷたー	helicopter	ヘリ,chopper	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+気球	ききゅう	hot air balloon	熱気球,ねつききゅう	1		空を飛ぶ乗り物	hot air balloon,hotairballoon
+# 飛行船	ひこうせん	airship		2	# 落とした: 生成テスト 60³(2026-09-21): 白い塊
+# グライダー	ぐらいだー	glider		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ドローン	どろーん	drone		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ロケット	ろけっと	rocket		1		空を飛ぶ乗り物	rocket
+スペースシャトル	すぺーすしゃとる	space shuttle	シャトル,宇宙船,うちゅうせん	2		空を飛ぶ乗り物	space shuttle,shuttle,spaceship,spaceshuttle
+# 人工衛星	じんこうえいせい	satellite	衛星	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+UFO	ゆーふぉー	UFO	ユーフォー,空飛ぶ円盤,円盤,えんばん	1		空を飛ぶ乗り物	UFO,flying saucer
+# 宇宙船	うちゅうせん	spaceship	spacecraft	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 月面車	げつめんしゃ	lunar rover	ローバー	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+船	ふね	ship	舟,シップ,貨物船	1		水に浮かぶ乗り物	ship,vessel
+# ヨット	よっと	sailboat	yacht,帆船,sailingship	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 帆船	はんせん	sailing ship	tall ship	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ボート	ぼーと	rowboat	手漕ぎボート	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# カヌー	かぬー	canoe	カヤック,kayak	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# カヤック	かやっく	kayak		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 潜水艦	せんすいかん	submarine	サブマリン	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 客船	きゃくせん	cruise ship	豪華客船,クルーズ船,cruiseship	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 海賊船	かいぞくせん	pirate ship	pirateship	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 漁船	ぎょせん	fishing boat	fishingboat	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# いかだ	いかだ	raft	筏	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ジェットスキー	じぇっとすきー	jet ski	水上バイク,jetski	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 軍艦	ぐんかん	battleship	戦艦,warship	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 空母	くうぼ	aircraft carrier	航空母艦,aircraftcarrier	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ゴンドラ	ごんどら	gondola		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 戦車	せんしゃ	tank		1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 馬車	ばしゃ	horse carriage	carriage,coach	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 人力車	じんりきしゃ	rickshaw		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# そり	そり	sleigh	橇	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 雪上車	せつじょうしゃ	snowmobile	スノーモービル	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 除雪車	じょせつしゃ	snowplow	snow plow	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ゴーカート	ごーかーと	go-kart	カート,gokart	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# モンスタートラック	もんすたーとらっく	monster truck	monstertruck	2	# 落とした: 語が長すぎて打ちにくい
+# リムジン	りむじん	limousine	limo	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# オープンカー	おーぷんかー	convertible	カブリオレ	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ピックアップトラック	ぴっくあっぷとらっく	pickup truck	ピックアップ,pickup	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バン	ばん	van	ワゴン車	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# トロッコ	とろっこ	mine cart	minecart	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ロープウェイ	ろーぷうぇい	cable car	ゴンドラリフト,ropeway	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# コンバイン	こんばいん	combine harvester	harvester	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バギー	ばぎー	dune buggy	buggy	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# サイドカー	さいどかー	sidecar		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# トゥクトゥク	とぅくとぅく	tuk-tuk	tuktuk	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ホバークラフト	ほばーくらふと	hovercraft		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# セグウェイ	せぐうぇい	segway		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ベビーカー	べびーかー	stroller	乳母車,baby carriage	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 車椅子	くるまいす	wheelchair		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ショッピングカート	しょっぴんぐかーと	shopping cart	カート	2	# 落とした: 語が長すぎて打ちにくい
+# 宇宙ステーション	うちゅうすてーしょん	space station	ISS,spacestation	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 電車	でんしゃ	train		2	# 落とした: 絵が線路と車窓の風景になる（2026-09-21 実測）
+# --- 2026-09-21 追加（1,000 語へ。体積があり輪郭で分かる物に寄せた）
+# ダンプカー	だんぷかー	dump truck	dumptruck,ダンプ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ゴミ収集車	ごみしゅうしゅうしゃ	garbage truck	ごみ収集車,清掃車	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# タンクローリー	たんくろーりー	tanker truck	tank truck,tanker	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+キャンピングカー	きゃんぴんぐかー	camper van	キャンパー	2		道路を走る乗り物	camper van,camper,rv,motorhome
+# 軽トラ	けいとら	kei truck	軽トラック,mini truck	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+バン	ばん	van	ワゴン,ワンボックス,ハイエース	2		道路を走る乗り物	van
+# ジープ	じーぷ	jeep	off-road car,4WD	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# リムジン	りむじん	limousine	limo	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+タクシー	たくしー	yellow taxi		1		はたらく乗り物	taxi,cab,taxicab
+# モノレール	ものれーる	monorail		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+路面電車	ろめんでんしゃ	tram	トラム,市電,電車,でんしゃ,チンチン電車	2		大勢を運ぶ乗り物	tram,streetcar,trolley
+# 電車	でんしゃ	commuter train	train,列車,れっしゃ	1	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 貨物列車	かもつれっしゃ	freight train	cargo train	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ケーブルカー	けーぶるかー	cable car	ropeway,ロープウェイ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 機関車トーマス	きかんしゃとーます	Thomas the Tank Engine	Thomas,トーマス	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# スクーター	すくーたー	scooter	vespa,原付	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 三輪車	さんりんしゃ	tricycle	trike	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# セグウェイ	せぐうぇい	segway		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ジェット機	じぇっとき	passenger jet airliner	jet,airliner,旅客機,ジャンボジェット	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# プロペラ機	ぷろぺらき	propeller plane	セスナ,cessna	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# グライダー	ぐらいだー	glider	hang glider,ハンググライダー	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+パラシュート	ぱらしゅーと	parachute	落下傘,らっかさん	2		空を飛ぶ乗り物	parachute
+飛行船	ひこうせん	zeppelin	ツェッペリン,つぇっぺりん	2		空を飛ぶ乗り物	zeppelin,blimp,airship
+# 月面着陸船	げつめんちゃくりくせん	lunar lander	lunar module	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 月面車	げつめんしゃ	lunar rover	moon rover,rover	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# フェリー	ふぇりー	ferry	フェリーボート	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+クルーズ船	くるーずせん	cruise ship	客船,豪華客船,タイタニック	2		水に浮かぶ乗り物	cruise ship,liner
+# タンカー	たんかー	oil tanker ship	tanker ship	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+漁船	ぎょせん	fishing boat		2		水に浮かぶ乗り物	fishing boat,fishing vessel
+ボート	ぼーと	rowboat	手漕ぎボート,小舟	1		水に浮かぶ乗り物	rowboat,row boat
+# モーターボート	もーたーぼーと	speedboat	motorboat,speed boat	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ゴムボート	ごむぼーと	inflatable rubber boat	ラフト	2		水に浮かぶ乗り物	inflatable rubber boat,rubber boat,inflatable boat
+# タグボート	たぐぼーと	tugboat		2		水に浮かぶ乗り物	tugboat,tug,tug boat	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ゴンドラ	ごんどら	venetian gondola	gondola	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+いかだ	いかだ	wooden raft	筏,イカダ	2		水に浮かぶ乗り物	wooden raft,raft
+# 空母	くうぼ	aircraft carrier	航空母艦	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 装甲車	そうこうしゃ	armored vehicle	armored car,armoured	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 除雪車	じょせつしゃ	snowplow truck	snow plow,snowplow	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# スノーモービル	すのーもーびる	snowmobile		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# バギー	ばぎー	dune buggy	buggy,ATV,四輪バギー	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+トレーラー	とれーらー	semi truck	大型トラック,トレーラートラック,トラック	2		はたらく乗り物	semi truck,trailer,trailer truck
+# 霊柩車	れいきゅうしゃ	hearse		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# リヤカー	りやかー	hand cart	handcart,cart,荷車	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# キックボード	きっくぼーど	kick scooter	kickboard	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 人力車	じんりきしゃ	rickshaw		2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 犬ぞり	いぬぞり	dog sled	sled,dogsled	2	# 落とした: 生成テスト 60³(2026-09-21): 犬になる
+# ホバークラフト	ほばーくらふと	hovercraft		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 水上飛行機	すいじょうひこうき	seaplane	floatplane	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+スクールバス	すくーるばす	yellow school bus	黄色いバス	1		大勢を運ぶ乗り物	school bus
+マイクロバス	まいくろばす	minibus	送迎バス	2		大勢を運ぶ乗り物	minibus,mini bus

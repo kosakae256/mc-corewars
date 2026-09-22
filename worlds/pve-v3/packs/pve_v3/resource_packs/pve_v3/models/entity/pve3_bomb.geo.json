@@ -1,0 +1,125 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.pve3.bomb",
+        "texture_width": 32,
+        "texture_height": 32,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 2,
+        "visible_bounds_offset": [
+          0,
+          0.5,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            4,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4,
+                0,
+                -4
+              ],
+              "size": [
+                8,
+                8,
+                8
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -5,
+                1,
+                -3
+              ],
+              "size": [
+                10,
+                6,
+                6
+              ],
+              "uv": [
+                0,
+                0
+              ],
+              "inflate": -0.01
+            },
+            {
+              "origin": [
+                -3,
+                1,
+                -5
+              ],
+              "size": [
+                6,
+                6,
+                10
+              ],
+              "uv": [
+                0,
+                0
+              ],
+              "inflate": -0.02
+            },
+            {
+              "origin": [
+                -3,
+                -1,
+                -3
+              ],
+              "size": [
+                6,
+                10,
+                6
+              ],
+              "uv": [
+                0,
+                0
+              ],
+              "inflate": -0.03
+            }
+          ]
+        },
+        {
+          "name": "fuse",
+          "parent": "body",
+          "pivot": [
+            0,
+            8,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -1,
+                8,
+                -1
+              ],
+              "size": [
+                2,
+                3,
+                2
+              ],
+              "uv": [
+                0,
+                16
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

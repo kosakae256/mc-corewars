@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.pve3.aim": {
+      "initial_state": "off",
+      "states": {
+        "off": {
+          "transitions": [
+            {
+              "on": "q.mark_variant == 1"
+            }
+          ]
+        },
+        "on": {
+          "animations": [
+            "aim_hold"
+          ],
+          "blend_transition": 0.15,
+          "transitions": [
+            {
+              "off": "q.mark_variant != 1"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

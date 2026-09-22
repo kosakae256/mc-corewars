@@ -60,6 +60,18 @@ export function noteHit(target: Entity, by: Player | undefined): void {
   set.add(by.id);
 }
 
+/**
+ * **その人が一度でも削ったか。**
+ *
+ * **頭上表示を出す相手を選ぶのに使う**（`10-implementation.md` 8-1）。
+ *
+ * > **「誰かが削った」ではなく「その人が削った」。**
+ * > **控えは誰が削ったかまで持っている**ので、人ごとに引ける。
+ */
+export function hitBy(target: Entity, player: Player): boolean {
+  return damagers.get(target.id)?.has(player.id) === true;
+}
+
 function give(player: Player, amount: number, why: string): void {
   const left = addEmerald(player, amount);
   try {

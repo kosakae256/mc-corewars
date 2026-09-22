@@ -1,0 +1,423 @@
+# 食べ物（food）。列: ja	reading	en	aliases	level	seed	hint（ジャンル。10 秒のヒント）	english（英語の答え。必須。en は裏プロンプトで答えには使わない）
+りんご	りんご	apple	林檎,アップル,リンゴ,赤いりんご	1		果物	apple
+バナナ	ばなな	banana		1		果物	banana
+# みかん	みかん	mandarin orange	蜜柑,tangerine,mandarin	1	# 落とした: 細かすぎて 60³ では見分けがつかない
+オレンジ	おれんじ	orange	みかん,蜜柑,ミカン	1		柑橘	orange,mandarin,tangerine
+レモン	れもん	lemon	檸檬	1		柑橘	lemon
+ぶどう	ぶどう	single bunch of purple grapes	葡萄,グレープ,ブドウ,マスカット,巨峰	1		果物	grapes,grape
+#   ↑ en を「grapes」から書き換え（60³ テスト: 房が崩れる）
+いちご	いちご	strawberry	苺,ストロベリー,イチゴ	1		果物	strawberry
+# さくらんぼ	さくらんぼ	two red cherries joined by a stem	チェリー,桜桃	1	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+#   ↑ en を「cherry」から書き換え（60³ テスト: トマトに見える）
+桃	もも	peach	白桃	1		果物	peach
+# 梨	なし	Japanese pear	pear,洋梨	1	# 落とした: 細かすぎて 60³ では見分けがつかない
+スイカ	すいか	whole green striped watermelon, uncut	西瓜,ウォーターメロン	1		果物	watermelon
+#   ↑ en を「watermelon」から書き換え（60³ テスト: 切り口）
+メロン	めろん	melon	マスクメロン	1		果物	melon,cantaloupe
+パイナップル	ぱいなっぷる	pineapple	パイン	1		南国の果物	pineapple
+# キウイ	きうい	whole brown kiwi fruit, uncut	キウイフルーツ	1	# 落とした: 生成テスト 60³(2026-09-21): 切り口
+#   ↑ en を「kiwi fruit」から書き換え（60³ テスト: 切り口が混ざる）
+マンゴー	まんごー	mango		1		南国の果物	mango
+# パパイヤ	ぱぱいや	papaya		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ココナッツ	ここなっつ	coconut	ヤシの実,やしのみ,ココナツ	1		南国の果物	coconut
+# ザクロ	ざくろ	pomegranate	柘榴	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 柿	かき	persimmon		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+栗	くり	chestnut	マロン,クリ,栗の実,チェスナッツ	2		果物	chestnut
+アボカド	あぼかど	whole dark green avocado, uncut	アボガド	2		果物	avocado
+#   ↑ en を「avocado」から書き換え（60³ テスト: 半分になる）
+# グレープフルーツ	ぐれーぷふるーつ	grapefruit		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ライム	らいむ	lime		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ドラゴンフルーツ	どらごんふるーつ	dragon fruit	ピタヤ	2		南国の果物	dragon fruit,pitaya,dragonfruit
+ドリアン	どりあん	durian		2		南国の果物	durian
+# いちじく	いちじく	fig	無花果	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# プラム	ぷらむ	plum	すもも,李	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ライチ	らいち	lychee	茘枝	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# びわ	びわ	loquat	枇杷	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+にんじん	にんじん	carrot	人参,キャロット,ニンジン	1		土の中で育つ野菜	carrot
+じゃがいも	じゃがいも	potato	ジャガイモ,馬鈴薯	1		土の中で育つ野菜	potato
+玉ねぎ	たまねぎ	onion	オニオン,タマネギ	1		土の中で育つ野菜	onion
+トマト	とまと	tomato		1		野菜	tomato
+# きゅうり	きゅうり	single whole cucumber, uncut	胡瓜	1	# 落とした: 生成テスト 60³(2026-09-21): 輪切りが混ざる
+#   ↑ en を「cucumber」から書き換え（60³ テスト: 輪切りが混ざる）
+# なす	なす	single whole purple eggplant	茄子,なすび,aubergine	1	# 落とした: 生成テスト 60³(2026-09-21): 2 個
+#   ↑ en を「eggplant」から書き換え（60³ テスト: 2 個になる）
+かぼちゃ	かぼちゃ	pumpkin	南瓜,パンプキン,カボチャ	1		野菜	pumpkin,squash
+ピーマン	ぴーまん	bell pepper		1		野菜	bell pepper,green pepper,pepper,bellpepper
+キャベツ	きゃべつ	cabbage		1		野菜	cabbage
+# レタス	れたす	lettuce		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 白菜	はくさい	napa cabbage	napacabbage	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+ブロッコリー	ぶろっこりー	broccoli		1		野菜	broccoli
+# カリフラワー	かりふらわー	cauliflower		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+とうもろこし	とうもろこし	corn	玉蜀黍,トウモロコシ,コーン	1		野菜	corn,maize,sweet corn
+大根	だいこん	daikon radish	ダイコン	2		土の中で育つ野菜	daikon radish,daikon
+# さつまいも	さつまいも	sweet potato	薩摩芋,sweetpotato	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+にんにく	にんにく	garlic	大蒜,ニンニク,ガーリック	2		土の中で育つ野菜	garlic
+きのこ	きのこ	brown mushroom	マッシュルーム,茸,キノコ,しめじ,エリンギ	1		野菜	mushroom
+# たけのこ	たけのこ	bamboo shoot	筍,bambooshoot	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+唐辛子	とうがらし	chili pepper	チリ,トウガラシ,鷹の爪,ハバネロ	2		野菜	chili pepper,chili,chilli,red pepper
+# ズッキーニ	ずっきーに	zucchini		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# オクラ	おくら	okra		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 落花生	らっかせい	peanut	ピーナッツ,peanuts	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# くるみ	くるみ	walnut	胡桃	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ケーキ	けーき	cake	ホールケーキ,バースデーケーキ,誕生日ケーキ,デコレーションケーキ,ほーるけーき,たんじょうびけーき	1		スイーツ	cake,birthday cake
+# ショートケーキ	しょーとけーき	strawberry shortcake	shortcake	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+カップケーキ	かっぷけーき	cupcake		1		スイーツ	cupcake
+ドーナツ	どーなつ	donut	ドーナッツ	1		焼き菓子	donut,doughnut
+クッキー	くっきー	cookie	ビスケット,びすけっと	2		焼き菓子	cookie,biscuit,biscuits
+# マカロン	まかろん	macaron		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# プリン	ぷりん	caramel custard pudding on a plate, japanese purin	custard pudding	1	# 落とした: 生成テスト 60³(2026-09-21): 平たい
+#   ↑ en を「pudding」から書き換え（60³ テスト: 絵が違う）
+アイスクリーム	あいすくりーむ	ice cream	アイス,あいす	1		冷たいデザート	ice cream,icecream
+# ソフトクリーム	そふとくりーむ	soft serve ice cream	softcream,soft serve	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+かき氷	かきごおり	shaved ice dessert in a bowl	カキ氷,こおり,氷	2		冷たいデザート	shaved ice,shavedice
+パフェ	ぱふぇ	parfait	サンデー,アイスサンデー	2		冷たいデザート	parfait,sundae,ice cream sundae
+# チョコレート	ちょこれーと	single bar of chocolate, whole, standing	チョコ,chocolate	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+#   ↑ en を「chocolate bar」から書き換え（60³ テスト: 薄い）
+# キャンディ	きゃんでぃ	candy	キャンディー,飴	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ロリポップ	ろりぽっぷ	lollipop	ペロペロキャンディ,棒付きキャンディ	1		お菓子	lollipop
+綿あめ	わたあめ	cotton candy	綿菓子,わたがし	2		お菓子	cotton candy,candy floss,cottoncandy
+ポップコーン	ぽっぷこーん	popcorn		2		お菓子	popcorn
+フライドポテト	ふらいどぽてと	french fries in a red paper box	ポテトフライ,マックのポテト	1		ファストフード	french fries,fries
+#   ↑ en を「french fries」から書き換え（60³ テスト: 細い）
+ハンバーガー	はんばーがー	hamburger	バーガー,チーズバーガー,マック,ちーずばーがー	1		ファストフード	hamburger,burger,cheeseburger,cheese burger
+ホットドッグ	ほっとどっぐ	hot dog		1		ファストフード	hot dog,hotdog
+# ピザ	ぴざ	whole round pizza on a wooden board, uncut	ピッツァ	1	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+#   ↑ en を「pizza」から書き換え（60³ テスト: 薄い）
+サンドイッチ	さんどいっち	sandwich	サンド,サンドウィッチ	2		ファストフード	sandwich
+ホットケーキ	ほっとけーき	pancakes	パンケーキ	1		朝ごはんの定番	pancakes,pancake
+# ワッフル	わっふる	waffle		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+クロワッサン	くろわっさん	croissant		1		ベーカリー	croissant
+食パン	しょくぱん	loaf of bread	食パン一斤,しょくぱんいっきん,ブレッド	1		ベーカリー	bread,loaf of bread,loaf,sliced bread
+フランスパン	ふらんすぱん	baguette	バゲット	2		ベーカリー	baguette,french bread
+# メロンパン	めろんぱん	melon bread	melonpan	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ベーグル	べーぐる	bagel		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+プレッツェル	ぷれっつぇる	pretzel		2		ベーカリー	pretzel
+# おにぎり	おにぎり	single onigiri rice ball with seaweed, triangle shape	おむすび,riceball,onigiri	1	# 落とした: 生成テスト 60³(2026-09-21): 2 個
+#   ↑ en を「onigiri rice ball with seaweed」から書き換え（60³ テスト: 2 個になる）
+寿司	すし	nigiri sushi	お寿司,にぎり,おすし,握り寿司,握り	1		主食になる料理	nigiri sushi,sushi,nigiri
+# 巻き寿司	まきずし	sushi roll (maki)	巻きずし,海苔巻き,sushiroll	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 餃子	ぎょうざ	gyoza dumplings	dumpling	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+肉まん	にくまん	steamed meat bun	中華まん,豚まん,ぶたまん,まんじゅう	2		世界の料理	steamed meat bun,meat bun,pork bun,steamed bun,baozi
+ラーメン	らーめん	bowl of ramen noodles	拉麺,めん,麺	1		主食になる料理	ramen,noodles
+カレーライス	かれーらいす	plate of Japanese curry rice	カレー,かれー	1		主食になる料理	curry,curry rice
+オムライス	おむらいす	omurice omelette over rice	オムレツ	1		主食になる料理	omurice,omelette rice,omelet
+卵	たまご	single white egg	タマゴ,玉子,エッグ,鳥の卵	1		朝ごはんの定番	egg
+目玉焼き	めだまやき	fried egg		1		朝ごはんの定番	fried egg,sunny side up,friedegg
+# ゆで卵	ゆでたまご	boiled egg	茹で卵,boiledegg	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# オムレツ	おむれつ	omelette	omelet	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ステーキ	すてーき	steak	ビーフステーキ,牛肉,ビーフ,にく,肉	2		メインのおかず	steak,beef
+肉	にく	meat on the bone	骨付き肉,ほねつきにく,マンガ肉,まんがにく,骨付き	1		メインのおかず	meat,meat on the bone
+ソーセージ	そーせーじ	sausage	ウインナー,ウィンナー,フランクフルト	2		メインのおかず	sausage,wiener
+フライドチキン	ふらいどちきん	fried chicken	唐揚げ,からあげ,ケンタッキー	2		メインのおかず	fried chicken,friedchicken
+# ローストチキン	ろーすとちきん	roast chicken	roastchicken	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+エビフライ	えびふらい	fried shrimp	海老フライ	2		魚介の料理	fried shrimp,shrimp tempura,friedshrimp
+たこ焼き	たこやき	takoyaki octopus balls	たこやき,タコ焼き	2		お祭り・屋台の食べ物	takoyaki octopus balls,takoyaki
+# 焼き鳥	やきとり	yakitori grilled chicken skewers		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+団子	だんご	dango rice dumplings on a skewer	お団子,おだんご,三色団子,みたらし団子	1		和菓子	dango,rice dumpling,dumpling
+# 大福	だいふく	daifuku mochi		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 鏡餅	かがみもち	kagami mochi, two stacked round white rice cakes with a small orange on top		1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+#   ↑ en を「kagami mochi stacked rice cakes with an orange on top」から書き換え（60³ テスト: 複数になる）
+# どら焼き	どらやき	dorayaki pancake sandwich		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+たい焼き	たいやき	taiyaki fish-shaped cake	タイ焼き,鯛焼き	2		和菓子	taiyaki fish-shaped cake,taiyaki
+# バースデーケーキ	ばーすでーけーき	birthday cake	誕生日ケーキ,birthdaycake	1	# 落とした: 細かすぎて 60³ では見分けがつかない
+ウェディングケーキ	うぇでぃんぐけーき	wedding cake	結婚式のケーキ	2		スイーツ	wedding cake,weddingcake
+# アップルパイ	あっぷるぱい	apple pie	applepie	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# シュークリーム	しゅーくりーむ	cream puff	creampuff	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+チーズ	ちーず	cheese		1		乳製品	cheese
+牛乳	ぎゅうにゅう	milk carton	ミルク,牛乳瓶,ぎゅうにゅうびん,牛乳パック	2		乳製品	milk carton,milk,milk bottle
+ワイン	わいん	wine bottle	赤ワイン,ワインボトル	2		飲み物	wine
+ビール	びーる	beer mug	ビール缶,缶ビール,かんびーる,ジョッキ,びーるかん	2		飲み物	beer mug,beer,beer can
+ハチミツ	はちみつ	honey jar	蜂蜜,ハニー	2		パンに塗るもの	honey
+ケチャップ	けちゃっぷ	ketchup bottle	トマトケチャップ	2		調味料	ketchup
+# 弁当	べんとう	bento lunch box	お弁当,bento	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 焼き芋	やきいも	roasted sweet potato	やきいも	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# パスタ	ぱすた	spaghetti	スパゲッティ,pasta	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+タコス	たこす	taco		2		世界の料理	taco,tacos
+# 春巻き	はるまき	spring roll	springroll	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ハンバーグ	はんばーぐ	hamburg steak	hamburgsteak	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# マシュマロ	ましゅまろ	marshmallow		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 魚の骨	さかなのほね	fish bone	fishbone	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 飴玉	あめだま	hard candy	飴,あめ	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+コーヒー	こーひー	coffee cup	コーヒーカップ,珈琲	2		飲み物	coffee
+# お茶	おちゃ	green tea	緑茶,tea	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# サラダ	さらだ	salad bowl	salad	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# スープ	すーぷ	soup bowl	soup	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# チャーハン	ちゃーはん	fried rice	炒飯,friedrice	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 牛丼	ぎゅうどん	beef bowl	beefbowl	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# うどん	うどん	bowl of udon noodles		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 天ぷら	てんぷら	tempura shrimp		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# とんかつ	とんかつ	pork cutlet	トンカツ,porkcutlet	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 唐揚げ	からあげ	karaage fried chicken pieces	から揚げ,からあげ	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# せんべい	せんべい	senbei rice cracker	煎餅,ricecracker	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# お好み焼き	おこのみやき	okonomiyaki savory pancake		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# --- 2026-09-21 追加（1,000 語へ。生成しやすい「丸ごと 1 個」の食べ物に寄せた）
+洋梨	ようなし	pear	ラフランス,西洋梨,梨,なし,ナシ	2		果物	pear
+パパイヤ	ぱぱいや	papaya	パパイア	2		南国の果物	papaya
+ザクロ	ざくろ	pomegranate	石榴	2		果物	pomegranate
+柿	かき	persimmon	カキ	1		果物	persimmon
+ライム	らいむ	lime		2		柑橘	lime
+# いちじく	いちじく	fig	無花果,イチジク	2	# 落とした: 生成テスト 60³(2026-09-21): 切り口
+ライチ	らいち	lychee	レイシ,茘枝	2		南国の果物	lychee
+# スターフルーツ	すたーふるーつ	starfruit	カランボラ	2		果物	starfruit,star fruit,carambola	# 2026-09-21 誰でも知っているものだけにする（本人）
+ゴーヤ	ごーや	bitter melon	ニガウリ,苦瓜,ゴーヤー	2		野菜	bitter melon,bitter gourd,goya
+# ブルーベリー	ぶるーべりー	blueberry	blueberries	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ラズベリー	らずべりー	raspberry	木苺,きいちご	2		果物	raspberry,raspberries
+# パッションフルーツ	ぱっしょんふるーつ	passion fruit	passionfruit	3	# 落とした: 生成テスト 60³(2026-09-21): 切り口
+# マンゴスチン	まんごすちん	mangosteen		3		果物	mangosteen	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ランブータン	らんぶーたん	rambutan		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ジャックフルーツ	じゃっくふるーつ	jackfruit	パラミツ	3		果物	jackfruit	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+レタス	れたす	lettuce		1		野菜	lettuce
+# 白菜	はくさい	napa cabbage	ハクサイ,chinese cabbage	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+カリフラワー	かりふらわー	cauliflower		2		野菜	cauliflower
+さつまいも	さつまいも	sweet potato	サツマイモ,薩摩芋	1		土の中で育つ野菜	sweet potato,yam
+たけのこ	たけのこ	bamboo shoot	タケノコ,筍	2		野菜	bamboo shoot
+# ズッキーニ	ずっきーに	zucchini	courgette	2	# 落とした: 生成テスト 60³(2026-09-21): 切り口
+# オクラ	おくら	okra		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ラディッシュ	らでぃっしゅ	radish	二十日大根,はつかだいこん,赤かぶ	2		野菜	radish	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ビーツ	びーつ	beetroot	ビート	2		野菜	beetroot,beet	# 2026-09-21 誰でも知っているものだけにする（本人）
+かぶ	かぶ	turnip	カブ,蕪	2		土の中で育つ野菜	turnip
+生姜	しょうが	ginger root	ショウガ,ジンジャー	2		土の中で育つ野菜	ginger root,ginger
+# レンコン	れんこん	lotus root	蓮根	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# アスパラガス	あすぱらがす	asparagus	アスパラ	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# セロリ	せろり	celery		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+枝豆	えだまめ	edamame	エダマメ,大豆	2		野菜	edamame,soybeans
+# えんどう豆	えんどうまめ	pea pod	エンドウ,グリーンピース,peas,green peas,さやえんどう	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# アーティチョーク	あーてぃちょーく	artichoke		3		野菜	artichoke	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+しいたけ	しいたけ	shiitake mushroom	シイタケ,椎茸	2		野菜	shiitake mushroom,shiitake
+落花生	らっかせい	peanut	豆,まめ	2		木の実	peanut,peanuts
+くるみ	くるみ	walnut	クルミ,胡桃	2		木の実	walnut
+アーモンド	あーもんど	almond		2		木の実	almond
+ショートケーキ	しょーとけーき	strawberry shortcake	いちごのケーキ,いちごケーキ	1		スイーツ	strawberry shortcake,shortcake
+マカロン	まかろん	macaron		2		焼き菓子	macaron,macarons
+ソフトクリーム	そふとくりーむ	soft serve ice cream		1		冷たいデザート	soft serve,soft serve ice cream,softcream
+キャンディ	きゃんでぃ	wrapped candy	キャンディー,飴,あめ,アメ,飴玉,あめだま	1		お菓子	wrapped candy,candy,sweets
+メロンパン	めろんぱん	melon bread		2		ベーカリー	melon bread,melonpan
+ベーグル	べーぐる	bagel		2		ベーカリー	bagel
+巻き寿司	まきずし	sushi roll	巻きずし,のり巻き,海苔巻き,恵方巻	2		主食になる料理	sushi roll,maki
+ゆで卵	ゆでたまご	boiled egg	茹で卵	2		朝ごはんの定番	boiled egg,hard boiled egg
+# オムレツ	おむれつ	omelette	omelet	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ローストチキン	ろーすとちきん	roast chicken	鶏肉,とりにく,丸鶏	2		メインのおかず	roast chicken,roasted chicken
+大福	だいふく	daifuku mochi	だいふく,ダイフク,いちご大福	2		和菓子	daifuku mochi,daifuku
+どら焼き	どらやき	dorayaki	どらやき,ドラヤキ	2		和菓子	dorayaki
+シュークリーム	しゅーくりーむ	cream puff	シュー	2		焼き菓子	cream puff,choux
+# 弁当	べんとう	bento lunch box	bento,お弁当,おべんとう,弁当箱	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+焼き芋	やきいも	roasted sweet potato	やきいも,ヤキイモ,焼きいも	2		お祭り・屋台の食べ物	roasted sweet potato,yaki imo
+春巻き	はるまき	spring roll	ハルマキ	2		メインのおかず	spring roll,egg roll,spring rolls,harumaki
+# ハンバーグ	はんばーぐ	hamburg steak	hamburger steak,salisbury steak	2	# 落とした: 生成テスト 60³(2026-09-21): 平たい
+マシュマロ	ましゅまろ	marshmallow		2		お菓子	marshmallow,marshmallows
+# サラダ	さらだ	salad bowl	salad	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# スープ	すーぷ	bowl of soup	soup	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# チャーハン	ちゃーはん	fried rice	炒飯,焼き飯,やきめし	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 牛丼	ぎゅうどん	beef bowl	gyudon	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# うどん	うどん	bowl of udon noodles	udon,ウドン	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# そば	そば	bowl of soba noodles	soba,ソバ,蕎麦	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# おでん	おでん	oden	オデン	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 天ぷら	てんぷら	tempura	テンプラ,天麩羅	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 唐揚げ	からあげ	karaage fried chicken	karaage,から揚げ,からあげ,カラアゲ	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# とんかつ	とんかつ	tonkatsu pork cutlet	tonkatsu,トンカツ,豚カツ,カツ	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 焼き魚	やきざかな	grilled fish	やきざかな,秋刀魚,サンマ,さんま	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# お好み焼き	おこのみやき	okonomiyaki	オコノミヤキ,okonomi yaki	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 焼きそば	やきそば	yakisoba	ヤキソバ,焼そば	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+餅	もち	mochi rice cake	おもち,お餅,モチ	1		和菓子	mochi rice cake,mochi,rice cake
+せんべい	せんべい	senbei rice cracker	煎餅,センベイ,おせんべい	2		和菓子	senbei rice cracker,senbei,rice cracker
+# 羊羹	ようかん	yokan	ようかん,ヨウカン	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+柏餅	かしわもち	kashiwa mochi		3		和菓子	kashiwa mochi,kashiwamochi
+桜餅	さくらもち	sakura mochi		3		和菓子	sakura mochi,sakuramochi
+# 味噌汁	みそしる	miso soup	miso,みそ汁,味噌スープ	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 茶碗蒸し	ちゃわんむし	chawanmushi	ちゃわんむし	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# カツ丼	かつどん	katsudon	katsu don	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 親子丼	おやこどん	oyakodon	oyako don	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 海鮮丼	かいせんどん	kaisendon	kaisen don,seafood bowl	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+いなり寿司	いなりずし	inari sushi	いなり,稲荷寿司,おいなり,おいなりさん	2		主食になる料理	inari sushi,inari,inarizushi
+# 小籠包	しょうろんぽう	xiaolongbao	xiao long bao,小龍包,ショウロンポウ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 北京ダック	ぺきんだっく	peking duck	beijing duck	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+麻婆豆腐	まーぼーどうふ	mapo tofu	マーボー豆腐,麻婆,マーボー	2		世界の料理	mapo tofu
+# エビチリ	えびちり	chili shrimp	ebi chili,ebichiri	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 酢豚	すぶた	sweet and sour pork		3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# パエリア	ぱえりあ	paella		2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ラザニア	らざにあ	lasagna		2		世界の料理	lasagna,lasagne
+# グラタン	ぐらたん	gratin		2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# リゾット	りぞっと	risotto		3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ブリトー	ぶりとー	burrito		2		世界の料理	burrito
+# ナチョス	なちょす	nachos		3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# ケバブ	けばぶ	doner kebab	kebab,kebap	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+カレーパン	かれーぱん	curry bread	カレーパン	2		ベーカリー	curry bread,curry bun
+コロッケ	ころっけ	croquette		2		メインのおかず	croquette,korokke,croquettes
+# ナポリタン	なぽりたん	napolitan spaghetti	napolitan,ナポリタンスパゲッティ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# カルボナーラ	かるぼなーら	carbonara		3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ミートボール	みーとぼーる	meatballs	肉団子,にくだんご	2		メインのおかず	meatballs,meatball
+ロールキャベツ	ろーるきゃべつ	cabbage rolls		3		メインのおかず	cabbage rolls,cabbage roll,stuffed cabbage
+# シチュー	しちゅー	bowl of stew	stew,ビーフシチュー,クリームシチュー	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# フィッシュアンドチップス	ふぃっしゅあんどちっぷす	fish and chips	fish & chips	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ティラミス	てぃらみす	tiramisu		2		スイーツ	tiramisu
+チーズケーキ	ちーずけーき	cheesecake		2		スイーツ	cheesecake,cheese cake
+モンブラン	もんぶらん	mont blanc dessert	栗のケーキ	2		スイーツ	mont blanc dessert,mont blanc,montblanc
+エクレア	えくれあ	eclair		2		焼き菓子	eclair
+ミルフィーユ	みるふぃーゆ	mille-feuille		3		焼き菓子	mille-feuille,millefeuille,mille feuille
+# タルト	たると	fruit tart	tart	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+スコーン	すこーん	scone		2		焼き菓子	scone,scones
+マフィン	まふぃん	muffin		2		焼き菓子	muffin,muffins
+# ブラウニー	ぶらうにー	brownie	brownies	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+フレンチトースト	ふれんちとーすと	french toast		2		朝ごはんの定番	french toast
+# クレープ	くれーぷ	crepe	crêpe	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# チュロス	ちゅろす	churros	churro	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+バウムクーヘン	ばうむくーへん	baumkuchen	バームクーヘン	2		スイーツ	baumkuchen
+カステラ	かすてら	castella cake		2		スイーツ	castella cake,castella,sponge cake,kasutera
+ゼリー	ぜりー	jelly dessert	ジェリー	2		冷たいデザート	jelly dessert,jello,gelatin
+ヨーグルト	よーぐると	yogurt cup		2		乳製品	yogurt,yoghurt
+# 杏仁豆腐	あんにんどうふ	almond jelly	annin tofu,annindofu	3	# 落とした: 生成テスト 60³(2026-09-21): 球
+今川焼き	いまがわやき	imagawayaki	大判焼き,おおばんやき,回転焼き,今川焼	3		和菓子	imagawayaki,obanyaki,imagawa yaki
+# グミ	ぐみ	gummy bears	gummy,gummies,gummy bear,グミベア	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+キャラメル	きゃらめる	caramel candy		2		お菓子	caramel candy,caramel,caramels
+# ポテトチップス	ぽてとちっぷす	bag of potato chips	potato chips,chips,ポテチ,ポテトチップ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+コーラ	こーら	can of cola	コーク,コカコーラ,ジュース	1		飲み物	cola,coke
+ジュース	じゅーす	glass of orange juice	オレンジジュース	1		飲み物	juice,orange juice
+# 紅茶	こうちゃ	cup of black tea	tea,black tea,ティー,お茶,おちゃ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 抹茶	まっちゃ	bowl of matcha green tea	matcha,green tea,緑茶,りょくちゃ	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+シャンパン	しゃんぱん	champagne bottle	シャンペン	2		飲み物	champagne,sparkling wine
+# カクテル	かくてる	cocktail glass	cocktail	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+タピオカ	たぴおか	bubble tea	タピオカミルクティー,ミルクティー	2		飲み物	bubble tea,boba,tapioca
+ココア	ここあ	mug of hot cocoa	ホットチョコレート,ホットココア	2		飲み物	cocoa,hot chocolate,hot cocoa
+ジンジャーブレッドマン	じんじゃーぶれっどまん	gingerbread man	人型クッキー,クッキー	2		焼き菓子	gingerbread man,gingerbread
+# トルティーヤ	とるてぃーや	tortilla		3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ハム	はむ	whole ham	豚肉	2		メインのおかず	ham
+# ベーコン	べーこん	bacon strips	bacon	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+サラミ	さらみ	salami	ソーセージ	2		メインのおかず	salami
+バター	ばたー	stick of butter		2		パンに塗るもの	butter
+# 食パン一斤	しょくぱんいっきん	loaf of sliced bread	sliced bread,toast,トースト	2		パン		# まとめた: 食パン と同じ物（spec 12 の 2-5）
+# --- 2026-09-21 追加（1,000 語へ。体積があり輪郭で分かる物に寄せた）
+すもも	すもも	whole red plum	プラム,李,スモモ	2		果物	plum
+あんず	あんず	whole apricot	アプリコット,杏,アンズ	3		果物	apricot
+ゆず	ゆず	whole yuzu citrus	柚子,ユズ	2		柑橘	yuzu
+# きんかん	きんかん	kumquat fruits on a branch	kumquat,金柑,キンカン	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+びわ	びわ	whole loquat fruits	枇杷,ビワ	3		果物	loquat
+# かりん	かりん	whole quince fruit	花梨,カリン	3		果物	quince	# 2026-09-21 誰でも知っているものだけにする（本人）
+# クランベリー	くらんべりー	bowl of cranberries	cranberry,cranberries	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ひょうたん	ひょうたん	gourd bottle	瓢箪,ヒョウタン	2		野菜	gourd,calabash
+# とうがん	とうがん	whole winter melon	冬瓜,トウガン	3		野菜	winter melon,wax gourd	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ヘチマ	へちま	loofah gourd	糸瓜	3		野菜	loofah gourd,loofah,luffa	# 2026-09-21 誰でも知っているものだけにする（本人）
+里芋	さといも	taro root	サトイモ,さといも	3		土の中で育つ野菜	taro root,taro
+# 長ネギ	ながねぎ	bunch of green onions	leek,green onion,ネギ,ねぎ,葱,長ねぎ	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ミニトマト	みにとまと	vine of cherry tomatoes	cherry tomato,プチトマト,ぷちとまと	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+パプリカ	ぱぷりか	whole red paprika bell pepper	赤ピーマン,ピーマン	2		野菜	paprika
+# ほうれん草	ほうれんそう	bunch of spinach	spinach,ホウレンソウ,ほうれんそう	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# もやし	もやし	pile of bean sprouts	bean sprouts,モヤシ	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+豆腐	とうふ	block of tofu on a plate	トーフ	2		和食のおかず	tofu
+# 納豆	なっとう	natto in a styrofoam pack	natto,ナットウ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 梅干し	うめぼし	umeboshi pickled plum in a small dish	umeboshi,梅干,うめぼし	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+たくあん	たくあん	takuan yellow pickled radish	沢庵,タクアン,たくわん	3		和食のおかず	takuan,pickled radish
+# 海苔	のり	sheets of nori seaweed	nori,ノリ,焼き海苔	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+かまぼこ	かまぼこ	kamaboko fish cake on a board	蒲鉾,カマボコ	2		和食のおかず	kamaboko
+ちくわ	ちくわ	chikuwa fish cake tube	竹輪,チクワ	2		和食のおかず	chikuwa
+はんぺん	はんぺん	hanpen white fish cake	ハンペン	3		和食のおかず	hanpen
+# ちらし寿司	ちらしずし	chirashi sushi bowl	chirashi,ちらし	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 串カツ	くしかつ	kushikatsu skewers	kushikatsu,クシカツ	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# もつ鍋	もつなべ	hot pot on a burner	hot pot,nabe,鍋料理,なべ,モツ鍋	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# すき焼き	すきやき	sukiyaki in an iron pot	sukiyaki,スキヤキ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# しゃぶしゃぶ	しゃぶしゃぶ	shabu shabu pot	shabu-shabu,shabu shabu	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 焼肉	やきにく	yakiniku grill with meat	yakiniku,焼き肉,バーベキュー,BBQ,ヤキニク	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+お雑煮	おぞうに	ozoni soup bowl	雑煮,ぞうに	3		主食になる料理	ozoni,zoni
+# おせち	おせち	osechi box	osechi,おせち料理,オセチ	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ちまき	ちまき	zongzi rice dumpling	粽,チマキ	3		和菓子	zongzi rice dumpling,zongzi,chimaki
+月見団子	つきみだんご	pyramid of tsukimi dango	つきみだんご	3		和菓子	tsukimi dango
+りんご飴	りんごあめ	candy apple on a stick	リンゴ飴	2		お祭り・屋台の食べ物	candy apple,candied apple,candyapple
+# チョコバナナ	ちょこばなな	chocolate covered banana on a stick	chocobanana,choco banana,チョコばなな	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ラムネ	らむね	ramune soda bottle	ラムネ瓶,サイダー	2		飲み物	ramune
+# ビール缶	びーるかん	can of beer	beer can,缶ビール,かんびーる	2		飲み物		# まとめた: ビール と同じ物（spec 12 の 2-5）
+# 牛乳瓶	ぎゅうにゅうびん	glass milk bottle	milk bottle,ぎゅうにゅうびん	2		飲み物		# まとめた: 牛乳 と同じ物（spec 12 の 2-5）
+# コーヒー豆	こーひーまめ	sack of coffee beans	coffee beans,コーヒーまめ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 砂糖	さとう	sugar cubes in a bowl	sugar,sugar cube,角砂糖,かくざとう	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 塩	しお	salt shaker	salt,ソルト	3	# 落とした: 生成テスト 60³(2026-09-21): 平たい
+# 胡椒	こしょう	pepper mill	pepper,pepper grinder,コショウ,こしょう,ペッパー	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+醤油	しょうゆ	soy sauce bottle	しょうゆ,ショウユ,醬油,しょう油,キッコーマン	2		調味料	soy sauce,kikkoman
+マヨネーズ	まよねーず	mayonnaise bottle	マヨ,キューピー	2		調味料	mayonnaise,mayo
+マスタード	ますたーど	mustard bottle	からし,カラシ	3		調味料	mustard
+ジャム	じゃむ	jar of strawberry jam	いちごジャム	2		パンに塗るもの	jam,jelly jar
+ピーナッツバター	ぴーなっつばたー	jar of peanut butter		3		パンに塗るもの	peanut butter
+オリーブオイル	おりーぶおいる	olive oil bottle	油,あぶら	3		調味料	olive oil,oil
+# シリアル	しりある	bowl of cereal with milk	cereal,コーンフレーク,こーんふれーく	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# オートミール	おーとみーる	bowl of oatmeal	oatmeal,porridge	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# ナッツ	なっつ	bowl of mixed nuts	nuts,mixed nuts,ミックスナッツ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# ピザ一切れ	ぴざひときれ	slice of pizza	pizza slice	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# ホールケーキ	ほーるけーき	whole round birthday cake with candles	birthday cake,バースデーケーキ,誕生日ケーキ,たんじょうびけーき	1		ケーキ		# まとめた: ケーキ と同じ物（spec 12 の 2-5）
+ロールケーキ	ろーるけーき	swiss roll cake		2		スイーツ	swiss roll cake,roll cake,swiss roll
+パウンドケーキ	ぱうんどけーき	pound cake loaf		3		スイーツ	pound cake
+# チョコレートケーキ	ちょこれーとけーき	whole chocolate cake	chocolate cake,チョコケーキ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# アイスバー	あいすばー	ice cream bar on a stick	popsicle,ice pop,アイスキャンディー,あいすきゃんでぃー,棒アイス	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+アイスサンド	あいすさんど	ice cream sandwich	アイスクリームサンド	3		冷たいデザート	ice cream sandwich
+# サンデー	さんでー	ice cream sundae in a glass	アイスサンデー,パフェ,アイス,あいす	2		冷たいデザート	sundae,ice cream sundae,parfait	# 2026-09-21 甘さの見直し: 「パフェ」に統合（spec 12 の 2-5）
+ミルクセーキ	みるくせーき	milkshake in a glass with straw	シェイク,しぇいく,ミルクシェイク	2		冷たいデザート	milkshake,shake
+スムージー	すむーじー	smoothie in a glass		3		冷たいデザート	smoothie
+ゼリービーンズ	ぜりーびーんず	jar of jelly beans	グミ	3		お菓子	jelly beans,jellybeans
+# 金平糖	こんぺいとう	konpeito sugar candies	konpeito,こんぺいとう,コンペイトウ	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ジンジャーブレッドハウス	じんじゃーぶれっどはうす	gingerbread house	お菓子の家,おかしのいえ,クッキーの家	2		焼き菓子	gingerbread house
+# クリスマスケーキ	くりすますけーき	christmas cake with strawberries	christmas cake,xmas cake	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# ブッシュドノエル	ぶっしゅどのえる	buche de noel log cake	buche de noel,yule log,ブッシュ・ド・ノエル	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# シュトーレン	しゅとーれん	stollen bread		3		洋菓子	stollen bread,stollen	# 2026-09-21 誰でも知っているものだけにする（本人）
+# パネトーネ	ぱねとーね	panettone	パン	3		洋菓子	panettone	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+ロールパン	ろーるぱん	bread roll	バターロール	2		ベーカリー	bread roll,roll,dinner roll
+あんパン	あんぱん	anpan sweet bean bun	あんぱん,アンパン	2		ベーカリー	anpan,red bean bun
+クリームパン	くりーむぱん	cream bun		3		ベーカリー	cream bun,cream bread,cream pan
+# 天丼	てんどん	tendon tempura rice bowl	tendon,てんどん	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# うな重	うなじゅう	unaju eel rice box	unaju,unadon,うな丼	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# シュウマイ	しゅうまい	shumai dumplings in a bamboo steamer	shumai,焼売,しゅうまい	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 月餅	げっぺい	mooncake	げっぺい	3		和菓子	mooncake,moon cake	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ビビンバ	びびんば	bibimbap in a stone bowl	bibimbap,ビビンパ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# キムチ	きむち	kimchi in a bowl	kimchi	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+トッポギ	とっぽぎ	tteokbokki rice cakes	トッポッキ,トッポキ	3		世界の料理	tteokbokki rice cakes,tteokbokki
+チヂミ	ちぢみ	korean pancake	チジミ	3		世界の料理	korean pancake,pajeon,jeon
+# フォー	ふぉー	bowl of pho noodle soup	ベトナムの麺	3		世界の料理	pho	# 2026-09-21 誰でも知っているものだけにする（本人）
+# パッタイ	ぱったい	pad thai noodles	焼きそば	3		世界の料理	pad thai noodles,pad thai	# 2026-09-21 誰でも知っているものだけにする（本人）
+# グリーンカレー	ぐりーんかれー	green curry bowl	タイカレー	3		世界の料理	green curry	# 2026-09-21 誰でも知っているものだけにする（本人）
+ナン	なん	naan bread	ナーン	2		ベーカリー	naan bread,naan
+タンドリーチキン	たんどりーちきん	tandoori chicken		3		メインのおかず	tandoori chicken,tandoori
+# サモサ	さもさ	samosa		3		世界の料理	samosa,samosas	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ピタパン	ぴたぱん	pita bread	pita,ピタ,ぴた	3	# 落とした: ローマ字でピーターパンと衝突
+# チーズバーガー	ちーずばーがー	cheeseburger	cheese burger	1		ファストフード		# まとめた: ハンバーガー と同じ物（spec 12 の 2-5）
+# チキンナゲット	ちきんなげっと	chicken nuggets in a box	ナゲット,なげっと	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+オニオンリング	おにおんりんぐ	onion rings		3		ファストフード	onion rings,onion ring
+# コーンドッグ	こーんどっぐ	corn dog on a stick	corn dog,アメリカンドッグ,あめりかんどっぐ	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+クラブサンド	くらぶさんど	club sandwich	BLTサンド	2		ファストフード	club sandwich,blt
+# ミートローフ	みーとろーふ	meatloaf		3		肉料理	meatloaf,meat loaf	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# マッシュポテト	まっしゅぽてと	mashed potatoes	mashed potato	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# ハッシュブラウン	はっしゅぶらうん	hash browns	ハッシュドポテト	3		ファストフード	hash browns,hash brown	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ムール貝	むーるがい	mussels in a pot	mussels,ムール	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+イカリング	いかりんぐ	calamari rings	イカ,いか	3		魚介の料理	calamari rings,calamari,squid rings
+ツナ缶	つなかん	can of tuna	缶詰,かんづめ,シーチキン,ツナ	3		魚介の料理	canned tuna,tuna can
+# 焼きイカ	やきいか	grilled squid on a stick	ikayaki,イカ焼き,いかやき	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+焼きとうもろこし	やきとうもろこし	grilled corn on the cob	焼きトウモロコシ	2		お祭り・屋台の食べ物	grilled corn,corn on the cob
+じゃがバター	じゃがばたー	baked potato with butter	ベイクドポテト	3		お祭り・屋台の食べ物	baked potato,jaga butter
+# ベビーカステラ	べびーかすてら	baby castella balls in a bag	baby castella	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# もなか	もなか	monaka wafer sweet	monaka	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+# 八つ橋	やつはし	yatsuhashi cinnamon sweet	yatsuhashi	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+おはぎ	おはぎ	ohagi rice ball with red bean	ぼたもち,牡丹餅	3		和菓子	ohagi,botamochi
+# わらび餅	わらびもち	warabi mochi with kinako	warabi mochi	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# 白玉	しらたま	shiratama dumplings	shiratama	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ぜんざい	ぜんざい	zenzai red bean soup with mochi	zenzai	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+あんみつ	あんみつ	anmitsu dessert		3		和菓子	anmitsu dessert,anmitsu
+# みたらし団子	みたらしだんご	mitarashi dango on a skewer	mitarashi	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 三色団子	さんしょくだんご	three color dango	sanshoku dango,hanami dango	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+きびだんご	きびだんご	kibi dango		3		和菓子	kibi dango,millet dumpling,kibidango
+# すあま	すあま	suama pink rice cake	寿甘	3		和菓子	suama	# 2026-09-21 誰でも知っているものだけにする（本人）
+# 落雁	らくがん	rakugan sugar sweets		3		和菓子	rakugan sugar sweets,rakugan	# 2026-09-21 誰でも知っているものだけにする（本人）
+# 金太郎飴	きんたろうあめ	kintaro candy stick	kintaro ame	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 千歳飴	ちとせあめ	chitose ame candy bag	chitose ame	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# べっこう飴	べっこうあめ	bekko ame candy		3		お菓子	bekko ame candy,bekko ame	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ポン菓子	ぽんがし	puffed rice snack	pon gashi	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 人形焼き	にんぎょうやき	ningyo yaki doll cake	人形焼	3		和菓子	ningyoyaki,ningyo yaki	# 2026-09-21 誰でも知っているものだけにする（本人）
+シフォンケーキ	しふぉんけーき	chiffon cake		3		スイーツ	chiffon cake,chiffon
+プリンアラモード	ぷりんあらもーど	pudding a la mode	プリン,ぷりん	3		冷たいデザート	pudding a la mode,pudding,purin,purin a la mode
+クリームソーダ	くりーむそーだ	cream soda float with ice cream	メロンソーダ,ソーダ	2		冷たいデザート	cream soda,melon soda,float
+# フレンチクルーラー	ふれんちくるーらー	french cruller donut	cruller	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ポンデリング	ぽんでりんぐ	pon de ring donut	ミスド,ドーナツ,どーなつ	3		焼き菓子	pon de ring
+# カヌレ	かぬれ	canele pastry		3		洋菓子	canele pastry,canele	# 2026-09-21 誰でも知っているものだけにする（本人）
+# フィナンシェ	ふぃなんしぇ	financier cake		3		洋菓子	financier cake,financier	# 2026-09-21 誰でも知っているものだけにする（本人）
+マドレーヌ	まどれーぬ	madeleine cake		3		焼き菓子	madeleine cake,madeleine
+# ビスケット	びすけっと	biscuit	biscuits	3		洋菓子		# まとめた: クッキー と同じ物（spec 12 の 2-5）
+# クラッカー	くらっかー	crackers	cracker	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+ラスク	らすく	rusk		3		焼き菓子	rusk,rusks
+# 刺身	さしみ	sashimi platter	sashimi	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 煮魚	にざかな	simmered fish	nizakana	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+メンチカツ	めんちかつ	menchi katsu	ミンチカツ	3		メインのおかず	menchi katsu,minced meat cutlet,menchikatsu
+かき揚げ	かきあげ	kakiage tempura	天ぷら,てんぷら	3		和食のおかず	kakiage tempura,kakiage,tempura
+# 串揚げ	くしあげ	kushiage skewers	kushiage	3	# 落とした: 生成テスト 60³(2026-09-21): 細い

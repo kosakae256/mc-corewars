@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>genlab — 単語 → 3D → 20³ ブロック</title>
+<style>
+  :root { color-scheme: dark; --bg:#14161a; --panel:#1e2128; --line:#2c3038; --fg:#e6e6e6; --dim:#9aa0a8; --ok:#5ad27a; --ng:#ff6b6b; --acc:#6fb3ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family: system-ui, "Segoe UI", "Yu Gothic UI", sans-serif; }
+  header { display:flex; align-items:center; gap:16px; padding:12px 16px; border-bottom:1px solid var(--line); }
+  header h1 { font-size:16px; margin:0; font-weight:600; }
+  header .status { color:var(--dim); font-size:13px; }
+  main { display:grid; grid-template-columns: 380px 1fr; gap:16px; padding:16px; min-height: calc(100vh - 50px); }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px; }
+  .row { display:flex; gap:8px; align-items:center; }
+  input[type=text] { flex:1; font-size:18px; padding:10px 12px; border-radius:8px; border:1px solid var(--line); background:#0f1114; color:var(--fg); }
+  button { font-size:15px; padding:10px 16px; border-radius:8px; border:1px solid var(--line); background:#2a2f38; color:var(--fg); cursor:pointer; }
+  button.primary { background:var(--acc); color:#08131f; border-color:transparent; font-weight:600; }
+  button:disabled { opacity:.5; cursor:default; }
+  .opts { display:flex; gap:14px; margin-top:10px; color:var(--dim); font-size:13px; flex-wrap:wrap; }
+  .stages { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+  .stage { display:grid; grid-template-columns: 26px 1fr auto; gap:10px; align-items:center; padding:8px 10px; border-radius:8px; background:#171a20; border:1px solid var(--line); }
+  .stage .n { width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:12px; background:#2a2f38; color:var(--dim); }
+  .stage.running .n { background:var(--acc); color:#08131f; }
+  .stage.done .n { background:var(--ok); color:#08131f; }
+  .stage .t { font-variant-numeric: tabular-nums; color:var(--dim); }
+  .stage.done .t { color:var(--fg); }
+  .stage .sub { grid-column: 2 / 4; color:var(--dim); font-size:12px; word-break:break-all; }
+  .total { margin-top:12px; font-size:22px; font-weight:600; font-variant-numeric: tabular-nums; }
+  .total.ok { color:var(--ok); } .total.ng { color:var(--ng); }
+  .total small { font-size:12px; color:var(--dim); font-weight:400; margin-left:8px; }
+  .imgs { display:flex; gap:8px; margin-top:12px; }
+  .imgs figure { margin:0; flex:1; }
+  .imgs img { width:100%; border-radius:8px; background:#000; display:block; aspect-ratio:1; object-fit:contain; }
+  .imgs figcaption { color:var(--dim); font-size:12px; margin-top:4px; }
+  .view { position:relative; min-height:520px; }
+  .view canvas { width:100% !important; height:100% !important; border-radius:8px; display:block; }
+  .view .hud { position:absolute; left:12px; top:12px; display:flex; gap:10px; align-items:center; background:rgba(20,22,26,.8); padding:8px 10px; border-radius:8px; font-size:13px; color:var(--dim); }
+  .view .hud b { color:var(--fg); font-variant-numeric: tabular-nums; }
+  .view .hud input[type=range] { width:120px; }
+  .json { margin-top:12px; }
+  textarea { width:100%; height:120px; font-family: ui-monospace, Consolas, monospace; font-size:11px; background:#0f1114; color:var(--dim); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+  .err { color:var(--ng); margin-top:10px; font-size:13px; white-space:pre-wrap; }
+  .hint { color:var(--dim); font-size:12px; margin-top:6px; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<header>
+  <h1>genlab — 単語 → 3D → 20×20×20 ブロック</h1>
+  <span class="status" id="status">モデルの状態を確認中…</span>
+</header>
+<main>
+  <section class="panel">
+    <form id="form" class="row">
+      <input id="text" type="text" placeholder="単語を入れる（例: 犬 / 赤い車 / ロケット）" autocomplete="off" autofocus>
+      <button id="go" class="primary" type="submit">生成</button>
+    </form>
+    <div class="opts">
+      <label>画像の step <input id="steps" type="number" min="1" max="8" value="4" style="width:52px"></label>
+      <label><input id="solid" type="checkbox"> 柱で詰める（殻のときだけ。普段は切る）</label>
+      <label>seed <input id="seed" type="number" placeholder="任意" style="width:80px"></label>
+      <label>大きさ <select id="size"><option value="20">20³</option><option value="40" selected>40³</option><option value="80">80³</option></select></label>
+    </div>
+    <div class="stages">
+      <div class="stage" id="st-translate"><div class="n">0</div><div>翻訳（辞書 → 機械翻訳・CPU）＋ 生き物／物の判定</div><div class="t">—</div><div class="sub"></div></div>
+      <div class="stage" id="st-image"><div class="n">1</div><div>画像（sd-turbo）</div><div class="t">—</div><div class="sub"></div></div>
+      <div class="stage" id="st-model"><div class="n">2</div><div>3D（Hunyuan3D-2mini turbo → 格子を直接出す → 色は画像を投影）</div><div class="t">—</div><div class="sub"></div></div>
+      <div class="stage" id="st-voxel"><div class="n">3</div><div>ブロック化（固定ルール）</div><div class="t">—</div><div class="sub"></div></div>
+    </div>
+    <div class="total" id="total">— <small>合計。10 秒以内なら緑</small></div>
+    <div class="err" id="err"></div>
+    <div class="imgs">
+      <figure><img id="img-gen" alt=""><figcaption>① 生成された画像</figcaption></figure>
+      <figure><img id="img-in" alt=""><figcaption>② 3D に渡した画像（背景を抜いたもの）</figcaption></figure>
+    </div>
+    <div class="json">
+      <textarea id="json" readonly placeholder="{ palette, voxels } がここに出る（ゲームに渡す形そのもの）"></textarea>
+      <div class="hint">voxels は size³ 文字。添字 = y×size² + z×size + x。下の層から順。</div>
+    </div>
+  </section>
+  <section class="panel view">
+    <canvas id="c"></canvas>
+    <div class="hud">
+      <span>置いた <b id="placed">0</b> / <b id="count">0</b></span>
+      <label>1 tick に <input id="perTick" type="range" min="1" max="2000" value="40"> <b id="perTickV">40</b> 個</label>
+      <button id="replay" type="button">もう一度置く</button>
+      <label><input id="sound" type="checkbox" checked> ポ</label>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+let SIZE = 20;  // 結果ごとに変わる（/generate の size）
+const DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const $ = (id) => document.getElementById(id);
+
+// ---------------------------------------------------------------- 状態表示
+async function refreshHealth() {
+  try {
+    const h = await (await fetch("/health")).json();
+    if (h.error) { $("status").textContent = "モデルの読み込みに失敗: " + h.error; return false; }
+    if (!h.loaded) { $("status").textContent = "モデルを読み込み中…（初回はダウンロードで数分）"; return false; }
+    $("status").textContent = `準備OK · ${h.gpu} · VRAM ${h.vram_used_gb} / ${h.vram_total_gb} GB（全プロセス合計）`;
+    return true;
+  } catch { $("status").textContent = "サーバーに繋がらない"; return false; }
+}
+(async function poll() { const ok = await refreshHealth(); if (!ok) setTimeout(poll, 2000); })();
+
+// ---------------------------------------------------------------- 3D 表示
+const canvas = $("c");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(2, devicePixelRatio));
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x14161a);
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+camera.position.set(28, 24, 30);
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(0, SIZE / 2, 0);
+controls.enableDamping = true;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x334455, 1.1));
+const sun = new THREE.DirectionalLight(0xffffff, 1.2); sun.position.set(20, 40, 10); scene.add(sun);
+// 20³ の箱と床の格子。「必ずこの箱に収まる」を目で分からせる
+let box = null, grid = null;
+function setSize(n) {
+  SIZE = n;
+  if (box) scene.remove(box); if (grid) scene.remove(grid);
+  box = new THREE.Box3Helper(new THREE.Box3(new THREE.Vector3(-n/2, 0, -n/2), new THREE.Vector3(n/2, n, n/2)), 0x3a4150); scene.add(box);
+  grid = new THREE.GridHelper(n, n, 0x2c3038, 0x22252b); scene.add(grid);
+  camera.position.set(1.4 * n, 1.2 * n, 1.5 * n); controls.target.set(0, n / 2, 0);
+}
+setSize(40);
+
+let cubes = null;          // InstancedMesh。count を増やして「置く」
+let order = [];            // 置く順（下の層から）。各要素 { x, y, z, color }
+let placed = 0;
+let tickAcc = 0;
+const TICK_MS = 50;        // Minecraft の 1 tick
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== w * renderer.getPixelRatio() || canvas.height !== h * renderer.getPixelRatio()) {
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+}
+let last = performance.now();
+function frame(now) {
+  resize();
+  const dt = now - last; last = now;
+  if (cubes && placed < order.length) {
+    tickAcc += dt;
+    while (tickAcc >= TICK_MS && placed < order.length) {
+      tickAcc -= TICK_MS;
+      placed = Math.min(order.length, placed + Number($("perTick").value));
+      cubes.count = placed;
+      pop();
+    }
+    $("placed").textContent = placed;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// 「ポ」。1 tick に 1 回だけ鳴らす（1 個ごとに鳴らすと騒音になる）
+let audio = null;
+function pop() {
+  if (!$("sound").checked) return;
+  audio ??= new (window.AudioContext || window.webkitAudioContext)();
+  const o = audio.createOscillator(), g = audio.createGain();
+  o.type = "square"; o.frequency.value = 520 + Math.random() * 240;
+  g.gain.setValueAtTime(0.04, audio.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0005, audio.currentTime + 0.05);
+  o.connect(g).connect(audio.destination); o.start(); o.stop(audio.currentTime + 0.06);
+}
+
+let paletteRGB = {};
+fetch("/palette").then(r => r.json()).then(p => { paletteRGB = p; });
+
+/** { palette, voxels } → InstancedMesh。置く順に並べて count=0 から始める */
+function showVoxels(result) {
+  if (result.size && result.size !== SIZE) setSize(result.size);
+  if (cubes) { scene.remove(cubes); cubes.geometry.dispose(); cubes.material.dispose(); cubes = null; }
+  order = [];
+  const v = result.voxels, pal = result.palette;
+  for (let y = 0; y < SIZE; y++) for (let z = 0; z < SIZE; z++) for (let x = 0; x < SIZE; x++) {
+    const ch = v[y * SIZE * SIZE + z * SIZE + x];
+    const idx = DIGITS.indexOf(ch);
+    if (idx <= 0) continue;
+    const rgb = paletteRGB[pal[idx]] ?? [200, 200, 200];
+    order.push({ x, y, z, color: new THREE.Color(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255) });
+  }
+  const geo = new THREE.BoxGeometry(0.96, 0.96, 0.96);
+  const mat = new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0 });
+  cubes = new THREE.InstancedMesh(geo, mat, Math.max(1, order.length));
+  const m = new THREE.Matrix4();
+  order.forEach((o, i) => {
+    m.makeTranslation(o.x - SIZE / 2 + 0.5, o.y + 0.5, o.z - SIZE / 2 + 0.5);
+    cubes.setMatrixAt(i, m);
+    cubes.setColorAt(i, o.color);
+  });
+  cubes.instanceMatrix.needsUpdate = true;
+  if (cubes.instanceColor) cubes.instanceColor.needsUpdate = true;
+  cubes.count = 0; placed = 0; tickAcc = 0;
+  scene.add(cubes);
+  $("count").textContent = order.length;
+  $("placed").textContent = 0;
+}
+$("replay").onclick = () => { if (cubes) { placed = 0; cubes.count = 0; tickAcc = 0; } };
+$("perTick").oninput = () => { $("perTickV").textContent = $("perTick").value; };
+
+// ---------------------------------------------------------------- 生成（SSE）
+const STAGES = ["translate", "image", "model", "voxel"];
+function resetStages() {
+  for (const s of STAGES) { const el = $("st-" + s); el.className = "stage"; el.querySelector(".t").textContent = "—"; el.querySelector(".sub").textContent = ""; }
+  $("total").className = "total"; $("total").innerHTML = "— <small>合計。10 秒以内なら緑</small>";
+  $("err").textContent = ""; $("json").value = ""; $("img-gen").src = ""; $("img-in").src = "";
+}
+let es = null, t0 = 0, timer = null;
+function setRunning(stage) {
+  for (const s of STAGES) { const el = $("st-" + s); if (!el.classList.contains("done")) el.classList.toggle("running", s === stage); }
+}
+$("form").onsubmit = (e) => {
+  e.preventDefault();
+  const text = $("text").value.trim();
+  if (!text || es) return;
+  resetStages();
+  $("go").disabled = true;
+  const q = new URLSearchParams({ text, steps: $("steps").value, solid: $("solid").checked ? 1 : 0, size: $("size").value });
+  if ($("seed").value !== "") q.set("seed", $("seed").value);
+  t0 = performance.now();
+  // 走っている間は合計を生で数える（段が終わるたびに確定値に置き換わる）
+  timer = setInterval(() => { $("total").innerHTML = `${((performance.now() - t0) / 1000).toFixed(1)} s <small>経過</small>`; }, 100);
+  setRunning("translate");
+  es = new EventSource("/generate?" + q.toString());
+  es.onmessage = (m) => {
+    const ev = JSON.parse(m.data);
+    if (ev.stage === "error") { $("err").textContent = ev.message + (ev.detail ? "\n" + ev.detail : ""); finish(); return; }
+    if (ev.stage === "done") {
+      clearInterval(timer);
+      const ok = ev.seconds <= 10;
+      $("total").className = "total " + (ok ? "ok" : "ng");
+      $("total").innerHTML = `${ev.seconds.toFixed(2)} s <small>合計 · ${ok ? "10 秒以内" : "10 秒を超えた"} · ${ev.out_dir}</small>`;
+      finish(); refreshHealth(); return;
+    }
+    const el = $("st-" + ev.stage);
+    el.className = "stage done";
+    el.querySelector(".t").textContent = ev.seconds.toFixed(2) + " s";
+    if (ev.stage === "translate") { el.querySelector(".sub").textContent = `"${ev.english}"（${ev.source === "dict" ? "辞書" : ev.source === "mt" ? "機械翻訳" : "そのまま"} · ${ev.kind === "creature" ? "生き物" : "物"}） → ${ev.prompt}`; setRunning("image"); }
+    if (ev.stage === "image") { $("img-gen").src = ev.image; setRunning("model"); }
+    if (ev.stage === "model") {
+      $("img-in").src = ev.input;
+      const tilt = (ev.pitch || ev.roll) ? `傾き補正 pitch ${ev.pitch}° roll ${ev.roll}°（接地 ${ev.contact_before} → ${ev.contact_after} 柱）` : "傾き補正なし";
+      el.querySelector(".sub").textContent = `背景抜き ${ev.preprocess_seconds.toFixed(2)} s · 40³ の占有 ${ev.fine_count} 点 · ${tilt}`;
+      setRunning("voxel");
+    }
+    if (ev.stage === "voxel") {
+      el.querySelector(".sub").textContent = `${ev.count} ブロック · palette ${ev.palette.length - 1} 種: ${ev.palette.slice(1).join(", ")}`;
+      $("json").value = JSON.stringify({ size: ev.size, palette: ev.palette, voxels: ev.voxels });
+      showVoxels(ev);
+    }
+  };
+  es.onerror = () => { if (es) { $("err").textContent ||= "接続が切れた（サーバーのログを見る）"; finish(); } };
+};
+function finish() { clearInterval(timer); if (es) { es.close(); es = null; } $("go").disabled = false; for (const s of STAGES) $("st-" + s).classList.remove("running"); }
+</script>
+</body>
+</html>

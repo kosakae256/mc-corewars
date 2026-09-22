@@ -1,0 +1,37 @@
+{
+  "format_version": "1.8.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v3:gast",
+      "materials": {
+        "default": "ghast"
+      },
+      "textures": {
+        "default": "textures/entity/ghast/ghast",
+        "shooting": "textures/entity/ghast/ghast_shooting"
+      },
+      "geometry": {
+        "default": "geometry.ghast"
+      },
+      "enable_attachables": true,
+      "animations": {
+        "move": "animation.ghast.move",
+        "scale": "animation.ghast.scale"
+      },
+      "animation_controllers": [
+        {
+          "move": "controller.animation.ghast.move"
+        },
+        {
+          "roused_controller": "controller.animation.pve3.roused"
+        }
+      ],
+      "render_controllers": [
+        "controller.render.pve3.gast.ghast"
+      ],
+      "particle_effects": {
+        "roused": "pve_v3:rouse_mark"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+# torch / torchvision は先に CUDA 12.8 の index から入れる（README.md）:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+diffusers<0.40   # 0.40 は huggingface-hub 1.x を要求し、transformers 4.x と両立しない
+transformers<5   # 5 系は ViT の重みの名前が変わり、TripoSR の checkpoint が読めない
+accelerate
+safetensors
+sentencepiece
+sacremoses
+huggingface_hub
+omegaconf
+einops
+rembg[cpu]
+imageio
+trimesh
+fastapi
+uvicorn
+numpy
+pillow
+nltk            # WordNet。生き物／物の判定（pipeline/kind.py）
+scikit-image    # 一番大きい塊だけ残す（label）
+opencv-python-headless   # Hunyuan3D の前処理（cv2）
+pymeshlab                # Hunyuan3D が import する（メッシュは作らないが import に要る）

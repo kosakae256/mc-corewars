@@ -18,13 +18,15 @@
  * 同じ所に書くと**行って戻る形**になる（`docs/imp.md` P-4）。
  */
 
-import type { Player } from "@minecraft/server";
+import type { Entity, Player } from "@minecraft/server";
 
 import { center, FACING } from "../core/places.js";
 import { spawnSpot } from "./arena.js";
 import * as match from "../state/match.js";
 import { hit, hpOf } from "./combat.js";
 import { members } from "./presence.js";
+import { enemies } from "./field.js";
+import { openSpot } from "./spawn.js";
 
 /** 落ちたと認める高さ。**戦場の底（y −50）より上** */
 export const VOID_Y = -30;
@@ -56,6 +58,28 @@ function rescue(player: Player): number {
   return cut;
 }
 
+/**
+ * 落ちた敵 1 体を戻す。
+ *
+ * > ### **敵は削らない**（2026-09-08 決定）
+ * >
+ * > **HP はそのまま。** 落ちたのは事故で、罰ではない。
+ *
+ * > ### **戻す先は湧き点**
+ * >
+ * > **プレイヤーが戻る所（`spawnSpot`）ではなく、敵の湧き点。**
+ * > **プレイヤーの半径 3 マス以内には出さない**——**湧かせるときと同じ決まり。**
+ */
+function rescueMob(mob: Entity): void {
+  const at = openSpot();
+  if (at === undefined) return;
+  try {
+    mob.teleport(at);
+  } catch {
+    /* 消えている */
+  }
+}
+
 /** 毎周期。**戦っている間だけ見る** */
 export function tick(): void {
   if (match.phase() !== "wave") return;
@@ -66,5 +90,14 @@ export function tick(): void {
       continue;
     }
     rescue(player);
+  }
+  // **敵も同じ高さで拾う**（`17-state.md` 3-5）
+  for (const mob of enemies()) {
+    try {
+      if (mob.location.y > VOID_Y) continue;
+    } catch {
+      continue;
+    }
+    rescueMob(mob);
   }
 }

@@ -1,0 +1,25 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.pve3.flask",
+        "texture_width": 32,
+        "texture_height": 32,
+        "visible_bounds_width": 1,
+        "visible_bounds_height": 1,
+        "visible_bounds_offset": [0, 0, 0]
+      },
+      "bones": [
+        {
+          "name": "flask",
+          "pivot": [0, 0, 0],
+          "cubes": [
+            { "origin": [-2, -2.5, -2], "size": [4, 4, 4], "uv": [0, 8] },
+            { "origin": [-1, 1.5, -1], "size": [2, 2, 2], "uv": [0, 0] }
+          ]
+        }
+      ]
+    }
+  ]
+}

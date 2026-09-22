@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.pve3.pistol": {
+      "initial_state": "off",
+      "states": {
+        "off": {
+          "transitions": [
+            {
+              "on": "q.is_item_name_any('slot.weapon.mainhand', 'pve_v3:pistol')"
+            }
+          ]
+        },
+        "on": {
+          "animations": [
+            "gun_hold"
+          ],
+          "blend_transition": 0.2,
+          "transitions": [
+            {
+              "off": "!q.is_item_name_any('slot.weapon.mainhand', 'pve_v3:pistol')"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.pve3.kitsune_foxfire": {
+      "initial_state": "idle",
+      "states": {
+        "idle": {
+          "transitions": [
+            {
+              "charge": "q.mark_variant == 1"
+            },
+            {
+              "release": "q.mark_variant == 2"
+            }
+          ]
+        },
+        "charge": {
+          "animations": [
+            "fox_charge"
+          ],
+          "transitions": [
+            {
+              "release": "q.mark_variant == 2"
+            },
+            {
+              "idle": "q.mark_variant == 0"
+            }
+          ]
+        },
+        "release": {
+          "animations": [
+            "fox_release"
+          ],
+          "transitions": [
+            {
+              "idle": "q.mark_variant == 0"
+            },
+            {
+              "charge": "q.mark_variant == 1"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

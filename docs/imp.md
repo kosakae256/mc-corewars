@@ -332,6 +332,7 @@ Web 側の「Next.js 16 の注意点」に相当する、**このプロジェク
 | **`@minecraft/debug-utilities`**（beta モジュール） | `worlds/core-wars/packs/game` | `DebugText` でジェネレータの頭上に文字を出す。モブを置かずに済む |
 | **ワールドの実験「次期クリエイター機能」** | Core Wars のワールド | ブロックの `item_specific_speeds`（道具ごとの硬さ）に必要 |
 | **ワールドの実験「ベータAPI」**（`gametest`） | 同上 | beta モジュールを読み込むために必要 |
+| **`@minecraft/server` 2.11.0-beta**（`chatSend` before イベント） | `worlds/ai-build-quiz/packs/ai_build_quiz` | チャットの発言で答え合わせをし、正解を打ち消す。stable には `chatSend` が無い（2026-09-21）。**beta の版は実機の版に縛られる**: 1.26.44 は 2.10.0-beta、1.26.51 は 2.11.0-beta。実機を更新したら `npm view @minecraft/server dist-tags` の `beta` に合わせてマニフェストも直す（合わないとスクリプトが読み込まれず、コマンドが出ない） |
 
 > **実験を有効にしたワールドは元に戻せない。** Minecraft の仕様。
 > 有効にする前に、本当に必要かを確かめること。

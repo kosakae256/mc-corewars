@@ -13,7 +13,7 @@
 
 import { CommandPermissionLevel, world } from "@minecraft/server";
 
-import { LEGIONS } from "../core/enemy.js";
+import { DEFAULT_LEGION, LEGIONS } from "../core/roster.js";
 import { clampStar } from "../core/portal.js";
 import { FIELD } from "../core/places.js";
 import { clearEnemies, strays } from "./field.js";
@@ -114,7 +114,7 @@ export function pickMap(): string | undefined {
  * **休憩所の 3 択で決まったもの。** 決まっていなければ `/pve:legion` の 1 つ。
  */
 export function legionAt(wave: number): string {
-  return legionFor(wave) ?? legion() ?? "zombie";
+  return legionFor(wave) ?? legion() ?? DEFAULT_LEGION;
 }
 
 /** その wave の相手の★（ゲートの色。`20-portal.md` 4 章） */

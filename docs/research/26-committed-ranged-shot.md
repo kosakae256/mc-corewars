@@ -1,0 +1,11 @@
+# 射程外へ退避しても溜め射撃を完了させる
+
+参照: 同梱blaze.json、blaze.animation_controllers.json、Entities.html、導入済みScript API型定義。
+公式ranged_attackの説明では、標的が見えない間はcharge-timeが減衰する。
+https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitygoals/minecraftbehavior_ranged_attack
+
+本プロジェクトでは射程外になると共通接近priority 0がnative射撃priority 4に優先し、
+さらに種を差し替える時点でvisibleTargetによる射程チェックもある。
+ブレイズだけ攻撃開始と攻撃完了を分離するには、Script側に確定した溜め/連射を保持し、
+発射処理を共用する。native射撃を残すと二重発射になるため対象の全呪い段も置き換える。
+バニラ炎controllerはquery.is_chargedを参照するため、minecraft:is_charged群で既存演出へ伝える。

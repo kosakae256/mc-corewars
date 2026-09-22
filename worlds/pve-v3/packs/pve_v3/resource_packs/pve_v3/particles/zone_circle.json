@@ -1,0 +1,84 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "pve_v3:zone_circle",
+      "basic_render_parameters": {
+        "material": "particles_blend",
+        "texture": "textures/particle/pve3_disc"
+      }
+    },
+    "components": {
+      "minecraft:emitter_local_space": {
+        "position": false
+      },
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 1
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.05
+      },
+      "minecraft:emitter_shape_point": {
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      "minecraft:particle_initial_speed": 0.0,
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": "v.life"
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "v.size",
+          "v.size"
+        ],
+        "facing_camera_mode": "emitter_transform_xz",
+        "uv": {
+          "texture_width": 16,
+          "texture_height": 16,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            16,
+            16
+          ]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": {
+          "interpolant": "v.particle_age / v.particle_lifetime",
+          "gradient": {
+            "0.0": [
+              0.42,
+              0.86,
+              0.24,
+              0.0
+            ],
+            "0.04": [
+              0.42,
+              0.86,
+              0.24,
+              0.8
+            ],
+            "0.92": [
+              0.36,
+              0.8,
+              0.2,
+              0.8
+            ],
+            "1.0": [
+              0.3,
+              0.7,
+              0.18,
+              0.0
+            ]
+          }
+        }
+      }
+    }
+  }
+}

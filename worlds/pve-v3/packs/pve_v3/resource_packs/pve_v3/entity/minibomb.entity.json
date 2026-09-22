@@ -1,0 +1,40 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v3:minibomb",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/pve3/bomb"
+      },
+      "geometry": {
+        "default": "geometry.pve3.bomb"
+      },
+      "animations": {
+        "swell": "animation.pve3.bomb.swell",
+        "roused_controller": "controller.animation.pve3.roused"
+      },
+      "scripts": {
+        "pre_animation": [
+          "variable.fuse = math.clamp(q.property('pve_v3:fuse'), 0.0, 1.0);",
+          "variable.wobble = math.sin(variable.fuse * 5730) * variable.fuse * 0.02 + 1.0;",
+          "variable.swell1 = (math.pow(variable.fuse, 1.6) * 0.6 + 1.0) * variable.wobble;",
+          "variable.swell2 = (math.pow(variable.fuse, 1.6) * 0.35 + 1.0) / variable.wobble;",
+          "variable.flash = math.mod(math.round(math.pow(variable.fuse, 2.0) * 18.0), 2.0);"
+        ],
+        "animate": [
+          "swell",
+          "roused_controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.pve3_bomb"
+      ],
+      "particle_effects": {
+        "roused": "pve_v3:rouse_mark"
+      }
+    }
+  }
+}

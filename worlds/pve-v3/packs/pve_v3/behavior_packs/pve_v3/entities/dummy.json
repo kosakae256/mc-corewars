@@ -8,7 +8,9 @@
     },
     "components": {
       "minecraft:type_family": {
-        "family": [ "pve_dummy" ]
+        "family": [
+          "pve_dummy"
+        ]
       },
       "minecraft:collision_box": {
         "width": 0.7,
@@ -20,8 +22,8 @@
       },
       "minecraft:persistent": {},
       "minecraft:health": {
-        "value": 1000,
-        "max": 1000
+        "value": 5000,
+        "max": 5000
       },
       "minecraft:damage_sensor": {
         "triggers": {

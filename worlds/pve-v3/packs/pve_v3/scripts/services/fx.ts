@@ -33,7 +33,9 @@
  * > **その人に位置つきで鳴らす。** 範囲の外には一切届かない。
  */
 
-import type { Dimension, Vector3 } from "@minecraft/server";
+import { MolangVariableMap, type Dimension, type Vector3 } from "@minecraft/server";
+
+import { BOLT, CALL } from "../core/tuning.js";
 
 interface FxDef {
   /** **重ねてよい**——閃光と筋を同時に出すなど（クリティカル） */
@@ -549,6 +551,109 @@ function groundAt(dim: Dimension, x: number, from: number, z: number): number | 
   } catch {
     return undefined;
   }
+}
+
+/**
+ * **爆発の届く範囲を、地面に赤く敷く**（爆弾・`24-mob-howto.md` 16-8）。
+ *
+ * > ### **敷き方は恵みの雨と同じ**（pve-v2 から持ってきた作り）
+ * >
+ * > **粒を円周に並べるのではなく、円の絵を 1 枚、地面に寝かせる。**
+ * > **外周がはっきりした線、中はうっすら**（`textures/particle/pve3_ring`）。
+ *
+ * **大きさは敵ごとに違う**ので、`v.size` で渡す。
+ *
+ * > ### **`size` は「半分の幅」**（実測・2026-09-09）
+ * >
+ * > **差し渡しだと思って半径の 2 倍を渡したら、倍の大きさになった。**
+ * > **`size` にそのまま半径を渡す**と、円の差し渡しが半径 × 2 になる。
+ */
+export function boomCircle(dim: Dimension, at: Vector3, radius: number): void {
+  groundCircle(dim, at, radius, "pve_v3:boom_circle");
+}
+
+/**
+ * **地面に円を 1 枚敷く。** **色と絵は粒で決める。**
+ *
+ * | 使う所 | 粒 |
+ * | --- | --- |
+ * | **爆弾の予告** | `pve_v3:boom_circle`（**外周が線、中はうっすら赤**） |
+ * | **劇薬の毒だまり** | `pve_v3:venom_circle`（**中まで塗りつぶした緑**） |
+ */
+export function groundCircle(dim: Dimension, at: Vector3, radius: number, particle: string, life?: number): void {
+  const y = groundAt(dim, at.x, at.y, at.z);
+  if (y === undefined) return;
+  try {
+    const vars = new MolangVariableMap();
+    // **`size` は「半分の幅」**——**半径をそのまま渡す**
+    vars.setFloat("size", radius);
+    // > ### **長さを渡せる円**（2026-09-10）
+    // >
+    // > **短い粒を敷き直すと、ちらつく。**
+    // > **`v.life` を渡して、1 枚を最後まで残す**（`pve_v3:zone_circle`）。
+    if (life !== undefined) vars.setFloat("life", life);
+    dim.spawnParticle(particle, { x: at.x, y: y + 0.06, z: at.z }, vars);
+  } catch {
+    /* 読み込まれていない */
+  }
+}
+
+/**
+ * **湧いた瞬間の声**（`EnemyDef.call`・`25-enemy-kit.md` 8-A）。
+ *
+ * > ### **`dim.playSound` では遠くまで届かない**（`services/throw.ts` で踏んだ）
+ * >
+ * > **その場から鳴らすと距離で減る。** **範囲内の人に、その人の側で鳴らす。**
+ *
+ * **重なりは止めない**——**2 体湧けば 2 回鳴る。**
+ */
+export function callFx(dim: Dimension, at: Vector3, id: string | undefined): void {
+  if (id === undefined) return;
+  try {
+    for (const p of dim.getPlayers({ location: at, maxDistance: CALL.range })) {
+      p.playSound(id, { location: at, volume: CALL.volume });
+    }
+  } catch {
+    /* 読み込まれていない */
+  }
+}
+
+/**
+ * **落雷**（帯電の死に際・`25-enemy-kit.md` 10-1）。
+ *
+ * > ### **雷は pve-v2 から借りた**（2026-09-10）
+ * >
+ * > **作り直さない。** **縦長の絵 1 枚を 4 コマで明滅させる**やり方に、
+ * > **粒を並べても雷に見えなかった**末に向こうが行き着いている。
+ *
+ * **範囲の中へばらばらに落とす**——**中心に重ねると 1 本にしか見えない。**
+ * **絵は真ん中で位置が決まる**ので、**高さの半分だけ持ち上げて**足元に着地させる。
+ */
+export function boltFx(dim: Dimension, at: Vector3, radius: number, times = BOLT.times): void {
+  for (let i = 0; i < times; i++) {
+    // **円の中へ均そうに散らす**（半径は平方根で引く——中心に寄りすぎないため）
+    const t = Math.random() * 2 * Math.PI;
+    const r = Math.sqrt(Math.random()) * radius * BOLT.spread;
+    const x = at.x + Math.cos(t) * r;
+    const z = at.z + Math.sin(t) * r;
+    const y = groundAt(dim, x, at.y, z);
+    if (y === undefined) continue;
+    try {
+      const kind = Math.floor(Math.random() * BOLT.kinds);
+      dim.spawnParticle(`pve_v3:bolt_${kind}`, { x, y: y + BOLT.height / 2, z });
+    } catch {
+      /* 読み込まれていない */
+    }
+  }
+}
+
+/**
+ * **帯電の範囲を、地面に青く敷く**（`24-mob-howto.md` 16-8）。
+ *
+ * **爆弾の赤い円と同じ作り。** **敷き直さない**——**爆ぜた一瞬だけ。**
+ */
+export function boltCircle(dim: Dimension, at: Vector3, radius: number): void {
+  groundCircle(dim, at, radius, BOLT.circle);
 }
 
 /**

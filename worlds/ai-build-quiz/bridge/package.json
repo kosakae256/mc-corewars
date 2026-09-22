@@ -1,0 +1,23 @@
+{
+  "name": "ai-build-quiz-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI 建築当てゲームの橋: 単語を選び、genlab に頼み、/wsserver 経由で BP へ渡す（worlds/ai-build-quiz/docs/spec/13-transport.md）",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/main.js",
+    "words": "npm run build && node dist/tools/build-words.js",
+    "verify": "npm run build && node dist/tools/verify-words.js",
+    "test": "npm run build && node dist/tools/test.js",
+    "check": "tsc --noEmit && npm run test"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.13",
+    "typescript": "^5.7.0"
+  }
+}

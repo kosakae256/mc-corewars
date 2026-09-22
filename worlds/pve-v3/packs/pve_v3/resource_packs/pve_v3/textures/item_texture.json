@@ -13,6 +13,15 @@
     },
     "pve3_erasewand": {
       "textures": "textures/items/bone"
+    },
+    "pve3_katana": {
+      "textures": "textures/items/pve3_katana"
+    },
+    "pve3_gun": {
+      "textures": "textures/items/pve3_gun"
+    },
+    "pve3_pistol": {
+      "textures": "textures/items/pve3_pistol"
     }
   }
 }

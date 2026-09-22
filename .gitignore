@@ -34,3 +34,24 @@ Thumbs.db
 # 根に置いたバニラ一式の**完全版**（絵・音・documentation 込みで 701MB）
 # 取り直せるので git には入れない。reference/README.md 参照
 /bedrock-samples/
+
+# ---------------------------------------------------------------- genlab（docs/spec/08-genlab.md）
+# 仮想環境・外部リポジトリ・生成物。取り直せる
+tools/genlab/.venv/
+tools/genlab/TripoSR/
+tools/genlab/Hunyuan3D-2/
+tools/genlab/out/
+tools/genlab/pipeline/jmdict_min.json
+tools/genlab/pipeline/wikititles_ja_en.json
+tools/genlab/wikidump/
+
+# ---------------------------------------------------------------- 作業ゴミ・生成物（2026-09-23）
+# 使い捨ての作業場。ブラウザのプロファイル・ffmpeg.exe(84MB)・動画などが溜まる
+.scratch/
+# プレビュー・GIF・スキンなどの生成物（作り直せる）
+/out/
+# スクリーンショット・手で置いた配布物。大きいうえに作り直せない物でもない
+worlds/*/user/
+# 第三者のリソースパック（自分で取得・取り込まないという決まり。CLAUDE.md）
+Simple Arsenal Resource Pack*/
+Simple Arsenal Resource Pack*.zip

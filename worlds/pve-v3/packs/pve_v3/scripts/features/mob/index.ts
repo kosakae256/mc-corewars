@@ -26,14 +26,21 @@ import {
 
 import type { Feature } from "../../types.js";
 import { mobCommands } from "./command.js";
-import { ENEMIES } from "../../core/enemy.js";
+import { ENEMIES } from "../../core/roster.js";
+import type { EnemyDef } from "../../core/enemy.js";
 import { hit } from "../../services/combat.js";
-import { enemies } from "../../services/field.js";
+import { allEnemies } from "../../services/field.js";
 import { stepSpawn } from "../../services/spawn.js";
-import { maxHpOf } from "../../services/growth.js";
-import { damage as cutHp, has, max, setMax, setup } from "../../state/hp.js";
+import { subscribeMelee } from "../../services/melee.js";
+import { boom, unswell, warn } from "../../services/fuse.js";
+import { subscribeMobShot } from "../../services/mobshot.js";
+import { subscribeFuse, subscribeTraits } from "../../services/traits.js";
+import { applyHp } from "../../services/growth.js";
+import { damage as cutHp, has, setup } from "../../state/hp.js";
 import { KEYS } from "../../state/keys.js";
-import { setLabel } from "../../state/label.js";
+import { labelOf, setLabel } from "../../state/label.js";
+import { migrateEnemyAi } from "../../services/enemy-ai-migration.js";
+import { starLabel } from "../../core/star.js";
 
 /** 実体。**ゾンビの見た目と動きをそのまま借りる**（`runtime_identifier`） */
 export const MOB = "pve_v3:grunt";
@@ -54,6 +61,18 @@ export const MOB_HP = 500;
 /** モブの攻撃力 */
 const MOB_ATTACK = 20;
 
+/** 爆発が届く半径（マス）。**予告の間に歩いて出られる**（`16-enemy.md` 5-1） */
+const BOOM_R = 4;
+
+/** 押す強さの上限。**その敵が持っていればそちら** */
+const BOOM_KB = 3.0;
+
+/** **導火線が消えない距離の倍率。** バニラは 2.5 → 6（＝ 2.4 倍） */
+const BOOM_KEEP = 2.4;
+
+/** 上へ飛ばす強さ。**爆発だけの例外** */
+const BOOM_UP = 0.55;
+
 /** 殴る間隔（tick）。**1 秒** */
 const SWING = 20;
 
@@ -65,22 +84,6 @@ const swungAt = new Map<string, number>();
 
 /** 湧かせる数の上限。**試作なので少なく** */
 export const SPAWN_MAX = 20;
-
-/**
- * その人の最大 HP。
- *
- * **買った HP 強化が既定**（`services/growth.ts`。初期 100・1 回 ＋50）。
- * **`/pve:hp` で置いた値があれば、そちらを優先する**——確認用の上書き。
- */
-function baseHp(player: Player): number {
-  try {
-    const v = player.getDynamicProperty(KEYS.hpBase);
-    if (typeof v === "number" && v > 0) return v;
-  } catch {
-    /* 消えている */
-  }
-  return maxHpOf(player);
-}
 
 function mobs(): Entity[] {
   try {
@@ -106,11 +109,18 @@ function tick(now: number): void {
   stepSpawn(now);
 
   const players = world.getAllPlayers();
-  for (const mob of enemies()) {
+  // **戦場の箱で切らない**（`services/traits.ts` と同じ理由）——
+  // **箱の外に置いた敵も、導火線は動くべき**
+  for (const mob of allEnemies()) {
     try {
       // **種類ごとの値を、その個体から読む**（湧かせた側が置いている）
       const kind = mob.getDynamicProperty(KEYS.kind);
       const def = typeof kind === "string" ? ENEMIES[kind] : undefined;
+      if (def !== undefined) {
+        migrateEnemyAi(mob, def);
+        const label = starLabel(def.name, def.star, def.color);
+        if (labelOf(mob) !== label) setLabel(mob, label);
+      }
       const atk = mob.getDynamicProperty(KEYS.atk);
       const power = typeof atk === "number" && atk > 0 ? atk : (def?.attack ?? MOB_ATTACK);
       // **その個体に入っている間隔を使う**（攻撃速度で縮んだ後の値。`services/spawn.ts`）
@@ -120,54 +130,46 @@ function tick(now: number): void {
 
       if (!has(mob)) {
         setup(mob, def?.hp ?? MOB_HP);
-        setLabel(mob, def === undefined ? MOB_LABEL : `§c${def.name}`);
+        setLabel(mob, def === undefined ? MOB_LABEL : starLabel(def.name, def.star, def.color));
       }
 
-      // > ### 殴りは**バニラに任せた**（2026-09-07）
+      // > ### ここで見るのは**自爆だけ**（2026-09-08 に絞った）
       // >
-      // > **振る動きと当たる瞬間がずれる**ので、`services/melee.ts` へ移した。
-      // > **ここで見るのは「撃つ」と「自爆」だけ。**
-      if (def === undefined || def.kind === "melee") continue;
+      // > **殴りはバニラに任せた**（`services/melee.ts`）——振る動きと合わせるため。
+      // > **撃つのは矢が当たったときに入る**（`services/mobshot.ts`）。
+      // >
+      // > **撃つ敵をここに残していたせいで、矢とは別に、射程に入っただけで削れていた。**
+      // > **「何も見えないのに遠くから殴られる」の正体。**
+      if (def?.kind !== "boom") continue;
 
-      const last = swungAt.get(mob.id) ?? 0;
-      if (now - last < swing) continue;
-
-      const at = mob.location;
-      for (const p of players) {
-        if (!has(p)) continue;
-        const range = Math.hypot(p.location.x - at.x, p.location.y - at.y, p.location.z - at.z);
-        if (range > reach) continue;
-        swungAt.set(mob.id, now);
-        // **殴りも撃つのも、同じ 1 本道を通る**
-        hit({ target: p, attack: power, source: mob });
-        // **自爆は当てたら消える**
-        if (def?.kind === "boom") {
-          boom(mob, power);
-          break;
-        }
-        break;
+      // > ### **導火線はバニラに任せた**（2026-09-08 に作り直した）
+      // >
+      // > **script で数えていたときは、近づいた瞬間に爆発していた**——**予告が無い。**
+      // > **いまは `minecraft:target_nearby_sensor` が間合いを見て、
+      // > `minecraft:explode` が 1.5 秒の待ちと膨らむ絵と音を出す**
+      // > （`tools/pve3-newmob.mjs` の `fuseOf`）。
+      // >
+      // > **こちらは「火が点いた」合図を受けて、爆ぜる時刻を控えるだけ。**
+      // > ### **導火線は呪いで縮まない**（2026-09-08 決定）
+      // >
+      // > **`KEYS.swing` は呪いで縮んだ値**（`services/spawn.ts`）。
+      // > **爆発までの時間まで縮むと理不尽**なので、**素の `interval` を使う。**
+      // > **JSON 側も段を作っていない**（`pve3-mobjson.mjs`）——**両方で揃える。**
+      const fuse = def.interval;
+      const lit = swungAt.get(mob.id);
+      if (lit === undefined) continue;
+      if (now - lit < fuse) {
+        // > ### **膨らみだけに頼らない**（2026-09-08 追加）
+        // >
+        // > **膨らむ絵は `query.swell_amount` が動かす**——**engine 任せ。**
+        // > **こちらでも音と粒を出して、火が点いていることを必ず見せる。**
+        warn(mob, (now - lit) / fuse);
+        continue;
       }
+      boom(mob, power, def);
     } catch {
       /* 消えている */
     }
-  }
-}
-
-/** 自爆。**地形は壊さない**（`16-enemy.md` 5-1） */
-function boom(mob: Entity, power: number): void {
-  try {
-    const at = mob.location;
-    mob.dimension.spawnParticle("minecraft:large_explosion", at);
-    mob.dimension.playSound("random.explode", at, { volume: 1.2 });
-    for (const p of world.getAllPlayers()) {
-      if (!has(p)) continue;
-      const d = Math.hypot(p.location.x - at.x, p.location.y - at.y, p.location.z - at.z);
-      if (d > 4) continue;
-      if (d > 2) hit({ target: p, attack: Math.round(power * 0.5), source: mob });
-    }
-    mob.remove();
-  } catch {
-    /* もう居ない */
   }
 }
 
@@ -197,14 +199,7 @@ function tickPlayers(): void {
   for (const p of world.getAllPlayers()) {
     fillFood(p);
     try {
-      // **上限が変わったら付け直す**（値を変えて `/reload` しても効くように）
-      const cap = baseHp(p);
-      if (!has(p)) {
-        setup(p, cap);
-      } else if ((max(p) ?? 0) !== cap) {
-        // **満タンに戻さない**——上限だけ入れ替える
-        setMax(p, cap);
-      }
+      applyHp(p);
     } catch {
       /* 消えている */
     }
@@ -213,6 +208,23 @@ function tickPlayers(): void {
 
 export const mob: Feature = {
   name: "mob",
+  subscribe: () => {
+    subscribeMelee();
+    // **撃つ敵の矢を、自前の弾に差し替える**（`24-mob-howto.md` 10 章）
+    subscribeMobShot();
+    // **共通部品の旗を、部品へつなぐ**（`25-enemy-kit.md`）
+    subscribeTraits();
+    // **導火線の点火・消火を受ける**（`minecraft:target_nearby_sensor`）
+    subscribeFuse((mob, on) => {
+      if (on) {
+        if (!swungAt.has(mob.id)) swungAt.set(mob.id, system.currentTick);
+        return;
+      }
+      swungAt.delete(mob.id);
+      // **火が消えたら、膨らみも戻す**
+      unswell(mob);
+    });
+  },
   commands: mobCommands,
   tick: {
     // **4 tick に 1 回で足りる。** 殴る間隔は 1 秒

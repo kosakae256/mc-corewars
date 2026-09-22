@@ -29,7 +29,7 @@ import {
 } from "@minecraft/server";
 
 import type { CommandDef } from "../../types.js";
-import { LEGIONS } from "../../core/enemy.js";
+import { DEFAULT_LEGION, LEGIONS } from "../../core/roster.js";
 import { legion, setLegion } from "../../state/match.js";
 import { PLAYER_LABEL, RESULT_TICKS, REST_TICKS, WORLD_LABEL, type WorldPhase } from "../../core/state.js";
 import { REST, toTarget } from "../../core/portal.js";
@@ -95,9 +95,9 @@ function legionCommand(registry: CustomCommandRegistry): void {
         if (id === undefined) {
           player.sendMessage("§7──── §f敵グループ §7────");
           for (const l of Object.values(LEGIONS)) {
-            player.sendMessage(`§f${l.id} §7${l.name}  ★${l.star}  基礎 ${l.base} 体`);
+            player.sendMessage(`§f${l.id} §7${l.name}  ★${l.star}  ${l.fixed}＋${l.perWave}／wave  §8${l.concept}`);
           }
-          player.sendMessage(`§8いま §f${legion() ?? "zombie"}`);
+          player.sendMessage(`§8いま §f${legion() ?? DEFAULT_LEGION}`);
           return;
         }
         const key = id.trim().toLowerCase();

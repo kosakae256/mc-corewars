@@ -4,11 +4,26 @@
     "description": {
       "identifier": "pve_v3:ally",
       "is_summonable": true,
-      "is_spawnable": false
+      "is_spawnable": false,
+      "properties": {
+        "pve_v3:swing": {
+          "type": "float",
+          "range": [
+            0.0,
+            10.0
+          ],
+          "default": 0.0,
+          "client_sync": true
+        }
+      }
     },
     "components": {
       "minecraft:type_family": {
-        "family": ["pve3_ally", "player", "mob"]
+        "family": [
+          "pve3_ally",
+          "player",
+          "mob"
+        ]
       },
       "minecraft:collision_box": {
         "width": 0.6,
@@ -19,8 +34,8 @@
         "value": 0
       },
       "minecraft:health": {
-        "value": 1000,
-        "max": 1000
+        "value": 5000,
+        "max": 5000
       },
       "minecraft:breathable": {
         "total_supply": 15,

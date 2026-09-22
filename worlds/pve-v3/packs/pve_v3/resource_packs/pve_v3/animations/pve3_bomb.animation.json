@@ -1,0 +1,16 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.bomb.swell": {
+      "loop": true,
+      "bones": {
+        "body": {
+          "scale": ["variable.swell1", "variable.swell2", "variable.swell1"]
+        },
+        "fuse": {
+          "scale": ["variable.swell1", "variable.swell2", "variable.swell1"]
+        }
+      }
+    }
+  }
+}

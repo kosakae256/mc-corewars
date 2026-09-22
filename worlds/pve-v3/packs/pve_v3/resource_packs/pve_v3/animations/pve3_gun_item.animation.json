@@ -1,0 +1,53 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.gun_item.shotgun": {
+      "loop": true,
+      "bones": {
+        "gun": {
+          "rotation": [
+            90,
+            0,
+            0
+          ]
+        },
+        "gun_yaw": {
+          "rotation": [
+            0,
+            10,
+            0
+          ]
+        }
+      }
+    },
+    "animation.pve3.gun_item.held": {
+      "loop": true,
+      "bones": {
+        "gun": {
+          "rotation": [
+            -90,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "animation.pve3.gun_item.first_person": {
+      "loop": true,
+      "bones": {
+        "gun": {
+          "rotation": [
+            0,
+            -15,
+            0
+          ],
+          "position": [
+            0,
+            0,
+            -2
+          ]
+        }
+      }
+    }
+  }
+}

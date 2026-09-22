@@ -18,19 +18,26 @@
  * > **プレイヤーの半径 3 マス以内には出さない。**
  */
 
-import { CommandPermissionLevel, world, type Entity, type Vector3 } from "@minecraft/server";
+import { CommandPermissionLevel, EquipmentSlot, world, type Entity, type Vector3 } from "@minecraft/server";
 
-import { emeraldOf, ENEMIES, hasteTier, LEGIONS, planOf, statsOf, type EnemyDef } from "../core/enemy.js";
+import { FLY_WALK, WALK, emeraldOf, statsOf, type EnemyDef } from "../core/enemy.js";
+import { planOf } from "../core/plan.js";
+import { ENEMIES, LEGIONS } from "../core/roster.js";
+import { hasteTier } from "../core/haste.js";
+import { callFx } from "./fx.js";
+import { flyTier } from "./flyspeed.js";
 import { multsOf } from "../core/curse.js";
 import { curseCount } from "../state/curse.js";
 import { originX } from "./arena.js";
 import { wave } from "../state/match.js";
 import { FIELD, PLACES } from "../core/places.js";
 import { setup, setMax } from "../state/hp.js";
+import { starLabel } from "../core/star.js";
 import { setLabel } from "../state/label.js";
 import { KEYS } from "../state/keys.js";
 import { fieldMap } from "../state/match.js";
 import { marks } from "./spawnmark.js";
+import { wear } from "./gear.js";
 
 /** 出す間隔（tick）と、1 回に出す数。**2 秒に 10 体** */
 const EVERY = 40;
@@ -74,7 +81,7 @@ export function stopSpawning(): void {
 export function queueLegion(legionId: string, players: number, wave: number): number {
   const legion = LEGIONS[legionId];
   if (legion === undefined) return 0;
-  const plan = planOf(legion, Math.max(1, players), wave);
+  const plan = planOf(legion, Math.max(1, players), wave, ENEMIES);
   // **呪いは種類ごとに別の倍率**（`16-enemy.md` 4 章）
   const curse = multsOf(curseCount());
   const next: Pending[] = [];
@@ -132,25 +139,53 @@ function openSpots(): Vector3[] {
   return out;
 }
 
+/**
+ * **いま出してよい点を 1 つ**（無ければ `undefined`）。
+ *
+ * **プレイヤーの半径 3 マス以内は除いてある**（`openSpots`）。
+ * **奈落に落ちた敵を戻すのにも使う**（`services/fall.ts`）。
+ */
+export function openSpot(): Vector3 | undefined {
+  const spots = openSpots();
+  if (spots.length === 0) return undefined;
+  return spots[Math.floor(Math.random() * spots.length)];
+}
+
 /** 1 体出す */
 function spawnOne(p: Pending, at: Vector3): Entity | undefined {
   try {
     const dim = world.getDimension("overworld");
-    const e = dim.spawnEntity(`pve_v3:${p.def.id}`, at);
+    // **湧かせる実体は、`spawnId` があればそちら**（バニラを置き換えた敵）
+    const e = dim.spawnEntity(p.def.spawnId ?? `pve_v3:${p.def.id}`, at);
     setup(e, p.hp);
     setMax(e, p.hp);
-    setLabel(e, `§c${p.def.name}`);
+    // **★で色を分ける**（`core/star.ts`）
+    setLabel(e, starLabel(p.def.name, p.def.star, p.def.color));
     // **攻撃力はその個体に持たせる**（`services/attack.ts` が読む）
     e.setDynamicProperty(KEYS.atk, p.attack);
     e.setDynamicProperty(KEYS.kind, p.def.id);
     e.setDynamicProperty(KEYS.swing, p.swing);
+    e.setDynamicProperty(KEYS.enemyAiRevision, 3);
     e.setDynamicProperty(KEYS.emeraldMult, p.emerald);
+    // **押す強さ**（`22-feedback.md` 4 章）。**書いていなければ触らない＝既定**
+    if (p.def.knockback !== undefined) e.setDynamicProperty(KEYS.kbPower, p.def.knockback);
+    // > ### **手に持たせるのは script から**（`24-mob-howto.md` 10-3）
+    // >
+    // > **装備表は script で湧かせた個体に効かない。**
+    // > **`minecraft:equippable` は書かない**——1.21.10 以降、全実体に自動で付く。
+    wear(e, EquipmentSlot.Mainhand, p.def.hand, p.def.id);
+    wear(e, EquipmentSlot.Head, p.def.head, p.def.id);
     // > ### 速さは**その個体に入れる**
     // >
     // > **`minecraft:movement` はビヘイビアに書いた値が既定**だが、
     // > **呪いと人数で変わる**ので、湧いた瞬間に入れ替える。
     try {
       e.getComponent("minecraft:movement")?.setCurrentValue(p.move);
+      // **飛ぶ速さと帯電は、どちらも部品群の差し替え**（`25-enemy-kit.md` 11 章）
+      if (p.def.charged === true) e.triggerEvent("pve_v3:charge");
+      if (e.getComponent("minecraft:flying_speed") !== undefined) {
+        e.triggerEvent(`pve_v3:set_fly_${flyTier(p.def, p.move)}`);
+      }
     } catch {
       /* その部品を持たない実体 */
     }
@@ -163,6 +198,8 @@ function spawnOne(p: Pending, at: Vector3): Entity | undefined {
     } catch {
       /* その段を持たない実体。**既定のまま** */
     }
+    // **湧いた瞬間の声**（`25-enemy-kit.md` 8-A）。**重なりは止めない**
+    callFx(dim, at, p.def.call);
     return e;
   } catch {
     return undefined;

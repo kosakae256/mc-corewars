@@ -1,0 +1,54 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "ai_build_quiz BP",
+    "description": "AI 建築当てゲーム（worlds/ai-build-quiz/docs）",
+    "uuid": "14642784-f39c-46ea-9e96-17c220e389de",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "description": "Script resources",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "5bda8ffd-1512-4a1b-8db0-a9d0a518025a",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.11.0-beta"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.2.0"
+    },
+    {
+      "module_name": "@minecraft/debug-utilities",
+      "version": "1.0.0-beta"
+    },
+    {
+      "uuid": "5af92861-61de-455c-9cc7-6fbe96cb9d52",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ]
+}

@@ -123,4 +123,9 @@ export default [
     files: ["scripts/services/fx.ts"],
     rules: { "max-lines": "off" },
   },
+  {
+    // **敵と軍団の表。** **1 体足すたびに 1 行増えるだけ**——分けても読みやすくならない
+    files: ["scripts/core/roster.ts", "scripts/core/roster/legion.ts"],
+    rules: { "max-lines": "off" },
+  },
 ];

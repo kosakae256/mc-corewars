@@ -185,7 +185,8 @@ function stepRush(boss: Entity, brain: Brain, def: ActDef, now: number): void {
     rush.done.add(p.id);
     hit({ target: p, attack: def.rush.touch, via: `wyvern:${def.id}`, source: boss });
     // **触れた人だけを弾く。** 周りごと弾くと、当たっていない人まで飛ぶ
-    knockFrom(p, boss.location, def.rush.knock, 0.5);
+    // **上へは飛ばさない**（`22-feedback.md` 4 章）
+    knockFrom(p, boss.location, def.rush.knock, 0);
   }
 }
 

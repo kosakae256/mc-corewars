@@ -11,6 +11,11 @@
           "default": false,
           "client_sync": true
         },
+        "pve_v3:roused": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
         "pve_v3:chill": {
           "type": "float",
           "range": [
@@ -49,6 +54,51 @@
             4.0
           ],
           "default": 1.0,
+          "client_sync": true
+        },
+        "pve_v3:tint_r": {
+          "type": "float",
+          "range": [
+            0.0,
+            1.0
+          ],
+          "default": 0.0,
+          "client_sync": true
+        },
+        "pve_v3:tint_g": {
+          "type": "float",
+          "range": [
+            0.0,
+            1.0
+          ],
+          "default": 0.0,
+          "client_sync": true
+        },
+        "pve_v3:tint_b": {
+          "type": "float",
+          "range": [
+            0.0,
+            1.0
+          ],
+          "default": 0.0,
+          "client_sync": true
+        },
+        "pve_v3:tint_a": {
+          "type": "float",
+          "range": [
+            0.0,
+            1.0
+          ],
+          "default": 0.0,
+          "client_sync": true
+        },
+        "pve_v3:swing": {
+          "type": "float",
+          "range": [
+            0.0,
+            10.0
+          ],
+          "default": 0.0,
           "client_sync": true
         }
       }
@@ -104,11 +154,6 @@
         "breathes_air": true,
         "breathes_water": true
       },
-      "minecraft:damage_sensor": {
-        "triggers": {
-          "deals_damage": "no"
-        }
-      },
       "minecraft:attack": {
         "damage": 1
       },
@@ -119,9 +164,22 @@
         "entity_types": [
           {
             "filters": {
-              "test": "is_family",
-              "subject": "other",
-              "value": "player"
+              "all_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "none_of": [
+                    {
+                      "test": "has_ability",
+                      "subject": "other",
+                      "value": "instabuild"
+                    }
+                  ]
+                }
+              ]
             },
             "max_dist": 64
           }

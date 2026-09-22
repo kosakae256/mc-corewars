@@ -1,0 +1,13 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.pve3.aura": {
+      "initial_state": "on",
+      "states": {
+        "on": {
+          "particle_effects": [{ "effect": "aura" }]
+        }
+      }
+    }
+  }
+}

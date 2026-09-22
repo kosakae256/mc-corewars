@@ -1,0 +1,207 @@
+{
+  "format_version": "1.26.20",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "pve_v3:healer",
+      "is_summonable": true,
+      "is_spawnable": false,
+      "properties": {
+        "pve_v3:hurt": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "pve_v3:roused": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "pve_v3:swing": {
+          "type": "float",
+          "range": [
+            0.00,
+            10.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:chill": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_r": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_g": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_b": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_a": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "pve_mob",
+          "mob"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 1.9
+      },
+      "minecraft:physics": {},
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "is_amphibious": true,
+        "can_pass_doors": true,
+        "can_walk": true
+      },
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:persistent": {},
+      "minecraft:health": {
+        "value": 5000,
+        "max": 5000
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": -20,
+        "breathes_air": true,
+        "breathes_water": true
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 2,
+        "reselect_targets": true,
+        "must_see": false,
+        "within_radius": 100,
+        "entity_types": [
+          {
+            "filters": {
+              "all_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "none_of": [
+                    {
+                      "test": "has_ability",
+                      "subject": "other",
+                      "value": "instabuild"
+                    }
+                  ]
+                }
+              ]
+            },
+            "max_dist": 100,
+            "must_see": false
+          }
+        ]
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 7,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 8,
+        "look_distance": 6
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/empty.json"
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": false
+      },
+      "minecraft:follow_range": {
+        "value": 100,
+        "max": 100
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 9
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 1
+      },
+      "minecraft:pushable_by_entity": {},
+      "minecraft:pushable_by_block": {},
+      "minecraft:behavior.follow_mob": {
+        "priority": 1,
+        "search_range": 24,
+        "speed_multiplier": 1,
+        "stop_distance": 3,
+        "filters": {
+          "test": "is_family",
+          "subject": "other",
+          "value": "pve_mob"
+        }
+      },
+      "minecraft:behavior.avoid_mob_type": {
+        "priority": 2,
+        "ignore_visibility": true,
+        "max_flee": 12,
+        "sprint_distance": 8,
+        "entity_types": [
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "other",
+              "value": "player"
+            },
+            "max_dist": 10,
+            "walk_speed_multiplier": 1.4,
+            "sprint_speed_multiplier": 1.6
+          }
+        ]
+      },
+      "minecraft:movement": {
+        "value": 0.2875,
+        "max": 2.0125
+      }
+    },
+    "component_groups": {},
+    "events": {}
+  }
+}

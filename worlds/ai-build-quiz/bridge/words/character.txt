@@ -1,0 +1,418 @@
+# キャラクター・人型・空想の生き物（character）。実在の人物は入れない。列: ja	reading	en	aliases	level	seed	hint（ジャンル。10 秒のヒント）	english（英語の答え。必須。en は裏プロンプトで答えには使わない）
+ピカチュウ	ぴかちゅう	Pikachu	ピカ,ぴか,ピカちゅう,ピカチュー,ピカチュウのぬいぐるみ,ポケモンのピカチュウのぬいぐるみ,ぴかちゅうのぬいぐるみ	1		ポケモン	Pikachu,pikachu plush
+ドラえもん	どらえもん	Doraemon	ドラちゃん,ドラ	1		アニメ・ゲームの主役	Doraemon
+アンパンマン	あんぱんまん	Anpanman		1		アニメ・ゲームの主役	Anpanman
+#   ↑ en を「Anpanman」から書き換え（2026-09-21。翻訳ではなく生成用の説明にする）
+バイキンマン	ばいきんまん	Baikinman from Anpanman, purple round body with black cape and antenna	ばいきんまん,ばいきん,バイキン	2		アンパンマン	baikinman
+#   ↑ en を「Baikinman」から書き換え（60³ テスト: 絵が違う）
+マリオ	まりお	Super Mario	スーパーマリオ,マリオブラザーズ	1		アニメ・ゲームの主役	Super Mario,mario
+# ルイージ	るいーじ	Luigi	luigi	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+クッパ	くっぱ	Bowser koopa king, green turtle shell with spikes, full body	大魔王クッパ,クッパ大魔王	2		マリオ	bowser,koopa
+#   ↑ en を「Bowser」から書き換え（60³ テスト: 崩れる）
+ヨッシー	よっしー	Yoshi green dinosaur from Mario, full body	ヨッシ	1		マリオ	yoshi
+#   ↑ en を「Yoshi」から書き換え（60³ テスト: 黄色になる）
+キノピオ	きのぴお	Toad from Super Mario, white mushroom cap with red spots, full body	キノピオくん	2		マリオ	toad
+#   ↑ en を「Toad from Mario」から書き換え（60³ テスト: 絵がカエル）
+# ピーチ姫	ぴーちひめ	Princess Peach	ピーチ,peach	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ソニック	そにっく	Sonic the Hedgehog	sonic	1	# 落とした: 生成テスト 60³(2026-09-21): ノイズ
+カービィ	かーびぃ	Kirby	カービー,星のカービィ	1		任天堂のキャラ	Kirby
+モンスターボール	もんすたーぼーる	Poke Ball	ポケモンボール	1		ポケモン	Poke Ball,pokeball
+# ミッキーマウス	みっきーまうす	Mickey Mouse	ミッキー,mickey,mickeymouse,ミニー	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ミニーマウス	みにーまうす	Minnie Mouse	ミニー,minnie	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ドナルドダック	どなるどだっく	Donald Duck	ドナルド,donald	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# くまのプーさん	くまのぷーさん	Winnie the Pooh	プーさん,ぷーさん,プー	1		ディズニー	winnie the pooh,pooh,pooh bear,winniethepooh	# 2026-09-21 ディズニーは消す（本人）
+スヌーピー	すぬーぴー	Snoopy	ピーナッツ	1		絵本・海外のキャラ	Snoopy
+ハローキティ	はろーきてぃ	Hello Kitty	キティ,キティちゃん,きてぃ	1		サンリオ・ゆるキャラ	Hello Kitty,kitty,hellokitty
+# リラックマ	りらっくま	Rilakkuma	rilakkuma	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+トトロ	ととろ	Totoro grey round forest spirit with big belly, full body	となりのトトロ,大トトロ	1		ジブリ	totoro
+#   ↑ en を「Totoro」から書き換え（60³ テスト: 白い塊）
+ガンダム	がんだむ	Gundam robot		2		SF・アニメの機体	Gundam robot,gundam,mobile suit
+# ゴジラ	ごじら	Godzilla	godzilla	1	# 落とした: 生成テスト 60³(2026-09-21): ノイズ
+# キングコング	きんぐこんぐ	King Kong	kingkong	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ウルトラマン	うるとらまん	Ultraman	ウルトラ	2		特撮ヒーロー・怪獣	Ultraman
+ドラゴン	どらごん	chubby baby dragon	竜,龍,りゅう,ドラゴンベビー	1		伝説の生き物	chubby baby dragon,dragon
+ユニコーン	ゆにこーん	unicorn	一角獣,いっかくじゅう	1		伝説の生き物	unicorn
+# ペガサス	ぺがさす	pegasus	天馬	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+フェニックス	ふぇにっくす	phoenix	鳳凰,不死鳥,ほうおう,ふしちょう,火の鳥	2		伝説の生き物	phoenix
+# 河童	かっぱ	kappa river imp	kappa	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 天狗	てんぐ	tengu with a long nose	テング,tengu	2	# 落とした: 生成テスト 60³(2026-09-21): 赤い塊
+# 鬼	おに	Japanese oni ogre	オニ,oni,ogre	1	# 落とした: 生成テスト 60³(2026-09-21): 赤い塊
+# 妖精	ようせい	fairy	フェアリー	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 魔女	まじょ	witch		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 魔法使い	まほうつかい	wizard	ウィザード,魔術師	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 騎士	きし	knight in armor	ナイト,knight,兵士,soldier	1	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 侍	さむらい	samurai	サムライ	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# 忍者	にんじゃ	ninja	ニンジャ	1	# 落とした: 生成テスト 60³(2026-09-21): 黒い棒
+# 海賊	かいぞく	pirate	パイレーツ	1	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# 王様	おうさま	king	王,キング	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# お姫様	おひめさま	princess	姫,プリンセス	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ロボット	ろぼっと	robot	ロボ,ロボット玩具,おもちゃのロボット,機械,きかい,ろぼっとがんぐ	1		SF・アニメの機体	robot,robot toy
+宇宙人	うちゅうじん	grey alien with big black eyes	グレイ,火星人,かせいじん	1		怖い生き物	alien,grey alien
+幽霊	ゆうれい	white sheet ghost	ゴースト,おばけ,オバケ,お化け,オバケちゃん	1		ホラーの定番	ghost
+# ゾンビ	ぞんび	zombie		1	# 落とした: 生成テスト 60³(2026-09-21): 棒
+スケルトン	すけるとん	cartoon skeleton figure	ガイコツ,骸骨,がいこつ	1		ホラーの定番	skeleton
+ミイラ	みいら	mummy monster wrapped in bandages	マミー,ミイラ男,包帯,ほうたい	2		ホラーの定番	mummy
+# 吸血鬼	きゅうけつき	Dracula vampire with a black cape	バンパイア,ヴァンパイア,ドラキュラ,dracula	2	# 落とした: 生成テスト 60³(2026-09-21): マントだけ
+フランケンシュタイン	ふらんけんしゅたいん	Frankenstein monster with green skin and neck bolts	フランケン,フランケンシュタインの怪物	2		ホラーの定番	frankenstein
+# 狼男	おおかみおとこ	werewolf		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+悪魔	あくま	devil	デビル,デーモン,サタン,鬼,おに	2		ホラーの定番	devil,demon
+# 天使	てんし	angel	エンジェル	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+大仏	だいぶつ	Great Buddha statue	仏像,ぶつぞう,仏様,ほとけさま,ブッダ,奈良の大仏,鎌倉の大仏	2		日本の置き物	great buddha,buddha,buddha statue
+テディベア	てでぃべあ	brown teddy bear	テディ,くまのぬいぐるみ,クマのぬいぐるみ	1		おもちゃ	teddy bear,teddy
+# ぬいぐるみ	ぬいぐるみ	stuffed toy animal	stuffed toy,plush toy,plushie	1	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 人形	にんぎょう	doll	お人形	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# マネキン	まねきん	mannequin		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ピノキオ	ぴのきお	Pinocchio	pinocchio	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 警察官	けいさつかん	police officer	警官,おまわりさん,policeman	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 医者	いしゃ	doctor	お医者さん,医師	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ダイバー	だいばー	scuba diver	潜水士,diver	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# 兵士	へいし	soldier	軍人	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ボクサー	ぼくさー	boxer		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バレリーナ	ばれりーな	ballerina		2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ダースベイダー	だーすべいだー	Darth Vader	ベイダー,ダースベーダー	2		スター・ウォーズ	Darth Vader,vader,darthvader
+R2-D2	あーるつーでぃーつー	R2-D2	アールツーディーツー	2		スター・ウォーズ	R2-D2,r2d2,R2
+ミニオン	みにおん	Minion	ミニオンズ	1		海外のアニメ映画	Minion,minions
+シュレック	しゅれっく	Shrek		2		海外のアニメ映画	Shrek
+スポンジボブ	すぽんじぼぶ	SpongeBob		2		海外のアニメ映画	SpongeBob
+スパイダーマン	すぱいだーまん	Spider-Man	スパイディ	2		アメコミヒーロー	Spider-Man,spiderman
+# バットマン	ばっとまん	Batman	batman	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# スーパーマン	すーぱーまん	Superman	superman	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+アイアンマン	あいあんまん	Iron Man		2		アメコミヒーロー	Iron Man,ironman
+ハルク	はるく	Hulk	超人ハルク	2		アメコミヒーロー	Hulk
+# マーメイド	まーめいど	mermaid	人魚,人魚姫	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ケンタウロス	けんたうろす	centaur		3	# 落とした: 生成テスト 60³(2026-09-21): 馬と紛らわしい
+# ミノタウロス	みのたうろす	minotaur		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# サイクロプス	さいくろぷす	cyclops	一つ目巨人	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ゴーレム	ごーれむ	golem		2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# トロール	とろーる	troll		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ゴブリン	ごぶりん	goblin		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# オーク	おーく	orc		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ドワーフ	どわーふ	dwarf		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# エルフ	えるふ	elf		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+スライム	すらいむ	slime monster	スライムくん	1		ゲームのキャラ	slime monster,slime
+クリーパー	くりーぱー	Minecraft Creeper	匠,たくみ,タクミ,匠さん,匠くん,マイクラのあいつ,爆発するやつ	1		マイクラのキャラ	Minecraft Creeper,creeper
+エンダーマン	えんだーまん	Minecraft Enderman	エンダー	1		マイクラのキャラ	Minecraft Enderman,enderman
+スティーブ	すてぃーぶ	Minecraft Steve	マイクラの人,マイクラの主人公,主人公,マインクラフトのスティーブ	2		マイクラのキャラ	Minecraft Steve,steve
+招き猫	まねきねこ	maneki-neko beckoning cat	まねきねこ,まねき猫,福猫	1		日本の置き物	maneki-neko beckoning cat,maneki neko,lucky cat,beckoning cat,manekineko
+埴輪	はにわ	haniwa clay figure	ハニワ	2		日本の置き物	haniwa clay figure,haniwa
+# 土偶	どぐう	dogu clay figurine	dogu	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+ジャックオーランタン	じゃっくおーらんたん	jack-o'-lantern	ジャックオランタン,ハロウィンかぼちゃ,ハロウィンのかぼちゃ,ハロウィン	1		ホラーの定番	jack-o'-lantern,jack-o-lantern,jack o lantern,jackolantern
+雛人形	ひなにんぎょう	hina doll	お雛様,おひなさま,ひな人形,お内裏様	2		日本の置き物	hina doll,hina dolls
+# ミイラ男	みいらおとこ	mummy monster	skip	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# --- 2026-09-21 追加（1,000 語へ。体積があり輪郭で分かる物に寄せた）
+ルイージ	るいーじ	Luigi from Mario		2		マリオ	luigi
+ピーチ姫	ぴーちひめ	Princess Peach	ピーチ,ぴーち	2		マリオ	Princess Peach
+ワリオ	わりお	Wario		3		マリオ	Wario
+ドンキーコング	どんきーこんぐ	Donkey Kong		2		マリオ	Donkey Kong,dk
+テレサ	てれさ	Boo ghost from Mario	マリオのおばけ	3		マリオ	boo,king boo
+ボム兵	ぼむへい	Bob-omb		3		マリオ	Bob-omb,bobomb,bob omb
+パックンフラワー	ぱっくんふらわー	Piranha Plant from Mario	パックン,食虫植物	3		マリオ	piranha plant
+クリボー	くりぼー	Goomba		3		マリオ	Goomba
+ノコノコ	のこのこ	Koopa Troopa		3		マリオ	Koopa Troopa
+イーブイ	いーぶい	Eevee		2		ポケモン	Eevee
+ゼニガメ	ぜにがめ	Squirtle		2		ポケモン	Squirtle
+ヒトカゲ	ひとかげ	Charmander		2		ポケモン	Charmander
+フシギダネ	ふしぎだね	Bulbasaur		2		ポケモン	Bulbasaur
+カビゴン	かびごん	Snorlax		2		ポケモン	Snorlax
+ミュウツー	みゅうつー	Mewtwo		3		ポケモン	Mewtwo
+ゲンガー	げんがー	Gengar		3		ポケモン	Gengar
+コダック	こだっく	Psyduck		3		ポケモン	Psyduck
+ピチュー	ぴちゅー	Pichu		3		ポケモン	Pichu
+# ミミッキュ	みみっきゅ	Mimikyu		3		ポケモン	Mimikyu	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ミニーマウス	みにーまうす	Minnie Mouse	ミニー,ミニーちゃん,ミッキー,ミッキーマウス	2		ディズニー	Minnie Mouse,minnie	# 2026-09-21 ディズニーは消す（本人）
+# グーフィー	ぐーふぃー	Goofy		3		ディズニー	Goofy	# 2026-09-21 ディズニーは消す（本人）
+# プルート	ぷるーと	Pluto the dog		3		ディズニー	pluto	# 2026-09-21 ディズニーは消す（本人）
+# スティッチ	すてぃっち	Stitch from Lilo and Stitch		2		ディズニー	stitch	# 2026-09-21 ディズニーは消す（本人）
+# バズライトイヤー	ばずらいといやー	Buzz Lightyear	バズ	2		ピクサー	Buzz Lightyear,buzz	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# ウッディ	うっでぃ	Woody from Toy Story	ウッディー,カウボーイ	2		ピクサー	woody	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# マイク・ワゾウスキ	まいくわぞうすき	Mike Wazowski	マイクワゾウスキ	2		ピクサー	Mike Wazowski,mike	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# サリー	さりー	Sulley from Monsters Inc		3		ピクサー	sulley,sully	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# ニモ	にも	Nemo the clownfish	クマノミ,カクレクマノミ,ファインディングニモ	1		ピクサー	nemo,clownfish	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# ドリー	どりー	Dory the blue tang fish	ナンヨウハギ	2		ピクサー	dory	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# オラフ	おらふ	Olaf the snowman		2		ピクサー	olaf	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# ベイマックス	べいまっくす	Baymax		1		ピクサー	Baymax	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# ライトニング・マックィーン	らいとにんぐまっくぃーん	Lightning McQueen	マックィーン,マックイーン,カーズ	2		ピクサー	Lightning McQueen,mcqueen	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# ウォーリー	うぉーりー	WALL-E robot	ウォーリ	2		ピクサー	WALL-E robot,wall-e,walle	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+リラックマ	りらっくま	Rilakkuma		2		サンリオ・ゆるキャラ	Rilakkuma
+# すみっコぐらし	すみっこぐらし	Sumikko Gurashi	すみっコ,すみっこ	3		サンリオ・ゆるキャラ	Sumikko Gurashi,sumikko	# 2026-09-21 作品名は答えにしない（本人「作品名じゃ無理」）
+ぐでたま	ぐでたま	Gudetama		2		サンリオ・ゆるキャラ	Gudetama
+マイメロディ	まいめろでぃ	My Melody	マイメロ,まいめろ	2		サンリオ・ゆるキャラ	My Melody
+シナモロール	しなもろーる	Cinnamoroll	シナモン,しなもん	2		サンリオ・ゆるキャラ	Cinnamoroll
+ポムポムプリン	ぽむぽむぷりん	Pompompurin		3		サンリオ・ゆるキャラ	Pompompurin
+けろっぴ	けろっぴ	Keroppi		3		サンリオ・ゆるキャラ	Keroppi
+ドラミちゃん	どらみちゃん	Dorami	ドラミ	3		ドラえもん	Dorami
+# コロ助	ころすけ	Korosuke	korosuke	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+ちびまる子ちゃん	ちびまるこちゃん	Chibi Maruko-chan	まる子,まるこ,ちびまる子	3		日本のアニメ	Chibi Maruko-chan,chibi maruko chan,maruko,chibi maruko
+しんちゃん	しんちゃん	Crayon Shin-chan	クレヨンしんちゃん,野原しんのすけ,しんのすけ	2		日本のアニメ	Crayon Shin-chan,shin chan,shinchan
+# ドキンちゃん	どきんちゃん	Dokin-chan	dokinchan	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# しょくぱんまん	しょくぱんまん	Shokupanman	shokupanman	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+カレーパンマン	かれーぱんまん	Currypanman		3		アンパンマン	Currypanman
+ジバニャン	じばにゃん	Jibanyan		3		日本のアニメ	Jibanyan
+# 妖怪ウォッチ	ようかいうぉっち	Yo-kai Watch		3		日本のアニメ	Yo-kai Watch,yokai watch	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+ハム太郎	はむたろう	Hamtaro	ハムスター,はむすたー	2		日本のアニメ	Hamtaro
+# たれぱんだ	たれぱんだ	Tarepanda	tarepanda	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+くまモン	くまもん	Kumamon		2		サンリオ・ゆるキャラ	Kumamon
+ふなっしー	ふなっしー	Funassyi		3		サンリオ・ゆるキャラ	Funassyi
+# ひこにゃん	ひこにゃん	Hikonyan	hikonyan	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+ミッフィー	みっふぃー	Miffy	うさこちゃん	2		絵本・海外のキャラ	Miffy
+ムーミン	むーみん	Moomin		2		絵本・海外のキャラ	Moomin
+# パディントン	ぱでぃんとん	Paddington Bear		3		絵本・海外のキャラ	Paddington Bear,paddington	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ピーターラビット	ぴーたーらびっと	Peter Rabbit		3		絵本・海外のキャラ	Peter Rabbit	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+バーバパパ	ばーばぱぱ	Barbapapa		3		絵本・海外のキャラ	Barbapapa
+# ガチャピン	がちゃぴん	Gachapin	gachapin	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ムック	むっく	Mukku	mukku	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+エルモ	えるも	Elmo		2		絵本・海外のキャラ	Elmo
+# クッキーモンスター	くっきーもんすたー	Cookie Monster	cookie monster	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# ビッグバード	びっぐばーど	Big Bird	セサミストリート,鳥,とり	3		絵本・海外のキャラ	big bird	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# カーミット	かーみっと	Kermit the Frog	カエル,かえる	3		絵本・海外のキャラ	kermit,kermit the frog	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ガーフィールド	がーふぃーるど	Garfield	猫,ねこ	3		絵本・海外のキャラ	Garfield	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# トムとジェリー	とむとじぇりー	Tom and Jerry	tom and jerry,tom & jerry	3	# 落とした: 生成テスト 60³(2026-09-21): 猫と紛らわしい
+ピングー	ぴんぐー	Pingu		3		絵本・海外のキャラ	Pingu
+# ペネロペ	ぺねろぺ	Penelope the koala	コアラ,こあら	3		絵本・海外のキャラ	penelope	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# グルート	ぐるーと	Groot	木,き	3		アメコミヒーロー	Groot	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+ヨーダ	よーだ	Yoda	マスターヨーダ	2		スター・ウォーズ	Yoda
+# ベイビーヨーダ	べいびーよーだ	Baby Yoda Grogu	グローグー,ヨーダ,よーだ	2		スター・ウォーズ	Baby Yoda Grogu,baby yoda,grogu	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ストームトルーパー	すとーむとるーぱー	Stormtrooper	トルーパー,帝国軍	2		スター・ウォーズ	Stormtrooper,storm trooper	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# BB-8	びーびーえいと	BB-8 droid	ビービーエイト	2		スター・ウォーズ	BB-8 droid,bb-8,bb8	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# チューバッカ	ちゅーばっか	Chewbacca	チューイ	3		スター・ウォーズ	Chewbacca,chewie	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# デッドプール	でっどぷーる	Deadpool		3		アメコミヒーロー	Deadpool	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+キャプテンアメリカ	きゃぷてんあめりか	Captain America	キャプテン	3		アメコミヒーロー	Captain America
+# ソー	そー	Thor with hammer	マイティソー,雷神	3		アメコミヒーロー	thor	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ヴェノム	べのむ	Venom		3		アメコミヒーロー	Venom	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+狼男	おおかみおとこ	werewolf	人狼,じんろう,オオカミ男	3		ホラーの定番	werewolf,wolfman
+魔法使い	まほうつかい	wizard with a hat	魔導士,魔術師,まじゅつし,魔女,まじょ,ウィザード	2		ファンタジーの人	wizard,witch,mage,sorcerer
+# 妖精	ようせい	fairy with wings	fairy,ティンカーベル	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ペガサス	ぺがさす	pegasus winged horse	天馬,てんば,羽の生えた馬	2		伝説の生き物	pegasus winged horse,pegasus,winged horse
+グリフォン	ぐりふぉん	griffin	グリフィン	3		伝説の生き物	griffin,gryphon,griffon
+# ケルベロス	けるべろす	cerberus three headed dog	cerberus	3	# 落とした: 生成テスト 60³(2026-09-21): 犬と紛らわしい
+# クラーケン	くらーけん	kraken sea monster	kraken	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ネッシー	ねっしー	Loch Ness Monster	ネス湖の怪物,首長竜	3		伝説の生き物	Loch Ness Monster,nessie,loch ness
+イエティ	いえてぃ	yeti	雪男,ゆきおとこ,ビッグフット	3		伝説の生き物	yeti,abominable snowman,sasquatch
+# ビッグフット	びっぐふっと	bigfoot	雪男,ゆきおとこ,イエティ	3		ファンタジーの生き物	bigfoot,sasquatch	# 2026-09-21 甘さの見直し: 「イエティ」に統合（spec 12 の 2-5）
+サイクロプス	さいくろぷす	cyclops	一つ目巨人,巨人,きょじん	3		怖い生き物	cyclops
+ミノタウロス	みのたうろす	minotaur	牛頭,牛の怪物	3		怖い生き物	minotaur
+トロール	とろーる	troll		3		怖い生き物	troll
+ゴブリン	ごぶりん	goblin		3		怖い生き物	goblin
+オーク	おーく	orc	オーガ	3		怖い生き物	orc,ogre
+ドワーフ	どわーふ	dwarf		3		ファンタジーの人	dwarf
+エルフ	えるふ	elf		3		ファンタジーの人	elf
+ノーム	のーむ	gnome	ガーデンノーム	2		ファンタジーの人	gnome,garden gnome
+# 妖怪	ようかい	Japanese yokai monster	yokai	3	# 落とした: 生成テスト 60³(2026-09-21): 曖昧
+一つ目小僧	ひとつめこぞう	hitotsume kozo one eyed yokai		3		日本のおばけ	hitotsume kozo,one-eyed monster,hitotsume
+# ろくろ首	ろくろくび	rokurokubi long neck yokai	rokurokubi	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+唐傘お化け	からかさおばけ	kasa obake umbrella yokai	傘お化け,かさおばけ,傘,かさ	3		日本のおばけ	kasa obake,umbrella ghost,karakasa
+# 座敷わらし	ざしきわらし	zashiki warashi	zashiki	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+雪女	ゆきおんな	yuki onna snow woman		3		日本のおばけ	yuki onna,snow woman,yuki-onna
+土偶	どぐう	dogu clay figurine		3		日本の置き物	dogu,clay figurine
+人形	にんぎょう	porcelain doll	お人形,おにんぎょう,ドール,フィギュア,西洋人形	2		おもちゃ	porcelain doll,doll
+# マネキン	まねきん	mannequin		3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ロボット犬	ろぼっといぬ	robot dog	アイボ	2		SF・アニメの機体	robot dog,aibo
+エイリアン	えいりあん	xenomorph alien	ゼノモーフ	3		怖い生き物	xenomorph alien,xenomorph
+モンスター	もんすたー	furry monster	怪物,かいぶつ,怪獣,かいじゅう	2		怖い生き物	furry monster,monster
+# 恐竜くん	きょうりゅうくん	cute cartoon t-rex	ティラノサウルス,ティラノ,恐竜,きょうりゅう	2		ファンタジーの生き物	t-rex,tyrannosaurus,dinosaur,trex	# 2026-09-21 甘さの見直し: 「恐竜」に統合（spec 12 の 2-5）
+# ジャイアントロボ	じゃいあんとろぼ	giant robot mech	メカ,巨大ロボ	3		SF・アニメの機体	giant robot mech,giant robot,mech,mecha	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# マトリョーシカ	まとりょーしか	matryoshka doll	matryoshka,russian doll	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# くるみ割り人形	くるみわりにんぎょう	nutcracker soldier	兵隊,へいたい	2		日本の置き物	nutcracker soldier,nutcracker	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# 福助	ふくすけ	fukusuke doll		3		日本の置き物	fukusuke doll,fukusuke	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ビリケン	びりけん	billiken statue	ビリケンさん	3		日本の置き物	billiken	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ルカリオ	るかりお	Lucario pokemon		3		ポケモン	Lucario pokemon,lucario	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+リザードン	りざーどん	Charizard pokemon		2		ポケモン	Charizard pokemon,charizard
+カメックス	かめっくす	Blastoise pokemon		3		ポケモン	Blastoise pokemon,blastoise
+フシギバナ	ふしぎばな	Venusaur pokemon		3		ポケモン	Venusaur pokemon,venusaur
+# ピッピ	ぴっぴ	Clefairy pokemon		3		ポケモン	Clefairy pokemon,clefairy	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ロコン	ろこん	Vulpix pokemon		3		ポケモン	Vulpix pokemon,vulpix	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+ニャース	にゃーす	Meowth pokemon		2		ポケモン	Meowth pokemon,meowth
+# ヤドン	やどん	Slowpoke pokemon		3		ポケモン	Slowpoke pokemon,slowpoke	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+コイキング	こいきんぎ	Magikarp pokemon	こいきんぐ	3		ポケモン	Magikarp pokemon,magikarp
+# ラプラス	らぷらす	Lapras pokemon	lapras	3	# 落とした: 生成テスト 60³(2026-09-21): 白い馬になる
+# メタモン	めたもん	Ditto pokemon	ditto	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ラッキー	らっきー	Chansey pokemon		3		ポケモン	Chansey pokemon,chansey	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ポッチャマ	ぽっちゃま	Piplup pokemon		3		ポケモン	Piplup pokemon,piplup	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ヒコザル	ひこざる	Chimchar pokemon		3		ポケモン	Chimchar pokemon,chimchar	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ナエトル	なえとる	Turtwig pokemon	turtwig	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ゲッコウガ	げっこうが	Greninja pokemon		3		ポケモン	Greninja pokemon,greninja	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ニャオハ	にゃおは	Sprigatito pokemon	sprigatito	3	# 落とした: 生成テスト 60³(2026-09-21): 猫と紛らわしい
+# ホゲータ	ほげーた	Fuecoco pokemon		3		ポケモン	Fuecoco pokemon,fuecoco	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# クワッス	くわっす	Quaxly pokemon	quaxly	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# デデンネ	ででんね	Dedenne pokemon		3		ポケモン	Dedenne pokemon,dedenne	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# モクロー	もくろー	Rowlet pokemon		3		ポケモン	Rowlet pokemon,rowlet	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ヒバニー	ひばにー	Scorbunny pokemon		3		ポケモン	Scorbunny pokemon,scorbunny	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# サルノリ	さるのり	Grookey pokemon		3		ポケモン	Grookey pokemon,grookey	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# メッソン	めっそん	Sobble pokemon		3		ポケモン	Sobble pokemon,sobble	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ウッウ	うっう	Cramorant pokemon	cramorant	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ワンパチ	わんぱち	Yamper pokemon		3		ポケモン	Yamper pokemon,yamper	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# モルペコ	もるぺこ	Morpeko pokemon		3		ポケモン	Morpeko pokemon,morpeko	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# チコリータ	ちこりーた	Chikorita pokemon		3		ポケモン	Chikorita pokemon,chikorita	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ヒノアラシ	ひのあらし	Cyndaquil pokemon		3		ポケモン	Cyndaquil pokemon,cyndaquil	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ワニノコ	わにのこ	Totodile pokemon		3		ポケモン	Totodile pokemon,totodile	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# トゲピー	とげぴー	Togepi pokemon		3		ポケモン	Togepi pokemon,togepi	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# マリル	まりる	Marill pokemon	marill	3	# 落とした: 生成テスト 60³(2026-09-21): 絵がネズミ
+# ソーナンス	そーなんす	Wobbuffet pokemon		3		ポケモン	Wobbuffet pokemon,wobbuffet	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ヨッシーのたまご	よっしーのたまご	Yoshi egg green spotted	ヨッシーの卵	3		マリオ	yoshi egg	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+スーパーキノコ	すーぱーきのこ	Super Mushroom from Mario, red with white spots	マリオのキノコ,1UPキノコ	2		マリオ	super mushroom,1up
+# ファイアフラワー	ふぁいあふらわー	Fire Flower from Mario	fire flower	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# スーパースター	すーぱーすたー	Super Star from Mario, yellow star with eyes	super star,スター	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ハテナブロック	はてなぶろっく	question mark block from Mario	question block,? block	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ヘイホー	へいほー	Shy Guy from Mario		3		マリオ	shy guy	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ジュゲム	じゅげむ	Lakitu on a cloud from Mario	lakitu	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+キラー	きらー	Bullet Bill from Mario	弾丸,だんがん	3		マリオ	bullet bill
+# ドッスン	どっすん	Thwomp from Mario	thwomp	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# チョロプー	ちょろぷー	Monty Mole from Mario	モグラ,もぐら	3		マリオ	monty mole	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ワンワン	わんわん	Chain Chomp from Mario		3		マリオ	chain chomp	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# マリオのカート	まりおのかーと	Mario Kart go-kart with Mario	mario kart	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# デイジー	でいじー	Princess Daisy	デイジー姫	3		マリオ	Princess Daisy,daisy	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ロゼッタ	ろぜった	Rosalina from Mario		3		マリオ	rosalina	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# キャッピー	きゃっぴー	Cappy the hat from Mario Odyssey	cappy	3	# 落とした: 生成テスト 60³(2026-09-21): 絵がマリオ
+リンク	りんく	Link from The Legend of Zelda, green tunic	ゼルダ,ぜるだ	2		任天堂のキャラ	link
+# ゼルダ姫	ぜるだひめ	Princess Zelda	zelda	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ガノン	がのん	Ganondorf	ガノンドロフ	3		任天堂のキャラ	Ganondorf,ganon	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# コログ	ころぐ	Korok from Zelda	korok	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# チンクル	ちんくる	Tingle from Zelda		3		任天堂のキャラ	tingle	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ボコブリン	ぼこぶりん	Bokoblin from Zelda		3		任天堂のキャラ	bokoblin	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# デデデ大王	でででだいおう	King Dedede from Kirby	デデデ	2		任天堂のキャラ	king dedede,dedede	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# メタナイト	めたないと	Meta Knight from Kirby		3		任天堂のキャラ	meta knight	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ワドルディ	わどるでぃ	Waddle Dee from Kirby		3		任天堂のキャラ	waddle dee	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# フォックス	ふぉっくす	Fox McCloud from Star Fox		3		任天堂のキャラ	fox mccloud,star fox	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# サムス	さむす	Samus Aran in power suit		3		任天堂のキャラ	samus,samus aran	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+ピクミン	ぴくみん	red Pikmin	赤ピクミン	2		任天堂のキャラ	pikmin
+# オリマー	おりまー	Captain Olimar from Pikmin	olimar	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# むらびと	むらびと	Villager from Animal Crossing	村人	3		任天堂のキャラ	villager	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# たぬきち	たぬきち	Tom Nook from Animal Crossing	タヌキ,たぬき	3		任天堂のキャラ	tom nook	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# しずえ	しずえ	Isabelle from Animal Crossing	しずえさん	3		任天堂のキャラ	isabelle	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# とたけけ	とたけけ	K.K. Slider from Animal Crossing	けけ	3		任天堂のキャラ	kk slider,k.k. slider	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# スプラトゥーンのイカ	すぷらとぅーんのいか	Inkling squid from Splatoon	inkling,splatoon,スプラトゥーン	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# アメコミヒーロー	あめこみひーろー	superhero in red and blue costume	superhero	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ソニックのテイルス	そにっくのているす	Tails from Sonic	テイルス	3		ゲームのキャラ	tails	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ナックルズ	なっくるず	Knuckles from Sonic		3		ゲームのキャラ	knuckles	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# エッグマン	えっぐまん	Dr Eggman from Sonic	ドクターエッグマン	3		ゲームのキャラ	eggman,dr eggman,robotnik	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+パックマン	ぱっくまん	Pac-Man		1		ゲームのキャラ	Pac-Man,pacman,pac man
+パックマンのゴースト	ぱっくまんのごーすと	Blinky ghost from Pac-Man	ブリンキー,パックマンのおばけ	3		ゲームのキャラ	blinky,pac-man ghost
+スペースインベーダー	すぺーすいんべーだー	Space Invaders alien	インベーダー,いんべーだー	3		ゲームのキャラ	Space Invaders alien,space invader,space invaders,invader
+# テトリス	てとりす	Tetris blocks	tetris,テトリミノ	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# ぷよぷよ	ぷよぷよ	Puyo from Puyo Puyo	puyo	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# スライムのドラクエ	すらいむのどらくえ	Dragon Quest Slime, blue teardrop	dragon quest slime,ドラクエのスライム	1	# 落とした: 生成テスト 60³(2026-09-21): 絵がドラゴン
+# チョコボ	ちょこぼ	Chocobo from Final Fantasy	chocobo	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# モーグリ	もーぐり	Moogle from Final Fantasy		3		ゲームのキャラ	moogle,FF	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ケロちゃん	けろちゃん	Kero from Cardcaptor Sakura	ケルベロス	3		日本のアニメ	kero,keroberos	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+ルフィ	るふぃ	Monkey D Luffy from One Piece	モンキーDルフィ,むぎわら	2		日本のアニメ	luffy,monkey d luffy
+チョッパー	ちょっぱー	Tony Tony Chopper from One Piece		2		日本のアニメ	chopper,tony tony chopper
+ナルト	なると	Naruto Uzumaki	うずまきナルト	2		日本のアニメ	Naruto Uzumaki,naruto
+悟空	ごくう	Son Goku from Dragon Ball	孫悟空,そんごくう,ゴクウ,サイヤ人	2		日本のアニメ	goku,son goku
+# ピッコロ	ぴっころ	Piccolo from Dragon Ball		3		日本のアニメ	piccolo	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# フリーザ	ふりーざ	Frieza from Dragon Ball		3		日本のアニメ	frieza,freeza	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ドラゴンボール	どらごんぼーる	orange Dragon Ball with four stars	dragon ball	2	# 落とした: 生成テスト 60³(2026-09-21): 絵がドラゴン
+セーラームーン	せーらーむーん	Sailor Moon	月野うさぎ	2		日本のアニメ	Sailor Moon
+コナン	こなん	Detective Conan	名探偵コナン,江戸川コナン	2		日本のアニメ	Detective Conan,conan
+のび太	のびた	Nobita from Doraemon	野比のび太	2		ドラえもん	nobita
+ジャイアン	じゃいあん	Gian from Doraemon	剛田武	3		ドラえもん	gian,giant
+スネ夫	すねお	Suneo from Doraemon		3		ドラえもん	suneo
+しずかちゃん	しずかちゃん	Shizuka from Doraemon	しずか,源静香	3		ドラえもん	shizuka
+サザエさん	さざえさん	Sazae-san	サザエ,さざえ	3		日本のアニメ	Sazae-san,sazae,sazae san
+# タラちゃん	たらちゃん	Tara-chan from Sazae-san	タラオ,たらお	3		日本のアニメ	tara chan,tara	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+となりのトトロの猫バス	となりのととろのねこばす	Catbus from My Neighbor Totoro	ねこバス,猫バス,ネコバス	2		ジブリ	catbus,cat bus
+# まっくろくろすけ	まっくろくろすけ	soot sprite from Totoro	susuwatari,soot sprite	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ジジ	じじ	Jiji the black cat from Kiki's Delivery Service	jiji	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+カオナシ	かおなし	No-Face from Spirited Away		2		ジブリ	no-face,no face,kaonashi
+ポニョ	ぽにょ	Ponyo	崖の上のポニョ	2		ジブリ	Ponyo
+# ハウルの城	はうるのしろ	Howl's Moving Castle	howls moving castle	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ロボット兵	ろぼっとへい	robot soldier from Castle in the Sky	ラピュタのロボット	3		ジブリ	robot soldier,laputa robot	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ニャンコ先生	にゃんこせんせい	Nyanko-sensei from Natsume		3		日本のアニメ	nyanko sensei	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+たまごっち	たまごっち	Tamagotchi egg shaped toy		2		おもちゃ	tamagotchi
+# ファービー	ふぁーびー	Furby toy		3		おもちゃ	furby	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# トロールドール	とろーるどーる	Troll doll with colorful hair	トロール,人形,にんぎょう	3		ぬいぐるみ・おもちゃ	troll doll	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ポケモンのピカチュウのぬいぐるみ	ぴかちゅうのぬいぐるみ	Pikachu plush toy	pikachu plush	3		ポケモン		# まとめた: ピカチュウ と同じ物（spec 12 の 2-5）
+# アナ	あな	Anna from Frozen	エルサ	3		ディズニー	anna	# 2026-09-21 ディズニーは消す（本人）
+# エルサ	えるさ	Elsa from Frozen	elsa	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# アリエル	ありえる	Ariel the Little Mermaid	ariel	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# シンデレラ	しんでれら	Cinderella	cinderella	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# 白雪姫	しらゆきひめ	Snow White	姫,ひめ,お姫様,おひめさま	2		ディズニー	snow white	# 2026-09-21 ディズニーは消す（本人）
+# 七人の小人	しちにんのこびと	dwarf from Snow White with red hat		3		ディズニー	seven dwarfs	# 2026-09-21 ディズニーは消す（本人）
+# ラプンツェル	らぷんつぇる	Rapunzel with long hair	rapunzel	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# アラジン	あらじん	Aladdin		3		ディズニー	Aladdin	# 2026-09-21 ディズニーは消す（本人）
+# ジーニー	じーにー	Genie from Aladdin	ランプの魔人,魔人,まじん	2		ディズニー	genie	# 2026-09-21 ディズニーは消す（本人）
+# シンバ	しんば	Simba lion cub	ライオン,らいおん	2		ディズニー	Simba lion cub,simba	# 2026-09-21 ディズニーは消す（本人）
+# ティモン	てぃもん	Timon the meerkat		3		ディズニー	timon	# 2026-09-21 ディズニーは消す（本人）
+# プンバァ	ぷんばぁ	Pumbaa the warthog	プンバ,イボイノシシ	3		ディズニー	pumbaa	# 2026-09-21 ディズニーは消す（本人）
+# ダンボ	だんぼ	Dumbo the elephant		2		ディズニー	dumbo	# 2026-09-21 ディズニーは消す（本人）
+# バンビ	ばんび	Bambi the fawn	子鹿	2		ディズニー	bambi	# 2026-09-21 ディズニーは消す（本人）
+# チップとデール	ちっぷとでーる	Chip and Dale chipmunk	チップ,デール,リス,りす,シマリス	3		ディズニー	chip and dale,chipmunk,dale	# 2026-09-21 ディズニーは消す（本人）
+# プーさんのティガー	ぷーさんのてぃがー	Tigger from Winnie the Pooh	ティガー	2		ディズニー	tigger	# 2026-09-21 ディズニーは消す（本人）
+# イーヨー	いーよー	Eeyore the donkey	eeyore	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ピグレット	ぴぐれっと	Piglet from Winnie the Pooh		3		ディズニー	piglet	# 2026-09-21 ディズニーは消す（本人）
+# ミスターインクレディブル	みすたーいんくれでぃぶる	Mr Incredible	インクレディブル,Mrインクレディブル	3		ピクサー	Mr Incredible,incredibles	# 2026-09-21 ディズニー（ピクサー）は消す（本人）
+# レミー	れみー	Remy the rat from Ratatouille	ネズミ,ねずみ,レミーのおいしいレストラン	3		ピクサー	remy	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# カールじいさんの家	かーるじいさんのいえ	house with balloons from Up	カールじいさん,風船の家,家,いえ	3		ピクサー	up house,house with balloons	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ライトニングマックイーンのメーター	めーたー	Mater the tow truck from Cars	mater	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# モアナ	もあな	Moana		3		ディズニー	Moana	# 2026-09-21 ディズニーは消す（本人）
+# マウイ	まうい	Maui from Moana		3		ディズニー	maui	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# スカー	すかー	Scar the lion	scar	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# クルエラ	くるえら	Cruella de Vil	101匹わんちゃん	3		ディズニー	Cruella de Vil,cruella	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# マレフィセント	まれふぃせんと	Maleficent	maleficent	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ジャックスパロウ	じゃっくすぱろう	Captain Jack Sparrow		3		ディズニー	Captain Jack Sparrow,jack sparrow	# 2026-09-21 ディズニーは消す（本人）
+# ジャックスケリントン	じゃっくすけりんとん	Jack Skellington	jack skellington	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# グリンチ	ぐりんち	The Grinch		2		海外のアニメ映画	grinch	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# シュレックのドンキー	どんきー	Donkey from Shrek	ドンキー,しゅれっくのどんきー,ロバ,ろば,シュレック	3		海外のアニメ映画	donkey	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# シュレックの長ぐつをはいた猫	ながぐつをはいたねこ	Puss in Boots from Shrek	しゅれっくのながぐつをはいたねこ,長靴をはいた猫,猫,ねこ,シュレック	3		海外のアニメ映画	puss in boots	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# マダガスカルのペンギン	まだがすかるのぺんぎん	penguin from Madagascar	madagascar penguin	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+カンフーパンダ	かんふーぱんだ	Po from Kung Fu Panda	ポー	2		海外のアニメ映画	kung fu panda,po
+# ヒックとドラゴンのトゥース	とぅーす	Toothless the dragon	toothless	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# アイスエイジのスクラット	すくらっと	Scrat the squirrel from Ice Age	あいすえいじのすくらっと,スクラット,リス,りす,アイスエイジ	3		海外のアニメ映画	scrat	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ミニオンのボブ	みにおんのぼぶ	Bob the Minion with teddy bear	ボブ,ミニオン,みにおん	3		海外のアニメ映画	bob,minion	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# グルー	ぐるー	Gru from Despicable Me	怪盗グルー,ミニオン	3		海外のアニメ映画	gru	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ソニックのシャドウ	しゃどう	Shadow the Hedgehog	shadow	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ピーターパン	ぴーたーぱん	Peter Pan		3		ディズニー	Peter Pan,peterpan	# 2026-09-21 ディズニーは消す（本人）
+# ティンカーベル	てぃんかーべる	Tinker Bell fairy	ティンク	3		ディズニー	Tinker Bell fairy,tinker bell,tinkerbell	# 2026-09-21 ディズニーは消す（本人）
+# フック船長	ふっくせんちょう	Captain Hook	フック	3		ディズニー	Captain Hook,hook	# 2026-09-21 ディズニーは消す（本人）
+# ロビンフッド	ろびんふっど	Robin Hood		3		ディズニー	Robin Hood	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+ハリーポッター	はりーぽったー	Harry Potter with wand and glasses	ハリー	2		映画のキャラ	harry potter,harry
+# ハーマイオニー	はーまいおにー	Hermione Granger		3		映画のキャラ	Hermione Granger,hermione	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ダンブルドア	だんぶるどあ	Dumbledore wizard		3		映画のキャラ	Dumbledore wizard,dumbledore	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ドビー	どびー	Dobby the house elf		3		映画のキャラ	dobby	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ヘドウィグ	へどうぃぐ	Hedwig the snowy owl		3		映画のキャラ	hedwig	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ホグワーツ	ほぐわーつ	Hogwarts castle	ハリーポッターの城,魔法学校	3		映画のキャラ	Hogwarts castle,hogwarts	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ガンダルフ	がんだるふ	Gandalf the wizard		3		映画のキャラ	gandalf	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ゴラム	ごらむ	Gollum	スメアゴル	3		映画のキャラ	Gollum	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# ホビット	ほびっと	Hobbit with hairy feet	フロド,ロードオブザリング	3		映画のキャラ	hobbit,frodo	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+E.T.	いーてぃー	E.T. the extra terrestrial	イーティー	2		映画のキャラ	e.t.,et
+ターミネーター	たーみねーたー	Terminator robot skeleton		3		映画のキャラ	Terminator robot skeleton,terminator,T-800
+# ロボコップ	ろぼこっぷ	RoboCop		3		映画のキャラ	RoboCop	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# プレデター	ぷれでたー	Predator alien hunter		3		映画のキャラ	Predator alien hunter,predator	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ゴーストバスターズのマシュマロマン	ましゅまろまん	Stay Puft Marshmallow Man	ごーすとばすたーずのましゅまろまん,マシュマロマン,ゴーストバスターズ	3		映画のキャラ	marshmallow man,stay puft	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# ジョーズ	じょーず	Jaws great white shark	jaws	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ドラキュラ伯爵	どらきゅらはくしゃく	Count Dracula	count dracula	3	# 落とした: 生成テスト 60³(2026-09-21): マントだけ
+# モスラ	もすら	Mothra giant moth	mothra	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# キングギドラ	きんぐぎどら	King Ghidorah three headed dragon	ギドラ,ゴジラ	3		特撮ヒーロー・怪獣	king ghidorah,ghidorah	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ガメラ	がめら	Gamera giant turtle		3		特撮ヒーロー・怪獣	Gamera giant turtle,gamera	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# ウルトラマンのバルタン星人	ばるたんせいじん	Alien Baltan	うるとらまんのばるたんせいじん,バルタン星人,バルタン	3		特撮ヒーロー・怪獣	Alien Baltan,baltan	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+仮面ライダー	かめんらいだー	Kamen Rider	ライダー	2		特撮ヒーロー・怪獣	Kamen Rider,masked rider
+戦隊ヒーロー	せんたいひーろー	Super Sentai red ranger	パワーレンジャー,ゴレンジャー,戦隊,レッド	3		特撮ヒーロー・怪獣	power ranger,super sentai,sentai
+# マジンガーZ	まじんがーぜっと	Mazinger Z robot	マジンガー	3		SF・アニメの機体	Mazinger Z robot,mazinger z,mazinger	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+エヴァンゲリオン	えばんげりおん	Evangelion Unit 01	エヴァ,えゔぁ,初号機,しょごうき	2		SF・アニメの機体	Evangelion Unit 01,evangelion,eva
+# ザク	ざく	Zaku mobile suit from Gundam		3		SF・アニメの機体	zaku	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+アトム	あとむ	Astro Boy	鉄腕アトム	2		日本のアニメ	Astro Boy,atom
+# 鉄人28号	てつじんにじゅうはちごう	Tetsujin 28 robot	鉄人	3		日本のアニメ	Tetsujin 28 robot,tetsujin 28,tetsujin	# 2026-09-21 固有名詞すぎる（本人「七人の小人とか絶対分からん」）
+# 妖怪人間ベム	ようかいにんげんべむ	Bem the yokai human	ベム	3		日本のアニメ	bem	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+鬼太郎	きたろう	Kitaro from GeGeGe no Kitaro	ゲゲゲの鬼太郎,げげげのきたろう	2		アニメ・ゲームの主役	kitaro
+目玉おやじ	めだまおやじ	Medama Oyaji eyeball father	目玉,めだま	3		ゲゲゲの鬼太郎	medama oyaji
+ねずみ男	ねずみおとこ	Nezumi Otoko rat man	ネズミ男	3		ゲゲゲの鬼太郎	nezumi otoko,rat man
+# ぬりかべ	ぬりかべ	Nurikabe wall yokai	nurikabe	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+# 一反木綿	いったんもめん	Ittan momen flying cloth yokai	ittan momen	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が違う
+砂かけばばあ	すなかけばばあ	Sunakake Baba yokai	砂かけ	3		ゲゲゲの鬼太郎	Sunakake Baba yokai,sunakake baba
+こなきじじい	こなきじじい	Konaki Jijii yokai	子泣き爺	3		ゲゲゲの鬼太郎	Konaki Jijii yokai,konaki jijii
+# ドラえもんのタケコプター	たけこぷたー	takecopter bamboo copter	takecopter	3	# 落とした: 生成テスト 60³(2026-09-21): 絵がヘリ
+どこでもドア	どこでもどあ	Anywhere Door pink door from Doraemon	ピンクのドア,ドラえもんのドア	2		ドラえもん	anywhere door,dokodemo door
+# タイムマシン	たいむましん	Doraemon time machine	time machine	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# アンパンマンのバイキンUFO	ばいきんゆーふぉー	Baikin UFO from Anpanman	あんぱんまんのばいきんゆーふぉー,バイキンUFO	3		アンパンマン	baikin ufo	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+ジャムおじさん	じゃむおじさん	Uncle Jam from Anpanman		3		アンパンマン	uncle jam
+バタコさん	ばたこさん	Batako from Anpanman	バタコ	3		アンパンマン	batako
+メロンパンナ	めろんぱんな	Melonpanna from Anpanman	メロンパンナちゃん	3		アンパンマン	melonpanna
+# ロールパンナ	ろーるぱんな	Rollpanna from Anpanman		3		アンパンマン	rollpanna	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+# だだんだん	だだんだん	Dadandan robot from Anpanman		3		アンパンマン	dadandan	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+はらぺこあおむし	はらぺこあおむし	The Very Hungry Caterpillar	あおむし,青虫,イモムシ,いもむし	2		絵本・海外のキャラ	hungry caterpillar,very hungry caterpillar,caterpillar
+# ぐりとぐら	ぐりとぐら	Guri and Gura mice	guri gura	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+ノンタン	のんたん	Nontan white cat		3		絵本・海外のキャラ	nontan
+# バムとケロ	ばむとけろ	Bam and Kero	bam kero	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# 11ぴきのねこ	じゅういっぴきのねこ	eleven cats from picture book	11 cats	3	# 落とした: 生成テスト 60³(2026-09-21): 絵が複数
+# だるまちゃん	だるまちゃん	Daruma-chan		3		絵本・海外のキャラ	Daruma-chan,daruma chan	# 2026-09-21 誰でも知っているものだけにする（本人「全然わからんキャラ入れるのやめて」）
+おさるのジョージ	おさるのじょーじ	Curious George monkey	ジョージ	2		絵本・海外のキャラ	Curious George monkey,curious george,george
+# スノーマン	すのーまん	The Snowman from Raymond Briggs	雪だるま,ゆきだるま	3		絵本・海外のキャラ	snowman	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）

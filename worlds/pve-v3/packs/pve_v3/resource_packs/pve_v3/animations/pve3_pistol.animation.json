@@ -1,0 +1,43 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.pistol.hold": {
+      "loop": true,
+      "bones": {
+        "rightArm": {
+          "rotation": [
+            "-90 + (q.property('pve_v3:gun_aim') ? q.property('pve_v3:gun_pitch') : 0) - this",
+            "-10 - this",
+            "0 - this"
+          ]
+        },
+        "rightItem": {
+          "position": [
+            2.4,
+            -1,
+            -2
+          ],
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ]
+        },
+        "leftArm": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ]
+        },
+        "waist": {
+          "rotation": [
+            0,
+            "q.property('pve_v3:gun_aim') ? q.property('pve_v3:gun_yaw') - q.body_y_rotation - this : 0",
+            0
+          ]
+        }
+      }
+    }
+  }
+}

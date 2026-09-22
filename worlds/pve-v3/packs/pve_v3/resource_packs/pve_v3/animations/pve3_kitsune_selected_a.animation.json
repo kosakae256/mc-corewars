@@ -1,0 +1,68 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.kitsune.selected_a.tails": {
+      "loop": true,
+      "animation_length": 3,
+      "bones": {
+        "fox_tail_0": {
+          "rotation": {
+            "0": [
+              0,
+              -4,
+              0
+            ],
+            "1.5": [
+              2,
+              4,
+              0
+            ],
+            "3": [
+              0,
+              -4,
+              0
+            ]
+          }
+        },
+        "fox_tail_1": {
+          "rotation": {
+            "0": [
+              0,
+              -4,
+              0
+            ],
+            "1.5": [
+              2,
+              4,
+              0
+            ],
+            "3": [
+              0,
+              -4,
+              0
+            ]
+          }
+        },
+        "fox_tail_2": {
+          "rotation": {
+            "0": [
+              0,
+              -4,
+              0
+            ],
+            "1.5": [
+              2,
+              4,
+              0
+            ],
+            "3": [
+              0,
+              -4,
+              0
+            ]
+          }
+        }
+      }
+    }
+  }
+}

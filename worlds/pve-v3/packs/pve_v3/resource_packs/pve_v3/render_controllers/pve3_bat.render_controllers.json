@@ -1,0 +1,22 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.pve3.bat.bat": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "overlay_color": {
+        "r": "q.property('pve_v3:chill') > 0 ? 0.3 : q.property('pve_v3:tint_r')",
+        "g": "q.property('pve_v3:chill') > 0 ? 0.72 : q.property('pve_v3:tint_g')",
+        "b": "q.property('pve_v3:chill') > 0 ? 1.0 : q.property('pve_v3:tint_b')",
+        "a": "q.property('pve_v3:chill') > 0 ? q.property('pve_v3:chill') * 0.28 : q.property('pve_v3:tint_a')"
+      }
+    }
+  }
+}

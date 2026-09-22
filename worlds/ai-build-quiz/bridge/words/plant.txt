@@ -1,0 +1,22 @@
+# 植物（plant）。列: ja	reading	en	aliases	level	seed	hint（ジャンル）	english（英語の答え。必須）
+# 仕様: docs/spec/12-words.md（2026-09-21 に自然から分けた）。# 行は無視
+桜	さくら	cherry blossom branch	桜の木,サクラ,桜の花,さくらのはな,桜並木	1		森・庭の植物	cherry blossom branch,cherry blossom,sakura,cherry tree
+ヤシの木	やしのき	coconut palm tree	ヤシ,椰子,パームツリー,ココヤシ	1		森・庭の植物	coconut palm tree,palm tree,palm,coconut tree
+竹	たけ	bamboo stalks	笹,ささ,竹林,バンブー	2		森・庭の植物	bamboo stalks,bamboo
+ひまわり	ひまわり	single sunflower in a pot	向日葵,ヒマワリ,サンフラワー	1		咲いているもの	sunflower
+バラ	ばら	red rose	薔薇,ローズ,赤いバラ	1		咲いているもの	rose
+チューリップ	ちゅーりっぷ	red tulip in a pot		1		咲いているもの	tulip,tulips
+毒キノコ	どくきのこ	red fly agaric mushroom	ベニテングタケ,毒きのこ	1		森・庭の植物	toadstool,fly agaric,poison mushroom
+切り株	きりかぶ	tree stump	木の切り株,株	2		森・庭の植物	tree stump,stump
+丸太	まるた	wooden log	木材,もくざい,材木,ログ	2		森・庭の植物	wooden log,log,timber,logs
+わら束	わらたば	hay bale	干し草,ほしくさ,わら,藁	2		森・庭の植物	hay bale,hay,straw,haybale
+盆栽	ぼんさい	bonsai tree		1		鉢に植えるもの	bonsai tree,bonsai
+観葉植物	かんようしょくぶつ	potted houseplant	しょくぶつ,はちうえ,グリーン	2		鉢に植えるもの	potted houseplant,houseplant,plant,potted plant
+りんごの木	りんごのき	apple tree with red apples	リンゴの木,果樹	2		森・庭の植物	apple tree,tree
+もみの木	もみのき	fir tree	松の木,まつのき,針葉樹,モミの木,クリスマスツリー	2		森・庭の植物	fir tree,fir,pine tree,pine,evergreen
+多肉植物	たにくしょくぶつ	potted succulent plant	サボテン,多肉	3		鉢に植えるもの	potted succulent plant,succulent,cactus
+アロエ	あろえ	aloe vera plant		3		鉢に植えるもの	aloe vera plant,aloe,aloe vera
+ゆり	ゆり	white lily flower	百合,ユリ,リリー	2		咲いているもの	lily
+蓮の花	はすのはな	lotus flower	蓮,はす,ハス,睡蓮,すいれん	2		咲いているもの	lotus flower,lotus,water lily
+ラベンダー	らべんだー	lavender in a pot		3		咲いているもの	lavender
+花束	はなたば	bouquet of flowers	ブーケ,花,はな,フラワー	2		咲いているもの	bouquet,flowers

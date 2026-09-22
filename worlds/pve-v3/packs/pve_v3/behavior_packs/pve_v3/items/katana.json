@@ -1,0 +1,28 @@
+{
+  "format_version": "1.26.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "pve_v3:katana",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "刀"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "pve3_katana"
+        }
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:tags": {
+        "tags": [
+          "pve_v3:weapon"
+        ]
+      }
+    }
+  }
+}

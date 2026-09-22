@@ -10,10 +10,18 @@
 
 import type { Feature } from "../../types.js";
 import { stepFeedback } from "../../services/feedback.js";
+import { forgetOld } from "../../services/iframe.js";
 import { dmgTestCommand, hurtTestCommand } from "./command.js";
 
 export const damageSystem: Feature = {
   name: "damage",
-  tick: { every: 1, run: stepFeedback },
+  tick: {
+    every: 1,
+    run: (now) => {
+      stepFeedback(now);
+      // **無敵時間の覚えを掃除する**（`services/iframe.ts`）。溜まりっぱなしにしない
+      if (now % 200 === 0) forgetOld();
+    },
+  },
   commands: [dmgTestCommand, hurtTestCommand],
 };

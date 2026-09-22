@@ -16,6 +16,7 @@ import { world, type Dimension, type Vector3 } from "@minecraft/server";
 import { BULLET } from "../../core/boss.js";
 import { hit } from "../../services/combat.js";
 import { knockFrom } from "./util.js";
+import { hittable } from "../../services/mobaim.js";
 import { has } from "../../state/hp.js";
 
 interface Bullet {
@@ -93,14 +94,16 @@ function blocked(b: Bullet): boolean {
 /** 誰かに当たったか。当たったなら当てる */
 function landed(b: Bullet): boolean {
   for (const p of world.getAllPlayers()) {
-    if (!has(p)) continue;
+    // **クリエイティブ・観戦は狙わない**
+    if (!has(p) || !hittable(p)) continue;
     const at = p.location;
     const d = Math.hypot(at.x - b.at.x, at.y + 1 - b.at.y, at.z - b.at.z);
     if (d > BULLET.radius) continue;
     // **押すのはこの下**（弾の位置から）。**ここでは向きを渡さない**
     hit({ target: p, attack: b.damage, via: "wyvern:fireball" });
     // **弾いた元は弾の位置。** 竜からではなく、当たった方向へ飛ぶ
-    knockFrom(p, b.at, BULLET.knock, 0.45);
+    // **上へは飛ばさない**（`22-feedback.md` 4 章）
+    knockFrom(p, b.at, BULLET.knock, 0);
     return true;
   }
   return false;

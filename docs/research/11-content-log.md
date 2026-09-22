@@ -141,7 +141,28 @@ Error: unable to find member variable .x
 
 `+z` を向かせたければ **`rotation.y = 180`**。
 
+**x 方向は逆ではない**（2026-09-21・ai-build-quiz のランキング板で実測）: `rotation.y = -90` で **+x** を向いた（エンティティの yaw −90 と同じ）。つまり z だけが鏡になっている。
+
+| 向かせたい方向 | `rotation.y` |
+| --- | --- |
+| −z | 0 |
+| +z | 180 |
+| −x | **90** |
+| +x | **−90** |
+
 ---
+
+## 6-2. 立っているプレイヤーの `location.y` は整数のわずかに下（2026-09-21 実測）
+
+y=0 のブロックの上に立っている人の `player.location.y` が **0.99…** になることがある。
+`Math.floor(y) - 1` で「足元のブロック」を取ると **1 段下**を見てしまい、乗っているのに反応せず、ジャンプしたときだけ反応する（ai-build-quiz の抽選の場で踏んだ）。
+足元を見るなら **`Math.floor(y + 0.5) - 1`**（半分足してから切り捨てる）。
+
+## 6-3. `CustomForm` の入力欄は `clientWritable: true` が要る（2026-09-22）
+
+`@minecraft/server-ui` 2.2.0 の `CustomForm.textField(label, observable)` に渡す `ObservableString` は、
+**`new ObservableString("", { clientWritable: true })`** にしないと、プレイヤーが打った字がサーバー側に届かない（`getData()` が空のまま）。
+ai-build-quiz の出題 UI で「お題が空です」になり続けた原因。`toggle` `slider` `dropdown` も同じはず。
 
 ## 7. 自分で出しているバニラのパーティクルが壊れていることがある（2026-08-25）
 

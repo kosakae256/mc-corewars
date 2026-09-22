@@ -1,0 +1,17 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.pve3.roused": {
+      "initial_state": "off",
+      "states": {
+        "off": {
+          "transitions": [{ "on": "q.property('pve_v3:roused')" }]
+        },
+        "on": {
+          "particle_effects": [{ "effect": "roused" }],
+          "transitions": [{ "off": "!q.property('pve_v3:roused')" }]
+        }
+      }
+    }
+  }
+}

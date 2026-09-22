@@ -1,0 +1,16 @@
+{
+  "host": "127.0.0.1",
+  "port": 8766,
+  "genlab": "http://127.0.0.1:8770",
+  "size": 60,
+  "steps": 4,
+  "pollMs": 1000,
+  "maxCommandBytes": 440,
+  "sendGapMs": 0,
+  "responseTimeoutMs": 3000,
+  "llmEnabled": false,
+  "llmUrl": "http://127.0.0.1:11434/api/chat",
+  "llmModel": "qwen2.5:1.5b",
+  "llmKeepAlive": "30m",
+  "llmTimeoutMs": 90000
+}

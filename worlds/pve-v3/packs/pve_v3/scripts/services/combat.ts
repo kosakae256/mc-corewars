@@ -20,13 +20,14 @@
  * | **追加ダメージ** | 爆ぜる・降る | **呼ばない**（星が星を呼ぶ） |
  */
 
-import { Player, system, type Entity } from "@minecraft/server";
+import { GameMode, Player, system, type Entity, type Vector3 } from "@minecraft/server";
 
 import { finalDamage } from "../core/damage.js";
 import { current, damage as cutHp, has, heal, max as maxHp } from "../state/hp.js";
 import { BIG_CUT, bigHurt, feedback } from "./feedback.js";
 import { markDead } from "./presence.js";
 import { awardKill } from "./reward.js";
+import { anger } from "./traits.js";
 import { popNumber } from "./number.js";
 
 /** 倒した粒。**自分たちで作ったもの**（`resource_packs/pve_v3/particles/`） */
@@ -44,7 +45,7 @@ export interface HitOptions {
    * > **`by` はプレイヤーしか入らない**（報酬を配る相手）。
    * > **モブがプレイヤーを殴ったとき**は、こちらにそのモブを入れる。
    */
-  readonly source?: Entity;
+  readonly source?: Entity | Vector3;
   /**
    * **モブも押すか。** **既定は押さない**（2026-09-07 決定）。
    *
@@ -53,6 +54,23 @@ export interface HitOptions {
    * > **押したい攻撃だけが、そう言う。**
    */
   readonly knock?: boolean;
+  /**
+   * **押す強さ**（水平）。**省略なら既定**（`core/knockback.ts` の `KNOCK_H`）。
+   *
+   * > ### 攻撃ごとに変えられる（2026-09-08）
+   * >
+   * > **軽い突きは弱く、体当たりは強く。** **0 で押さない。**
+   * > **受け手の軽減は `services/knockback.ts` が掛ける。**
+   */
+  readonly knockPower?: number;
+  /**
+   * **上へ飛ばす強さ。** **省略なら 0**（`22-feedback.md` 6-2）。
+   *
+   * > ### **浮かせるのは例外**
+   * >
+   * > **爆発だけ**（`16-enemy.md` 5-1）。**普通の攻撃では使わない。**
+   */
+  readonly knockUp?: number;
   readonly target: Entity;
   /** **最終攻撃力**（`services/attack.ts` で組み立て終えた値） */
   readonly attack: number;
@@ -104,6 +122,14 @@ export function onHit(hook: HitHook): void {
   hooks.push(hook);
 }
 
+/** **敵が倒れた**（消される直前）。**死に際の仕掛けが乗る**（`25-enemy-kit.md` 10 章） */
+const fallHooks: ((mob: Entity) => void)[] = [];
+
+/** 死に際を足す */
+export function onFallen(hook: (mob: Entity) => void): void {
+  fallHooks.push(hook);
+}
+
 /**
  * いまの防御率（%）。
  *
@@ -128,6 +154,21 @@ function call(list: readonly HitHook[], info: HitInfo): void {
 export function hit(o: HitOptions): void {
   const { target } = o;
   if (!has(target)) return;
+  // > ### **クリエイティブと観戦には、何も当たらない**（2026-09-10）
+  // >
+  // > **弾は `services/mobaim.ts` の `hittable` で外していたが、
+  // > 範囲攻撃**（爆発・薙ぎ払い・円・毒）**は `has()` しか見ていなかった。**
+  // > **`has()` は「HP を持っているか」**——**クリエイティブでも真になる。**
+  // >
+  // > **ここは全部のダメージが通る 1 か所。** **ここで守れば、後から足した攻撃も守られる。**
+  if (target instanceof Player) {
+    try {
+      const mode = target.getGameMode();
+      if (mode === GameMode.Creative || mode === GameMode.Spectator) return;
+    } catch {
+      return;
+    }
+  }
 
   const now = system.currentTick;
   const dealt = finalDamage(o.attack, defenseOf(target, o.via));
@@ -135,6 +176,11 @@ export function hit(o: HitOptions): void {
 
   const left = cutHp(target, dealt);
   const killed = left <= 0;
+  // > ### **中立の敵は、ここで怒る**（`25-enemy-kit.md` 12 章）
+  // >
+  // > **こちらのダメージには「殴った人」が入っていない**（`services/cmd.ts`）ので、
+  // > **バニラの `hurt_by_target` は永久に気づかない。** **script から伝える。**
+  if (o.by !== undefined && !(target instanceof Player)) anger(target);
   const info: HitInfo = { ...o, dealt, killed, now };
   const kind = o.kind ?? "base";
 
@@ -142,7 +188,7 @@ export function hit(o: HitOptions): void {
   //
   // **音は通常攻撃だけ**——特殊攻撃でも鳴らすと、
   // **毎秒・毎発ぶんの音が本人の耳元で重なる。**
-  feedback(target, o.by ?? o.source, now, kind === "base", o.knock === true);
+  feedback(target, o.by ?? o.source, now, kind === "base", o.knock === true, o.knockPower, o.knockUp);
 
   // ---- **大ダメージの演出**（画面が揺れて、周りが赤くなる）
   //
@@ -205,6 +251,16 @@ function down(target: Entity, by: Player | undefined): void {
       /* 消えている */
     }
     return;
+  }
+  // ---- **死に際**（`25-enemy-kit.md` 10 章）。**消す前に呼ぶ**
+  //
+  // > **爆弾・帯電・汚染・分裂は、実体が居るうちに場所を読む。**
+  for (const f of fallHooks) {
+    try {
+      f(target);
+    } catch {
+      /* 1 つ落ちても、残りは通す */
+    }
   }
   // **エメラルドは倒れた時点で配る**（消す前に、誰が削ったかを見る）
   awardKill(target, by);

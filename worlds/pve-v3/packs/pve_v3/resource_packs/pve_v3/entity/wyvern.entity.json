@@ -26,17 +26,25 @@
         "charge": "animation.pve3_wyvern.charge",
         "spin": "animation.pve3_wyvern.spin",
         "fireball": "animation.pve3_wyvern.fireball",
-        "recover": "animation.pve3_wyvern.recover"
+        "recover": "animation.pve3_wyvern.recover",
+        "roused_controller": "controller.animation.pve3.roused"
       },
       "scripts": {
         "animate": [
           "move_ctl",
-          "attack_ctl"
+          "attack_ctl",
+          "roused_controller"
+        ],
+        "pre_animation": [
+          "variable.attack_animation_tick = q.property('pve_v3:swing');"
         ]
       },
       "render_controllers": [
         "controller.render.pve3_hurt"
-      ]
+      ],
+      "particle_effects": {
+        "roused": "pve_v3:rouse_mark"
+      }
     }
   }
 }

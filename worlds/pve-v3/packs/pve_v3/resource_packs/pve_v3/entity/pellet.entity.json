@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pve_v3:pellet",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/pve3_pellet"
+      },
+      "geometry": {
+        "default": "geometry.pve3.pellet"
+      },
+      "render_controllers": [
+        "controller.render.pve3_none"
+      ]
+    }
+  }
+}

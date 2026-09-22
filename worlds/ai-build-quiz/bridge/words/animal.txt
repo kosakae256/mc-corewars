@@ -1,0 +1,246 @@
+# 動物（animal）。列: ja	reading	en	aliases（カンマ区切り。漢字・別名・英語の別表記）	level	seed	hint（ジャンル。10 秒のヒント）	english（英語の答え。必須。en は裏プロンプトで答えには使わない）
+# 仕様: docs/spec/12-words.md。# で始まる行は無視。落とした語は消さずに # で残し、理由を書く
+犬	いぬ	dog	狗,わんちゃん,ワンコ,わんこ,イヌ,子犬,こいぬ,柴犬,しばいぬ,ドッグ	1		ペット	dog,doggy,puppy,hound,pup
+猫	ねこ	tabby cat sitting upright, full body	にゃんこ,ニャンコ,ネコ,子猫,こねこ,にゃー,にゃんにゃん,猫ちゃん,キャット	1		ペット	cat,kitten,tabby
+#   ↑ en を「cat」から書き換え（60³ テスト: 縦に潰れる）
+象	ぞう	elephant	ゾウさん,ゾウ,ぞうさん,パオーン,エレファント	1		サバンナ・砂漠の動物	elephant
+馬	うま	horse	お馬さん,ウマ,おうま,馬さん,ホース	1		牧場の動物	horse
+牛	うし	cow	乳牛,ウシ,うしさん,牛さん,モーモー,もーもー,カウ	1		牧場の動物	cow,cattle,bull,ox
+豚	ぶた	pig	ぶたさん,ブタ,豚さん,子豚,こぶた,ピッグ	1		牧場の動物	pig,piggy,swine
+羊	ひつじ	sheep	ヒツジ,ひつじさん,羊さん,メリー,めえめえ,シープ	1		牧場の動物	sheep,lamb
+# ヤギ	やぎ	goat	山羊	1	# 落とした: 細かすぎて 60³ では見分けがつかない
+ニワトリ	にわとり	chicken	鶏,鳥,とり,コケコッコー,雄鶏,雌鶏,チキン	1		牧場の動物	chicken,rooster,hen,cock
+ウサギ	うさぎ	rabbit	兎,兔,うさちゃん,ウサちゃん,ラビット,バニー	1		ペット	rabbit,bunny,hare
+クマ	くま	bear	熊,くまさん,クマさん,ベア,ヒグマ,ツキノワグマ,グリズリー,ベアー	1		森の動物	bear,grizzly
+トラ	とら	tiger walking, full body side view, orange with black stripes	虎,タイガー,トラさん	1		サバンナ・砂漠の動物	tiger
+#   ↑ en を「tiger」から書き換え（60³ テスト: 絵が顔の接写）
+# ライオン	らいおん	male lion standing, full body side view, big mane	獅子	1	# 落とした: 生成テスト 60³(2026-09-21): 塊
+#   ↑ en を「lion」から書き換え（60³ テスト: 塊）
+キリン	きりん	giraffe	麒麟,ジラフ	1		サバンナ・砂漠の動物	giraffe
+パンダ	ぱんだ	panda	ジャイアントパンダ,パンダさん	1		動物園の人気者	panda,giant panda
+ペンギン	ぺんぎん	penguin	ペンギンさん,皇帝ペンギン,コウテイペンギン	1		寒いところの動物	penguin
+魚	さかな	fish	お魚,サカナ,おさかな,魚さん,鯛,たい,タイ,フィッシュ	1		海の生き物	fish
+カメ	かめ	turtle	亀,ウミガメ,海亀,リクガメ,タートル,カメさん,かめさん	1		爬虫類・両生類	turtle,tortoise,sea turtle,terrapin,seaturtle
+カエル	かえる	frog	蛙,ケロケロ,けろけろ,ガマガエル,アマガエル,フロッグ	1		爬虫類・両生類	frog
+# ヘビ	へび	snake	蛇,serpent	2	# 落とした: 生成テスト 60³(2026-09-21): とぐろの塊（コブラで代える）
+# チョウ	ちょう	butterfly	蝶,ちょうちょ,蝶々	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い板
+カニ	かに	crab	蟹,カニさん,ズワイガニ,タラバガニ,クラブ	1		海の生き物	crab
+タコ	たこ	octopus	蛸,タコさん,オクトパス,章魚	1		海の生き物	octopus
+イルカ	いるか	dolphin figurine on a stand, full body side view	海豚,ドルフィン,イルカさん,バンドウイルカ	1		海の生き物	dolphin
+#   ↑ en を「dolphin」から書き換え（60³ テスト: 半分消える）
+クジラ	くじら	blue whale figurine, full body side view	鯨,ホエール,シロナガスクジラ,マッコウクジラ,クジラさん	1		海の生き物	whale,blue whale
+#   ↑ en を「whale」から書き換え（60³ テスト: 崩れる）
+恐竜	きょうりゅう	dinosaur	ダイナソー,ティラノサウルス,ティラノ,トリケラトプス,ブラキオサウルス,ステゴサウルス	1		爬虫類・両生類	dinosaur,dino,t-rex,tyrannosaurus
+サメ	さめ	shark	鮫,シャーク,ホオジロザメ,ジョーズ	1		海の生き物	shark
+シカ	しか	deer	鹿,ディア,奈良の鹿,ディアー	1		森の動物	deer,stag
+オオカミ	おおかみ	wolf	狼,ウルフ	1		森の動物	wolf
+キツネ	きつね	red fox standing on four legs, full body side view	狐,コンコン,こんこん	1		森の動物	fox
+#   ↑ en を「fox」から書き換え（60³ テスト: 縦の塊）
+# リス	りす	squirrel	栗鼠	1	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ネズミ	ねずみ	mouse	鼠,マウス,ラット,ちゅう太郎,チュー,ちゅー,ハツカネズミ	1		森の動物	mouse,rat
+# ハムスター	はむすたー	hamster	モルモット	1	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# モルモット	もるもっと	guinea pig	guineapig	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# コアラ	こあら	koala		1	# 落とした: 生成テスト 60³(2026-09-21): 白い塊
+カンガルー	かんがるー	kangaroo	カンガルーさん,ワラビー	1		動物園の人気者	kangaroo
+# ゴリラ	ごりら	gorilla		1	# 落とした: 生成テスト 60³(2026-09-21): 暗い塊
+サル	さる	monkey	猿,おさるさん,お猿さん,モンキー,チンパンジー,ニホンザル	1		森の動物	monkey,ape,chimpanzee
+# チンパンジー	ちんぱんじー	chimpanzee	chimp	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# オランウータン	おらんうーたん	orangutan		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ラクダ	らくだ	camel	駱駝,キャメル,ヒトコブラクダ,フタコブラクダ	1		サバンナ・砂漠の動物	camel
+シマウマ	しまうま	zebra	縞馬,ゼブラ	1		サバンナ・砂漠の動物	zebra
+サイ	さい	rhinoceros	犀,サイさん	1		サバンナ・砂漠の動物	rhinoceros,rhino
+カバ	かば	grey hippopotamus standing, full body side view	河馬,ヒポポタマス,カバさん	1		サバンナ・砂漠の動物	hippopotamus,hippo
+#   ↑ en を「hippopotamus」から書き換え（60³ テスト: 色が化ける）
+ワニ	わに	crocodile	鰐,クロコダイル,アリゲーター,ワニさん	1		爬虫類・両生類	crocodile,alligator,gator,croc
+トカゲ	とかげ	lizard	蜥蜴,イグアナ,リザード	2		爬虫類・両生類	lizard,iguana
+カメレオン	かめれおん	chameleon		2		爬虫類・両生類	chameleon
+# イグアナ	いぐあな	iguana		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ハリネズミ	はりねずみ	hedgehog	針鼠	2	# 落とした: 生成テスト 60³(2026-09-21): 球
+アルマジロ	あるまじろ	armadillo		3		動物園の人気者	armadillo
+# ナマケモノ	なまけもの	sloth		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# アライグマ	あらいぐま	raccoon	タヌキ,狸	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# タヌキ	たぬき	raccoon dog	狸	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+イノシシ	いのしし	wild boar	猪,ぼたん,うり坊,ウリ坊	2		森の動物	wild boar,boar
+アルパカ	あるぱか	alpaca		2		牧場の動物	alpaca
+# ラマ	らま	llama		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ロバ	ろば	donkey	驢馬	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ポニー	ぽにー	pony		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バッファロー	ばっふぁろー	buffalo	bison,バイソン,水牛	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# トナカイ	となかい	reindeer	caribou	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ヘラジカ	へらじか	moose	elk	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# セイウチ	せいうち	walrus		2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# アザラシ	あざらし	seal	海豹	1	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# アシカ	あしか	sea lion	sealion	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ラッコ	らっこ	sea otter	seaotter	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# カワウソ	かわうそ	otter		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ビーバー	びーばー	beaver		2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# モグラ	もぐら	mole		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+コウモリ	こうもり	bat	蝙蝠	2		森の動物	bat
+フクロウ	ふくろう	owl	梟,みみずく,ミミズク,アウル	1		鳥	owl
+# ワシ	わし	bald eagle perched on a branch, full body	鷲	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+#   ↑ en を「eagle」から書き換え（60³ テスト: 崩れる）
+# タカ	たか	hawk	鷹	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ハト	はと	pigeon	鳩,鴎,ダブ,白鳩,ポッポ,ぽっぽ,ピジョン	1		鳥	pigeon,dove
+カラス	からす	crow	烏,クロウ,カアカア	1		鳥	crow,raven
+# スズメ	すずめ	sparrow	雀	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ツバメ	つばめ	swallow	燕	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# インコ	いんこ	parakeet	budgie,budgerigar	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+オウム	おうむ	parrot	鸚鵡,パロット	1		鳥	parrot,cockatoo
+フラミンゴ	ふらみんご	flamingo		1		鳥	flamingo
+白鳥	はくちょう	swan	スワン,ハクチョウ,しらとり	1		鳥	swan
+アヒル	あひる	duck	家鴨,カモ,鴨,かも,ダック,ガーガー,がーがー,ラバーダック,アヒルのおもちゃ,ゴムのアヒル,お風呂のアヒル	1		牧場の動物	duck,duckling,rubber duck
+# カモ	かも	wild duck	鴨,mallard	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ヒヨコ	ひよこ	chick	雛,ひな,ピヨピヨ,ぴよぴよ,ぴよ	1		牧場の動物	chick,baby chicken
+# 七面鳥	しちめんちょう	turkey	ターキー	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# クジャク	くじゃく	peacock standing with tail feathers spread like a fan, full body	孔雀	1	# 落とした: 生成テスト 60³(2026-09-21): 羽が消える
+#   ↑ en を「peacock」から書き換え（60³ テスト: 崩れる）
+ダチョウ	だちょう	ostrich standing, full body side view, long neck and legs	駝鳥,エミュー	1		サバンナ・砂漠の動物	ostrich,emu
+#   ↑ en を「ostrich」から書き換え（60³ テスト: 絵が顔の接写）
+ペリカン	ぺりかん	pelican		2		鳥	pelican
+# ハチドリ	はちどり	hummingbird		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# キツツキ	きつつき	woodpecker		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# カモメ	かもめ	seagull	鴎,gull	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+ツル	つる	crane	鶴,タンチョウ,丹頂,クレーン	2		鳥	crane
+# コウノトリ	こうのとり	stork		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# コンドル	こんどる	condor		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ハゲワシ	はげわし	vulture		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ウズラ	うずら	quail		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+金魚	きんぎょ	goldfish	キンギョ,ゴールドフィッシュ	1		川や池の魚	goldfish
+# コイ	こい	carp	鯉,koi	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# マグロ	まぐろ	tuna	鮪	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# サケ	さけ	salmon	鮭,しゃけ	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# エイ	えい	stingray	ray,manta ray,マンタ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+タツノオトシゴ	たつのおとしご	seahorse	竜の落とし子,シーホース	2		海の生き物	seahorse
+クラゲ	くらげ	jellyfish	海月,水母,ジェリーフィッシュ	1		海の生き物	jellyfish
+ヒトデ	ひとで	starfish	海星,スターフィッシュ	1		海の生き物	starfish,sea star
+# イカ	いか	squid	烏賊	1	# 落とした: 生成テスト 60³(2026-09-21): タコと紛らわしい
+エビ	えび	shrimp	海老,蝦,車海老,シュリンプ	1		海の生き物	shrimp,prawn
+# ロブスター	ろぶすたー	lobster	オマール海老	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+カタツムリ	かたつむり	snail	蝸牛,でんでんむし,でんでん虫,マイマイ,スネイル	1		虫	snail
+テントウムシ	てんとうむし	ladybug	てんとう虫,天道虫,レディバグ	2		虫	ladybug,ladybird
+カブトムシ	かぶとむし	rhinoceros beetle	甲虫,ビートル	1		虫	rhinoceros beetle,beetle
+# クワガタ	くわがた	stag beetle	クワガタムシ,鍬形,カブトムシ	2	# 落とした: カブトムシと見分けがつかない（カブトムシの正解に含めた）
+ハチ	はち	bee	蜂,ミツバチ,蜜蜂,スズメバチ,ビー	1		虫	bee,honeybee,wasp,hornet
+アリ	あり	ant	蟻,アント	2		虫	ant
+バッタ	ばった	grasshopper	イナゴ,いなご,キリギリス,コオロギ	2		虫	grasshopper,locust,cricket
+# セミ	せみ	cicada	蝉	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# トンボ	とんぼ	dragonfly	蜻蛉	2	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+カマキリ	かまきり	praying mantis	蟷螂,マンティス	2		虫	praying mantis,mantis
+クモ	くも	spider	蜘蛛,スパイダー	2		虫	spider
+サソリ	さそり	scorpion	蠍,スコーピオン	2		虫	scorpion
+# ダンゴムシ	だんごむし	pill bug	pillbug,roly-poly	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# ヤモリ	やもり	gecko		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# サンショウウオ	さんしょううお	salamander		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# イモリ	いもり	newt		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+ウーパールーパー	うーぱーるーぱー	axolotl	アホロートル,メキシコサラマンダー	2		爬虫類・両生類	axolotl
+# オタマジャクシ	おたまじゃくし	tadpole		2	# 落とした: 語が長すぎて打ちにくい
+シロクマ	しろくま	polar bear	白熊,ホッキョクグマ,北極熊,ポーラーベア	1		寒いところの動物	polar bear,polarbear
+# ウォンバット	うぉんばっと	wombat		3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+カモノハシ	かものはし	platypus	プラティパス	3		動物園の人気者	platypus
+# ハイエナ	はいえな	hyena		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# チーター	ちーたー	cheetah		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ヒョウ	ひょう	leopard	豹	2	# 落とした: 生成テスト 60³(2026-09-21): 顔の接写・塊
+# ジャガー	じゃがー	jaguar		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ピューマ	ぴゅーま	puma	cougar,クーガー	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# オオヤマネコ	おおやまねこ	lynx		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+ミーアキャット	みーあきゃっと	meerkat		2		サバンナ・砂漠の動物	meerkat
+# マンドリル	まんどりる	mandrill		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ヒヒ	ひひ	baboon		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# キツネザル	きつねざる	lemur	レムール,ワオキツネザル	3		森の動物	lemur,ring-tailed lemur	# 2026-09-21 誰でも知っているものだけにする（本人）
+# レッサーパンダ	れっさーぱんだ	red panda	redpanda	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# オカピ	おかぴ	okapi		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+アリクイ	ありくい	anteater	オオアリクイ	3		動物園の人気者	anteater
+# ヤマアラシ	やまあらし	porcupine		3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+スカンク	すかんく	skunk		2		森の動物	skunk
+# イタチ	いたち	weasel		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# フェレット	ふぇれっと	ferret		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# シャチ	しゃち	orca killer whale figurine, full body side view, black and white	killer whale,killerwhale	1	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+#   ↑ en を「orca」から書き換え（60³ テスト: 細い）
+# マンボウ	まんぼう	sunfish	ocean sunfish	2	# 落とした: 生成テスト 60³(2026-09-21): 赤い魚になる
+# アンコウ	あんこう	anglerfish	チョウチンアンコウ	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+フグ	ふぐ	pufferfish	河豚,ハリセンボン,はりせんぼん	1		海の生き物	pufferfish,blowfish,puffer,fugu
+# ピラニア	ぴらにあ	piranha		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ナマズ	なまず	catfish		2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# タイ	たい	sea bream	鯛,seabream	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# トビウオ	とびうお	flying fish	flyingfish	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# カジキ	かじき	swordfish	marlin	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ヤドカリ	やどかり	hermit crab	hermitcrab	2	# 落とした: 生成テスト 60³(2026-09-21): カニと紛らわしい
+# ウニ	うに	sea urchin	雲丹,seaurchin	1	# 落とした: 生成テスト 60³(2026-09-21): 輪
+# ホタテ	ほたて	scallop	帆立	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+コブラ	こぶら	cobra	ヘビ,蛇,へび,キングコブラ,スネーク	2		爬虫類・両生類	cobra,snake
+# ニシキヘビ	にしきへび	python		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ウミガメ	うみがめ	sea turtle	海亀,seaturtle	2	# 落とした: 細かすぎて 60³ では見分けがつかない
+# バク	ばく	tapir		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# マナティー	まなてぃー	manatee		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ジュゴン	じゅごん	dugong		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# イッカク	いっかく	narwhal		3	# 落とした: 生成テスト 60³(2026-09-21): 白い塊
+# ワラビー	わらびー	wallaby		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# コオロギ	こおろぎ	cricket		3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# ゴキブリ	ごきぶり	cockroach	G	2	# 落とした: 生成テスト 60³(2026-09-21): 橙の虫
+# キーウィ	きーうぃ	kiwi bird	kiwibird	3	# 落とした: 細かすぎて 60³ では見分けがつかない
+# --- 2026-09-21 追加（1,000 語へ。体積があり輪郭で分かる物に寄せた）
+# バイソン	ばいそん	bison	バッファロー,水牛,野牛	2		森の動物	bison,buffalo	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ヘラジカ	へらじか	moose	ムース,エルク	2		森の動物	moose,elk	# 2026-09-21 誰でも知っているものだけにする（本人）
+トナカイ	となかい	reindeer	カリブー,サンタのトナカイ	2		寒いところの動物	reindeer,caribou
+ロバ	ろば	donkey	驢馬,ドンキー,ラバ	2		牧場の動物	donkey,mule,ass
+ヤギ	やぎ	goat	山羊,ゴート,やぎさん	1		牧場の動物	goat
+# オオハシ	おおはし	toucan	トゥカン,トゥーカン	2		鳥	toucan	# 2026-09-21 誰でも知っているものだけにする（本人）
+# パフィン	ぱふぃん	puffin	ツノメドリ,つのめどり	3		鳥	puffin	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+七面鳥	しちめんちょう	turkey bird	シチメンチョウ,ターキー	2		牧場の動物	turkey bird,turkey
+ガチョウ	がちょう	goose	鵞鳥,グース	2		牧場の動物	goose,geese
+# キーウィ	きーうぃ	kiwi bird	キウイ,キウィ,キーウィ鳥	3		鳥	kiwi bird,kiwi	# 2026-09-21 誰でも知っているものだけにする（本人）
+ロブスター	ろぶすたー	lobster	伊勢海老,イセエビ,いせえび,オマール海老,オマール,ザリガニ,ざりがに	2		海の生き物	lobster,crayfish
+# マンモス	まんもす	woolly mammoth	mammoth	2	# 落とした: 生成テスト 60³(2026-09-21): 絵が接写
+# ナマケモノ	なまけもの	sloth		2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# オランウータン	おらんうーたん	orangutan	orang utan	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# チンパンジー	ちんぱんじー	chimpanzee	chimp	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+ラマ	らま	llama	リャマ	2		牧場の動物	llama
+ポニー	ぽにー	pony	子馬,こうま,馬	2		牧場の動物	pony
+アシカ	あしか	sea lion	オットセイ,アザラシ,あざらし,セイウチ,シール	2		寒いところの動物	sea lion,seal,sealion
+# ラッコ	らっこ	sea otter	otter,カワウソ	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# モグラ	もぐら	mole		2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# タカ	たか	hawk	鷹,falcon,ハヤブサ	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+インコ	いんこ	budgie parakeet	セキセイインコ	2		鳥	budgie parakeet,parakeet,budgie,budgerigar
+# ハチドリ	はちどり	hummingbird	ハミングバード	3		鳥	hummingbird	# 2026-09-21 誰でも知っているものだけにする（本人）
+カモメ	かもめ	seagull	ウミネコ,うみねこ,シーガル	2		鳥	seagull,gull
+コウノトリ	こうのとり	stork	ストーク,鸛	3		鳥	stork
+# ハゲワシ	はげわし	vulture	コンドル,condor	2	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+コイ	こい	koi carp	鯉,にしきごい,錦鯉,コイさん	2		川や池の魚	koi carp,koi,carp
+マグロ	まぐろ	tuna	鮪,本マグロ,クロマグロ	2		海の生き物	tuna
+サケ	さけ	salmon	鮭,シャケ,しゃけ,サーモン	2		海の生き物	salmon
+クワガタ	くわがた	stag beetle	クワガタムシ,鍬形,オオクワガタ,ノコギリクワガタ	2		虫	stag beetle
+セミ	せみ	cicada	蝉,アブラゼミ,ミンミンゼミ,クマゼミ	2		虫	cicada
+ヤモリ	やもり	gecko	守宮	3		爬虫類・両生類	gecko
+ハイエナ	はいえな	hyena		2		サバンナ・砂漠の動物	hyena
+# チーター	ちーたー	cheetah		2	# 落とした: 生成テスト 60³(2026-09-21): 色が抜ける
+# ジャガー	じゃがー	jaguar		2	# 落とした: 生成テスト 60³(2026-09-21): 色が化ける
+# ヤマネコ	やまねこ	lynx	オオヤマネコ,リンクス,山猫	3		森の動物	lynx,bobcat,wildcat	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ヒヒ	ひひ	baboon	マンドリル,mandrill	3	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# オカピ	おかぴ	okapi		3		サバンナの動物	okapi	# 2026-09-21 誰でも知っているものだけにする（本人）
+# フェレット	ふぇれっと	ferret	イタチ,いたち,鼬	2		ペット	ferret,weasel	# 2026-09-21 誰でも知っているものだけにする（本人）
+ピラニア	ぴらにあ	piranha		2		川や池の魚	piranha
+ナマズ	なまず	catfish	鯰,キャットフィッシュ	2		川や池の魚	catfish
+# カジキ	かじき	swordfish	marlin,メカジキ	2	# 落とした: 生成テスト 60³(2026-09-21): 細い
+ホタテ	ほたて	scallop shell	帆立,ホタテ貝,ハマグリ,アサリ,貝殻	2		海の生き物	scallop shell,scallop,shellfish,clam
+# ニシキヘビ	にしきへび	python snake	python,錦蛇	2	# 落とした: 生成テスト 60³(2026-09-21): とぐろ
+# バク	ばく	tapir	獏	3		森の動物	tapir	# 2026-09-21 誰でも知っているものだけにする（本人）
+# マナティー	まなてぃー	manatee	ジュゴン,dugong	3	# 落とした: 生成テスト 60³(2026-09-21): 白い塊
+# ワラビー	わらびー	wallaby	カンガルー	3		森の動物	wallaby,kangaroo	# 落とした: 日本で名前が通じない（本人・2026-09-21。spec 12 の 3 章）
+# コオロギ	こおろぎ	cricket insect	cricket,鈴虫,すずむし	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# アサリ	あさり	clam	蛤,ハマグリ,はまぐり,shellfish	2	# 落とした: 生成テスト 60³(2026-09-21): 塊
+# ウミウシ	うみうし	sea slug	nudibranch	3	# 落とした: 生成テスト 60³(2026-09-21): 崩れる
+# ホタル	ほたる	firefly	蛍	3	# 落とした: 生成テスト 60³(2026-09-21): 細い
+# ムカデ	むかで	centipede	百足	3	# 落とした: 生成テスト 60³(2026-09-21): 薄い
+ミミズ	みみず	earthworm	蚯蚓,ワーム	3		虫	earthworm,worm
+ナメクジ	なめくじ	slug	蛞蝓,スラッグ	3		虫	slug
+# カブトガニ	かぶとがに	horseshoe crab	兜蟹	3		海の生き物	horseshoe crab	# 2026-09-21 誰でも知っているものだけにする（本人）
+# イソギンチャク	いそぎんちゃく	sea anemone	anemone	3	# 落とした: 生成テスト 60³(2026-09-21): 白い塊
+# ウツボ	うつぼ	moray eel	eel,ウナギ,うなぎ,鰻	3	# 落とした: 生成テスト 60³(2026-09-21): とぐろ
+# アホウドリ	あほうどり	albatross	信天翁,アルバトロス	3		鳥	albatross	# 2026-09-21 誰でも知っているものだけにする（本人）
+キツツキ	きつつき	woodpecker	啄木鳥	3		鳥	woodpecker
+コモドドラゴン	こもどどらごん	komodo dragon	コモドオオトカゲ,オオトカゲ	3		爬虫類・両生類	komodo dragon,monitor lizard
+# ガラガラヘビ	がらがらへび	rattlesnake		3	# 落とした: 生成テスト 60³(2026-09-21): とぐろ
+# ホッキョクギツネ	ほっきょくぎつね	arctic fox	北極狐,白い狐	3		寒いところの動物	arctic fox	# 2026-09-21 誰でも知っているものだけにする（本人）
+# ユキヒョウ	ゆきひょう	snow leopard		3	# 落とした: 生成テスト 60³(2026-09-21): 色が化ける
+
+恐竜の赤ちゃん	きょうりゅうのあかちゃん	baby dinosaur hatching from egg		3		爬虫類・両生類	baby dinosaur

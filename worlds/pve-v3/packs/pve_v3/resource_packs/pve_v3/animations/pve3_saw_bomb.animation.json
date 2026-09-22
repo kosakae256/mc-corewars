@@ -1,0 +1,205 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.pve3.sawman.hold": {
+      "loop": true,
+      "bones": {
+        "rightArm": {
+          "rotation": [
+            "-60 - this",
+            "-15 - this",
+            "0 - this"
+          ],
+          "position": [
+            "-5 - this",
+            "-2 - this",
+            "0 - this"
+          ]
+        },
+        "leftArm": {
+          "rotation": [
+            "-65 - this",
+            "30 - this",
+            "0 - this"
+          ],
+          "position": [
+            "5 - this",
+            "-2 - this",
+            "0 - this"
+          ]
+        },
+        "body": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "0 - this",
+            "12 - this",
+            "0 - this"
+          ]
+        }
+      }
+    },
+    "animation.pve3.bomblet.hold": {
+      "loop": true,
+      "bones": {
+        "rightArm": {
+          "rotation": [
+            "-45 - this",
+            "-12 - this",
+            "0 - this"
+          ],
+          "position": [
+            "-5 - this",
+            "-2 - this",
+            "0 - this"
+          ]
+        },
+        "leftArm": {
+          "rotation": [
+            "-45 - this",
+            "12 - this",
+            "0 - this"
+          ],
+          "position": [
+            "5 - this",
+            "-2 - this",
+            "0 - this"
+          ]
+        },
+        "body": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "0 - this",
+            "12 - this",
+            "0 - this"
+          ]
+        }
+      }
+    },
+    "animation.pve3.bomber.hold": {
+      "loop": true,
+      "bones": {
+        "rightArm": {
+          "rotation": [
+            "-55 - this",
+            "0 - this",
+            "-8 - this"
+          ],
+          "position": [
+            "-5 - this",
+            "-2 - this",
+            "0 - this"
+          ]
+        },
+        "leftArm": {
+          "rotation": [
+            "-10 - this",
+            "0 - this",
+            "5 - this"
+          ],
+          "position": [
+            "5 - this",
+            "-2 - this",
+            "0 - this"
+          ]
+        },
+        "body": {
+          "rotation": [
+            "0 - this",
+            "0 - this",
+            "0 - this"
+          ],
+          "position": [
+            "0 - this",
+            "12 - this",
+            "0 - this"
+          ]
+        }
+      }
+    },
+    "animation.pve3.sawman.spin": {
+      "loop": true,
+      "animation_length": 0.5,
+      "bones": {
+        "saw_blade": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.5": [
+              360,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    },
+    "animation.pve3.bomber.throw": {
+      "animation_length": 0.5,
+      "loop": true,
+      "anim_time_update": "(10 - q.property('pve_v3:swing')) * 0.05",
+      "bones": {
+        "rightArm": {
+          "rotation": {
+            "0.0": [
+              "-105 - this",
+              "0 - this",
+              "-8 - this"
+            ],
+            "0.12": [
+              "-35 - this",
+              "0 - this",
+              "-8 - this"
+            ],
+            "0.28": [
+              "-15 - this",
+              "0 - this",
+              "-8 - this"
+            ],
+            "0.5": [
+              "-55 - this",
+              "0 - this",
+              "-8 - this"
+            ]
+          }
+        },
+        "throw_bomb": {
+          "scale": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.32": {
+              "pre": [
+                0,
+                0,
+                0
+              ],
+              "post": [
+                1,
+                1,
+                1
+              ]
+            },
+            "0.5": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  }
+}

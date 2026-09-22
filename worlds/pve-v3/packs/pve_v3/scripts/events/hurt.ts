@@ -14,9 +14,10 @@
  * `/kill` が効かなくなると、**運営がモブを消せなくなる。**
  */
 
-import { EntityDamageCause, Player, system, world, type EntityHurtAfterEvent } from "@minecraft/server";
+import { EntityDamageCause, system, world, type Entity, type EntityHurtAfterEvent } from "@minecraft/server";
 
-import { enemyMelee } from "../services/melee.js";
+import { hit } from "../services/combat.js";
+import { has, max as maxHp } from "../state/hp.js";
 
 /**
  * **通す原因。** ここに無いものは全部打ち消す。
@@ -27,6 +28,55 @@ import { enemyMelee } from "../services/melee.js";
  * | `override` | script や仕組みが**意図して殺すとき** |
  */
 const PASS: readonly EntityDamageCause[] = [EntityDamageCause.selfDestruct, EntityDamageCause.override];
+
+/**
+ * **燃えている・溶岩の中**（`docs/spec/17-state.md` 3-7）。
+ *
+ * **バニラのダメージは打ち消すが、こちらのダメージに置き換える。**
+ */
+const BURN: readonly EntityDamageCause[] = [EntityDamageCause.fire, EntityDamageCause.fireTick, EntityDamageCause.lava];
+
+/** 燃えたときに持って行かれる割合（**最大 HP に対して**） */
+const BURN_CUT = 0.02;
+
+/**
+ * **同じ実体を、この間は 2 回削らない**（tick）。
+ *
+ * > ### **炎は原因が 2 つ同時に来る**（2026-09-08 に気づいた）
+ * >
+ * > **火の中に立つと `fire` が、燃えていると `fireTick` が、同じ拍で飛んでくる。**
+ * > **溶岩も `lava` ＋ `fireTick`。** **そのまま拾うと 2 回削れて、音も 2 回鳴る。**
+ */
+const BURN_GAP = 8;
+
+/** 最後に燃やした時刻。**実体ごと** */
+const burned = new Map<string, number>();
+
+/**
+ * **バニラが 1 回削るたびに、こちらで 1 回削る。**
+ *
+ * **`beforeEvents` の中では削れない**（読むだけの時間）ので、**次の tick に回す。**
+ */
+function burn(target: Entity): void {
+  const now = system.currentTick;
+  try {
+    const last = burned.get(target.id);
+    if (last !== undefined && now - last < BURN_GAP) return;
+    burned.set(target.id, now);
+  } catch {
+    return;
+  }
+  system.run(() => {
+    try {
+      if (!has(target)) return;
+      const cap = maxHp(target);
+      if (cap === undefined || cap <= 0) return;
+      hit({ target, attack: Math.max(1, Math.floor(cap * BURN_CUT)), via: "fire" });
+    } catch {
+      /* 消えている */
+    }
+  });
+}
 
 /** 打ち消しの規則。**上から順に見る** */
 interface HurtRule {
@@ -63,20 +113,8 @@ export function subscribeHurt(): void {
   world.beforeEvents.entityHurt.subscribe((ev) => {
     const cause = ev.damageSource.cause;
 
-    // ---- **敵がこちらを殴った瞬間**（`23-enemy-unit.md` 3-3）
-    //
-    // > ### バニラの当たりに乗せる
-    // >
-    // > **ここまで来ているということは、バニラが「当たった」と認めている。**
-    // > **クリエイティブ・スペクテイター・無敵時間は、そもそもここへ来ない。**
-    // >
-    // > **打ち消すのは下の規則。削るのはこちらの HP。**
-    if (cause === EntityDamageCause.entityAttack && ev.hurtEntity instanceof Player) {
-      const mob = ev.damageSource.damagingEntity;
-      const target = ev.hurtEntity;
-      // **before の中では実体を触れない**ので、次の tick に回す
-      system.run(() => enemyMelee(target, mob));
-    }
+    // **燃えているぶんは、打ち消したうえで置き換える**（`17-state.md` 3-7）
+    if (BURN.includes(cause)) burn(ev.hurtEntity);
 
     for (const rule of RULES) {
       if (ev.cancel) return;

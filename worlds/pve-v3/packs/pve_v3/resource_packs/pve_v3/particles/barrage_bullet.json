@@ -1,0 +1,27 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "pve_v3:barrage_bullet",
+      "basic_render_parameters": {
+        "material": "particles_alpha",
+        "texture": "textures/particle/pve3_barrage_bullet"
+      }
+    },
+    "components": {
+      "minecraft:emitter_lifetime_once": { "active_time": 0.01 },
+      "minecraft:emitter_rate_instant": { "num_particles": 1 },
+      "minecraft:emitter_shape_point": { "offset": [0, 0, 0] },
+      "minecraft:particle_lifetime_expression": { "max_lifetime": "v.bullet_life" },
+      "minecraft:particle_initial_speed": ["v.bullet_vx", "v.bullet_vy", "v.bullet_vz"],
+      "minecraft:particle_motion_dynamic": { "linear_acceleration": [0, 0, 0], "linear_drag_coefficient": 0 },
+      "minecraft:particle_motion_collision": { "enabled": 1, "collision_radius": 0.01, "expire_on_contact": true },
+      "minecraft:particle_appearance_billboard": {
+        "size": [0.3125, 0.3125],
+        "facing_camera_mode": "lookat_xyz",
+        "uv": { "texture_width": 32, "texture_height": 32, "uv": [0, 0], "uv_size": [32, 32] }
+      },
+      "minecraft:particle_appearance_tinting": { "color": [1, 1, 1, 1] }
+    }
+  }
+}

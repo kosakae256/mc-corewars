@@ -21,7 +21,7 @@ import {
 } from "@minecraft/server";
 
 import type { CommandDef } from "../../types.js";
-import { maxHpOf } from "../../services/growth.js";
+import { maxHpOf, setPlayerHp } from "../../services/growth.js";
 import { current, damage as cutHp, has, max, setup } from "../../state/hp.js";
 import { KEYS } from "../../state/keys.js";
 import { setLabel } from "../../state/label.js";
@@ -52,7 +52,7 @@ function hpCommand(registry: CustomCommandRegistry): void {
       const want = Math.max(1, Math.min(1000, Math.round(value)));
       system.run(() => {
         try {
-          player.setDynamicProperty(KEYS.hpBase, want);
+          setPlayerHp(player, want);
           player.sendMessage(`§7最大 HP を §f${want}§7 にした`);
         } catch (err) {
           player.sendMessage(`§c${String(err)}`);

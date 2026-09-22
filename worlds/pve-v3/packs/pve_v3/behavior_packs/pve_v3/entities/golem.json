@@ -1,0 +1,851 @@
+{
+  "format_version": "1.26.20",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "pve_v3:golem",
+      "is_summonable": true,
+      "is_spawnable": false,
+      "properties": {
+        "pve_v3:hurt": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "pve_v3:roused": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "pve_v3:chill": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_r": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_g": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_b": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:tint_a": {
+          "type": "float",
+          "range": [
+            0.00,
+            1.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        },
+        "pve_v3:swing": {
+          "type": "float",
+          "range": [
+            0.00,
+            10.00
+          ],
+          "default": 0.00,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "pve_mob",
+          "mob"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 1.4,
+        "height": 2.9
+      },
+      "minecraft:physics": {},
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "is_amphibious": true,
+        "can_pass_doors": true,
+        "can_walk": true
+      },
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:persistent": {},
+      "minecraft:health": {
+        "value": 5000,
+        "max": 5000
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": -20,
+        "breathes_air": true,
+        "breathes_water": true
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 2,
+        "reselect_targets": true,
+        "must_see": false,
+        "within_radius": 100,
+        "entity_types": [
+          {
+            "filters": {
+              "all_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "none_of": [
+                    {
+                      "test": "has_ability",
+                      "subject": "other",
+                      "value": "instabuild"
+                    }
+                  ]
+                }
+              ]
+            },
+            "max_dist": 100,
+            "must_see": false
+          }
+        ]
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 7,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 8,
+        "look_distance": 6
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/empty.json"
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": false
+      },
+      "minecraft:follow_range": {
+        "value": 100,
+        "max": 100
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 9
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 1
+      },
+      "minecraft:pushable_by_entity": {},
+      "minecraft:pushable_by_block": {},
+      "minecraft:attack": {
+        "damage": 1
+      },
+      "minecraft:behavior.melee_box_attack": {
+        "priority": 4,
+        "can_spread_on_fire": true,
+        "cooldown_time": 1,
+        "track_target": true
+      },
+      "minecraft:movement": {
+        "value": 0.1437,
+        "max": 1.0059
+      }
+    },
+    "component_groups": {
+      "pve_v3:haste_100": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 1,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_105": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.952,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_110": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.907,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_116": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.864,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_122": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.823,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_128": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.784,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_134": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.746,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_141": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.711,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_148": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.677,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_155": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.645,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_163": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.614,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_171": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.585,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_180": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.557,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_189": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.53,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_198": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.505,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_208": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.481,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_218": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.458,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_229": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.436,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_241": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.416,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_253": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.396,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_265": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.377,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_279": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.359,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_293": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.342,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_307": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.326,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_323": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.31,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_339": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.295,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_356": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.281,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_373": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.268,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_392": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.255,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_412": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.243,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_432": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.231,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_454": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.22,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_476": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.21,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_500": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.2,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_525": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.19,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_552": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.181,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_579": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.173,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_608": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.164,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_639": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.157,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_670": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.149,
+          "track_target": true
+        }
+      },
+      "pve_v3:haste_704": {
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 4,
+          "can_spread_on_fire": true,
+          "cooldown_time": 0.142,
+          "track_target": true
+        }
+      }
+    },
+    "events": {
+      "pve_v3:set_haste_100": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_100"
+          ]
+        }
+      },
+      "pve_v3:set_haste_105": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_105"
+          ]
+        }
+      },
+      "pve_v3:set_haste_110": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_110"
+          ]
+        }
+      },
+      "pve_v3:set_haste_116": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_116"
+          ]
+        }
+      },
+      "pve_v3:set_haste_122": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_122"
+          ]
+        }
+      },
+      "pve_v3:set_haste_128": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_128"
+          ]
+        }
+      },
+      "pve_v3:set_haste_134": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_134"
+          ]
+        }
+      },
+      "pve_v3:set_haste_141": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_141"
+          ]
+        }
+      },
+      "pve_v3:set_haste_148": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_148"
+          ]
+        }
+      },
+      "pve_v3:set_haste_155": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_155"
+          ]
+        }
+      },
+      "pve_v3:set_haste_163": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_163"
+          ]
+        }
+      },
+      "pve_v3:set_haste_171": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_171"
+          ]
+        }
+      },
+      "pve_v3:set_haste_180": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_180"
+          ]
+        }
+      },
+      "pve_v3:set_haste_189": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_189"
+          ]
+        }
+      },
+      "pve_v3:set_haste_198": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_198"
+          ]
+        }
+      },
+      "pve_v3:set_haste_208": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_208"
+          ]
+        }
+      },
+      "pve_v3:set_haste_218": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_218"
+          ]
+        }
+      },
+      "pve_v3:set_haste_229": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_229"
+          ]
+        }
+      },
+      "pve_v3:set_haste_241": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_241"
+          ]
+        }
+      },
+      "pve_v3:set_haste_253": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_253"
+          ]
+        }
+      },
+      "pve_v3:set_haste_265": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_265"
+          ]
+        }
+      },
+      "pve_v3:set_haste_279": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_279"
+          ]
+        }
+      },
+      "pve_v3:set_haste_293": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_293"
+          ]
+        }
+      },
+      "pve_v3:set_haste_307": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_307"
+          ]
+        }
+      },
+      "pve_v3:set_haste_323": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_323"
+          ]
+        }
+      },
+      "pve_v3:set_haste_339": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_339"
+          ]
+        }
+      },
+      "pve_v3:set_haste_356": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_356"
+          ]
+        }
+      },
+      "pve_v3:set_haste_373": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_373"
+          ]
+        }
+      },
+      "pve_v3:set_haste_392": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_392"
+          ]
+        }
+      },
+      "pve_v3:set_haste_412": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_412"
+          ]
+        }
+      },
+      "pve_v3:set_haste_432": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_432"
+          ]
+        }
+      },
+      "pve_v3:set_haste_454": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_454"
+          ]
+        }
+      },
+      "pve_v3:set_haste_476": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_476"
+          ]
+        }
+      },
+      "pve_v3:set_haste_500": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_500"
+          ]
+        }
+      },
+      "pve_v3:set_haste_525": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_525"
+          ]
+        }
+      },
+      "pve_v3:set_haste_552": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_552"
+          ]
+        }
+      },
+      "pve_v3:set_haste_579": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_579"
+          ]
+        }
+      },
+      "pve_v3:set_haste_608": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_608"
+          ]
+        }
+      },
+      "pve_v3:set_haste_639": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_639"
+          ]
+        }
+      },
+      "pve_v3:set_haste_670": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_670"
+          ]
+        }
+      },
+      "pve_v3:set_haste_704": {
+        "add": {
+          "component_groups": [
+            "pve_v3:haste_704"
+          ]
+        }
+      },
+      "pve_v3:haste_clear": {
+        "remove": {
+          "component_groups": [
+            "pve_v3:haste_100",
+            "pve_v3:haste_105",
+            "pve_v3:haste_110",
+            "pve_v3:haste_116",
+            "pve_v3:haste_122",
+            "pve_v3:haste_128",
+            "pve_v3:haste_134",
+            "pve_v3:haste_141",
+            "pve_v3:haste_148",
+            "pve_v3:haste_155",
+            "pve_v3:haste_163",
+            "pve_v3:haste_171",
+            "pve_v3:haste_180",
+            "pve_v3:haste_189",
+            "pve_v3:haste_198",
+            "pve_v3:haste_208",
+            "pve_v3:haste_218",
+            "pve_v3:haste_229",
+            "pve_v3:haste_241",
+            "pve_v3:haste_253",
+            "pve_v3:haste_265",
+            "pve_v3:haste_279",
+            "pve_v3:haste_293",
+            "pve_v3:haste_307",
+            "pve_v3:haste_323",
+            "pve_v3:haste_339",
+            "pve_v3:haste_356",
+            "pve_v3:haste_373",
+            "pve_v3:haste_392",
+            "pve_v3:haste_412",
+            "pve_v3:haste_432",
+            "pve_v3:haste_454",
+            "pve_v3:haste_476",
+            "pve_v3:haste_500",
+            "pve_v3:haste_525",
+            "pve_v3:haste_552",
+            "pve_v3:haste_579",
+            "pve_v3:haste_608",
+            "pve_v3:haste_639",
+            "pve_v3:haste_670",
+            "pve_v3:haste_704"
+          ]
+        }
+      }
+    }
+  }
+}
